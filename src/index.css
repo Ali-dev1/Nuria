@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Nuria Premium Design Tokens — Exact hex values */
+    --color-primary: #1B4332;
+    --color-accent: #C2541A;
+    --color-background: #FAF7F2;
+    --color-text: #1A1A1A;
+    --color-text-muted: #6B7280;
+    --color-border: #E5E0D8;
+
+    /* shadcn/ui HSL tokens mapped to Nuria palette */
+    --background: 37 33% 96%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 153 42% 18%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 19 76% 43%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 35 15% 90%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 19 76% 43%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 33 15% 87%;
+    --input: 33 15% 87%;
+    --ring: 153 42% 18%;
+    --radius: 0.75rem;
+
+    --sidebar-background: 153 42% 18%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 19 76% 43%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 153 35% 25%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 153 30% 25%;
+    --sidebar-ring: 19 76% 43%;
+  }
+
+  .dark {
+    --background: 150 20% 6%;
+    --foreground: 30 20% 92%;
+    --card: 150 18% 10%;
+    --card-foreground: 30 20% 92%;
+    --popover: 150 18% 10%;
+    --popover-foreground: 30 20% 92%;
+    --primary: 30 33% 97%;
+    --primary-foreground: 153 42% 18%;
+    --secondary: 20 76% 43%;
+    --secondary-foreground: 30 33% 97%;
+    --muted: 150 15% 15%;
+    --muted-foreground: 30 10% 60%;
+    --accent: 20 76% 43%;
+    --accent-foreground: 30 33% 97%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 150 15% 18%;
+    --input: 150 15% 18%;
+    --ring: 30 33% 97%;
+    --sidebar-background: 150 20% 8%;
+    --sidebar-foreground: 30 20% 92%;
+    --sidebar-primary: 20 76% 43%;
+    --sidebar-primary-foreground: 30 33% 97%;
+    --sidebar-accent: 150 15% 15%;
+    --sidebar-accent-foreground: 30 20% 92%;
+    --sidebar-border: 150 15% 18%;
+    --sidebar-ring: 20 76% 43%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    color: var(--color-text);
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+
+  /* Forms and Inputs — spec-exact */
+  input, textarea, select {
+    @apply rounded-lg bg-white text-[#1A1A1A] placeholder:text-[#6B7280];
+    border-color: var(--color-border);
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.3);
+  }
+}
+
+@layer utilities {
+  .container-nuria {
+    @apply max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12;
+  }
+}
