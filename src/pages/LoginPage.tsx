@@ -18,7 +18,7 @@ const LoginPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await signIn(email, password);
+    const { user, error } = await signIn(email, password);
     
     if (error) {
       setLoading(false);
@@ -26,13 +26,11 @@ const LoginPage = () => {
       return;
     }
 
-    // Role-based redirection
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.user) {
+    if (user) {
       const { data: roleData } = await supabase
         .from("user_roles")
         .select("role")
-        .eq("user_id", session.user.id)
+        .eq("user_id", user.id)
         .maybeSingle();
 
       setLoading(false);

@@ -19,7 +19,7 @@ const AdminLoginPage = () => {
     e.preventDefault();
     setLoading(true);
     
-    const { error } = await signIn(email, password);
+    const { user, error } = await signIn(email, password);
     
     if (error) {
       setLoading(false);
@@ -27,13 +27,11 @@ const AdminLoginPage = () => {
       return;
     }
 
-    // Explicit Admin Check
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.user) {
+    if (user) {
       const { data: roleData } = await supabase
         .from("user_roles")
         .select("role")
-        .eq("user_id", session.user.id)
+        .eq("user_id", user.id)
         .eq("role", "admin")
         .maybeSingle();
 

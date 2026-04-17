@@ -7,8 +7,8 @@ interface AuthStore {
   session: Session | null;
   loading: boolean;
   initialize: () => () => void;
-  signUp: (email: string, password: string, name: string) => Promise<{ error: string | null }>;
-  signIn: (email: string, password: string) => Promise<{ error: string | null }>;
+  signUp: (email: string, password: string, name: string) => Promise<{ user: User | null; error: string | null }>;
+  signIn: (email: string, password: string) => Promise<{ user: User | null; error: string | null }>;
   signOut: () => Promise<void>;
 }
 
@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   signUp: async (email, password, name) => {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -38,12 +38,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
         emailRedirectTo: window.location.origin,
       },
     });
-    return { error: error?.message ?? null };
+    return { user: data.user, error: error?.message ?? null };
   },
 
   signIn: async (email, password) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    return { error: error?.message ?? null };
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    return { user: data.user, error: error?.message ?? null };
   },
 
   signOut: async () => {
