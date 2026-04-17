@@ -4,6 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useToast } from "@/hooks/use-toast";
 import { nuriaAuth } from "@/integrations/nuria-auth/index";
+import { supabase } from "@/integrations/supabase/client";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,10 +19,34 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
     const { error } = await signIn(email, password);
-    setLoading(false);
+    
     if (error) {
+      setLoading(false);
       toast({ title: "Sign in failed", description: error, variant: "destructive" });
+      return;
+    }
+
+    // Role-based redirection
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      const { data: roleData } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id)
+        .maybeSingle();
+
+      setLoading(false);
+      const role = roleData?.role;
+      
+      if (role === "admin") {
+        navigate("/admin");
+      } else if (role === "vendor") {
+        navigate("/vendor");
+      } else {
+        navigate("/account");
+      }
     } else {
+      setLoading(false);
       navigate("/");
     }
   };

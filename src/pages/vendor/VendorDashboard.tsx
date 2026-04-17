@@ -178,7 +178,9 @@ const VendorDashboard = () => {
   const filteredProducts = products.filter((p) => p.title.toLowerCase().includes(search.toLowerCase()));
   const filteredOrders = statusFilter === "all" ? orders : orders.filter((o) => o.status === statusFilter);
   const totalRevenue = orders.reduce((s, o) => s + Number(o.total), 0);
-  const avgRating = 4.5; // Placeholder
+  const avgRating = products.length > 0 
+    ? products.reduce((acc, p) => acc + (Number((p as any).rating) || 0), 0) / products.length 
+    : 0;
   const topProducts = [...products].sort((a, b) => (b.stock || 0) - (a.stock || 0)).slice(0, 3);
   const commissionRate = vendor?.commission_rate ?? 10;
   const currentMonthEarnings = orders

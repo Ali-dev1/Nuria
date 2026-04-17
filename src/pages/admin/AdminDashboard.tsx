@@ -698,7 +698,7 @@ const AdminDashboard = () => {
                           </td>
                           <td className="p-4 text-muted-foreground font-medium">{post.created_at ? new Date(post.created_at).toLocaleDateString() : "—"}</td>
                           <td className="p-4 text-center font-bold text-foreground">{(post.views || 0).toLocaleString()}</td>
-                          <td className="p-4 text-center text-muted-foreground">{post.read_time || '5 min'}</td>
+                          <td className="p-4 text-center text-muted-foreground">{post.read_time || (post.content ? Math.ceil(post.content.split(' ').length / 200) + ' min' : '—')}</td>
                           <td className="p-4 text-center">
                             <button onClick={() => togglePostPublish(post.id, !post.is_published)} className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border transition-colors ${post.is_published ? "bg-green-50 text-green-700 border-green-200 hover:bg-green-100" : "bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100"}`}>
                               {post.is_published ? "Live" : "Draft"}
