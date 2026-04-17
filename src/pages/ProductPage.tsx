@@ -7,6 +7,7 @@ import { BookCard } from "@/components/books/BookCard";
 import { useCartStore } from "@/store/cartStore";
 import { useProduct, useProducts } from "@/hooks/useProducts";
 import { useWishlist } from "@/hooks/useWishlist";
+import { useReviews, useAddReview } from "@/hooks/useReviews";
 import { useAuthStore } from "@/store/authStore";
 import { Skeleton } from "@/components/shared/Skeleton";
 import { useState } from "react";
@@ -14,11 +15,15 @@ import { toast } from "sonner";
 
 const ProductPage = () => {
   const { slug } = useParams();
-  const { data: product, isLoading } = useProduct(slug);
+  const { data: product, isLoading: productLoading } = useProduct(slug);
   const addItem = useCartStore((s) => s.addItem);
-  const user = useAuthStore((s) => s.user);
+  const { user } = useAuthStore();
   const { wishlistIds, toggle } = useWishlist();
+  const { data: reviews = [], isLoading: reviewsLoading } = useReviews(product?.id);
   const [activeTab, setActiveTab] = useState<"description" | "reviews" | "delivery">("description");
+  const [newRating, setNewRating] = useState(5);
+  const [newComment, setNewComment] = useState("");
+  const addReview = useAddReview();
 
   const { data: relatedData } = useProducts({
     category: product?.category,
@@ -27,6 +32,7 @@ const ProductPage = () => {
 
   const relatedProducts = relatedData?.products || [];
   const related = relatedProducts.filter((p) => p.id !== product?.id).slice(0, 4);
+  const isLoading = productLoading || reviewsLoading;
 
   if (isLoading) {
     return (
@@ -68,8 +74,9 @@ const ProductPage = () => {
         <div className="relative aspect-[3/4] bg-muted rounded-2xl overflow-hidden max-w-md mx-auto lg:max-w-none w-full shadow-2xl">
           {product.images?.[0] && product.images[0] !== "/placeholder.svg" && !product.images[0].includes("placeholder") ? (
             <img 
-              src={product.images[0]} 
+              src={product.images[0].includes("unsplash.com") ? `${product.images[0]}&fm=webp&q=80` : product.images[0]} 
               alt={product.title} 
+              fetchpriority="high"
               className="absolute inset-0 w-full h-full object-cover" 
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
@@ -168,7 +175,68 @@ const ProductPage = () => {
             <p className="text-muted-foreground leading-relaxed max-w-2xl">{product.description}</p>
           )}
           {activeTab === "reviews" && (
-            <p className="text-muted-foreground">Reviews coming soon. Be the first to review this book!</p>
+            <div className="space-y-8 max-w-2xl">
+              {user ? (
+                <div className="bg-[#FAF7F2] p-6 rounded-2xl border border-[#E5E0D8]">
+                  <h4 className="font-display font-bold text-lg mb-4">Write a Review</h4>
+                  <div className="flex gap-2 mb-4">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button key={star} onClick={() => setNewRating(star)} className="focus:outline-none">
+                        <Star className={`w-5 h-5 ${newRating >= star ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />
+                      </button>
+                    ))}
+                  </div>
+                  <textarea
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    placeholder="Share your thoughts on this book..."
+                    className="w-full p-4 bg-white border border-[#E5E0D8] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1B4332]/20 resize-none h-24 mb-4"
+                  />
+                  <button
+                    disabled={addReview.isPending || !newComment.trim()}
+                    onClick={() => {
+                        if (!product) return;
+                        addReview.mutate({ productId: product.id, rating: newRating, comment: newComment }, {
+                            onSuccess: () => {
+                                setNewComment("");
+                                toast.success("Review submitted!");
+                            }
+                        });
+                    }}
+                    className="px-6 py-2.5 bg-[#1B4332] text-white font-bold rounded-lg text-xs uppercase tracking-widest hover:bg-[#1B4332]/90 disabled:opacity-50 transition-all"
+                  >
+                    {addReview.isPending ? "Submitting..." : "Submit Review"}
+                  </button>
+                </div>
+              ) : (
+                <div className="bg-muted/30 p-4 rounded-xl text-sm text-muted-foreground italic border border-dashed border-border">
+                  Please <Link to="/login" className="text-[#C2541A] font-bold hover:underline">sign in</Link> to leave a review.
+                </div>
+              )}
+
+              <div className="space-y-6 pt-4">
+                {reviewsLoading ? (
+                  Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />)
+                ) : reviews.length === 0 ? (
+                  <p className="text-muted-foreground italic">No reviews yet. Be the first to share your thoughts!</p>
+                ) : (
+                  reviews.map((review) => (
+                    <div key={review.id} className="border-b border-border pb-6 last:border-0 hover:bg-[#FAF7F2]/50 p-4 rounded-xl transition-colors">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-bold text-[#1A1A1A]">{review.profiles?.name || "Anonymous Reader"}</span>
+                        <span className="text-[10px] text-muted-foreground uppercase tracking-widest">{new Date(review.created_at).toLocaleDateString()}</span>
+                      </div>
+                      <div className="flex gap-0.5 mb-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star key={star} className={`w-3 h-3 ${review.rating >= star ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`} />
+                        ))}
+                      </div>
+                      <p className="text-sm text-[#6B7280] leading-relaxed italic">"{review.comment}"</p>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           )}
           {activeTab === "delivery" && (
             <div className="space-y-3 text-sm font-sans text-[#6B7280] max-w-lg">

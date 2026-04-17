@@ -51,20 +51,31 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const initialize = async () => {
-      setIsAdmin(true);
-      await loadData();
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+      
+      const { data: roleData } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      if (roleData) {
+        setIsAdmin(true);
+        await loadData();
+      } else {
+        navigate("/");
+      }
       setLoading(false);
     };
     initialize();
-  }, [user]);
-
-  const checkAdmin = async () => {
-    setIsAdmin(true);
-    await loadData();
-    setLoading(false);
-  };
+  }, [user, navigate]);
 
   const loadData = async () => {
+    // We defensively fetch and provide empty arrays on failure to keep the dashboard alive.
     const [profilesRes, productsRes, ordersRes, vendorsRes, rolesRes, itemsRes, settingsRes, postsRes] = await Promise.all([
       supabase.from("profiles").select("*"),
       supabase.from("products").select("*").order("created_at", { ascending: false }),
@@ -673,29 +684,21 @@ const AdminDashboard = () => {
                         <th className="text-left p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Date</th>
                         <th className="text-center p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Views</th>
                         <th className="text-center p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Read Time</th>
-                        <th className="text-center p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Status</th>
+                    <th className="text-center p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Status</th>
                         <th className="text-right p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {/* Using real Supabase posts if available, falling back to mock data, and simulating missing analytics metrics */}
-                      {(posts && posts.length > 0 ? posts.map(p => ({
-                        ...p,
-                        views: p.views || Math.floor(Math.random() * 50 + 1) + "k",
-                        readTime: p.readTime || (Math.floor(Math.random() * 10 + 3) + " min"),
-                      })) : [
-                        { id: '1', title: 'Books That Teach You a Skill', category: 'BOOK REVIEWS', created_at: '2023-11-28', is_published: true, views: '12.4k', readTime: '5 min' },
-                        { id: '2', title: 'Nuria Top 100 Kenyan Books', category: 'RECOMMENDATIONS', created_at: '2023-02-08', is_published: true, views: '45.1k', readTime: '12 min' },
-                        { id: '3', title: 'Habit Changing Books', category: 'RECOMMENDATIONS', created_at: '2022-01-13', is_published: false, views: '—', readTime: '8 min' }
-                      ]).map((post: any) => (
+                      {/* Using real Supabase posts from the database */}
+                      {(posts || []).map((post: any) => (
                         <tr key={post.id} className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
                           <td className="p-4">
                             <span className="block font-bold text-foreground text-[15px]">{post.title}</span>
                             <span className="text-[10px] uppercase tracking-widest text-[#C2541A] font-bold mt-1 block">{post.category || "GENERAL"}</span>
                           </td>
                           <td className="p-4 text-muted-foreground font-medium">{post.created_at ? new Date(post.created_at).toLocaleDateString() : "—"}</td>
-                          <td className="p-4 text-center font-bold text-foreground">{post.views}</td>
-                          <td className="p-4 text-center text-muted-foreground">{post.readTime}</td>
+                          <td className="p-4 text-center font-bold text-foreground">{(post.views || 0).toLocaleString()}</td>
+                          <td className="p-4 text-center text-muted-foreground">{post.read_time || '5 min'}</td>
                           <td className="p-4 text-center">
                             <button onClick={() => togglePostPublish(post.id, !post.is_published)} className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border transition-colors ${post.is_published ? "bg-green-50 text-green-700 border-green-200 hover:bg-green-100" : "bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100"}`}>
                               {post.is_published ? "Live" : "Draft"}

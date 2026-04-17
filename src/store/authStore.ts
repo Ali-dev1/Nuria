@@ -18,38 +18,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
   loading: true,
 
   initialize: () => {
-    const testRole = localStorage.getItem("nuria_test_role");
-    
-    const MOCK_UUIDS: Record<string, string> = {
-      admin: "00000000-0000-0000-0000-000000000001",
-      vendor: "00000000-0000-0000-0000-000000000002",
-      customer: "00000000-0000-0000-0000-000000000003",
-    };
-
-    if (testRole) {
-      set({ 
-        user: { 
-          id: MOCK_UUIDS[testRole] || "00000000-0000-0000-0000-000000000000", 
-          email: `${testRole}@nuria.local`,
-          user_metadata: { role: testRole, full_name: `Test ${testRole}` }
-        } as any,
-        session: { access_token: "dummy-token", user: {} as any } as any,
-        loading: false 
-      });
-    }
-    
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!testRole) {
-        set({ session, user: session?.user ?? null, loading: false });
-      }
+      set({ session, user: session?.user ?? null, loading: false });
     });
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!testRole) {
-        set({ session, user: session?.user ?? null, loading: false });
-      } else {
-        set({ loading: false });
-      }
+      set({ session, user: session?.user ?? null, loading: false });
     });
 
     return () => subscription.unsubscribe();

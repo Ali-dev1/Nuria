@@ -152,18 +152,6 @@ const VendorGuidePage = () => {
           </div>
         </section>
 
-        {/* 🏔️ Final CTA */}
-        <div className="text-center space-y-10 py-10">
-          <h2 className="font-display text-4xl lg:text-5xl font-bold text-[#1A1A1A]">Ready to build your <br />literary legacy?</h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="px-12 py-8 bg-[#1B4332] hover:bg-[#132c21] rounded-2xl font-bold text-xs uppercase tracking-[0.2em] shadow-xl">
-              GO TO DASHBOARD <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-            <Button variant="outline" className="px-12 py-8 border-2 border-[#E5E0D8] rounded-2xl font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#FAF7F2]">
-              VIEW PRICING TIES
-            </Button>
-          </div>
-        </div>
       </div>
     </InfoPageLayout>
   );

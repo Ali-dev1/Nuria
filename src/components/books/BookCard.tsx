@@ -27,8 +27,12 @@ export const BookCard = ({ product }: BookCardProps) => {
       <Link to={`/books/${product.slug}`} className="block relative aspect-[3/4] overflow-hidden rounded-t-xl bg-muted">
         {product.images?.[0] && product.images[0] !== "/placeholder.svg" && !product.images[0].includes("placeholder") ? (
           <img 
-            src={product.images[0]} 
+            src={product.images[0].includes("unsplash.com") ? `${product.images[0]}&fm=webp&q=80` : product.images[0]} 
             alt={product.title} 
+            width="300"
+            height="400"
+            loading="lazy"
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="w-full h-full object-cover" 
           />
         ) : (
@@ -60,7 +64,7 @@ export const BookCard = ({ product }: BookCardProps) => {
             if (!user) { toast.error("Sign in to save to wishlist"); return; }
             toggle(product.id);
           }}
-          className={`absolute ${isSoldOut ? 'top-10' : 'top-2'} right-2 p-1.5 transition-all text-white drop-shadow-md`}
+          className={`absolute ${isSoldOut ? 'top-10' : 'top-2'} right-2 p-2 bg-white/20 backdrop-blur-md border border-white/20 rounded-full transition-all hover:bg-white/40 hover:scale-110 text-white drop-shadow-lg shadow-xl`}
           aria-label={isWished ? "Remove from wishlist" : "Add to wishlist"}
         >
           <Heart className={`w-5 h-5 ${isWished ? "fill-red-500 text-red-500" : "text-white/80 hover:text-white"}`} />
@@ -69,10 +73,16 @@ export const BookCard = ({ product }: BookCardProps) => {
 
       <div className="p-3 flex flex-col flex-1">
         <Link to={`/books/${product.slug}`} className="block flex-1">
-          <h3 className="font-display text-[14px] font-semibold text-[#1A1A1A] line-clamp-2 leading-tight min-h-[2.5rem]">
+          <h3 
+            className="font-display text-[14px] font-semibold text-[#1A1A1A] line-clamp-2 leading-tight min-h-[2.5rem]"
+            title={product.title}
+          >
             {product.title}
           </h3>
-          <p className="font-sans text-[12px] text-[#6B7280] mt-1 line-clamp-1">
+          <p 
+            className="font-sans text-[12px] text-[#6B7280] mt-1 line-clamp-1"
+            title={product.author || ""}
+          >
             {product.author}
           </p>
           <div className="mt-2 flex items-center gap-2">

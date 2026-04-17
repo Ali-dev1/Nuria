@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Phone, CreditCard, Check, Loader2 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuth } from "@/hooks/useAuth";
+import { useProfile } from "@/hooks/useProfile";
+import { RoleSelectScreen } from "@/components/auth/RoleSelection";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/constants";
 import { toast } from "sonner";
@@ -12,6 +14,7 @@ type Step = "address" | "payment" | "confirm";
 const CheckoutPage = () => {
   const { items, subtotal, clearCart } = useCartStore();
   const { user, isAuthenticated } = useAuth();
+  const { profile, refetch: refetchProfile } = useProfile();
   const navigate = useNavigate();
   const [step, setStep] = useState<Step>("address");
   const [paymentMethod, setPaymentMethod] = useState<"mpesa" | "card">("mpesa");
@@ -129,6 +132,24 @@ const CheckoutPage = () => {
         .update({ loyalty_points: Math.max(0, currentPoints + netPoints) })
         .eq("user_id", user.id);
 
+      // 8. Trigger M-Pesa STK Push if selected
+      if (paymentMethod === "mpesa") {
+        const { data: mpesaData, error: mpesaErr } = await supabase.functions.invoke("mpesa-stk", {
+          body: {
+            phone: mpesaPhone || address.phone,
+            amount: total,
+            orderId: order.id,
+          },
+        });
+
+        if (mpesaErr) {
+          console.error("M-Pesa Error:", mpesaErr);
+          toast.error("Order placed, but M-Pesa prompt failed. Please pay manually.");
+        } else if (mpesaData?.ResponseCode === "0") {
+          toast.success("M-Pesa prompt sent! Check your phone.");
+        }
+      }
+
       clearCart();
       navigate(`/order-confirmation?id=${order.id}`);
     } catch (err: any) {
@@ -149,6 +170,10 @@ const CheckoutPage = () => {
       <Link to="/cart" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
         <ArrowLeft className="w-4 h-4" /> Back to cart
       </Link>
+
+      {profile?.needs_role_selection && (
+        <RoleSelectScreen onComplete={() => refetchProfile()} />
+      )}
 
       <h1 className="font-display text-2xl font-bold text-foreground mb-6">Checkout</h1>
 
@@ -176,21 +201,21 @@ const CheckoutPage = () => {
           <h2 className="font-display text-lg font-bold text-[#1A1A1A]">Delivery Address</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             <div>
-              <label className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">Full Name</label>
-              <input value={address.name} onChange={(e) => setAddress({ ...address, name: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="John Kamau" />
+              <label htmlFor="checkout-name" className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">Full Name</label>
+              <input id="checkout-name" value={address.name} onChange={(e) => setAddress({ ...address, name: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="John Kamau" />
             </div>
             <div>
-              <label className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">Phone Number</label>
-              <input value={address.phone} onChange={(e) => setAddress({ ...address, phone: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="+254 712 345 678" />
+              <label htmlFor="checkout-phone" className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">Phone Number</label>
+              <input id="checkout-phone" value={address.phone} onChange={(e) => setAddress({ ...address, phone: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="+254 712 345 678" />
             </div>
           </div>
           <div>
-            <label className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">Street Address</label>
-            <input value={address.street} onChange={(e) => setAddress({ ...address, street: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="123 Kenyatta Avenue" />
+            <label htmlFor="checkout-street" className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">Street Address</label>
+            <input id="checkout-street" value={address.street} onChange={(e) => setAddress({ ...address, street: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="123 Kenyatta Avenue" />
           </div>
           <div>
-            <label className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">City</label>
-            <input value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="Nairobi" />
+            <label htmlFor="checkout-city" className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">City</label>
+            <input id="checkout-city" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="Nairobi" />
           </div>
           <button
             onClick={() => setStep("payment")}
@@ -236,8 +261,8 @@ const CheckoutPage = () => {
           </div>
           {paymentMethod === "mpesa" && (
             <div className="pt-2">
-              <label className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">M-Pesa Phone Number</label>
-              <input value={mpesaPhone} onChange={(e) => setMpesaPhone(e.target.value)} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="0712 345 678" />
+              <label htmlFor="checkout-mpesa" className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">M-Pesa Phone Number</label>
+              <input id="checkout-mpesa" value={mpesaPhone} onChange={(e) => setMpesaPhone(e.target.value)} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="0712 345 678" />
             </div>
           )}
           <div className="flex gap-4 pt-4">

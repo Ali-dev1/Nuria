@@ -52,6 +52,7 @@ export const useProducts = (options?: {
   limit?: number;
   page?: number;
   pageSize?: number;
+  sort?: string;
 }) => {
   return useQuery({
     queryKey: ["products", options],
@@ -88,7 +89,15 @@ export const useProducts = (options?: {
         query = query.limit(options.limit);
       }
       
-      query = query.order("created_at", { ascending: false });
+      // Sorting Logic
+      const sort = options?.sort || "newest";
+      switch (sort) {
+        case "price-low": query = query.order("price", { ascending: true }); break;
+        case "price-high": query = query.order("price", { ascending: false }); break;
+        case "rating": query = query.order("rating", { ascending: false }); break;
+        case "bestselling": query = query.order("review_count", { ascending: false }); break;
+        default: query = query.order("created_at", { ascending: false });
+      }
       
       const { data, error, count } = await query;
       if (error) throw error;

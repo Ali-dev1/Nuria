@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
-import { useSearchParams, Link } from "react-router-dom";
-import { SlidersHorizontal, X } from "lucide-react";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { SlidersHorizontal, X, Search as SearchIcon } from "lucide-react";
 import { BookCard } from "@/components/books/BookCard";
 import { CATEGORIES } from "@/lib/constants";
 import { useProducts } from "@/hooks/useProducts";
@@ -15,9 +15,11 @@ const SORT_OPTIONS = [
 ];
 
 const BooksPage = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const categoryParam = searchParams.get("category");
   const searchQuery = searchParams.get("search") || "";
+  const [localSearch, setLocalSearch] = useState(searchQuery);
   const [sort, setSort] = useState("newest");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(categoryParam || "");
@@ -29,44 +31,91 @@ const BooksPage = () => {
     search: searchQuery || undefined,
     page: currentPage,
     pageSize: pageSize,
+    sort: sort,
   });
 
   const products = data?.products || [];
   const totalCount = data?.totalCount || 0;
   const totalPages = Math.ceil(totalCount / pageSize);
 
-  const sorted = useMemo(() => {
-    const list = [...products];
-    switch (sort) {
-      case "price-low": list.sort((a, b) => a.price - b.price); break;
-      case "price-high": list.sort((a, b) => b.price - a.price); break;
-      case "rating": list.sort((a, b) => b.rating - a.rating); break;
-      case "bestselling": list.sort((a, b) => b.reviewCount - a.reviewCount); break;
-      default: list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-    }
-    return list;
-  }, [products, sort]);
+  // Sync local search when URL changes
+  useEffect(() => {
+    setLocalSearch(searchQuery);
+  }, [searchQuery]);
 
-  // Reset page when category changes
+  // Reset page when category or search changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory]);
+  }, [selectedCategory, searchQuery]);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newParams = new URLSearchParams(searchParams);
+    if (localSearch.trim()) {
+      newParams.set("search", localSearch.trim());
+    } else {
+      newParams.delete("search");
+    }
+    setSearchParams(newParams);
+  };
 
   return (
     <div className="container-nuria py-8">
-      <div className="mb-12">
-        <h1 className="font-display text-3xl sm:text-4xl font-bold text-[#1A1A1A]">
-          {selectedCategory
-            ? CATEGORIES.find((c) => c.slug === selectedCategory)?.name || "Books"
-            : "All Books"}
-        </h1>
-        <div className="w-[60px] h-[3px] bg-[#C2541A] mt-4 rounded-full" />
-        <p className="font-sans text-[#6B7280] mt-4 text-sm uppercase tracking-widest font-medium">
-          {isLoading ? "Loading…" : `${totalCount.toLocaleString()} titles available`}
-        </p>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <h1 className="font-display text-3xl sm:text-4xl font-bold text-[#1A1A1A]">
+            {selectedCategory
+              ? CATEGORIES.find((c) => c.slug === selectedCategory)?.name || "Books"
+              : searchQuery ? `Search: ${searchQuery}` : "All Books"}
+          </h1>
+          <div className="w-[60px] h-[3px] bg-[#C2541A] mt-4 rounded-full" />
+          <p className="font-sans text-[#6B7280] mt-4 text-sm uppercase tracking-widest font-medium">
+            {isLoading ? "Loading…" : `${totalCount.toLocaleString()} titles available`}
+          </p>
+        </div>
+
+        <form onSubmit={handleSearchSubmit} className="relative w-full md:w-80 group">
+          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-[#C2541A] transition-colors" />
+          <input 
+            type="text"
+            placeholder="Search in collection..."
+            value={localSearch}
+            onChange={(e) => setLocalSearch(e.target.value)}
+            className="w-full pl-11 pr-4 py-3 bg-white border border-[#E5E0D8] rounded-2xl text-sm font-sans focus:outline-none focus:ring-2 focus:ring-[#C2541A]/20 focus:border-[#C2541A] transition-all"
+          />
+        </form>
       </div>
 
-      <div className="flex items-center justify-between gap-4 mb-6">
+      {/* Mobile Category Strip */}
+      <div className="lg:hidden -mx-4 px-4 mb-8 overflow-x-auto no-scrollbar scroll-smooth">
+        <div className="flex items-center gap-2 pb-2">
+          <button
+            onClick={() => setSelectedCategory("")}
+            className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${
+              !selectedCategory 
+                ? "bg-[#1B4332] text-white border-[#1B4332] shadow-md" 
+                : "bg-white border-[#E5E0D8] text-[#6B7280]"
+            }`}
+          >
+            All
+          </button>
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.slug)}
+              className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${
+                selectedCategory === cat.slug 
+                  ? "bg-[#1B4332] text-white border-[#1B4332] shadow-md" 
+                  : "bg-white border-[#E5E0D8] text-[#6B7280]"
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between gap-4 mb-8 bg-[#FAF7F2] p-4 rounded-2xl border border-[#E5E0D8]">
         <button
           onClick={() => setShowFilters(!showFilters)}
           className="lg:hidden flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors"
@@ -127,7 +176,7 @@ const BooksPage = () => {
                 </div>
               ))}
             </div>
-          ) : sorted.length === 0 ? (
+          ) : products.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-lg font-medium text-foreground">No books found</p>
               <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters</p>
@@ -140,8 +189,8 @@ const BooksPage = () => {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                {sorted.map((product) => (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
+                {products.map((product) => (
                   <BookCard key={product.id} product={product} />
                 ))}
               </div>

@@ -8,7 +8,7 @@
   :root {
     /* Nuria Premium Design Tokens — Exact hex values */
     --color-primary: #1B4332;
-    --color-accent: #C2541A;
+    --color-accent: #A1440B;
     --color-background: #FAF7F2;
     --color-text: #1A1A1A;
     --color-text-muted: #6B7280;
@@ -23,7 +23,7 @@
     --popover-foreground: 0 0% 10%;
     --primary: 153 42% 18%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 19 76% 43%;
+    --secondary: 19 86% 33%;
     --secondary-foreground: 0 0% 100%;
     --muted: 35 15% 90%;
     --muted-foreground: 220 9% 46%;
@@ -81,9 +81,10 @@
   * {
     @apply border-border;
   }
-  body {
+  html, body {
     @apply bg-background text-foreground font-sans antialiased;
     color: var(--color-text);
+    overflow-x: hidden;
   }
   h1, h2, h3, h4 {
     @apply font-display;

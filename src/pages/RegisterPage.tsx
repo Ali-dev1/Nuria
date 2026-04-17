@@ -35,15 +35,16 @@ const RegisterPage = () => {
   };
 
   const handleGoogleSignIn = async () => {
-    const result = await nuriaAuth.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
     });
-    if (result.error) {
-      toast({ title: "Google sign in failed", description: String(result.error), variant: "destructive" });
+    if (error) {
+      toast({ title: "Google sign in failed", description: error.message, variant: "destructive" });
       return;
     }
-    if (result.redirected) return;
-    navigate("/");
   };
 
   return (
@@ -61,13 +62,14 @@ const RegisterPage = () => {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block font-sans text-[13px] font-medium text-[#1A1A1A] mb-1.5">Email address *</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="you@example.com" />
+            <label htmlFor="reg-email" className="block font-sans text-[13px] font-medium text-[#1A1A1A] mb-1.5">Email address *</label>
+            <input id="reg-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="you@example.com" />
           </div>
           <div>
-            <label className="block font-sans text-[13px] font-medium text-[#1A1A1A] mb-1.5">Password *</label>
+            <label htmlFor="reg-password" className="block font-sans text-[13px] font-medium text-[#1A1A1A] mb-1.5">Password *</label>
             <div className="relative">
               <input
+                id="reg-password"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

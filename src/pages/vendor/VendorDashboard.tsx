@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/store/authStore";
 import { formatPrice, CATEGORIES } from "@/lib/constants";
 import { useToast } from "@/hooks/use-toast";
+import { useProfile } from "@/hooks/useProfile";
+
 
 type Vendor = { id: string; store_name: string; is_verified: boolean | null; commission_rate: number | null; mpesa_number: string | null; bio: string | null; contact_email: string | null; contact_phone: string | null; logo_url: string | null; banner_url: string | null; user_id: string };
 type VProduct = { id: string; title: string; author: string | null; price: number; original_price: number | null; stock: number | null; category: string; is_featured: boolean | null; is_active: boolean | null; created_at: string | null; images: string[] | null; isbn: string | null; description: string | null; format: string | null; slug: string };
@@ -21,6 +23,7 @@ const statusColors: Record<string, string> = {
 
 const VendorDashboard = () => {
   const { user, signOut } = useAuthStore();
+  const { profile, refetch: refetchProfile } = useProfile();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [vendor, setVendor] = useState<Vendor | null>(null);
@@ -44,36 +47,13 @@ const VendorDashboard = () => {
 
   const loadData = async () => {
     if (!user) {
-      const testRole = localStorage.getItem("nuria_test_role");
-      if (!testRole) {
-        setLoading(false);
-        return;
-      }
+      setLoading(false);
+      return;
     }
     try {
-      const testRole = localStorage.getItem("nuria_test_role");
       const { data: v } = await supabase.from("vendors").select("*").eq("user_id", user.id).maybeSingle();
       
-      // If testing and no vendor found, provide a mock vendor
-      if (!v && testRole === "vendor") {
-        const mockVendor = {
-          id: "10000000-0000-0000-0000-000000000002",
-          store_name: "Test Merchant Studio",
-          is_verified: true,
-          commission_rate: 10,
-          mpesa_number: "0700 000 000",
-          bio: "This is a mock vendor profile for platform auditing and testing.",
-          user_id: user.id
-        };
-        setVendor(mockVendor as any);
-        setStoreForm({ 
-          store_name: mockVendor.store_name, 
-          bio: mockVendor.bio, 
-          mpesa_number: mockVendor.mpesa_number, 
-          contact_email: "test@merchant.com", 
-          contact_phone: "0700 000 000" 
-        });
-      } else if (!v) {
+      if (!v) {
         navigate("/vendor/register");
         return;
       } else {
@@ -81,7 +61,7 @@ const VendorDashboard = () => {
         setStoreForm({ store_name: v.store_name, bio: v.bio || "", mpesa_number: v.mpesa_number || "", contact_email: (v as any).contact_email || "", contact_phone: (v as any).contact_phone || "" });
       }
 
-      const effectiveVendorId = v?.id || (testRole === "vendor" ? "10000000-0000-0000-0000-000000000002" : null);
+      const effectiveVendorId = v?.id;
       if (!effectiveVendorId) return;
 
       const [prodsRes, payRes] = await Promise.all([
@@ -209,6 +189,8 @@ const VendorDashboard = () => {
     <div className="min-h-screen bg-background">
       <header className="bg-primary text-primary-foreground">
         <div className="container-nuria flex items-center justify-between h-16">
+
+
           <div className="flex items-center gap-3">
             <Link to="/" className="flex items-center">
                <img src="/logo.png" alt="Nuria" className="h-8 w-auto brightness-0 invert" />

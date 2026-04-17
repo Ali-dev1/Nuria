@@ -7,6 +7,7 @@ import {
 import { BookCard } from "@/components/books/BookCard";
 import { CATEGORIES } from "@/lib/constants";
 import { useProducts } from "@/hooks/useProducts";
+import { useAuthors } from "@/hooks/useAuthors";
 import { Skeleton } from "@/components/shared/Skeleton";
 import { 
   Carousel, 
@@ -26,6 +27,7 @@ const Index = () => {
   const { data: featuredData, isLoading: isFeaturedLoading } = useProducts({ featured: true, limit: 8 });
   const { data: newArrivalsData, isLoading: isNewLoading } = useProducts({ limit: 8 });
   const { data: bestsellersData, isLoading: isBestLoading } = useProducts({ limit: 8 });
+  const { data: authors = [], isLoading: loadingAuthors } = useAuthors();
 
   const featured = featuredData?.products || [];
   const newArrivals = newArrivalsData?.products || [];
@@ -77,7 +79,7 @@ const Index = () => {
       id: 1,
       title: "New Arrivals",
       subtitle: "Discover the latest titles added to our collection this week.",
-      image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1600&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1600&auto=format&fit=crop&fm=webp",
       cta: "Shop New Releases",
       link: "/books?sort=newest"
     },
@@ -85,7 +87,7 @@ const Index = () => {
       id: 2,
       title: "Kenyan Classics",
       subtitle: "Explore timeless works from Kenya's most celebrated authors.",
-      image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1600&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1600&auto=format&fit=crop&fm=webp",
       cta: "Explore Local Literature",
       link: "/books?category=african-literature"
     },
@@ -93,7 +95,7 @@ const Index = () => {
       id: 3,
       title: "Children's Corner",
       subtitle: "Nurturing young minds with stories that inspire and educate.",
-      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1600&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1600&auto=format&fit=crop&fm=webp",
       cta: "Browse Children's Books",
       link: "/books?category=children"
     },
@@ -101,7 +103,7 @@ const Index = () => {
       id: 4,
       title: "Academic Excellence",
       subtitle: "Primary, secondary, and tertiary resources for every learner.",
-      image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=1600&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=1600&auto=format&fit=crop&fm=webp",
       cta: "Shop Academic Texts",
       link: "/books?category=education"
     },
@@ -109,21 +111,30 @@ const Index = () => {
       id: 5,
       title: "Gifts of Knowledge",
       subtitle: "Give the gift of reading with our premium gift card collection.",
-      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1600&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1600&auto=format&fit=crop&fm=webp",
       cta: "Buy A Gift Card",
       link: "/gift-card"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2]">
+    <main className="min-h-screen bg-[#FAF7F2]">
       <section className="relative group">
         <Carousel setApi={setApi} className="w-full" opts={{ loop: true }}>
           <CarouselContent>
             {slides.map((slide) => (
               <CarouselItem key={slide.id}>
                 <div className="relative h-[400px] sm:h-[500px] lg:h-[650px] overflow-hidden">
-                  <img src={slide.image} alt={slide.title} className="absolute inset-0 w-full h-full object-cover brightness-[0.7]" />
+                  <img 
+                    src={slide.image} 
+                    alt={slide.title} 
+                    width="1600" 
+                    height="650" 
+                    loading={slide.id === 1 ? "eager" : "lazy"} 
+                    fetchpriority={slide.id === 1 ? "high" : "auto"} 
+                    sizes="100vw"
+                    className="absolute inset-0 w-full h-full object-cover brightness-[0.7]" 
+                  />
                   <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
                   <div className="container-nuria relative h-full flex flex-col justify-center items-start text-left">
                     <div className="max-w-2xl animate-in fade-in slide-in-from-left duration-700">
@@ -161,7 +172,7 @@ const Index = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search 15,000+ Titles, Authors, Genres..."
+              placeholder="Search 21,000+ Titles, Authors, Genres..."
               className="w-full pl-16 pr-4 py-7 bg-white text-[#1A1A1A] rounded-2xl text-lg font-sans placeholder:text-gray-400 border-none ring-0 focus:ring-4 focus:ring-[#C2541A]/20 transition-all outline-none"
             />
             <button 
@@ -174,7 +185,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="container-nuria pt-32 pb-16">
+      <section className="hidden md:block container-nuria pt-32 pb-16">
         <div className="flex items-end justify-between mb-10">
           <SectionHeading label="DISCOVER" title="Shop by Category" />
           <Link to="/books" className="text-sm text-[#C2541A] font-sans font-bold flex items-center gap-1 hover:underline shrink-0 mb-10 uppercase tracking-widest">
@@ -227,12 +238,9 @@ const Index = () => {
           </div>
 
           <div className="flex overflow-x-auto gap-6 sm:gap-8 pb-12 pt-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
-            {[
-              { name: "Ngũgĩ wa Thiong'o", photo: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?q=80&w=600&auto=format&fit=crop", slug: "ngugi" },
-              { name: "Chimamanda Adichie", photo: "https://images.unsplash.com/photo-1531123414708-f152d5e15961?q=80&w=600&auto=format&fit=crop", slug: "chimamanda" },
-              { name: "Chinua Achebe", photo: "https://images.unsplash.com/photo-1506803682981-6e718a9dd3ee?q=80&w=600&auto=format&fit=crop", slug: "chinua-achebe" },
-              { name: "Wangari Maathai", photo: "https://images.unsplash.com/photo-1554727242-741c14fa561c?q=80&w=600&auto=format&fit=crop", slug: "wangari-maathai" }
-            ].map((author) => (
+            {loadingAuthors ? (
+              [1,2,3,4].map(i => <Skeleton key={i} className="shrink-0 w-[85vw] sm:w-[45vw] lg:w-[calc(25%-1.5rem)] h-[450px] rounded-[2rem]" />)
+            ) : authors.map((author: any) => (
               <Link 
                 key={author.slug}
                 to={`/author/${author.slug}`}
@@ -240,10 +248,12 @@ const Index = () => {
               >
                 <div className="h-[300px] sm:h-[350px] overflow-hidden relative bg-[#E5E0D8]">
                   <img 
-                    src={author.photo} 
+                    src={author.photo_url.includes("unsplash.com") ? `${author.photo_url}&fm=webp&q=80` : author.photo_url} 
                     alt={author.name}
                     width="600"
                     height="800"
+                    loading="lazy"
+                    sizes="(max-width: 768px) 85vw, (max-width: 1024px) 45vw, 25vw"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -294,7 +304,7 @@ const Index = () => {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 };
 

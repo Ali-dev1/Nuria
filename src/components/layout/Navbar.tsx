@@ -52,32 +52,31 @@ export const Navbar = () => {
 
       {/* Main Navbar */}
       <header className="sticky top-0 z-50 bg-[#1B4332] shadow-md">
-        <div className="container-nuria flex items-center justify-between h-20 gap-4">
-          {/* Mobile hamburger */}
-          <button 
-            onClick={() => setMobileOpen(true)} 
-            className="lg:hidden p-2 -ml-2 text-white hover:text-white/80 transition-colors" 
-            aria-label="Open menu"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
-
-          {/* Logo */}
-          <Link to="/" className="shrink-0">
-            <img src="/logo.png" alt="Nuria Logo" className="h-10 sm:h-12 w-auto" />
-          </Link>
-
-          {/* Desktop Nav links */}
-          <nav className="hidden lg:flex items-center gap-6 text-[13px] font-sans font-semibold ml-auto mr-8">
-            <Link to="/" className="text-white hover:text-white/80 transition-colors">Home</Link>
-            <Link to="/books" className="text-white hover:text-white/80 transition-colors">Shop</Link>
-            <Link to="/gift-card" className="text-white hover:text-white/80 transition-colors">Gift Card</Link>
-            <Link to="/blog" className="text-white hover:text-white/80 transition-colors">Blog</Link>
-            <Link to="/about" className="text-white hover:text-white/80 transition-colors">About Us</Link>
-          </nav>
+        <div className="container-nuria flex items-center justify-between h-20 px-4 md:px-6">
+          {/* Mobile alignment: Menu on left, Logo centered/left, Icons Right */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setMobileOpen(true)}
+              className="lg:hidden p-2 -ml-2 text-white hover:text-white/80 transition-colors"
+              aria-label="Open menu"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+            <Link to="/" className="shrink-0">
+              <img 
+                src="/logo.png" 
+                alt="Nuria Logo" 
+                width="142"
+                height="48"
+                fetchpriority="high"
+                loading="eager"
+                className="h-10 sm:h-12 w-auto" 
+              />
+            </Link>
+          </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             {!isHomePage && (
               <button 
                 onClick={() => setSearchOpen(!searchOpen)} 
@@ -87,6 +86,15 @@ export const Navbar = () => {
                 <Search className="w-5 h-5" />
               </button>
             )}
+
+            {/* Desktop Nav links - hidden on mobile */}
+            <nav className="hidden lg:flex items-center gap-6 text-[13px] font-sans font-semibold ml-6 mr-8">
+              <Link to="/" className="text-white hover:text-white/80 transition-colors">Home</Link>
+              <Link to="/books" className="text-white hover:text-white/80 transition-colors">Shop</Link>
+              <Link to="/gift-card" className="text-white hover:text-white/80 transition-colors">Gift Card</Link>
+              <Link to="/blog" className="text-white hover:text-white/80 transition-colors">Blog</Link>
+              <Link to="/about" className="text-white hover:text-white/80 transition-colors">About Us</Link>
+            </nav>
 
             <div className="hidden lg:flex items-center gap-3 mr-2">
               <Link to="/vendor/guide">
@@ -115,11 +123,11 @@ export const Navbar = () => {
             </Link>
 
             {user ? (
-              <Link to="/account" className="p-2 text-white hover:text-white/80 transition-colors" aria-label="Account">
+              <Link to="/account" className="p-2 text-white hover:text-white/80 transition-colors ml-1" aria-label="Account">
                 <User className="w-5 h-5" />
               </Link>
             ) : (
-              <Link to="/login" className="p-2 text-white hover:text-white/80 transition-colors" aria-label="Sign in">
+              <Link to="/login" className="p-2 text-white hover:text-white/80 transition-colors ml-1" aria-label="Sign in">
                 <User className="w-5 h-5" />
               </Link>
             )}

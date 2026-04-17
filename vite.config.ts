@@ -16,18 +16,17 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-    dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "@tanstack/react-query", "@tanstack/query-core"],
+    dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "@tanstack/react-query", "@tanstack/query-core", "react-is", "scheduler"],
   },
   build: {
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          if (id.includes("node_modules")) {
-            if (id.includes("lucide-react")) return "ui-icons";
-            if (id.includes("@radix-ui")) return "ui-components";
-            if (id.includes("@tanstack") || id.includes("axios") || id.includes("supabase")) return "data-core";
-            return "vendor";
-          }
+        manualChunks(id) {
+          if (id.includes('node_modules/@radix-ui')) return 'ui-radix';
+          if (id.includes('node_modules/lucide-react')) return 'ui-icons';
+          if (id.includes('node_modules/@supabase')) return 'data-supabase';
+          if (id.includes('node_modules/@tanstack')) return 'data-query';
+          if (id.includes('node_modules/recharts')) return 'ui-charts';
         },
       },
     },

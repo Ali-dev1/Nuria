@@ -83,13 +83,14 @@ const ContactPage = () => {
           {/* Integrated Map */}
           <div className="h-[300px] bg-white rounded-[2.5rem] overflow-hidden border border-[#E5E0D8] relative shadow-2xl shadow-black/5 group">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1m1!1s0x182f10d6361a6627%3A0x6a0f6713915f0a6a!2sBazaar%20Plaza%2C%20Moi%20Ave%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1713175000000!5m2!1sen!2ske" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.819830571169!2d36.81904597582296!3d-1.2819744356499395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f177852ede453%3A0xd1d8e1b5fae8d01b!2sNuria%3A%20The%20Home%20of%20Independent%20Authors!5e0!3m2!1sen!2ske!4v1776298851000!5m2!1sen!2ske" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
               allowFullScreen={true} 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
+              title="Nuria Bookstore Location — Bazaar Plaza, Nairobi"
               className="grayscale group-hover:grayscale-0 transition-all duration-700"
             />
           </div>

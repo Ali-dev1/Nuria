@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { BottomNav } from "@/components/layout/BottomNav";
 import { useAuthStore } from "@/store/authStore";
 import Index from "./pages/Index";
 import BooksPage from "./pages/BooksPage";
@@ -32,24 +33,25 @@ import DeliveryPage from "./pages/DeliveryPage";
 import ReturnsPage from "./pages/ReturnsPage";
 import GiftCardPage from "./pages/GiftCardPage";
 import WishlistPage from "./pages/WishlistPage";
+import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 import { useSettings } from "@/hooks/useSettings";
 import { useProfile } from "@/hooks/useProfile";
-import { RoleSelectScreen } from "@/components/auth/RoleSelection";
-import { RoleSwitcher } from "@/components/shared/RoleSwitcher";
+
 import { RoleGuard } from "@/components/auth/RoleGuard";
 import { MaintenanceOverlay } from "@/components/shared/MaintenanceOverlay";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
+import { useWishlist } from "@/hooks/useWishlist";
 
 const ShopLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: settings } = useSettings();
   const { data: profile, refetch: refetchProfile } = useProfile();
   
   const isMaintenance = settings?.maintenance_mode === "true";
-  const testRole = localStorage.getItem("nuria_test_role");
+
   
   // Real Identity check for maintenance bypass
   const roles = (profile as any)?.user_roles || [];
@@ -58,23 +60,31 @@ const ShopLayout = ({ children }: { children: React.ReactNode }) => {
     : (roles as any)?.role === "admin";
   const isMasterAdmin = (profile as any)?.name === "Master Admin";
   const bypassMaintenance = isActualAdmin || isMasterAdmin;
-  const needsRole = (profile as any)?.needs_role_selection && !testRole;
+
 
   if (isMaintenance && !bypassMaintenance) {
     return <MaintenanceOverlay />;
   }
 
-  if (needsRole) {
-    return <RoleSelectScreen onComplete={() => refetchProfile()} />;
-  }
-
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col pb-16 lg:pb-0">
       <Navbar />
-      <div className="flex-1">{children}</div>
+      <main className="flex-1">{children}</main>
+      <BottomNav />
       <Footer />
     </div>
   );
+};
+
+const WishlistSynchronizer = () => {
+  const { user } = useAuthStore();
+  const { syncWishlist } = useWishlist();
+  useEffect(() => {
+    if (user) {
+      syncWishlist();
+    }
+  }, [user, syncWishlist]);
+  return null;
 };
 
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
@@ -83,7 +93,12 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
     const unsub = initialize();
     return unsub;
   }, [initialize]);
-  return <>{children}</>;
+  return (
+    <>
+      <WishlistSynchronizer />
+      {children}
+    </>
+  );
 };
 
 const App = () => (
@@ -91,9 +106,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ScrollToTop />
-        <RoleSwitcher />
         <AuthInitializer>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
@@ -127,6 +141,7 @@ const App = () => (
             <Route path="/returns" element={<ShopLayout><ReturnsPage /></ShopLayout>} />
             <Route path="/gift-card" element={<ShopLayout><GiftCardPage /></ShopLayout>} />
             <Route path="/wishlist" element={<ShopLayout><WishlistPage /></ShopLayout>} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthInitializer>

@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.vercel
+# Sensitive environment files
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# AI Metadata
+dev_log_backup/

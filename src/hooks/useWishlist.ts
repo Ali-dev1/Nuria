@@ -55,5 +55,23 @@ export const useWishlist = () => {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["wishlist", user?.id || "guest"] }),
   });
 
-  return { wishlistIds, toggle: toggle.mutate, isToggling: toggle.isPending, ...rest };
+  const syncWishlist = useMutation({
+    mutationFn: async () => {
+      if (!user) return;
+      const local = localStorage.getItem("nuria_guest_wishlist");
+      if (!local) return;
+      const ids: string[] = JSON.parse(local);
+      if (ids.length === 0) return;
+
+      const { error } = await supabase
+        .from("wishlists")
+        .upsert(ids.map(id => ({ user_id: user.id, product_id: id })), { onConflict: "user_id,product_id" });
+      
+      if (error) throw error;
+      localStorage.removeItem("nuria_guest_wishlist");
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["wishlist", user?.id] }),
+  });
+
+  return { wishlistIds, toggle: toggle.mutate, isToggling: toggle.isPending, syncWishlist: syncWishlist.mutate, ...rest };
 };
