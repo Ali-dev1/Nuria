@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
     <!-- TODO: Set the document title to the name of your application -->
     <title>Nuria — The Honest Online Bookstore</title>
     <meta name="description" content="Kenya's leading online bookstore. Discover African literature, bestsellers, and educational texts — all delivered to your door." />
@@ -13,6 +13,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        @apply bg-background text-foreground font-sans antialiased;
+        color: var(--color-text);
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+        overscroll-behavior-x: none;
+      }
+    </style>
     
     <noscript>
       <div style="padding: 2rem; font-family: sans-serif; text-align: center;">

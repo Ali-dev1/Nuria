@@ -4,6 +4,7 @@ import { ArrowLeft, Phone, CreditCard, Check, Loader2 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
+import { useSettings } from "@/hooks/useSettings";
 import { RoleSelectScreen } from "@/components/auth/RoleSelection";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/constants";
@@ -15,6 +16,7 @@ const CheckoutPage = () => {
   const { items, subtotal, clearCart } = useCartStore();
   const { user, isAuthenticated } = useAuth();
   const { profile, refetch: refetchProfile } = useProfile();
+  const { data: settings } = useSettings();
   const navigate = useNavigate();
   const [step, setStep] = useState<Step>("address");
   const [paymentMethod, setPaymentMethod] = useState<"mpesa" | "card">("mpesa");
@@ -24,8 +26,8 @@ const CheckoutPage = () => {
 
   // Loyalty redemption
   const pointsDiscount = useCartStore((s) => s.pointsDiscount);
-  const deliveryFeeThreshold = 10000;
-  const deliveryFee = subtotal() >= deliveryFeeThreshold ? 0 : 200;
+  const deliveryFeeThreshold = Number(settings?.free_delivery_threshold) || 10000;
+  const deliveryFee = subtotal() >= deliveryFeeThreshold ? 0 : Number(settings?.delivery_fee) || 200;
   const discount = pointsDiscount ?? 0;
   const total = Math.max(0, subtotal() + deliveryFee - discount);
 

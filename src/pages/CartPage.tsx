@@ -6,12 +6,15 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/constants";
 import { useState } from "react";
+import { useSettings } from "@/hooks/useSettings";
 
 const CartPage = () => {
   const { items, removeItem, updateQuantity, subtotal, clearCart, setPointsDiscount, pointsDiscount } = useCartStore();
   const { user, isAuthenticated } = useAuth();
-  const deliveryFeeThreshold = 10000;
-  const deliveryFee = subtotal() >= deliveryFeeThreshold ? 0 : 200;
+  const { data: settings } = useSettings();
+  
+  const deliveryFeeThreshold = Number(settings?.free_delivery_threshold) || 10000;
+  const deliveryFee = subtotal() >= deliveryFeeThreshold ? 0 : Number(settings?.delivery_fee) || 200;
   const discount = pointsDiscount ?? 0;
   const total = Math.max(0, subtotal() + deliveryFee - discount);
   const loyaltyEarned = Math.floor(total / 10);

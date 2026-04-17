@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Users, Package, ShoppingCart, Store, Home, LogOut, Shield, CheckCircle, XCircle, Search, Trash2, Edit, Download, Star, AlertTriangle, TrendingUp, Settings } from "lucide-react";
+import { Users, Package, ShoppingCart, Store, Home, LogOut, Shield, CheckCircle, XCircle, Search, Trash2, Edit, Download, Star, AlertTriangle, TrendingUp, Settings, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/store/authStore";
 import { formatPrice } from "@/lib/constants";
@@ -75,22 +75,24 @@ const AdminDashboard = () => {
   }, [user, navigate]);
 
   const loadData = async () => {
-    // We defensively fetch and provide empty arrays on failure to keep the dashboard alive.
-    const [profilesRes, productsRes, ordersRes, vendorsRes, rolesRes, itemsRes, settingsRes, postsRes] = await Promise.all([
+    // We fetch counts separately for large tables to avoid 1000 row limits
+    const [profilesRes, productsRes, ordersRes, vendorsRes, rolesRes, itemsRes, settingsRes, postsRes, totalProductsRes] = await Promise.all([
       supabase.from("profiles").select("*"),
-      supabase.from("products").select("*").order("created_at", { ascending: false }),
+      supabase.from("products").select("*").order("created_at", { ascending: false }).limit(50), // Only fetch recent 50 for overview
       supabase.from("orders").select("*").order("created_at", { ascending: false }),
       supabase.from("vendors").select("*"),
       supabase.from("user_roles").select("*"),
       supabase.from("order_items").select("*"),
       supabase.from("platform_settings").select("*"),
       supabase.from("posts").select("*").order("created_at", { ascending: false }),
+      supabase.from("products").select("*", { count: "exact", head: true })
     ]);
 
     const profs = profilesRes.data || [];
     const prods = productsRes.data || [];
     const ords = ordersRes.data || [];
     const vends = vendorsRes.data || [];
+    const productCount = totalProductsRes.count || prods.length;
 
     setUsers(profs);
     setProducts(prods);
@@ -106,7 +108,7 @@ const AdminDashboard = () => {
 
     setStats({
       users: profs.length,
-      products: prods.length,
+      products: productCount,
       orders: ords.length,
       vendors: vends.length,
       revenue: ords.reduce((s: number, o: any) => s + Number(o.total), 0),
@@ -272,7 +274,7 @@ const AdminDashboard = () => {
         <div className="flex gap-1 border-b border-border mb-6 overflow-x-auto">
           {(["overview", "products", "orders", "users", "vendors", "blog", "settings"] as const).map((t) => (
             <button key={t} onClick={() => setTab(t)} className={`px-4 py-2.5 text-sm font-medium capitalize border-b-2 -mb-px transition-colors whitespace-nowrap ${tab === t ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
-              {t === "blog" ? "Journal / CMS" : t === "settings" ? "Platform Settings" : t}
+              {t === "blog" ? "Blog" : t === "settings" ? "Settings" : t}
             </button>
           ))}
         </div>
@@ -358,8 +360,11 @@ const AdminDashboard = () => {
             <div className="flex flex-wrap gap-3 items-center">
               <div className="relative flex-1 max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <input value={productSearch} onChange={(e) => setProductSearch(e.target.value)} placeholder="Search products…" className="w-full pl-10 pr-4 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                <input value={productSearch} onChange={(e) => setProductSearch(e.target.value)} placeholder="Search title or ISBN…" className="w-full pl-10 pr-4 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30" />
               </div>
+              <Link to="/vendor/products/new" className="px-4 py-2.5 bg-[#1B4332] text-white rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-[#132c21]">
+                <Plus className="w-4 h-4" /> Add Product
+              </Link>
               {selectedProducts.length > 0 && (
                 <div className="flex gap-2">
                   <button onClick={() => bulkAction("feature")} className="px-3 py-1.5 text-xs bg-secondary text-secondary-foreground rounded-lg">Feature ({selectedProducts.length})</button>
