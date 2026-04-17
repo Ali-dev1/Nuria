@@ -102,7 +102,7 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const App = () => {
+const SEOManager = () => {
   const { data: settings } = useSettings();
 
   useEffect(() => {
@@ -113,11 +113,16 @@ const App = () => {
     }
   }, [settings]);
 
+  return null;
+};
+
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <SEOManager />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ScrollToTop />
           <AuthInitializer>
