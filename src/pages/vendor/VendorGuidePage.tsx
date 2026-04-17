@@ -45,7 +45,10 @@ const VendorGuidePage = () => {
                   "Our commission structure is category-based and transparent. We process vendor payouts monthly via M-Pesa like clockwork."
                 </p>
               </div>
-              <Button className="w-full py-8 bg-[#C2541A] hover:bg-[#A04415] rounded-2xl font-bold uppercase tracking-widest text-xs border-none shadow-xl shadow-black/20">
+              <Button 
+                onClick={() => window.location.href = "/vendor/register"}
+                className="w-full py-8 bg-[#C2541A] hover:bg-[#A04415] rounded-2xl font-bold uppercase tracking-widest text-xs border-none shadow-xl shadow-black/20"
+              >
                 Register as Vendor
               </Button>
             </div>

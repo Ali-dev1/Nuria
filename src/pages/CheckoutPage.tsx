@@ -77,6 +77,18 @@ const CheckoutPage = () => {
         quantity,
         unit_price: product.price,
       }));
+
+      // Validation: Ensure products still exist to avoid FK violations
+      const { data: dbProducts } = await supabase
+        .from("products")
+        .select("id")
+        .in("id", orderItems.map(i => i.product_id));
+      
+      const dbIds = dbProducts?.map(p => p.id) || [];
+      if (dbIds.length < orderItems.length) {
+        throw new Error("One or more items in your cart are no longer available. Please refresh your cart.");
+      }
+
       const { error: itemsErr } = await supabase.from("order_items").insert(orderItems);
       if (itemsErr) throw itemsErr;
 

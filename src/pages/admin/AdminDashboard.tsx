@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Users, Package, ShoppingCart, Store, Home, LogOut, Shield, CheckCircle, XCircle, Search, Trash2, Edit, Download, Star, AlertTriangle, TrendingUp, Settings, Plus } from "lucide-react";
+import { Users, Package, ShoppingCart, Store, Home, LogOut, Shield, CheckCircle, XCircle, Search, Trash2, Edit, Download, Star, AlertTriangle, TrendingUp, Settings, Plus, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthStore } from "@/store/authStore";
-import { formatPrice } from "@/lib/constants";
+import { formatPrice, CATEGORIES } from "@/lib/constants";
 import { useToast } from "@/hooks/use-toast";
 
 const statusColors: Record<string, string> = {
@@ -49,6 +49,8 @@ const AdminDashboard = () => {
   const [showBlogEditor, setShowBlogEditor] = useState(false);
   const [editingPost, setEditingPost] = useState<any>(null);
 
+
+
   useEffect(() => {
     const initialize = async () => {
       if (!user) {
@@ -75,45 +77,62 @@ const AdminDashboard = () => {
   }, [user, navigate]);
 
   const loadData = async () => {
-    // We fetch counts separately for large tables to avoid 1000 row limits
-    const [profilesRes, productsRes, ordersRes, vendorsRes, rolesRes, itemsRes, settingsRes, postsRes, totalProductsRes] = await Promise.all([
-      supabase.from("profiles").select("*"),
-      supabase.from("products").select("*").order("created_at", { ascending: false }).limit(50), // Only fetch recent 50 for overview
-      supabase.from("orders").select("*").order("created_at", { ascending: false }),
-      supabase.from("vendors").select("*"),
-      supabase.from("user_roles").select("*"),
-      supabase.from("order_items").select("*"),
+    // We fetch counts using head: true to be extremely fast
+    const [
+      { count: usersCount }, 
+      { count: productsCount }, 
+      { count: ordersCount }, 
+      { count: vendorsCount },
+      { count: pendingOrdersCount },
+      { count: pendingVendorsCount },
+      recentOrdersRes,
+      recentProductsRes,
+      vendorsRes,
+      settingsRes,
+      postsRes
+    ] = await Promise.all([
+      supabase.from("profiles").select("*", { count: "exact", head: true }),
+      supabase.from("products").select("*", { count: "exact", head: true }),
+      supabase.from("orders").select("*", { count: "exact", head: true }),
+      supabase.from("vendors").select("*", { count: "exact", head: true }),
+      supabase.from("orders").select("*", { count: "exact", head: true }).eq("status", "pending"),
+      supabase.from("vendors").select("*", { count: "exact", head: true }).eq("is_verified", false),
+      supabase.from("orders").select("*").order("created_at", { ascending: false }).limit(20),
+      supabase.from("products").select("*, categories(slug)").order("created_at", { ascending: false }).limit(20),
+      supabase.from("vendors").select("*").order("created_at", { ascending: false }),
       supabase.from("platform_settings").select("*"),
-      supabase.from("posts").select("*").order("created_at", { ascending: false }),
-      supabase.from("products").select("*", { count: "exact", head: true })
+      supabase.from("posts").select("*").order("created_at", { ascending: false })
     ]);
 
-    const profs = profilesRes.data || [];
-    const prods = productsRes.data || [];
-    const ords = ordersRes.data || [];
-    const vends = vendorsRes.data || [];
-    const productCount = totalProductsRes.count || prods.length;
+    setStats({
+      users: usersCount || 0,
+      products: productsCount || 0,
+      orders: ordersCount || 0,
+      vendors: vendorsCount || 0,
+      revenue: 0, // We'll calculate revenue differently or fetch a sum if needed
+      pendingOrders: pendingOrdersCount || 0,
+      pendingVendors: pendingVendorsCount || 0
+    });
 
-    setUsers(profs);
-    setProducts(prods);
-    setOrders(ords);
-    setVendors(vends);
-    setUserRoles(rolesRes.data || []);
-    setOrderItems(itemsRes.data || []);
+    setOrders(recentOrdersRes.data || []);
+    setProducts(recentProductsRes.data || []);
+    setVendors(vendorsRes.data || []);
     setPosts(postsRes.data || []);
 
     const settingsMap: Record<string, string> = {};
     (settingsRes.data || []).forEach((s: any) => { settingsMap[s.key] = s.value; });
     setSettings(settingsMap);
+    
+    // Fetch some users for the list
+    const { data: userData } = await supabase.from("profiles").select("*").limit(50);
+    setUsers(userData || []);
+    
+    const { data: roleData } = await supabase.from("user_roles").select("*");
+    setUserRoles(roleData || []);
 
-    setStats({
-      users: profs.length,
-      products: productCount,
-      orders: ords.length,
-      vendors: vends.length,
-      revenue: ords.reduce((s: number, o: any) => s + Number(o.total), 0),
-      pendingOrders: ords.filter((o: any) => o.status === "pending").length,
-    });
+    const { data: revData } = await supabase.from("orders").select("total").neq("status", "cancelled");
+    const totalRev = revData?.reduce((acc, curr) => acc + Number(curr.total), 0) || 0;
+    setStats(s => ({ ...s, revenue: totalRev }));
   };
 
   const verifyVendor = async (vendorId: string, verify: boolean) => {
@@ -267,18 +286,22 @@ const AdminDashboard = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 mb-8">
           {[
-            { icon: TrendingUp, label: "Revenue", value: formatPrice(stats.revenue) },
-            { icon: ShoppingCart, label: "Orders", value: stats.orders },
-            { icon: Users, label: "Users", value: stats.users },
-            { icon: Store, label: "Vendors", value: stats.vendors },
-            { icon: Package, label: "Products", value: stats.products },
-            { icon: AlertTriangle, label: "Pending", value: stats.pendingOrders },
-          ].map(({ icon: Icon, label, value }) => (
-            <div key={label} className="bg-card rounded-xl p-4 border border-border">
+            { icon: TrendingUp, label: "Revenue", value: formatPrice(stats.revenue), target: "overview" },
+            { icon: ShoppingCart, label: "Orders", value: stats.orders, target: "orders" },
+            { icon: Users, label: "Users", value: stats.users, target: "users" },
+            { icon: Store, label: "Vendors", value: stats.vendors, target: "vendors" },
+            { icon: Package, label: "Products", value: stats.products, target: "products" },
+            { icon: AlertTriangle, label: "Pending", value: stats.pendingVendors || 0, target: "vendors" },
+          ].map(({ icon: Icon, label, value, target }) => (
+            <button 
+              key={label} 
+              onClick={() => setTab(target as any)}
+              className={`bg-card rounded-xl p-4 border border-border text-left transition-all hover:border-primary/50 hover:shadow-sm ${tab === target ? "ring-2 ring-primary/20 bg-primary/5" : ""}`}
+            >
               <Icon className="w-5 h-5 text-muted-foreground mb-2" />
               <p className="text-xs text-muted-foreground">{label}</p>
               <p className="text-lg font-bold text-foreground">{value}</p>
-            </div>
+            </button>
           ))}
         </div>
 
@@ -701,7 +724,7 @@ const AdminDashboard = () => {
                         <th className="text-left p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Date</th>
                         <th className="text-center p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Views</th>
                         <th className="text-center p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Read Time</th>
-                    <th className="text-center p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Status</th>
+                        <th className="text-center p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Status</th>
                         <th className="text-right p-4 font-bold text-muted-foreground text-xs uppercase tracking-widest">Actions</th>
                       </tr>
                     </thead>
