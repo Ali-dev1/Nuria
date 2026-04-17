@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useProfile } from "@/hooks/useProfile";
 
 
-type Vendor = { id: string; store_name: string; is_verified: boolean | null; commission_rate: number | null; mpesa_number: string | null; bio: string | null; contact_email: string | null; contact_phone: string | null; logo_url: string | null; banner_url: string | null; user_id: string };
+type Vendor = { id: string; store_name: string; is_verified: boolean | null; mpesa_number: string | null; user_id: string };
 type VProduct = { id: string; title: string; author: string | null; price: number; original_price: number | null; stock: number | null; category: string; is_featured: boolean | null; is_active: boolean | null; created_at: string | null; images: string[] | null; isbn: string | null; description: string | null; format: string | null; slug: string };
 type VOrder = { id: string; total: number; status: string | null; created_at: string | null; user_id: string };
 type Payout = { id: string; month: string; gross_sales: number; commission: number; net_payout: number; mpesa_reference: string | null; status: string; created_at: string | null };
@@ -38,7 +38,7 @@ const VendorDashboard = () => {
   const [statusFilter, setStatusFilter] = useState("all");
 
   // Store settings
-  const [storeForm, setStoreForm] = useState({ store_name: "", bio: "", mpesa_number: "", contact_email: "", contact_phone: "" });
+  const [storeForm, setStoreForm] = useState({ store_name: "", mpesa_number: "" });
   const [savingStore, setSavingStore] = useState(false);
 
   useEffect(() => {
@@ -135,10 +135,7 @@ const VendorDashboard = () => {
     setSavingStore(true);
     const { error } = await supabase.from("vendors").update({
       store_name: storeForm.store_name,
-      bio: storeForm.bio,
       mpesa_number: storeForm.mpesa_number,
-      contact_email: storeForm.contact_email,
-      contact_phone: storeForm.contact_phone,
     }).eq("id", vendor.id);
     setSavingStore(false);
     if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }

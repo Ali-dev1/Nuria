@@ -31,7 +31,6 @@ const VendorRegisterPage = () => {
     const { error } = await supabase.from("vendors").insert({
       user_id: user.id,
       store_name: storeName,
-      bio,
       mpesa_number: mpesaNumber || null,
     });
     setLoading(false);
@@ -56,10 +55,6 @@ const VendorRegisterPage = () => {
           <div>
             <label className="block text-sm font-medium text-foreground mb-1.5">Store Name</label>
             <input value={storeName} onChange={(e) => setStoreName(e.target.value)} required className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="Kamau Books & More" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">About Your Store</label>
-            <textarea value={bio} onChange={(e) => setBio(e.target.value)} rows={3} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none" placeholder="Tell readers about your bookstore..." />
           </div>
           <div>
             <label className="block text-sm font-medium text-foreground mb-1.5">M-Pesa Number (for payouts)</label>
