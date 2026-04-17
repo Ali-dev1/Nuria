@@ -180,12 +180,24 @@ const AdminDashboard = () => {
   };
 
   const changeUserRole = async (userId: string, role: string) => {
-    const existing = userRoles.find((r: any) => r.user_id === userId);
-    if (existing) {
-      await supabase.from("user_roles").update({ role: role as "customer" | "vendor" | "admin" }).eq("user_id", userId);
-      setUserRoles((prev: any[]) => prev.map((r: any) => r.user_id === userId ? { ...r, role } : r));
+    // We use upsert to handle cases where a user doesn't have a role entry yet.
+    const { error } = await supabase.from("user_roles").upsert({ 
+      user_id: userId, 
+      role: role as "customer" | "vendor" | "admin" 
+    }, { onConflict: "user_id" });
+    
+    if (error) {
+      toast({ title: "Operation Failed", description: error.message, variant: "destructive" });
+      return;
     }
-    toast({ title: `Role changed to ${role}` });
+
+    setUserRoles((prev: any[]) => {
+      const exists = prev.some(r => r.user_id === userId);
+      if (exists) return prev.map((r: any) => r.user_id === userId ? { ...r, role } : r);
+      return [...prev, { user_id: userId, role }];
+    });
+    
+    toast({ title: `Identity Updated`, description: `User promoted to ${role}.` });
   };
 
   const savePlatformSettings = async () => {

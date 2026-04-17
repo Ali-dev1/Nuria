@@ -48,25 +48,6 @@ import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { useWishlist } from "@/hooks/useWishlist";
 
 const ShopLayout = ({ children }: { children: React.ReactNode }) => {
-  const { data: settings } = useSettings();
-  const { data: profile, refetch: refetchProfile } = useProfile();
-  
-  const isMaintenance = settings?.maintenance_mode === "true";
-
-  
-  // Real Identity check for maintenance bypass
-  const roles = (profile as any)?.user_roles || [];
-  const isActualAdmin = Array.isArray(roles) 
-    ? roles.some((r: any) => r.role === "admin")
-    : (roles as any)?.role === "admin";
-  const isMasterAdmin = (profile as any)?.name === "Master Admin";
-  const bypassMaintenance = isActualAdmin || isMasterAdmin;
-
-
-  if (isMaintenance && !bypassMaintenance) {
-    return <MaintenanceOverlay />;
-  }
-
   return (
     <div className="min-h-screen flex flex-col pb-16 lg:pb-0">
       <Navbar />
@@ -75,6 +56,25 @@ const ShopLayout = ({ children }: { children: React.ReactNode }) => {
       <Footer />
     </div>
   );
+};
+
+const GlobalMaintenanceWrapper = ({ children }: { children: React.ReactNode }) => {
+  const { data: settings } = useSettings();
+  const { data: profile } = useProfile();
+  
+  const isMaintenance = settings?.maintenance_mode === "true";
+  const roles = (profile as any)?.user_roles || [];
+  const isActualAdmin = Array.isArray(roles) 
+    ? roles.some((r: any) => r.role === "admin")
+    : (roles as any)?.role === "admin";
+  const isMasterAdmin = (profile as any)?.name === "Master Admin";
+  const bypassMaintenance = isActualAdmin || isMasterAdmin;
+
+  if (isMaintenance && !bypassMaintenance) {
+    return <MaintenanceOverlay />;
+  }
+
+  return <>{children}</>;
 };
 
 const WishlistSynchronizer = () => {
@@ -112,39 +112,45 @@ const App = () => (
         <AuthInitializer>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/vendor" element={<RoleGuard requiredRole="vendor"><VendorDashboard /></RoleGuard>} />
-            <Route path="/vendor/register" element={<RoleGuard><VendorRegisterPage /></RoleGuard>} />
-            <Route path="/vendor/products/new" element={<RoleGuard requiredRole="vendor"><AddProductPage /></RoleGuard>} />
-            <Route path="/admin" element={<RoleGuard requiredRole="admin"><AdminDashboard /></RoleGuard>} />
             <Route path="/admin/login" element={<AdminLoginPage />} />
-            
-            {/* Merchant Routes */}
-            <Route path="/vendor/guide" element={<ShopLayout><VendorGuidePage /></ShopLayout>} />
-            <Route path="/sell" element={<ShopLayout><VendorGuidePage /></ShopLayout>} />
-            
-            {/* Core Shop Routes */}
-            <Route path="/" element={<ShopLayout><Index /></ShopLayout>} />
-            <Route path="/books" element={<ShopLayout><BooksPage /></ShopLayout>} />
-            <Route path="/books/:slug" element={<ShopLayout><ProductPage /></ShopLayout>} />
-            <Route path="/author/:slug" element={<ShopLayout><AuthorPage /></ShopLayout>} />
-            <Route path="/cart" element={<ShopLayout><CartPage /></ShopLayout>} />
-            <Route path="/checkout" element={<ShopLayout><CheckoutPage /></ShopLayout>} />
-            <Route path="/order-confirmation" element={<ShopLayout><OrderConfirmationPage /></ShopLayout>} />
-            <Route path="/account" element={<ShopLayout><AccountPage /></ShopLayout>} />
-            <Route path="/about" element={<ShopLayout><AboutPage /></ShopLayout>} />
-            <Route path="/blog" element={<ShopLayout><BlogPage /></ShopLayout>} />
-            <Route path="/blog/:id" element={<ShopLayout><BlogPost /></ShopLayout>} />
-            <Route path="/contact" element={<ShopLayout><ContactPage /></ShopLayout>} />
-            <Route path="/faqs" element={<ShopLayout><FAQsPage /></ShopLayout>} />
-            <Route path="/privacy" element={<ShopLayout><PrivacyPage /></ShopLayout>} />
-            <Route path="/delivery" element={<ShopLayout><DeliveryPage /></ShopLayout>} />
-            <Route path="/delivery-policy" element={<ShopLayout><DeliveryPage /></ShopLayout>} />
-            <Route path="/returns" element={<ShopLayout><ReturnsPage /></ShopLayout>} />
-            <Route path="/gift-card" element={<ShopLayout><GiftCardPage /></ShopLayout>} />
-            <Route path="/wishlist" element={<ShopLayout><WishlistPage /></ShopLayout>} />
-            <Route path="/auth/callback" element={<AuthCallback />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={
+              <GlobalMaintenanceWrapper>
+                <Routes>
+                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/vendor" element={<RoleGuard requiredRole="vendor"><VendorDashboard /></RoleGuard>} />
+                  <Route path="/vendor/register" element={<RoleGuard><VendorRegisterPage /></RoleGuard>} />
+                  <Route path="/vendor/products/new" element={<RoleGuard requiredRole="vendor"><AddProductPage /></RoleGuard>} />
+                  <Route path="/admin" element={<RoleGuard requiredRole="admin"><AdminDashboard /></RoleGuard>} />
+                  
+                  {/* Merchant Routes */}
+                  <Route path="/vendor/guide" element={<ShopLayout><VendorGuidePage /></ShopLayout>} />
+                  <Route path="/sell" element={<ShopLayout><VendorGuidePage /></ShopLayout>} />
+                  
+                  {/* Core Shop Routes */}
+                  <Route path="/" element={<ShopLayout><Index /></ShopLayout>} />
+                  <Route path="/books" element={<ShopLayout><BooksPage /></ShopLayout>} />
+                  <Route path="/books/:slug" element={<ShopLayout><ProductPage /></ShopLayout>} />
+                  <Route path="/author/:slug" element={<ShopLayout><AuthorPage /></ShopLayout>} />
+                  <Route path="/cart" element={<ShopLayout><CartPage /></ShopLayout>} />
+                  <Route path="/checkout" element={<ShopLayout><CheckoutPage /></ShopLayout>} />
+                  <Route path="/order-confirmation" element={<ShopLayout><OrderConfirmationPage /></ShopLayout>} />
+                  <Route path="/account" element={<ShopLayout><AccountPage /></ShopLayout>} />
+                  <Route path="/about" element={<ShopLayout><AboutPage /></ShopLayout>} />
+                  <Route path="/blog" element={<ShopLayout><BlogPage /></ShopLayout>} />
+                  <Route path="/blog/:id" element={<ShopLayout><BlogPost /></ShopLayout>} />
+                  <Route path="/contact" element={<ShopLayout><ContactPage /></ShopLayout>} />
+                  <Route path="/faqs" element={<ShopLayout><FAQsPage /></ShopLayout>} />
+                  <Route path="/privacy" element={<ShopLayout><PrivacyPage /></ShopLayout>} />
+                  <Route path="/delivery" element={<ShopLayout><DeliveryPage /></ShopLayout>} />
+                  <Route path="/delivery-policy" element={<ShopLayout><DeliveryPage /></ShopLayout>} />
+                  <Route path="/returns" element={<ShopLayout><ReturnsPage /></ShopLayout>} />
+                  <Route path="/gift-card" element={<ShopLayout><GiftCardPage /></ShopLayout>} />
+                  <Route path="/wishlist" element={<ShopLayout><WishlistPage /></ShopLayout>} />
+                  <Route path="/auth/callback" element={<AuthCallback />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </GlobalMaintenanceWrapper>
+            } />
           </Routes>
         </AuthInitializer>
       </BrowserRouter>
