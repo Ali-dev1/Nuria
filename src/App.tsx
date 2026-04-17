@@ -20,6 +20,7 @@ import VendorDashboard from "./pages/vendor/VendorDashboard";
 import VendorRegisterPage from "./pages/vendor/VendorRegisterPage";
 import AddProductPage from "./pages/vendor/AddProductPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminLoginPage from "./pages/admin/AdminLoginPage";
 import AccountPage from "./pages/AccountPage";
 import AboutPage from "./pages/AboutPage";
 import BlogPage from "./pages/BlogPage";
@@ -116,6 +117,7 @@ const App = () => (
             <Route path="/vendor/register" element={<RoleGuard><VendorRegisterPage /></RoleGuard>} />
             <Route path="/vendor/products/new" element={<RoleGuard requiredRole="vendor"><AddProductPage /></RoleGuard>} />
             <Route path="/admin" element={<RoleGuard requiredRole="admin"><AdminDashboard /></RoleGuard>} />
+            <Route path="/admin/login" element={<AdminLoginPage />} />
             
             {/* Merchant Routes */}
             <Route path="/vendor/guide" element={<ShopLayout><VendorGuidePage /></ShopLayout>} />
