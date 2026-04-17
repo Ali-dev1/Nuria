@@ -13,27 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
-    <style>
-      *, *::before, *::after {
-        box-sizing: border-box;
-      }
-
-      html, body {
-        @apply bg-background text-foreground font-sans antialiased;
-        color: var(--color-text);
-        overflow-x: hidden;
-        width: 100%;
-        position: relative;
-        overscroll-behavior-x: none;
-      }
-    </style>
     
-    <noscript>
-      <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
-        <h1>Nuria — The Honest Online Bookstore</h1>
-        <p>Please enable JavaScript to browse our catalog of 21,000+ books.</p>
-      </div>
-    </noscript>
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
     
@@ -51,6 +31,12 @@
   </head>
 
   <body>
+    <noscript>
+      <div style="padding: 2rem; font-family: sans-serif; text-align: center;">
+        <h1>Nuria — The Honest Online Bookstore</h1>
+        <p>Please enable JavaScript to browse our catalog of 21,000+ books.</p>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

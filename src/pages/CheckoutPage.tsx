@@ -5,7 +5,6 @@ import { useCartStore } from "@/store/cartStore";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
 import { useSettings } from "@/hooks/useSettings";
-import { RoleSelectScreen } from "@/components/auth/RoleSelection";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/constants";
 import { toast } from "sonner";
@@ -172,10 +171,6 @@ const CheckoutPage = () => {
       <Link to="/cart" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
         <ArrowLeft className="w-4 h-4" /> Back to cart
       </Link>
-
-      {profile?.needs_role_selection && (
-        <RoleSelectScreen onComplete={() => refetchProfile()} />
-      )}
 
       <h1 className="font-display text-2xl font-bold text-foreground mb-6">Checkout</h1>
 
