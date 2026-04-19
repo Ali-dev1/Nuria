@@ -63,10 +63,8 @@ const GlobalMaintenanceWrapper = ({ children }: { children: React.ReactNode }) =
   const { data: profile } = useProfile();
   
   const isMaintenance = settings?.maintenance_mode === "true";
-  const roles = (profile as any)?.user_roles || [];
-  const isActualAdmin = Array.isArray(roles) 
-    ? roles.some((r: any) => r.role === "admin")
-    : (roles as any)?.role === "admin";
+  const userRole = (profile as any)?.role;
+  const isActualAdmin = userRole === "admin";
   const isMasterAdmin = (profile as any)?.name === "Master Admin";
   const bypassMaintenance = isActualAdmin || isMasterAdmin;
 
@@ -134,6 +132,7 @@ const App = () => {
                   <Routes>
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/vendor" element={<RoleGuard requiredRole="vendor"><VendorDashboard /></RoleGuard>} />
+                    <Route path="/vendor/dashboard" element={<RoleGuard requiredRole="vendor"><VendorDashboard /></RoleGuard>} />
                     <Route path="/vendor/register" element={<RoleGuard><VendorRegisterPage /></RoleGuard>} />
                     <Route path="/vendor/products/new" element={<RoleGuard requiredRole="vendor"><AddProductPage /></RoleGuard>} />
                     <Route path="/admin" element={<RoleGuard requiredRole="admin"><AdminDashboard /></RoleGuard>} />

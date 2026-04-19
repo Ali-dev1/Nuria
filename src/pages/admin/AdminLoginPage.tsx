@@ -28,16 +28,15 @@ const AdminLoginPage = () => {
     }
 
     if (user) {
-      const { data: roleData } = await supabase
-        .from("user_roles")
+      const { data: profileData } = await supabase
+        .from("profiles")
         .select("role")
         .eq("user_id", user.id)
-        .eq("role", "admin")
-        .maybeSingle();
+        .single();
 
       setLoading(false);
       
-      if (roleData) {
+      if (profileData?.role === "admin") {
         toast({ title: "Identity Verified", description: "Welcome to the Command Center." });
         navigate("/admin");
       } else {

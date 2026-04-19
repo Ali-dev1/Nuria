@@ -10,10 +10,10 @@ export const useRole = () => {
     queryFn: async () => {
       if (!user) return "customer";
       const { data, error } = await supabase
-        .from("user_roles")
+        .from("profiles")
         .select("role")
         .eq("user_id", user.id)
-        .maybeSingle();
+        .single();
       
       if (error) {
         console.error("Error fetching role:", error);

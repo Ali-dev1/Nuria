@@ -4,6 +4,7 @@ import {
   Briefcase, User, ShoppingCart, LogOut, Home, Rss
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
+import { useProfile } from "@/hooks/useProfile";
 
 interface MobileNavProps {
   open: boolean;
@@ -12,6 +13,7 @@ interface MobileNavProps {
 
 export const MobileNav = ({ open, onClose }: MobileNavProps) => {
   const { user, signOut } = useAuthStore();
+  const { profile } = useProfile();
 
   if (!open) return null;
 
@@ -94,20 +96,35 @@ export const MobileNav = ({ open, onClose }: MobileNavProps) => {
         </nav>
 
         <div className="p-6 bg-black/20 border-t border-white/10 space-y-3">
-          <Link
-            to="/vendor/guide"
-            onClick={onClose}
-            className="block w-full py-4 text-center text-xs font-sans font-bold bg-[#C2541A] text-white rounded-lg uppercase tracking-widest shadow-lg"
-          >
-            SELL ON NURIA
-          </Link>
-          <Link
-            to="/vendor"
-            onClick={onClose}
-            className="block w-full py-4 text-center text-xs font-sans font-bold border border-white/30 text-white rounded-lg uppercase tracking-widest hover:bg-white/10"
-          >
-            VENDOR LOGIN
-          </Link>
+          {(!profile || profile.role === 'customer') && (
+            <Link
+              to="/vendor/guide"
+              onClick={onClose}
+              className="block w-full py-4 text-center text-xs font-sans font-bold bg-[#C2541A] text-white rounded-lg uppercase tracking-widest shadow-lg"
+            >
+              SELL ON NURIA
+            </Link>
+          )}
+          
+          {user ? (
+            (profile?.role === 'vendor' || profile?.role === 'admin') && (
+              <Link
+                to={profile.role === 'admin' ? "/admin" : "/vendor"}
+                onClick={onClose}
+                className="block w-full py-4 text-center text-xs font-sans font-bold border border-white/30 text-white rounded-lg uppercase tracking-widest hover:bg-white/10"
+              >
+                MY DASHBOARD
+              </Link>
+            )
+          ) : (
+            <Link
+              to="/vendor"
+              onClick={onClose}
+              className="block w-full py-4 text-center text-xs font-sans font-bold border border-white/30 text-white rounded-lg uppercase tracking-widest hover:bg-white/10"
+            >
+              VENDOR LOGIN
+            </Link>
+          )}
         </div>
       </div>
     </div>

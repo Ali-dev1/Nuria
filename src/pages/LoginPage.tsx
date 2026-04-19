@@ -27,14 +27,15 @@ const LoginPage = () => {
     }
 
     if (user) {
-      const { data: roleData } = await supabase
-        .from("user_roles")
+      // Fetch role from profiles table
+      const { data: profileData } = await supabase
+        .from("profiles")
         .select("role")
         .eq("user_id", user.id)
-        .maybeSingle();
+        .single();
 
+      const role = profileData?.role;
       setLoading(false);
-      const role = roleData?.role;
       
       if (role === "admin") {
         navigate("/admin");

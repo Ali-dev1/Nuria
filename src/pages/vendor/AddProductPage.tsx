@@ -48,66 +48,94 @@ const AddProductPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container-nuria py-8 max-w-2xl">
-        <Link to="/vendor" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
-          <ArrowLeft className="w-4 h-4" /> Back to dashboard
+      <div className="container-nuria py-12 max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <Link to="/vendor" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-all mb-8 group">
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> 
+          Back to Terminal
         </Link>
-        <h1 className="font-display text-2xl font-bold text-foreground mb-6">Add New Product</h1>
+        
+        <div className="mb-10 space-y-2">
+          <h1 className="font-display text-5xl font-black text-foreground tracking-tighter">List New Asset</h1>
+          <p className="text-xs text-muted-foreground font-medium italic">Initialize a new product entry in the Nuria marketplace registry.</p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 bg-card rounded-xl border border-border p-6">
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Title *</label>
-              <input value={form.title} onChange={(e) => update("title", e.target.value)} required className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30" />
+        <form onSubmit={handleSubmit} className="space-y-8 bg-card rounded-[2rem] border border-border p-10 shadow-2xl shadow-primary/5">
+          <div className="space-y-6">
+            <div className="grid sm:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Title *</label>
+                <input value={form.title} onChange={(e) => update("title", e.target.value)} required placeholder="e.g. The Great Gatsby" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 transition-all font-bold placeholder:font-normal placeholder:opacity-30" />
+              </div>
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Author / Creator</label>
+                <input value={form.author} onChange={(e) => update("author", e.target.value)} placeholder="e.g. F. Scott Fitzgerald" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 transition-all font-medium placeholder:font-normal placeholder:opacity-30" />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Author</label>
-              <input value={form.author} onChange={(e) => update("author", e.target.value)} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30" />
+
+            <div className="grid sm:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">List Price (KES) *</label>
+                <input type="number" value={form.price} onChange={(e) => update("price", e.target.value)} required placeholder="0.00" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-black placeholder:opacity-30" />
+              </div>
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Compare Price</label>
+                <input type="number" value={form.originalPrice} onChange={(e) => update("originalPrice", e.target.value)} placeholder="MSRP" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-bold placeholder:opacity-30" />
+              </div>
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Initial Stock</label>
+                <input type="number" value={form.stock} onChange={(e) => update("stock", e.target.value)} placeholder="Quantity" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-black placeholder:opacity-30" />
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Catalog Category</label>
+                <div className="relative">
+                  <select value={form.category} onChange={(e) => update("category", e.target.value)} className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-bold appearance-none">
+                    {CATEGORIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Format</label>
+                <select value={form.format} onChange={(e) => update("format", e.target.value)} className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-bold appearance-none">
+                  <option value="physical">Physical Hardcopy</option>
+                  <option value="ebook">Digital E-Book</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Universal ISBN</label>
+                <input value={form.isbn} onChange={(e) => update("isbn", e.target.value)} placeholder="000-0-00-000000-0" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-medium placeholder:opacity-30" />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Narrative</label>
+              <textarea value={form.description} onChange={(e) => update("description", e.target.value)} rows={5} placeholder="Describe the item's condition, features, or storyline..." className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 transition-all resize-none font-medium placeholder:font-normal placeholder:opacity-30" />
             </div>
           </div>
-          <div className="grid sm:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Price (KSh) *</label>
-              <input type="number" value={form.price} onChange={(e) => update("price", e.target.value)} required className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Original Price</label>
-              <input type="number" value={form.originalPrice} onChange={(e) => update("originalPrice", e.target.value)} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Stock</label>
-              <input type="number" value={form.stock} onChange={(e) => update("stock", e.target.value)} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30" />
-            </div>
+
+          <div className="pt-4">
+            <button 
+              disabled={loading} 
+              type="submit" 
+              className="w-full py-5 bg-primary text-primary-foreground font-black uppercase tracking-widest rounded-[1.25rem] hover:scale-[1.01] active:scale-[0.99] transition-all text-xs disabled:opacity-50 shadow-2xl shadow-primary/30 flex items-center justify-center gap-3"
+            >
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Synchronizing...
+                </div>
+              ) : (
+                "Commit to Inventory"
+              )}
+            </button>
+            <p className="text-[9px] text-center text-muted-foreground mt-4 font-bold uppercase tracking-widest opacity-50">Authorized merchant registry action</p>
           </div>
-          <div className="grid sm:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Category</label>
-              <select value={form.category} onChange={(e) => update("category", e.target.value)} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30">
-                {CATEGORIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Format</label>
-              <select value={form.format} onChange={(e) => update("format", e.target.value)} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30">
-                <option value="physical">Physical</option>
-                <option value="ebook">E-Book</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">ISBN</label>
-              <input value={form.isbn} onChange={(e) => update("isbn", e.target.value)} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30" />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">Description</label>
-            <textarea value={form.description} onChange={(e) => update("description", e.target.value)} rows={4} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none" />
-          </div>
-          <button disabled={loading} type="submit" className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors text-sm disabled:opacity-50">
-            {loading ? "Adding…" : "Add Product"}
-          </button>
         </form>
       </div>
     </div>
+
   );
 };
 

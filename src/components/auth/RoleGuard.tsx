@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { useProfile } from "@/hooks/useProfile";
+import { useVendorData } from "@/hooks/useVendor";
 
 interface RoleGuardProps {
   children: React.ReactNode;
@@ -16,31 +17,35 @@ interface RoleGuardProps {
   export const RoleGuard = ({ children, requiredRole }: RoleGuardProps) => {
     const { user, loading: authLoading } = useAuthStore();
     const { data: profile, isLoading: profileLoading } = useProfile();
+    const { data: vendor, isLoading: vendorLoading } = useVendorData();
     const navigate = useNavigate();
     const [authorized, setAuthorized] = useState<boolean | null>(null);
   
     useEffect(() => {
       // Wait for all data to be ready
-      if (authLoading || profileLoading) return;
+      if (authLoading || profileLoading || (requiredRole === 'vendor' && vendorLoading)) return;
   
       const checkAccess = () => {
         // 1. Auth Check
-        // If no user, we must go to login.
         if (!user) {
           navigate("/login");
           return;
         }
   
         // 2. Database Role Enforcement
-        // Extract roles from the profile fetched from Supabase
-        const roles = (profile as any)?.user_roles || [];
-        const hasActualRole = Array.isArray(roles) 
-          ? roles.some((r: any) => r.role === requiredRole)
-          : (roles as any)?.role === requiredRole;
+        const profileRole = (profile as any)?.role;
   
         // If they don't have the role, kick to home
-        if (requiredRole && !hasActualRole) {
+        if (requiredRole && profileRole !== requiredRole) {
           navigate("/");
+          return;
+        }
+
+        // 3. Vendor Record Enforcement
+        // If they have a record, they can access ANY vendor sub-page
+        // If they don't, they are forced to register
+        if (requiredRole === "vendor" && !vendor && window.location.pathname !== "/vendor/register") {
+          navigate("/vendor/register");
           return;
         }
   
@@ -48,15 +53,15 @@ interface RoleGuardProps {
       };
   
       checkAccess();
-    }, [user, authLoading, profileLoading, requiredRole, profile, navigate]);
-
-  // Loading State - Prevents flickering and race-condition redirects
-  if (authLoading || profileLoading || authorized === null) {
+    }, [user, authLoading, profileLoading, vendorLoading, requiredRole, profile, vendor, navigate]);
+ 
+  // Loading State
+  if (authLoading || profileLoading || (requiredRole === 'vendor' && vendorLoading) || authorized === null) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-muted-foreground font-medium animate-pulse">Synchronizing Identity...</p>
+          <p className="text-sm text-muted-foreground font-medium animate-pulse">Verifying Credentials...</p>
         </div>
       </div>
     );

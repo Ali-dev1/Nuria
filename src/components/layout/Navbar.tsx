@@ -5,6 +5,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import { MobileNav } from "./MobileNav";
 import { Button } from "@/components/ui/button";
+import { useProfile } from "@/hooks/useProfile";
 
 export const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -12,6 +13,7 @@ export const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const totalItems = useCartStore((s) => s.totalItems());
   const { user, signOut } = useAuthStore();
+  const { profile } = useProfile();
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -97,16 +99,29 @@ export const Navbar = () => {
             </nav>
 
             <div className="hidden lg:flex items-center gap-3 mr-2">
-              <Link to="/vendor/guide">
-                <Button className="bg-[#C2541A] hover:bg-[#A04415] text-white border-none text-xs font-bold uppercase tracking-wider px-4">
-                  SELL ON NURIA
-                </Button>
-              </Link>
-              <Link to="/vendor">
-                <Button className="bg-transparent border border-white text-white hover:bg-white hover:text-[#1B4332] text-xs font-bold uppercase tracking-wider px-4 transition-colors">
-                  VENDOR LOGIN
-                </Button>
-              </Link>
+              {(!profile || profile.role === 'customer') && (
+                <Link to="/vendor/guide">
+                  <Button className="bg-[#C2541A] hover:bg-[#A04415] text-white border-none text-xs font-bold uppercase tracking-wider px-4">
+                    SELL ON NURIA
+                  </Button>
+                </Link>
+              )}
+              
+              {user ? (
+                (profile?.role === 'vendor' || profile?.role === 'admin') ? (
+                  <Link to={profile.role === 'admin' ? "/admin" : "/vendor"}>
+                    <Button className="bg-[#1B4332] border border-white text-white hover:bg-white hover:text-[#1B4332] text-xs font-bold uppercase tracking-wider px-4 transition-colors">
+                      MY DASHBOARD
+                    </Button>
+                  </Link>
+                ) : null
+              ) : (
+                <Link to="/vendor">
+                  <Button className="bg-transparent border border-white text-white hover:bg-white hover:text-[#1B4332] text-xs font-bold uppercase tracking-wider px-4 transition-colors">
+                    VENDOR LOGIN
+                  </Button>
+                </Link>
+              )}
             </div>
 
             <Link to="/wishlist" className="p-2 text-white hover:text-white/80 transition-colors" aria-label="Wishlist">

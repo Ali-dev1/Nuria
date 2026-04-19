@@ -281,6 +281,7 @@ export type Database = {
           id: string
           loyalty_points: number | null
           name: string
+          role: Database["public"]["Enums"]["app_role"] | null
           updated_at: string | null
           user_id: string
         }
@@ -290,6 +291,7 @@ export type Database = {
           id?: string
           loyalty_points?: number | null
           name?: string
+          role?: Database["public"]["Enums"]["app_role"] | null
           updated_at?: string | null
           user_id: string
         }
@@ -299,6 +301,7 @@ export type Database = {
           id?: string
           loyalty_points?: number | null
           name?: string
+          role?: Database["public"]["Enums"]["app_role"] | null
           updated_at?: string | null
           user_id?: string
         }
