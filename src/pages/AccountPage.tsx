@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 import { Package, Heart, MapPin, Award, LogOut } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabaseClient";
@@ -26,6 +27,7 @@ type Tab = "orders" | "wishlist" | "addresses" | "loyalty";
 const AccountPage = () => {
   const { user, loading, signOut, isAuthenticated } = useAuth();
   const [tab, setTab] = useState<Tab>("orders");
+  const { toast } = useToast();
 
   const { data: profile } = useQuery({
     queryKey: ["profile", user?.id],

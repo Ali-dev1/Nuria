@@ -70,7 +70,7 @@ export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified, v
               </p>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start pt-2">
                 <button 
-                  onClick={() => navigate('/vendor/add-product')}
+                  onClick={() => navigate('/vendor/products/new')}
                   className="px-5 py-2.5 bg-secondary text-secondary-foreground rounded-xl font-bold text-sm shadow-lg shadow-secondary/20 hover:scale-105 transition-transform"
                 >
                   List Your First Product

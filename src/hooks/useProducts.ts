@@ -107,6 +107,7 @@ export const useProducts = (options?: {
         totalCount: count || 0
       };
     },
+    staleTime: 1000 * 60 * 5, // 5 minutes cache
   });
 };
 
@@ -125,5 +126,6 @@ export const useProduct = (slug: string | undefined) => {
       return mapProduct(data as any);
     },
     enabled: !!slug,
+    staleTime: 1000 * 60 * 5, // 5 minutes cache
   });
 };

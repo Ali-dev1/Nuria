@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { ShoppingCart, Heart, ArrowLeft, Truck, Shield, RotateCcw } from "lucide-react";
+import { ShoppingCart, Heart, ArrowLeft, Truck, Shield, RotateCcw, Star } from "lucide-react";
 import { formatPrice } from "@/lib/constants";
 import { StarRating } from "@/components/shared/StarRating";
 import { PriceTag } from "@/components/shared/PriceTag";
@@ -178,7 +178,7 @@ const ProductPage = () => {
             <div className="space-y-8 max-w-2xl">
               {user ? (
                 <div className="bg-[#FAF7F2] p-6 rounded-2xl border border-[#E5E0D8]">
-                  <h4 className="font-display font-bold text-lg mb-4">Write a Review</h4>
+                  <h3 className="font-display font-bold text-lg mb-4">Write a Review</h3>
                   <div className="flex gap-2 mb-4">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button key={star} onClick={() => setNewRating(star)} className="focus:outline-none">
