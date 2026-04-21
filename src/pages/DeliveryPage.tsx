@@ -25,10 +25,10 @@ const DeliveryPage = () => {
           </div>
           
           <div className="bg-white p-10 lg:p-14 rounded-[3rem] border border-[#E5E0D8] relative overflow-hidden group shadow-2xl shadow-black/5">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C2541A]/5 rounded-bl-full" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#A1440B]/5 rounded-bl-full" />
             <div className="relative z-10 space-y-6">
-              <div className="w-16 h-16 rounded-2xl bg-[#C2541A]/5 flex items-center justify-center border border-[#C2541A]/10">
-                <Truck className="w-8 h-8 text-[#C2541A]" />
+              <div className="w-16 h-16 rounded-2xl bg-[#A1440B]/5 flex items-center justify-center border border-[#A1440B]/10">
+                <Truck className="w-8 h-8 text-[#A1440B]" />
               </div>
               <h3 className="font-display text-3xl font-bold text-[#1A1A1A]">National Coverage</h3>
               <p className="font-sans text-[#6B7280] leading-relaxed text-lg">
@@ -60,13 +60,13 @@ const DeliveryPage = () => {
               tag: "GLOBAL" 
             }
           ].map((tier, i) => (
-            <div key={i} className="bg-white p-8 rounded-3xl border border-[#E5E0D8] hover:border-[#C2541A]/30 transition-all group text-center">
+            <div key={i} className="bg-white p-8 rounded-3xl border border-[#E5E0D8] hover:border-[#A1440B]/30 transition-all group text-center">
               <div className="w-12 h-12 rounded-2xl bg-[#FAF7F2] flex items-center justify-center mx-auto mb-6 group-hover:bg-[#1B4332] group-hover:text-white transition-all">
                 <tier.icon className="w-6 h-6" />
               </div>
               <h4 className="font-display text-xl font-bold text-[#1A1A1A]">{tier.title}</h4>
               <p className="font-sans text-[#6B7280] text-sm mt-2">{tier.desc}</p>
-              <span className="inline-block mt-4 text-[9px] font-bold text-[#C2541A] tracking-[0.2em] border border-[#C2541A]/20 px-3 py-1 rounded-full">{tier.tag}</span>
+              <span className="inline-block mt-4 text-[9px] font-bold text-[#A1440B] tracking-[0.2em] border border-[#A1440B]/20 px-3 py-1 rounded-full">{tier.tag}</span>
             </div>
           ))}
         </div>
@@ -76,7 +76,7 @@ const DeliveryPage = () => {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="max-w-md text-center lg:text-left">
               <h2 className="font-display text-4xl font-bold text-[#1A1A1A]">Standard Rates</h2>
-              <div className="w-[80px] h-[4px] bg-[#C2541A] mt-6 rounded-full mx-auto lg:mx-0" />
+              <div className="w-[80px] h-[4px] bg-[#A1440B] mt-6 rounded-full mx-auto lg:mx-0" />
             </div>
             
             <div className="bg-[#D1FAE5] border border-[#1B4332]/10 px-8 py-6 rounded-3xl flex items-center gap-4 shadow-xl shadow-[#1B4332]/5">
@@ -113,7 +113,7 @@ const DeliveryPage = () => {
                 </tr>
                 <tr className="group hover:bg-[#FAF7F2]/50 transition-colors">
                   <td className="px-10 py-8 text-[#1A1A1A] font-bold">International (Worldwide)</td>
-                  <td className="px-10 py-8 text-right font-sans text-xs font-bold text-[#C2541A] tracking-wider italic uppercase">Calculated at Checkout via DHL</td>
+                  <td className="px-10 py-8 text-right font-sans text-xs font-bold text-[#A1440B] tracking-wider italic uppercase">Calculated at Checkout via DHL</td>
                 </tr>
               </tbody>
             </table>
@@ -124,7 +124,7 @@ const DeliveryPage = () => {
         <div className="bg-[#1B4332] rounded-[3rem] p-12 lg:p-20 text-white relative overflow-hidden text-center shadow-2xl">
           <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -mr-40 -mt-40 blur-3xl pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto space-y-8">
-            <ShieldCheck className="w-16 h-16 text-[#C2541A] mx-auto animate-pulse-subtle" />
+            <ShieldCheck className="w-16 h-16 text-[#A1440B] mx-auto animate-pulse-subtle" />
             <h3 className="font-display text-3xl lg:text-4xl font-bold leading-tight">Peace of mind, <br />from our shelf to your door.</h3>
             <p className="font-sans text-xl text-white/70 leading-relaxed">
               Every package is handled with care and comes with full tracking details sent directly to your phone. If you're not home, we'll coordinate a safe delivery time with you.

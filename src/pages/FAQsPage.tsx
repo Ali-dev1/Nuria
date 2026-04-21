@@ -88,7 +88,7 @@ const FAQsPage = () => {
                 <AccordionItem 
                   key={i} 
                   value={`item-${idx}-${i}`}
-                  className="bg-white border border-[#E5E0D8] rounded-2xl px-6 transition-all hover:border-[#C2541A]/30 data-[state=open]:border-[#C2541A] data-[state=open]:shadow-xl data-[state=open]:shadow-black/5"
+                  className="bg-white border border-[#E5E0D8] rounded-2xl px-6 transition-all hover:border-[#A1440B]/30 data-[state=open]:border-[#A1440B] data-[state=open]:shadow-xl data-[state=open]:shadow-black/5"
                 >
                   <AccordionTrigger className="font-sans font-bold text-[#1A1A1A] text-left py-6 hover:no-underline hover:text-[#1B4332]">
                     {item.q}
@@ -112,7 +112,7 @@ const FAQsPage = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
             <a 
               href="/contact" 
-              className="px-8 py-4 bg-[#C2541A] rounded-xl font-bold text-xs uppercase tracking-widest hover:brightness-90 transition-all"
+              className="px-8 py-4 bg-[#A1440B] rounded-xl font-bold text-xs uppercase tracking-widest hover:brightness-90 transition-all"
             >
               Contact Support
             </a>

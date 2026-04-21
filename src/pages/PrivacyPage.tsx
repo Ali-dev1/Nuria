@@ -14,12 +14,12 @@ const PrivacyPage = () => {
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-bl-[200px]" />
           <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="space-y-4 text-center md:text-left">
-              <span className="font-sans text-[11px] font-bold text-[#C2541A] uppercase tracking-[0.3em] mb-4 block">Policy Status</span>
+              <span className="font-sans text-[11px] font-bold text-[#A1440B] uppercase tracking-[0.3em] mb-4 block">Policy Status</span>
               <h2 className="font-display text-4xl font-bold">Privacy Matters</h2>
               <p className="font-sans text-white/70 max-w-md">Our commitment to transparency and data protection for every reader.</p>
             </div>
             <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-3xl text-center">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#C2541A] mb-1">Effective As Of</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#A1440B] mb-1">Effective As Of</p>
               <p className="font-display text-2xl font-bold text-white">1st August, 2020</p>
             </div>
           </div>
@@ -61,7 +61,7 @@ const PrivacyPage = () => {
                 We may use your Personal Information to contact you with newsletters, marketing or promotional materials that may be of interest to you. You may opt out of receiving any of these communications at any time.
               </p>
               <div className="p-6 bg-white border border-[#E5E0D8] rounded-2xl flex items-center gap-4">
-                <Lock className="w-6 h-6 text-[#C2541A]" />
+                <Lock className="w-6 h-6 text-[#A1440B]" />
                 <p className="text-sm font-bold text-[#1A1A1A]">Secure SSL Encryption for all Payouts</p>
               </div>
             </div>
@@ -82,7 +82,7 @@ const PrivacyPage = () => {
         {/* 📞 Contact Section */}
         <section className="text-center max-w-2xl mx-auto space-y-8">
           <div className="w-20 h-20 rounded-full bg-[#FAF7F2] border border-[#E5E0D8] flex items-center justify-center mx-auto mb-8">
-            <Globe className="w-8 h-8 text-[#C2541A]" />
+            <Globe className="w-8 h-8 text-[#A1440B]" />
           </div>
           <h3 className="font-display text-3xl font-bold text-[#1A1A1A]">Questions about privacy?</h3>
           <p className="font-sans text-[#6B7280] text-lg leading-relaxed">
@@ -91,7 +91,7 @@ const PrivacyPage = () => {
           <div className="pt-6">
             <a 
               href="mailto:nuriakenyabookstore@gmail.com" 
-              className="inline-flex items-center gap-3 font-sans font-bold text-[#1B4332] hover:text-[#C2541A] transition-colors border-b-2 border-[#1B4332]/10 pb-1"
+              className="inline-flex items-center gap-3 font-sans font-bold text-[#1B4332] hover:text-[#A1440B] transition-colors border-b-2 border-[#1B4332]/10 pb-1"
             >
               <Mail className="w-5 h-5" /> nuriakenyabookstore@gmail.com
             </a>

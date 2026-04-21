@@ -53,7 +53,7 @@ export const BottomNav = () => {
                   <Icon className="w-6 h-6" />
                 </div>
                 {item.badge !== undefined && item.badge > 0 && (
-                  <span className="absolute top-1 right-[25%] bg-[#C2541A] text-white text-[9px] font-bold min-w-[16px] h-[16px] rounded-full flex items-center justify-center px-1 border border-white">
+                  <span className="absolute top-1 right-[25%] bg-[#A1440B] text-white text-[9px] font-bold min-w-[16px] h-[16px] rounded-full flex items-center justify-center px-1 border border-white">
                     {item.badge}
                   </span>
                 )}

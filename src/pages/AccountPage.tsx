@@ -104,15 +104,15 @@ const AccountPage = () => {
     <div className="container-nuria py-12">
       <div className="flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6 mb-12">
         <div>
-          <span className="font-sans text-[12px] font-semibold text-[#C2541A] uppercase tracking-[0.2em]">Member Portal</span>
+          <span className="font-sans text-[12px] font-semibold text-[#A1440B] uppercase tracking-[0.2em]">Member Portal</span>
           <h1 className="font-display text-3xl sm:text-4xl font-bold text-[#1A1A1A] mt-2">My Account</h1>
-          <div className="w-[60px] h-[3px] bg-[#C2541A] mt-4 rounded-full" />
+          <div className="w-[60px] h-[3px] bg-[#A1440B] mt-4 rounded-full" />
           <p className="font-sans text-sm text-[#6B7280] mt-4">{user?.email}</p>
         </div>
         <div className="flex items-center gap-6 bg-white p-4 rounded-2xl border border-[#E5E0D8] shadow-sm">
           <div className="text-right">
             <p className="font-sans text-[10px] font-bold text-[#6B7280] uppercase tracking-wider">Loyalty Points</p>
-            <p className="font-display text-2xl font-bold text-[#C2541A] leading-none mt-1">{profile?.loyalty_points ?? 0} <span className="text-[10px] font-sans font-medium text-[#6B7280] tracking-normal">pts</span></p>
+            <p className="font-display text-2xl font-bold text-[#A1440B] leading-none mt-1">{profile?.loyalty_points ?? 0} <span className="text-[10px] font-sans font-medium text-[#6B7280] tracking-normal">pts</span></p>
           </div>
           <div className="w-px h-10 bg-[#E5E0D8]" />
           <button onClick={signOut} className="p-3 bg-[#FAF7F2] text-[#6B7280] hover:text-[#1B4332] hover:bg-[#1B4332]/5 rounded-xl transition-all" aria-label="Sign out">
@@ -170,7 +170,7 @@ const AccountPage = () => {
                       <Link
                         key={item.id}
                         to={`/books/${item.products?.slug}`}
-                        className="font-sans text-[11px] font-medium text-[#6B7280] hover:text-[#C2541A] transition-colors"
+                        className="font-sans text-[11px] font-medium text-[#6B7280] hover:text-[#A1440B] transition-colors"
                       >
                         {item.products?.title} <span className="opacity-50">× {item.quantity}</span>
                       </Link>
@@ -178,7 +178,7 @@ const AccountPage = () => {
                   </div>
                   {order.loyalty_points_earned > 0 && (
                     <div className="flex sm:justify-end">
-                      <p className="font-sans text-[11px] font-bold text-[#C2541A] bg-[#C2541A]/5 px-3 py-1 rounded-full flex items-center gap-1">
+                      <p className="font-sans text-[11px] font-bold text-[#A1440B] bg-[#A1440B]/5 px-3 py-1 rounded-full flex items-center gap-1">
                         +{order.loyalty_points_earned} pts earned
                       </p>
                     </div>

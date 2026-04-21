@@ -25,7 +25,7 @@ export const InfoPageLayout = ({ children, title, subtitle, label }: InfoPageLay
         
         <div className="container-nuria relative z-10">
           {label && (
-            <span className="font-sans text-[11px] font-bold text-[#C2541A] uppercase tracking-[0.2em] mb-4 inline-block">
+            <span className="font-sans text-[11px] font-bold text-[#A1440B] uppercase tracking-[0.2em] mb-4 inline-block">
               {label}
             </span>
           )}
@@ -37,7 +37,7 @@ export const InfoPageLayout = ({ children, title, subtitle, label }: InfoPageLay
               {subtitle}
             </p>
           )}
-          <div className="w-[60px] h-[3px] bg-[#C2541A] mt-8 rounded-full" />
+          <div className="w-[60px] h-[3px] bg-[#A1440B] mt-8 rounded-full" />
         </div>
       </div>
       

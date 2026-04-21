@@ -68,20 +68,20 @@ const BooksPage = () => {
               ? CATEGORIES.find((c) => c.slug === selectedCategory)?.name || "Books"
               : searchQuery ? `Search: ${searchQuery}` : "All Books"}
           </h1>
-          <div className="w-[60px] h-[3px] bg-[#C2541A] mt-4 rounded-full" />
+          <div className="w-[60px] h-[3px] bg-[#A1440B] mt-4 rounded-full" />
           <p className="font-sans text-[#6B7280] mt-4 text-sm uppercase tracking-widest font-medium">
             {isLoading ? "Loading…" : `${totalCount.toLocaleString()} titles available`}
           </p>
         </div>
 
         <form onSubmit={handleSearchSubmit} className="relative w-full md:w-80 group">
-          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-[#C2541A] transition-colors" />
+          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-[#A1440B] transition-colors" />
           <input 
             type="text"
             placeholder="Search in collection..."
             value={localSearch}
             onChange={(e) => setLocalSearch(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 bg-white border border-[#E5E0D8] rounded-2xl text-sm font-sans focus:outline-none focus:ring-2 focus:ring-[#C2541A]/20 focus:border-[#C2541A] transition-all"
+            className="w-full pl-11 pr-4 py-3 bg-white border border-[#E5E0D8] rounded-2xl text-sm font-sans focus:outline-none focus:ring-2 focus:ring-[#A1440B]/20 focus:border-[#A1440B] transition-all"
           />
         </form>
       </div>

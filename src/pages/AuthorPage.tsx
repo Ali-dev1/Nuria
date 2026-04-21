@@ -29,7 +29,7 @@ const AuthorPage = () => {
     return (
       <div className="container-nuria py-32 text-center">
         <h2 className="text-3xl font-bold font-display text-primary">Author not found</h2>
-        <Link to="/" className="text-[#C2541A] font-bold uppercase text-[10px] tracking-widest mt-4 inline-block hover:underline">
+        <Link to="/" className="text-[#A1440B] font-bold uppercase text-[10px] tracking-widest mt-4 inline-block hover:underline">
           Return Home
         </Link>
       </div>
@@ -42,13 +42,19 @@ const AuthorPage = () => {
       <section className="bg-[#FAF7F2] border-b border-[#E5E0D8] pt-16 pb-24 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#1B4332]/5 rounded-full -mr-48 -mt-48 blur-3xl pointer-events-none" />
         <div className="container-nuria relative z-10">
-          <Link to="/" className="inline-flex items-center gap-2 text-[10px] font-sans font-bold uppercase tracking-widest text-[#6B7280] hover:text-[#C2541A] transition-colors mb-12">
+          <Link to="/" className="inline-flex items-center gap-2 text-[10px] font-sans font-bold uppercase tracking-widest text-[#6B7280] hover:text-[#A1440B] transition-colors mb-12">
             <ArrowLeft className="w-4 h-4" /> Back to Store
           </Link>
           
           <div className="flex flex-col lg:flex-row gap-16 lg:items-center">
             <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden shrink-0 border-4 border-white shadow-xl">
-              <img src={author.photo_url} alt={author.name} className="w-full h-full object-cover" />
+              <img 
+                src={author.photo_url?.includes("unsplash.com") ? `${author.photo_url}&fm=webp&q=60&w=400` : author.photo_url} 
+                alt={author.name} 
+                loading="eager"
+                fetchpriority="high"
+                className="w-full h-full object-cover" 
+              />
             </div>
             
             <div className="space-y-6 max-w-3xl">

@@ -18,7 +18,7 @@ const ReturnsPage = () => {
               <RotateCcw className="w-10 h-10 text-white" />
             </div>
             <div className="flex-1 text-center lg:text-left">
-              <span className="font-sans text-[11px] font-bold text-[#C2541A] uppercase tracking-[0.3em] mb-4 block">Store Guarantee</span>
+              <span className="font-sans text-[11px] font-bold text-[#A1440B] uppercase tracking-[0.3em] mb-4 block">Store Guarantee</span>
               <h2 className="font-display text-4xl lg:text-5xl font-bold text-[#1A1A1A] leading-tight mb-6">30-Day Happiness Period</h2>
               <p className="font-sans text-xl text-[#6B7280] leading-relaxed max-w-3xl">
                 If for any reason you're not satisfied with your purchase, you have <span className="text-[#1B4332] font-bold">30 days</span> from the date of delivery to initiate a return or exchange. 
@@ -49,16 +49,16 @@ const ReturnsPage = () => {
             </div>
           </div>
 
-          <div className="p-12 rounded-[2.5rem] bg-white border border-[#E5E0D8] space-y-8 shadow-sm hover:border-[#C2541A]/20 transition-all group">
+          <div className="p-12 rounded-[2.5rem] bg-white border border-[#E5E0D8] space-y-8 shadow-sm hover:border-[#A1440B]/20 transition-all group">
             <div className="flex items-center gap-4">
-              <div className="p-4 rounded-2xl bg-[#C2541A]/5 group-hover:bg-[#C2541A] group-hover:text-white transition-all">
-                <ShieldAlert className="w-8 h-8 text-[#C2541A] group-hover:text-white" />
+              <div className="p-4 rounded-2xl bg-[#A1440B]/5 group-hover:bg-[#A1440B] group-hover:text-white transition-all">
+                <ShieldAlert className="w-8 h-8 text-[#A1440B] group-hover:text-white" />
               </div>
               <h3 className="font-display text-3xl font-bold text-[#1A1A1A]">Exchanges</h3>
             </div>
             <div className="space-y-4 font-sans text-lg text-[#6B7280] leading-relaxed">
               <p>Damaged or defaced books arriving from the publisher are replaced immediately. Please notify us within 24 hours of receiving the book.</p>
-              <p className="text-sm italic font-medium bg-[#FAF7F2] p-4 rounded-xl border-l-4 border-[#C2541A]">
+              <p className="text-sm italic font-medium bg-[#FAF7F2] p-4 rounded-xl border-l-4 border-[#A1440B]">
                 Only regular priced items are refundable; unfortunately sale items cannot be returned.
               </p>
             </div>
@@ -69,7 +69,7 @@ const ReturnsPage = () => {
         <div className="bg-[#FAF7F2] rounded-[3rem] p-12 lg:p-20 border border-[#E5E0D8] relative overflow-hidden">
           <div className="grid lg:grid-cols-2 gap-20">
             <div className="space-y-8">
-              <span className="font-sans text-[12px] font-bold text-[#C2541A] uppercase tracking-[0.3em]">The Process</span>
+              <span className="font-sans text-[12px] font-bold text-[#A1440B] uppercase tracking-[0.3em]">The Process</span>
               <h3 className="font-display text-4xl font-bold text-[#1A1A1A] leading-tight">Return Shipping <br />& Logistics</h3>
               <p className="font-sans text-[#6B7280] text-lg leading-relaxed">
                 You will be responsible for domestic shipping costs for returning your item. Shipping costs are non-refundable, except in cases where we sent the wrong title or a damaged book.
@@ -91,7 +91,7 @@ const ReturnsPage = () => {
                     <Mail className="w-6 h-6 text-[#1B4332] group-hover:text-white" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-[#C2541A] uppercase tracking-widest">Email Support</p>
+                    <p className="text-[10px] font-bold text-[#A1440B] uppercase tracking-widest">Email Support</p>
                     <p className="font-sans font-bold text-[#1A1A1A]">nuriakenyabookstore@gmail.com</p>
                   </div>
                 </a>
@@ -101,13 +101,13 @@ const ReturnsPage = () => {
                     <Phone className="w-6 h-6 text-[#1B4332] group-hover:text-white" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-[#C2541A] uppercase tracking-widest">Call Hotlines</p>
+                    <p className="text-[10px] font-bold text-[#A1440B] uppercase tracking-widest">Call Hotlines</p>
                     <p className="font-sans font-bold text-[#1A1A1A]">0794 233261 / 0721 670194</p>
                   </div>
                 </a>
               </div>
 
-              <Button className="w-full py-8 bg-[#C2541A] hover:bg-[#A04415] text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-widest transition-all">
+              <Button className="w-full py-8 bg-[#A1440B] hover:bg-[#A04415] text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-widest transition-all">
                 START A RETURN <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>

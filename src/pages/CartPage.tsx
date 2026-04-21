@@ -77,7 +77,7 @@ const CartPage = () => {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <Link to={`/books/${product.slug}`} className="font-display font-semibold text-sm text-[#1A1A1A] hover:text-[#C2541A] transition-colors line-clamp-1">
+                <Link to={`/books/${product.slug}`} className="font-display font-semibold text-sm text-[#1A1A1A] hover:text-[#A1440B] transition-colors line-clamp-1">
                   {product.title}
                 </Link>
                 <p className="font-sans text-xs text-[#6B7280] mt-0.5">{product.author}</p>
@@ -124,10 +124,10 @@ const CartPage = () => {
               <span>{deliveryFee === 0 ? <span className="text-[#1B4332] font-semibold">FREE</span> : formatPrice(deliveryFee)}</span>
             </div>
             {deliveryFee > 0 && (
-              <p className="text-[11px] text-[#C2541A] font-medium font-sans">Add {formatPrice(deliveryFeeThreshold - subtotal())} more for free delivery</p>
+              <p className="text-[11px] text-[#A1440B] font-medium font-sans">Add {formatPrice(deliveryFeeThreshold - subtotal())} more for free delivery</p>
             )}
             {discount > 0 && (
-              <div className="flex justify-between text-[#C2541A]">
+              <div className="flex justify-between text-[#A1440B]">
                 <span>Loyalty Discount</span>
                 <span>-{formatPrice(discount)}</span>
               </div>

@@ -71,7 +71,7 @@ const BlogPost = () => {
             </Link>
             
             <div className="flex justify-center mb-6">
-              <span className="px-4 py-1.5 rounded-full bg-[#C2541A] text-white text-[10px] font-bold uppercase tracking-widest">
+              <span className="px-4 py-1.5 rounded-full bg-[#A1440B] text-white text-[10px] font-bold uppercase tracking-widest">
                 {post.category}
               </span>
             </div>
@@ -85,7 +85,7 @@ const BlogPost = () => {
               <span className="w-1.5 h-1.5 rounded-full bg-white/40" />
               <span className="uppercase tracking-widest">{post.date}</span>
               <span className="w-1.5 h-1.5 rounded-full bg-white/40" />
-              <span className="uppercase tracking-widest text-[#C2541A]">{post.readTime} read</span>
+              <span className="uppercase tracking-widest text-[#A1440B]">{post.readTime} read</span>
             </div>
           </div>
         </div>
@@ -116,11 +116,11 @@ const BlogPost = () => {
             </p>
           ))}
           
-          <div className="my-16 p-8 md:p-12 bg-[#FAF7F2] rounded-3xl border border-[#E5E0D8] border-l-4 border-l-[#C2541A]">
+          <div className="my-16 p-8 md:p-12 bg-[#FAF7F2] rounded-3xl border border-[#E5E0D8] border-l-4 border-l-[#A1440B]">
             <p className="font-display text-2xl italic font-bold text-[#1B4332] leading-tight">
               "A reader lives a thousand lives before he dies. The man who never reads lives only one."
             </p>
-            <span className="block mt-4 text-[10px] uppercase tracking-widest font-bold text-[#C2541A]">— George R.R. Martin</span>
+            <span className="block mt-4 text-[10px] uppercase tracking-widest font-bold text-[#A1440B]">— George R.R. Martin</span>
           </div>
           
           <p>
@@ -134,7 +134,7 @@ const BlogPost = () => {
         <div className="container-nuria">
           <div className="flex items-center justify-between mb-12">
             <h2 className="font-display text-3xl font-bold text-[#1A1A1A]">Continue Reading</h2>
-            <Link to="/blog" className="text-[10px] font-sans font-bold text-[#1B4332] hover:text-[#C2541A] transition-colors flex items-center gap-2 uppercase tracking-widest">
+            <Link to="/blog" className="text-[10px] font-sans font-bold text-[#1B4332] hover:text-[#A1440B] transition-colors flex items-center gap-2 uppercase tracking-widest">
               View All Entries <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -146,7 +146,7 @@ const BlogPost = () => {
                   <img src={related.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt={related.title} />
                 </div>
                 <div className="p-8">
-                  <span className="text-[10px] font-bold text-[#C2541A] uppercase tracking-widest">{related.category}</span>
+                  <span className="text-[10px] font-bold text-[#A1440B] uppercase tracking-widest">{related.category}</span>
                   <h3 className="font-display text-2xl font-bold mt-2 text-[#1A1A1A] group-hover:text-[#1B4332] transition-colors">{related.title}</h3>
                 </div>
               </Link>

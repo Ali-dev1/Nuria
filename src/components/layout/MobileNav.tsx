@@ -100,7 +100,7 @@ export const MobileNav = ({ open, onClose }: MobileNavProps) => {
             <Link
               to="/vendor/guide"
               onClick={onClose}
-              className="block w-full py-4 text-center text-xs font-sans font-bold bg-[#C2541A] text-white rounded-lg uppercase tracking-widest shadow-lg"
+              className="block w-full py-4 text-center text-xs font-sans font-bold bg-[#A1440B] text-white rounded-lg uppercase tracking-widest shadow-lg"
             >
               SELL ON NURIA
             </Link>

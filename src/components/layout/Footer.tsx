@@ -39,15 +39,15 @@ export const Footer = () => {
             <h4 className="font-display text-lg font-bold mb-6">TALK TO US</h4>
             <ul className="space-y-4 font-sans text-sm text-white/80">
               <li className="flex items-start gap-3">
-                <Phone className="w-4 h-4 text-[#C2541A] shrink-0 mt-0.5" />
+                <Phone className="w-4 h-4 text-[#A1440B] shrink-0 mt-0.5" />
                 <span>0794 233261 / 0724 670194</span>
               </li>
               <li className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-[#C2541A] shrink-0 mt-0.5" />
+                <Mail className="w-4 h-4 text-[#A1440B] shrink-0 mt-0.5" />
                 <span>nuriakenyabookstore@gmail.com</span>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-[#C2541A] shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-[#A1440B] shrink-0 mt-0.5" />
                 <span>The Bazaar Building, 1st Floor</span>
               </li>
             </ul>
@@ -55,7 +55,7 @@ export const Footer = () => {
 
           {/* Column 2: ABOUT NURIA */}
           <div>
-            <h4 className="font-display text-lg font-bold mb-6 underline decoration-[#C2541A] decoration-2 underline-offset-8">About Nuria</h4>
+            <h4 className="font-display text-lg font-bold mb-6 underline decoration-[#A1440B] decoration-2 underline-offset-8">About Nuria</h4>
             <ul className="space-y-3">
               <li><Link to="/about" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Our Story</Link></li>
               <li><Link to="/blog" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Blog</Link></li>
@@ -65,7 +65,7 @@ export const Footer = () => {
 
           {/* Column 3: VENDORS */}
           <div>
-            <h4 className="font-display text-lg font-bold mb-6 underline decoration-[#C2541A] decoration-2 underline-offset-8">VENDORS</h4>
+            <h4 className="font-display text-lg font-bold mb-6 underline decoration-[#A1440B] decoration-2 underline-offset-8">VENDORS</h4>
             <ul className="space-y-3">
               <li><Link to="/vendor/guide" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Sell on Nuria</Link></li>
               <li><Link to="/login" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Vendor Login</Link></li>
@@ -75,7 +75,7 @@ export const Footer = () => {
 
           {/* Column 4: USEFUL LINKS */}
           <div>
-            <h4 className="font-display text-lg font-bold mb-6 underline decoration-[#C2541A] decoration-2 underline-offset-8">USEFUL LINKS</h4>
+            <h4 className="font-display text-lg font-bold mb-6 underline decoration-[#A1440B] decoration-2 underline-offset-8">USEFUL LINKS</h4>
             <ul className="space-y-3">
               <li><Link to="/delivery" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Delivery Policy</Link></li>
               <li><Link to="/returns" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Returns</Link></li>
@@ -87,7 +87,7 @@ export const Footer = () => {
         {/* Payment and Apps Row */}
         <div className="flex flex-col lg:flex-row items-center justify-between py-10 border-y border-white/10 gap-8">
           <div className="flex flex-col items-center lg:items-start gap-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#C2541A]">We Accept</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#A1440B]">We Accept</span>
             <div className="flex flex-wrap items-center justify-center gap-6 grayscale brightness-200 opacity-60">
               <span className="font-bold text-lg">M-Pesa</span>
               <span className="font-bold text-lg">VISA</span>
@@ -97,18 +97,18 @@ export const Footer = () => {
           </div>
           
           <div className="flex flex-col items-center lg:items-end gap-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#C2541A]">Follow Us</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#A1440B]">Follow Us</span>
             <div className="flex items-center gap-5">
-              <a href="https://facebook.com/nuriayourhonestonlineshop/" target="_blank" rel="noreferrer" aria-label="Facebook" className="text-white hover:text-[#C2541A] transition-colors"><FacebookIcon className="w-6 h-6" /></a>
-              <a href="https://instagram.com/nuria_thehoneststore/" target="_blank" rel="noreferrer" aria-label="Instagram" className="text-white hover:text-[#C2541A] transition-colors"><InstagramIcon className="w-6 h-6" /></a>
-              <a href="https://x.com/nuriastore" target="_blank" rel="noreferrer" aria-label="Twitter" className="text-white hover:text-[#C2541A] transition-colors"><TwitterIcon className="w-6 h-6" /></a>
+              <a href="https://facebook.com/nuriayourhonestonlineshop/" target="_blank" rel="noreferrer" aria-label="Facebook" className="text-white hover:text-[#A1440B] transition-colors"><FacebookIcon className="w-6 h-6" /></a>
+              <a href="https://instagram.com/nuria_thehoneststore/" target="_blank" rel="noreferrer" aria-label="Instagram" className="text-white hover:text-[#A1440B] transition-colors"><InstagramIcon className="w-6 h-6" /></a>
+              <a href="https://x.com/nuriastore" target="_blank" rel="noreferrer" aria-label="Twitter" className="text-white hover:text-[#A1440B] transition-colors"><TwitterIcon className="w-6 h-6" /></a>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="pt-8 flex justify-center">
-          <p className="font-sans text-[12px] text-white/40 tracking-wide text-center">
+          <p className="font-sans text-[12px] text-white/60 tracking-wide text-center">
             © 2025 Nuria Kenya. All rights reserved. The Honest Store.
           </p>
         </div>

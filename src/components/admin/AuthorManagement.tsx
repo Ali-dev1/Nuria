@@ -129,7 +129,7 @@ export const AuthorManagement = () => {
                   {author.bio}
                 </p>
                 <div className="flex items-center justify-between pt-4 border-t border-border">
-                  <span className="text-[10px] uppercase tracking-widest font-bold text-[#C2541A]">Featured</span>
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-[#A1440B]">Featured</span>
                   <div className="flex gap-2">
                     <button 
                       onClick={() => { setEditingAuthor(author); setIsModalOpen(true); }}

@@ -68,9 +68,9 @@ const Index = () => {
 
   const SectionHeading = ({ label, title }: { label: string; title: string }) => (
     <div className="mb-10">
-      <span className="font-sans text-[12px] font-bold uppercase tracking-[0.2em] text-[#C2541A]">{label}</span>
+      <span className="font-sans text-[12px] font-bold uppercase tracking-[0.2em] text-[#A1440B]">{label}</span>
       <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#1A1A1A] mt-1">{title}</h2>
-      <div className="w-[80px] h-[4px] bg-[#C2541A] mt-4 rounded-full" />
+      <div className="w-[80px] h-[4px] bg-[#A1440B] mt-4 rounded-full" />
     </div>
   );
 
@@ -79,7 +79,7 @@ const Index = () => {
       id: 1,
       title: "New Arrivals",
       subtitle: "Discover the latest titles added to our collection this week.",
-      image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1600&auto=format&fit=crop&fm=webp",
+      image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=60&w=1200&auto=format&fit=crop&fm=webp",
       cta: "Shop New Releases",
       link: "/books?sort=newest"
     },
@@ -87,7 +87,7 @@ const Index = () => {
       id: 2,
       title: "Kenyan Classics",
       subtitle: "Explore timeless works from Kenya's most celebrated authors.",
-      image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1600&auto=format&fit=crop&fm=webp",
+      image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=60&w=1200&auto=format&fit=crop&fm=webp",
       cta: "Explore Local Literature",
       link: "/books?category=african-literature"
     },
@@ -95,7 +95,7 @@ const Index = () => {
       id: 3,
       title: "Children's Corner",
       subtitle: "Nurturing young minds with stories that inspire and educate.",
-      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1600&auto=format&fit=crop&fm=webp",
+      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=60&w=1200&auto=format&fit=crop&fm=webp",
       cta: "Browse Children's Books",
       link: "/books?category=children"
     },
@@ -103,7 +103,7 @@ const Index = () => {
       id: 4,
       title: "Academic Excellence",
       subtitle: "Primary, secondary, and tertiary resources for every learner.",
-      image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=1600&auto=format&fit=crop&fm=webp",
+      image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=60&w=1200&auto=format&fit=crop&fm=webp",
       cta: "Shop Academic Texts",
       link: "/books?category=education"
     },
@@ -111,7 +111,7 @@ const Index = () => {
       id: 5,
       title: "Gifts of Knowledge",
       subtitle: "Give the gift of reading with our premium gift card collection.",
-      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1600&auto=format&fit=crop&fm=webp",
+      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=60&w=1200&auto=format&fit=crop&fm=webp",
       cta: "Buy A Gift Card",
       link: "/gift-card"
     }
@@ -145,7 +145,7 @@ const Index = () => {
                         {slide.subtitle}
                       </p>
                       <Link to={slide.link}>
-                        <Button className="bg-[#C2541A] hover:bg-[#A04415] text-white px-8 py-7 rounded-lg text-sm font-bold uppercase tracking-widest transition-all hover:scale-105 shadow-2xl">
+                        <Button className="bg-[#A1440B] hover:bg-[#A04415] text-white px-8 py-7 rounded-lg text-sm font-bold uppercase tracking-widest transition-all hover:scale-105 shadow-2xl">
                           {slide.cta} <ArrowRight className="ml-2 w-5 h-5" />
                         </Button>
                       </Link>
@@ -173,7 +173,7 @@ const Index = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search 21,000+ Titles, Authors, Genres..."
-              className="w-full pl-16 pr-4 py-7 bg-white text-[#1A1A1A] rounded-2xl text-lg font-sans placeholder:text-gray-400 border-none ring-0 focus:ring-4 focus:ring-[#C2541A]/20 transition-all outline-none"
+              className="w-full pl-16 pr-4 py-7 bg-white text-[#1A1A1A] rounded-2xl text-lg font-sans placeholder:text-gray-400 border-none ring-0 focus:ring-4 focus:ring-[#A1440B]/20 transition-all outline-none"
             />
             <button 
               type="submit"
@@ -188,7 +188,7 @@ const Index = () => {
       <section className="hidden md:block container-nuria pt-32 pb-16">
         <div className="flex items-end justify-between mb-10">
           <SectionHeading label="DISCOVER" title="Shop by Category" />
-          <Link to="/books" className="text-sm text-[#C2541A] font-sans font-bold flex items-center gap-1 hover:underline shrink-0 mb-10 uppercase tracking-widest">
+          <Link to="/books" className="text-sm text-[#A1440B] font-sans font-bold flex items-center gap-1 hover:underline shrink-0 mb-10 uppercase tracking-widest">
             View All <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
@@ -199,10 +199,10 @@ const Index = () => {
               <Link
                 key={cat.id}
                 to={`/books?category=${cat.slug}`}
-                className="flex flex-col items-center gap-3 p-5 bg-white rounded-2xl shadow-sm border border-[#E5E0D8]/50 hover:border-[#C2541A] hover:bg-[#FAF7F2] group transition-all duration-300"
+                className="flex flex-col items-center gap-3 p-5 bg-white rounded-2xl shadow-sm border border-[#E5E0D8]/50 hover:border-[#A1440B] hover:bg-[#FAF7F2] group transition-all duration-300"
               >
-                <div className="p-3 rounded-full bg-[#1B4332]/5 group-hover:bg-[#C2541A]/10 transition-colors">
-                  <Icon className="w-6 h-6 text-[#1B4332] group-hover:text-[#C2541A] transition-colors" />
+                <div className="p-3 rounded-full bg-[#1B4332]/5 group-hover:bg-[#A1440B]/10 transition-colors">
+                  <Icon className="w-6 h-6 text-[#1B4332] group-hover:text-[#A1440B] transition-colors" />
                 </div>
                 <span className="font-sans text-[13px] font-bold text-[#1A1A1A] text-center leading-tight">{cat.name}</span>
               </Link>
@@ -214,7 +214,7 @@ const Index = () => {
       <section className="container-nuria py-16">
         <div className="flex items-end justify-between">
           <SectionHeading label="CURATED" title="Featured Titles" />
-          <Link to="/books?featured=true" className="text-sm text-[#C2541A] font-sans font-bold flex items-center gap-1 hover:underline shrink-0 mb-10 uppercase tracking-widest">
+          <Link to="/books?featured=true" className="text-sm text-[#A1440B] font-sans font-bold flex items-center gap-1 hover:underline shrink-0 mb-10 uppercase tracking-widest">
             See All <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
@@ -230,11 +230,11 @@ const Index = () => {
       <section className="bg-[#FAF7F2] py-24 sm:py-32 overflow-hidden border-y border-[#E5E0D8]">
         <div className="container-nuria">
           <div className="flex flex-col items-center text-center space-y-4 mb-16 sm:mb-20">
-            <span className="font-sans text-[12px] font-bold text-[#C2541A] uppercase tracking-[0.3em]">Supporting Our Own</span>
+            <span className="font-sans text-[12px] font-bold text-[#A1440B] uppercase tracking-[0.3em]">Supporting Our Own</span>
             <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1A1A1A] max-w-2xl leading-tight">
               Local Authors <br />Spotlight
             </h2>
-            <div className="w-[80px] h-[4px] bg-[#C2541A] mx-auto mt-6 rounded-full" />
+            <div className="w-[80px] h-[4px] bg-[#A1440B] mx-auto mt-6 rounded-full" />
           </div>
 
           <div className="flex overflow-x-auto gap-6 sm:gap-8 pb-12 pt-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -248,7 +248,7 @@ const Index = () => {
               >
                 <div className="h-[300px] sm:h-[350px] overflow-hidden relative bg-[#E5E0D8]">
                   <img 
-                    src={author.photo_url.includes("unsplash.com") ? `${author.photo_url}&fm=webp&q=80` : author.photo_url} 
+                    src={author.photo_url.includes("unsplash.com") ? `${author.photo_url}&fm=webp&q=60&w=400` : author.photo_url} 
                     alt={author.name}
                     width="600"
                     height="800"
@@ -260,7 +260,7 @@ const Index = () => {
                 </div>
                 <div className="p-8 flex-1 flex flex-col items-center justify-center text-center bg-white border-t border-[#E5E0D8]">
                   <h3 className="font-display text-2xl font-bold text-[#1A1A1A] group-hover:text-[#1B4332] transition-colors">{author.name}</h3>
-                  <span className="mt-5 flex items-center gap-2 font-sans font-bold text-[#6B7280] group-hover:text-[#C2541A] uppercase text-[10px] tracking-widest transition-colors">
+                  <span className="mt-5 flex items-center gap-2 font-sans font-bold text-[#6B7280] group-hover:text-[#A1440B] uppercase text-[10px] tracking-widest transition-colors">
                     Read Profile <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
@@ -273,7 +273,7 @@ const Index = () => {
       <section className="container-nuria py-16">
         <div className="flex items-center justify-between mb-12">
           <SectionHeading label="LATEST" title="New Arrivals" />
-          <Link to="/books" className="text-sm font-bold text-[#1B4332] hover:text-[#C2541A] transition-colors flex items-center gap-2 uppercase tracking-widest">
+          <Link to="/books" className="text-sm font-bold text-[#1B4332] hover:text-[#A1440B] transition-colors flex items-center gap-2 uppercase tracking-widest">
             View All <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
@@ -297,7 +297,7 @@ const Index = () => {
           <div className="shrink-0">
             <Link 
               to="/vendor/guide"
-              className="inline-flex items-center gap-2 px-10 py-5 bg-[#C2541A] text-white font-sans font-bold rounded-xl hover:bg-[#A04415] transition-all text-sm uppercase tracking-widest shadow-xl shadow-[#C2541A]/20"
+              className="inline-flex items-center gap-2 px-10 py-5 bg-[#A1440B] text-white font-sans font-bold rounded-xl hover:bg-[#A04415] transition-all text-sm uppercase tracking-widest shadow-xl shadow-[#A1440B]/20"
             >
               Start Selling <ArrowRight className="w-5 h-5" />
             </Link>

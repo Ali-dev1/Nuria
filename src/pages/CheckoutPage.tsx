@@ -294,7 +294,7 @@ const CheckoutPage = () => {
               <div className="flex justify-between text-[#6B7280]"><span>Subtotal</span><span>{formatPrice(subtotal())}</span></div>
               <div className="flex justify-between text-[#6B7280]"><span>Delivery</span><span>{deliveryFee === 0 ? <span className="text-[#1B4332] font-semibold">FREE</span> : formatPrice(deliveryFee)}</span></div>
               {discount > 0 && (
-                <div className="flex justify-between text-[#C2541A]"><span>Loyalty Discount</span><span>-{formatPrice(discount)}</span></div>
+                <div className="flex justify-between text-[#A1440B]"><span>Loyalty Discount</span><span>-{formatPrice(discount)}</span></div>
               )}
               <div className="flex justify-between font-bold text-[#1A1A1A] pt-2 text-base border-t border-[#E5E0D8]"><span>Total</span><span>{formatPrice(total)}</span></div>
             </div>
@@ -304,7 +304,7 @@ const CheckoutPage = () => {
             <button
               onClick={placeOrder}
               disabled={placing}
-              className="flex-1 py-4 bg-[#C2541A] text-white font-sans font-bold rounded-lg hover:brightness-90 transition-all text-sm shadow-xl disabled:opacity-50 flex items-center justify-center gap-2 uppercase tracking-widest"
+              className="flex-1 py-4 bg-[#A1440B] text-white font-sans font-bold rounded-lg hover:brightness-90 transition-all text-sm shadow-xl disabled:opacity-50 flex items-center justify-center gap-2 uppercase tracking-widest"
             >
               {placing && <Loader2 className="w-4 h-4 animate-spin" />}
               {paymentMethod === "mpesa" ? "Complete Order" : "Pay Now"} — {formatPrice(total)}

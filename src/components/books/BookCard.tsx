@@ -44,7 +44,7 @@ export const BookCard = ({ product }: BookCardProps) => {
 
         {/* Discount Badge */}
         {hasDiscount && (
-          <span className="absolute top-2 left-2 bg-[#C2541A] text-white text-[10px] font-bold px-2 py-1 rounded">
+          <span className="absolute top-2 left-2 bg-[#A1440B] text-white text-[10px] font-bold px-2 py-1 rounded">
             -{discountPercent}%
           </span>
         )}

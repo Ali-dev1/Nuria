@@ -17,7 +17,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         nuriaPrimary: "bg-[#1B4332] text-white hover:brightness-90 transition-[filter,background-color,color] duration-150 rounded-lg",
         nuriaSecondary: "border border-[#1B4332] text-[#1B4332] bg-transparent hover:bg-[#1B4332]/5 transition-colors duration-150 rounded-lg",
-        nuriaAccent: "bg-[#C2541A] text-white hover:brightness-90 transition-[filter,background-color,color] duration-150 rounded-lg",
+        nuriaAccent: "bg-[#A1440B] text-white hover:brightness-90 transition-[filter,background-color,color] duration-150 rounded-lg",
       },
       size: {
         default: "h-12 px-6 py-3",

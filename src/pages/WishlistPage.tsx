@@ -36,7 +36,7 @@ const WishlistPage = () => {
       ) : products.length === 0 ? (
         <div className="text-center py-24 bg-white rounded-[2.5rem] border border-[#E5E0D8] shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#FAF7F2] rounded-bl-full" />
-          <HeartOff className="w-16 h-16 mx-auto text-[#C2541A]/30 mb-6" />
+          <HeartOff className="w-16 h-16 mx-auto text-[#A1440B]/30 mb-6" />
           <h2 className="text-3xl font-display font-bold text-[#1A1A1A]">Your wishlist is empty</h2>
           <p className="font-sans text-[#6B7280] mt-4 max-w-sm mx-auto text-lg leading-relaxed">
             Explore our collection of 21,311 books and save the ones that catch your eye!

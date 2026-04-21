@@ -91,7 +91,7 @@ const BlogPage = () => {
 
                 <div className="space-y-5 px-4 flex flex-col flex-1">
                   <div className="flex items-center gap-4 shrink-0">
-                    <span className="font-sans text-[11px] font-bold text-[#C2541A] uppercase tracking-[0.3em]">
+                    <span className="font-sans text-[11px] font-bold text-[#A1440B] uppercase tracking-[0.3em]">
                       {new Date(post.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" })}
                     </span>
                     <div className="h-px flex-1 bg-[#E5E0D8]" />
@@ -103,10 +103,10 @@ const BlogPage = () => {
                     {post.excerpt || post.content?.slice(0, 150) + "..."}
                   </p>
                   <div className="pt-4 flex items-center justify-between w-full shrink-0">
-                    <span className="flex items-center gap-3 font-sans font-bold text-[#1B4332] uppercase text-[11px] tracking-widest border-b-2 border-[#1B4332]/10 pb-1 group-hover:border-[#C2541A] transition-all">
+                    <span className="flex items-center gap-3 font-sans font-bold text-[#1B4332] uppercase text-[11px] tracking-widest border-b-2 border-[#1B4332]/10 pb-1 group-hover:border-[#A1440B] transition-all">
                       Continue Reading <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </span>
-                    <Bookmark className="w-5 h-5 text-[#E5E0D8] hover:text-[#C2541A] transition-colors" />
+                    <Bookmark className="w-5 h-5 text-[#E5E0D8] hover:text-[#A1440B] transition-colors" />
                   </div>
                 </div>
               </Link>

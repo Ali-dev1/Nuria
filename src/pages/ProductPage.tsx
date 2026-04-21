@@ -210,7 +210,7 @@ const ProductPage = () => {
                 </div>
               ) : (
                 <div className="bg-muted/30 p-4 rounded-xl text-sm text-muted-foreground italic border border-dashed border-border">
-                  Please <Link to="/login" className="text-[#C2541A] font-bold hover:underline">sign in</Link> to leave a review.
+                  Please <Link to="/login" className="text-[#A1440B] font-bold hover:underline">sign in</Link> to leave a review.
                 </div>
               )}
 

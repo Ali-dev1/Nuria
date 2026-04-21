@@ -21,8 +21,8 @@ const ContactPage = () => {
 
           <div className="space-y-8">
             <div className="flex gap-6 items-start group">
-              <div className="w-14 h-14 rounded-2xl bg-[#C2541A]/5 flex items-center justify-center shrink-0 border border-[#C2541A]/10 group-hover:bg-[#C2541A]/10 transition-colors">
-                <MapPin className="w-6 h-6 text-[#C2541A]" />
+              <div className="w-14 h-14 rounded-2xl bg-[#A1440B]/5 flex items-center justify-center shrink-0 border border-[#A1440B]/10 group-hover:bg-[#A1440B]/10 transition-colors">
+                <MapPin className="w-6 h-6 text-[#A1440B]" />
               </div>
               <div className="space-y-2">
                 <p className="font-sans font-bold text-[#1A1A1A] text-lg">Our Location</p>

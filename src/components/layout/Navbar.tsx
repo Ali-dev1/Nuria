@@ -42,7 +42,7 @@ export const Navbar = () => {
     <>
       {/* Announcement Bar */}
       {showAnnouncement && (
-        <div className="bg-[#C2541A] text-white text-[12px] font-sans font-medium py-2 px-4 relative z-[51]">
+        <div className="bg-[#A1440B] text-white text-[12px] font-sans font-medium py-2 px-4 relative z-[51]">
           <div className="container-nuria flex items-center justify-between">
             <span className="text-left">🚚 Enjoy free delivery within Nairobi for orders above KSh 10,000 | 📞 0794 233 261</span>
             <button onClick={dismissAnnouncement} className="p-1 hover:bg-white/10 rounded-full transition-colors shrink-0" aria-label="Dismiss">
@@ -101,7 +101,7 @@ export const Navbar = () => {
             <div className="hidden lg:flex items-center gap-3 mr-2">
               {(!profile || profile.role === 'customer') && (
                 <Link to="/vendor/guide">
-                  <Button className="bg-[#C2541A] hover:bg-[#A04415] text-white border-none text-xs font-bold uppercase tracking-wider px-4">
+                  <Button className="bg-[#A1440B] hover:bg-[#A04415] text-white border-none text-xs font-bold uppercase tracking-wider px-4">
                     SELL ON NURIA
                   </Button>
                 </Link>
@@ -131,7 +131,7 @@ export const Navbar = () => {
             <Link to="/cart" className="relative p-2 text-white hover:text-white/80 transition-colors" aria-label="Cart">
               <ShoppingCart className="w-5 h-5" />
               {totalItems > 0 && (
-                <span className="absolute top-0 right-0 w-5 h-5 bg-[#C2541A] text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-[#1B4332]">
+                <span className="absolute top-0 right-0 w-5 h-5 bg-[#A1440B] text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-[#1B4332]">
                   {totalItems}
                 </span>
               )}
@@ -161,7 +161,7 @@ export const Navbar = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   autoFocus
-                  className="w-full pl-12 pr-4 py-3 bg-white rounded-full text-sm text-[#1A1A1A] border-none shadow-xl focus:ring-2 focus:ring-[#C2541A]"
+                  className="w-full pl-12 pr-4 py-3 bg-white rounded-full text-sm text-[#1A1A1A] border-none shadow-xl focus:ring-2 focus:ring-[#A1440B]"
                 />
               </div>
             </form>

@@ -14,7 +14,7 @@ const VendorGuidePage = () => {
         <section className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
             <h2 className="font-display text-4xl lg:text-5xl font-bold text-[#1A1A1A] leading-tight">
-              A partnership built <br />on <span className="text-[#C2541A]">transparency.</span>
+              A partnership built <br />on <span className="text-[#A1440B]">transparency.</span>
             </h2>
             <p className="font-sans text-xl text-[#6B7280] leading-relaxed">
               At Nuria, we believe creators deserve a fair share. We only earn when you sell — meaning zero listing fees and radical honesty in every payout.
@@ -37,7 +37,7 @@ const VendorGuidePage = () => {
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl" />
             <div className="relative z-10 space-y-8 text-center lg:text-left">
               <div className="w-20 h-20 bg-white/10 backdrop-blur-xl rounded-3xl flex items-center justify-center border border-white/20 mx-auto lg:mx-0">
-                <BadgePercent className="w-10 h-10 text-[#C2541A]" />
+                <BadgePercent className="w-10 h-10 text-[#A1440B]" />
               </div>
               <div className="space-y-2">
                 <h3 className="font-display text-3xl font-bold">Simple Commission</h3>
@@ -47,7 +47,7 @@ const VendorGuidePage = () => {
               </div>
               <Button 
                 onClick={() => window.location.href = "/vendor/register"}
-                className="w-full py-8 bg-[#C2541A] hover:bg-[#A04415] rounded-2xl font-bold uppercase tracking-widest text-xs border-none shadow-xl shadow-black/20"
+                className="w-full py-8 bg-[#A1440B] hover:bg-[#A04415] rounded-2xl font-bold uppercase tracking-widest text-xs border-none shadow-xl shadow-black/20"
               >
                 Register as Vendor
               </Button>
@@ -58,9 +58,9 @@ const VendorGuidePage = () => {
         {/* 🗺️ 6-Step Roadmap */}
         <section className="space-y-16">
           <div className="text-center space-y-4">
-            <span className="font-sans text-[12px] font-bold text-[#C2541A] tracking-[0.3em] uppercase">The Roadmap</span>
+            <span className="font-sans text-[12px] font-bold text-[#A1440B] tracking-[0.3em] uppercase">The Roadmap</span>
             <h2 className="font-display text-5xl font-bold text-[#1A1A1A]">Path To Success</h2>
-            <div className="w-[100px] h-[4px] bg-[#C2541A] mx-auto rounded-full" />
+            <div className="w-[100px] h-[4px] bg-[#A1440B] mx-auto rounded-full" />
             <p className="mt-6 font-sans text-[#6B7280] text-lg max-w-2xl mx-auto">
               Follow these simple steps to transform your manuscript into a national bestseller on Kenya's premier bookstore.
             </p>
@@ -78,7 +78,7 @@ const VendorGuidePage = () => {
                 title: "Listing Products",
                 desc: "Search for existing items to 'Sell This' or use our simple form to add a brand new product catalog.",
                 icon: ListPlus,
-                color: "#C2541A"
+                color: "#A1440B"
               },
               {
                 title: "Order Monitoring",
@@ -96,7 +96,7 @@ const VendorGuidePage = () => {
                 title: "Quality Review",
                 desc: "Our team ensures books are in pristine condition before dispatching to the final customer.",
                 icon: ShieldCheck,
-                color: "#C2541A"
+                color: "#A1440B"
               },
               {
                 title: "Monthly Payouts",
@@ -134,7 +134,7 @@ const VendorGuidePage = () => {
               <p className="font-sans text-[#6B7280] text-lg leading-relaxed">
                 To maintain the quality of the marketplace, we require all merchants to adhere to our basic core requirements.
               </p>
-              <div className="w-[80px] h-[4px] bg-[#C2541A] rounded-full" />
+              <div className="w-[80px] h-[4px] bg-[#A1440B] rounded-full" />
             </div>
 
             <div className="lg:col-span-7 grid sm:grid-cols-2 gap-4">
@@ -146,7 +146,7 @@ const VendorGuidePage = () => {
                 "24h Delivery Commitment",
                 "Prisinte Product Condition"
               ].map((req, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-2xl border border-[#E5E0D8] flex items-center gap-4 hover:border-[#C2541A]/30 transition-all">
+                <div key={idx} className="bg-white p-6 rounded-2xl border border-[#E5E0D8] flex items-center gap-4 hover:border-[#A1440B]/30 transition-all">
                   <CheckCircle2 className="w-6 h-6 text-[#1B4332] shrink-0" />
                   <span className="font-sans font-bold text-[#1A1A1A] text-sm uppercase tracking-wider">{req}</span>
                 </div>

@@ -31,7 +31,7 @@ const GiftCardPage = () => {
           <div className="relative group perspective-1000">
             <div className="aspect-[1.6/1] bg-[#1B4332] rounded-[3rem] p-12 text-white overflow-hidden shadow-[0_50px_100px_-20px_rgba(27,67,50,0.3)] flex flex-col justify-between transition-all duration-700 group-hover:rotate-y-6 group-hover:scale-105">
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
-              <div className="absolute -right-20 -top-20 w-80 h-80 bg-[#C2541A]/20 rounded-full blur-[100px] group-hover:bg-[#C2541A]/30 transition-colors" />
+              <div className="absolute -right-20 -top-20 w-80 h-80 bg-[#A1440B]/20 rounded-full blur-[100px] group-hover:bg-[#A1440B]/30 transition-colors" />
               
               <div className="flex justify-between items-start relative z-10">
                 <div className="space-y-1">
@@ -70,7 +70,7 @@ const GiftCardPage = () => {
                     setAmount(val);
                     setCustomAmount("");
                   }}
-                  className={`p-8 border rounded-[2rem] font-display text-2xl font-bold transition-all hover:-translate-y-1 ${amount === val && !customAmount ? "bg-[#FAF7F2] border-[#C2541A] text-[#1A1A1A]" : "bg-white border-[#E5E0D8] text-[#1A1A1A] hover:border-[#C2541A]"}`}
+                  className={`p-8 border rounded-[2rem] font-display text-2xl font-bold transition-all hover:-translate-y-1 ${amount === val && !customAmount ? "bg-[#FAF7F2] border-[#A1440B] text-[#1A1A1A]" : "bg-white border-[#E5E0D8] text-[#1A1A1A] hover:border-[#A1440B]"}`}
                 >
                   <span className="text-sm font-sans block mb-1 opacity-70">KSh</span>
                   {val.toLocaleString()}
@@ -87,7 +87,7 @@ const GiftCardPage = () => {
                   value={customAmount}
                   onChange={handleCustomAmountChange}
                   placeholder="Enter amount..." 
-                  className="w-full pl-16 pr-6 py-5 bg-white border border-[#E5E0D8] rounded-2xl focus:ring-4 focus:ring-[#C2541A]/5 focus:border-[#C2541A] transition-all outline-none text-xl font-display font-bold text-[#1A1A1A]" 
+                  className="w-full pl-16 pr-6 py-5 bg-white border border-[#E5E0D8] rounded-2xl focus:ring-4 focus:ring-[#A1440B]/5 focus:border-[#A1440B] transition-all outline-none text-xl font-display font-bold text-[#1A1A1A]" 
                 />
               </div>
             </div>
@@ -110,7 +110,7 @@ const GiftCardPage = () => {
           
           <div className="grid lg:grid-cols-12 gap-16 items-center relative z-10">
             <div className="lg:col-span-5 space-y-8">
-              <span className="font-sans text-[12px] font-bold text-[#C2541A] uppercase tracking-[0.3em]">Quick Check</span>
+              <span className="font-sans text-[12px] font-bold text-[#A1440B] uppercase tracking-[0.3em]">Quick Check</span>
               <h2 className="font-display text-5xl font-bold text-[#1A1A1A] leading-tight">Verify Your <br />Balance</h2>
               <p className="font-sans text-[#6B7280] text-lg leading-relaxed">
                 Check the remaining value of your Nuria Gift Card. Simply enter your email and the unique voucher code to see your balance.
@@ -125,9 +125,9 @@ const GiftCardPage = () => {
                     <input 
                       type="email" 
                       placeholder="you@domain.com" 
-                      className="w-full pl-14 pr-6 py-5 bg-white border border-[#E5E0D8] rounded-2xl focus:ring-4 focus:ring-[#C2541A]/5 focus:border-[#C2541A] transition-all outline-none" 
+                      className="w-full pl-14 pr-6 py-5 bg-white border border-[#E5E0D8] rounded-2xl focus:ring-4 focus:ring-[#A1440B]/5 focus:border-[#A1440B] transition-all outline-none" 
                     />
-                    <Mail className="w-5 h-5 text-[#C2541A] absolute left-6 top-1/2 -translate-y-1/2" />
+                    <Mail className="w-5 h-5 text-[#A1440B] absolute left-6 top-1/2 -translate-y-1/2" />
                   </div>
                 </div>
 
@@ -137,13 +137,13 @@ const GiftCardPage = () => {
                     <input 
                       type="text" 
                       placeholder="NR-XXXX-XXXX-XXXX" 
-                      className="w-full pl-14 pr-6 py-5 bg-white border border-[#E5E0D8] rounded-2xl focus:ring-4 focus:ring-[#C2541A]/5 focus:border-[#C2541A] transition-all outline-none" 
+                      className="w-full pl-14 pr-6 py-5 bg-white border border-[#E5E0D8] rounded-2xl focus:ring-4 focus:ring-[#A1440B]/5 focus:border-[#A1440B] transition-all outline-none" 
                     />
-                    <CreditCard className="w-5 h-5 text-[#C2541A] absolute left-6 top-1/2 -translate-y-1/2" />
+                    <CreditCard className="w-5 h-5 text-[#A1440B] absolute left-6 top-1/2 -translate-y-1/2" />
                   </div>
                 </div>
 
-                <Button className="w-full py-8 bg-[#C2541A] hover:bg-[#A04415] text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-widest shadow-xl shadow-[#C2541A]/10">
+                <Button className="w-full py-8 bg-[#A1440B] hover:bg-[#A04415] text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-widest shadow-xl shadow-[#A1440B]/10">
                   <Search className="w-4 h-4 mr-2" /> Verify Remaining Balance
                 </Button>
               </form>
