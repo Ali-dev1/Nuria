@@ -92,13 +92,8 @@ const CheckoutPage = () => {
       const { error: itemsErr } = await supabase.from("order_items").insert(orderItems);
       if (itemsErr) throw itemsErr;
 
-      // 3. Update product stock (decrease)
-      for (const { product, quantity } of items) {
-        await supabase
-          .from("products")
-          .update({ stock: Math.max(0, product.stock - quantity) })
-          .eq("id", product.id);
-      }
+      // 3. Stock update and Earned Loyalty are now handled by database triggers
+      // on insert to order_items and orders tables respectively.
 
       // 4. Save address if provided
       if (address.name && address.street) {
@@ -112,17 +107,7 @@ const CheckoutPage = () => {
         });
       }
 
-      // 5. Loyalty points earned
-      if (loyaltyPointsEarned > 0) {
-        await supabase.from("loyalty_transactions").insert({
-          user_id: user.id,
-          points: loyaltyPointsEarned,
-          type: "earned",
-          order_id: order.id,
-        });
-      }
-
-      // 6. Loyalty points redeemed
+      // 5. Loyalty points redeemed (Keep this as it's user-driven)
       if (pointsRedeemed > 0) {
         await supabase.from("loyalty_transactions").insert({
           user_id: user.id,
@@ -130,20 +115,19 @@ const CheckoutPage = () => {
           type: "redeemed",
           order_id: order.id,
         });
-      }
 
-      // 7. Update profile loyalty balance
-      const netPoints = loyaltyPointsEarned - pointsRedeemed;
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("loyalty_points")
-        .eq("user_id", user.id)
-        .maybeSingle();
-      const currentPoints = profile?.loyalty_points ?? 0;
-      await supabase
-        .from("profiles")
-        .update({ loyalty_points: Math.max(0, currentPoints + netPoints) })
-        .eq("user_id", user.id);
+        // Update profile loyalty balance for redemption
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("loyalty_points")
+          .eq("user_id", user.id)
+          .maybeSingle();
+        const currentPoints = profile?.loyalty_points ?? 0;
+        await supabase
+          .from("profiles")
+          .update({ loyalty_points: Math.max(0, currentPoints - pointsRedeemed) })
+          .eq("user_id", user.id);
+      }
 
       // 8. Trigger M-Pesa STK Push if selected
       if (paymentMethod === "mpesa") {

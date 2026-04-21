@@ -37,7 +37,7 @@ export const BookCard = ({ product }: BookCardProps) => {
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-gradient-to-br from-muted to-muted/50">
-            <span className="font-display text-[10px] font-bold text-[#1B4332] mb-1 uppercase tracking-widest opacity-50 text-center">Nuria Forest</span>
+            <span className="font-display text-[10px] font-bold text-[#1B4332] mb-1 uppercase tracking-widest opacity-50 text-center">Nuria Store</span>
             <span className="font-display text-xs text-[#1A1A1A]/60 text-center line-clamp-3 leading-tight">{product.title}</span>
           </div>
         )}

@@ -105,9 +105,9 @@ const SEOManager = () => {
 
   useEffect(() => {
     if (settings?.announcement_text) {
-      document.title = `${settings.announcement_text} | Nuria Forest`;
+      document.title = `${settings.announcement_text} | Nuria Store`;
     } else {
-      document.title = "Nuria Forest — Kenya's Premier Bookstore";
+      document.title = "Nuria Store — Kenya's Premier Bookstore";
     }
   }, [settings]);
 

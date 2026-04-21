@@ -87,7 +87,7 @@ const ProductPage = () => {
           ) : null}
           <div className="absolute inset-0 flex flex-col items-center justify-center p-12 bg-gradient-to-br from-muted to-muted/50 text-center" style={{ display: product.images?.[0] && product.images[0] !== "/placeholder.svg" && !product.images[0].includes("placeholder") ? "none" : "flex" }}>
             <div className="flex flex-col items-center">
-              <span className="font-display text-sm font-bold text-secondary mb-4 uppercase tracking-[0.2em] opacity-60">Nuria Forest</span>
+              <span className="font-display text-sm font-bold text-secondary mb-4 uppercase tracking-[0.2em] opacity-60">Nuria Store</span>
               <h2 className="font-display text-3xl text-foreground/40 font-bold leading-tight">{product.title}</h2>
               <div className="h-1 w-12 bg-secondary/30 my-6 rounded-full" />
               <p className="text-muted-foreground uppercase text-[10px] font-bold tracking-widest">Original Cover Coming Soon</p>

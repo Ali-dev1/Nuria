@@ -174,7 +174,7 @@ export const PlatformSettings = () => {
                </div>
                <h3 className="text-sm font-black uppercase tracking-widest text-foreground">Platform Aesthetics</h3>
              </div>
-             <p className="text-[10px] text-muted-foreground italic leading-relaxed">Global style tokens are locked to the "Nuria Forest" Design System. Brand identity overrides are currently disabled in favor of stabilized UX.</p>
+             <p className="text-[10px] text-muted-foreground italic leading-relaxed">Global style tokens are locked to the "Nuria Store" Design System. Brand identity overrides are currently disabled in favor of stabilized UX.</p>
              <div className="flex gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[#1B4332] shadow-lg border border-white/20" />
                 <div className="w-10 h-10 rounded-xl bg-[#2D6A4F] shadow-lg border border-white/20" />

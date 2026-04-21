@@ -32,3 +32,10 @@ dist-ssr
 
 # AI Metadata
 dev_log_backup/
+
+# Playwright Tests and Results
+tests/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
