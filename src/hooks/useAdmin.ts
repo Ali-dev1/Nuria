@@ -132,11 +132,11 @@ export const useAdminVendors = (options?: { verified?: boolean }) => {
       if (vendorsError) throw vendorsError;
       if (!vendors || vendors.length === 0) return { data: [], count };
 
-      // Manual join with profiles to get email and name
+      // Manual join with profiles to get name (email is on vendors.contact_email, not profiles)
       const userIds = Array.from(new Set(vendors.map(v => v.user_id)));
       const { data: profiles, error: profilesError } = await supabase
         .from("profiles")
-        .select("user_id, name, email")
+        .select("user_id, name")
         .in("user_id", userIds);
 
       if (profilesError) {
@@ -146,7 +146,10 @@ export const useAdminVendors = (options?: { verified?: boolean }) => {
 
       const mergedData = vendors.map(v => ({
         ...v,
-        profiles: profiles.find(p => p.user_id === v.user_id) || null
+        profiles: {
+          ...(profiles?.find(p => p.user_id === v.user_id) || {}),
+          email: v.contact_email || null,
+        },
       }));
 
       return { data: mergedData, count };

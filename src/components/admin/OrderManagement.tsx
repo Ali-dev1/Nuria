@@ -51,7 +51,7 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
              </div>
           </div>
           <div className="text-right">
-             <p className="text-sm font-black text-foreground">{formatPrice(item.price_at_time)}</p>
+             <p className="text-sm font-black text-foreground">{formatPrice(item.unit_price)}</p>
              <p className="text-[9px] text-muted-foreground font-medium italic">Unit Price</p>
           </div>
         </div>

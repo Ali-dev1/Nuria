@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Plus, Trash2, Star, Edit, ChevronDown, Package, Layers, AlertCircle, CheckCircle2, MoreHorizontal, Filter, ArrowUpRight } from "lucide-react";
+import { Search, Plus, Trash2, Star, Edit, ChevronDown, Package, Layers, AlertCircle, CheckCircle2, MoreHorizontal, Filter, ArrowUpRight, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { formatPrice } from "@/lib/constants";
 import { useAdminProducts } from "@/hooks/useAdmin";

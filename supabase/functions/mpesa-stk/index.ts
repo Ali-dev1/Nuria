@@ -6,27 +6,39 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
+  // Handle CORS
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
 
   try {
-    const { phone, amount, orderId } = await req.json();
+    const body = await req.json();
+    const { phone, amount, orderId } = body;
+
+    if (!phone || !amount || !orderId) {
+      console.error("Missing required fields:", { phone, amount, orderId });
+      return new Response(JSON.stringify({ error: "Missing phone, amount, or orderId" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
 
     // 1. Format Phone (Ensure 254 format)
-    let formattedPhone = phone.replace(/\D/g, "");
+    let formattedPhone = phone.toString().replace(/\D/g, "");
     if (formattedPhone.startsWith("0")) {
       formattedPhone = "254" + formattedPhone.substring(1);
     } else if (formattedPhone.startsWith("+")) {
       formattedPhone = formattedPhone.substring(1);
     }
 
-    // 2. Daraja Credentials (Sandbox)
-    const consumerKey = "1GQjFFKKXWckkCUwMFIj3jrcpKsXW9QaGh1nFWROYSR1a051";
-    const consumerSecret = "qw5WvNhAGCbvUPoMQUrUwub6SVjWNSa8ELyqj1tQIsjWv9F6KkcAYrawYeieAFVO";
+    // 2. Daraja Credentials (HARDCODED FOR DEFINITIVE FIX)
+    const consumerKey = "xlTSTOQcg3G02DWbggB3UfTwEQDyL5AOVfdQ6sJZxCYuiPh6";
+    const consumerSecret = "BAlqLnmoO49ptTgCMY46GJPmXGu6UGALP3unjL4JTU5fyS9M4G7N2AAAGV9sC1R3";
     const shortcode = "174379";
     const passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
     
+    console.log(`Initiating M-Pesa STK Push for Order: ${orderId}, Phone: ${formattedPhone}, Amount: ${amount}`);
+
     // 3. Get OAuth Token
     const auth = btoa(`${consumerKey}:${consumerSecret}`);
     const tokenRes = await fetch(
@@ -35,7 +47,23 @@ serve(async (req) => {
         headers: { Authorization: `Basic ${auth}` },
       }
     );
-    const { access_token } = await tokenRes.json();
+
+    if (!tokenRes.ok) {
+      const errorText = await tokenRes.text();
+      console.error("Daraja OAuth Error:", errorText);
+      // Return 200 with error details to avoid browser 401 generic failure
+      return new Response(JSON.stringify({ 
+        error: "M-Pesa Auth Failed", 
+        status: tokenRes.status,
+        details: errorText 
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200, 
+      });
+    }
+
+    const tokenData = await tokenRes.json();
+    const access_token = tokenData.access_token;
 
     // 4. Generate STK Push Request
     const timestamp = new Date().toISOString().replace(/[-:T.]/g, "").slice(0, 14);
@@ -66,15 +94,18 @@ serve(async (req) => {
     );
 
     const stkData = await stkRes.json();
+    console.log("Daraja Response:", JSON.stringify(stkData));
 
     return new Response(JSON.stringify(stkData), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
   } catch (error) {
+    console.error("Function Error:", error.message);
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 400,
+      status: 200, // Still return 200 so the frontend can see the custom error object
     });
   }
 });
+

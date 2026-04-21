@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   Users, Package, ShoppingCart, Store, 
-  Shield, LogOut, LayoutDashboard, FileText, Settings, Menu, X, Bell, Search, Terminal
+  Shield, LogOut, LayoutDashboard, FileText, Settings, Menu, X, Bell, Search
 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/authStore";
@@ -111,18 +111,6 @@ const AdminDashboard = () => {
           </nav>
 
           <div className="p-6 space-y-4">
-            {!isSidebarCollapsed && (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-white/40">System Healthy</span>
-                </div>
-                <div className="flex items-center justify-between text-[11px] font-mono text-white/60">
-                  <span>API Latency</span>
-                  <span className="text-white">24ms</span>
-                </div>
-              </div>
-            )}
             <button 
               onClick={() => signOut()} 
               className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-sm transition-all duration-300 ${isSidebarCollapsed ? "justify-center text-red-400 hover:bg-red-400/20" : "text-red-400/60 hover:text-red-400 hover:bg-red-400/10 border border-transparent hover:border-red-400/20"}`}
@@ -149,10 +137,7 @@ const AdminDashboard = () => {
               {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
             <div className="space-y-0.5">
-              <div className="flex items-center gap-2">
-                <Terminal className="w-3.5 h-3.5 text-primary" />
-                <span className="text-[10px] font-mono text-primary uppercase tracking-[0.2em] font-bold">Terminal / Active Session</span>
-              </div>
+              <span className="text-[10px] font-mono text-primary uppercase tracking-[0.2em] font-bold">Nuria Admin</span>
               <h2 className="text-2xl font-black text-[#1B4332] capitalize tracking-tight">{tab.replace("-", " ")}</h2>
             </div>
           </div>
@@ -180,7 +165,7 @@ const AdminDashboard = () => {
               </div>
               <div className="flex flex-col">
                 <p className="text-sm font-black text-[#1B4332] leading-none uppercase tracking-tighter">{user?.email?.split("@")[0]}</p>
-                <p className="text-[9px] text-primary font-mono uppercase tracking-[0.2em] font-black mt-1">God Mode</p>
+                <p className="text-[9px] text-primary font-mono uppercase tracking-[0.2em] font-black mt-1">Administrator</p>
               </div>
             </div>
           </div>

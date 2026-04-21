@@ -131,6 +131,7 @@ const CheckoutPage = () => {
 
       // 8. Trigger M-Pesa STK Push if selected
       if (paymentMethod === "mpesa") {
+        console.log("Triggering M-Pesa STK Push...");
         const { data: mpesaData, error: mpesaErr } = await supabase.functions.invoke("mpesa-stk", {
           body: {
             phone: mpesaPhone || address.phone,
@@ -140,10 +141,16 @@ const CheckoutPage = () => {
         });
 
         if (mpesaErr) {
-          console.error("M-Pesa Error:", mpesaErr);
-          toast.error("Order placed, but M-Pesa prompt failed. Please pay manually.");
+          console.error("M-Pesa Invocation Error:", mpesaErr);
+          toast.error(`Order placed, but payment prompt failed: ${mpesaErr.message || "Unknown error"}`);
+        } else if (mpesaData?.error) {
+          console.error("M-Pesa Business Error:", mpesaData);
+          toast.error(`M-Pesa Error: ${mpesaData.details || mpesaData.error}`);
         } else if (mpesaData?.ResponseCode === "0") {
           toast.success("M-Pesa prompt sent! Check your phone.");
+        } else {
+          console.warn("Unexpected M-Pesa Response:", mpesaData);
+          toast.error("Order placed, but M-Pesa response was unexpected. Please check your phone.");
         }
       }
 
