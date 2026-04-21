@@ -1,4 +1,5 @@
 import { DollarSign, ShoppingCart, Package, Star, CheckCircle, TrendingUp } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { formatPrice } from "@/lib/constants";
 
 interface VendorOverviewProps {
@@ -11,9 +12,12 @@ interface VendorOverviewProps {
   recentOrders: any[];
   topProducts: any[];
   isVerified?: boolean;
+  vendor?: any;
+  setTab?: (tab: any) => void;
 }
 
-export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified }: VendorOverviewProps) => {
+export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified, vendor, setTab }: VendorOverviewProps) => {
+  const navigate = useNavigate();
   const statusColors: Record<string, string> = {
     pending: "bg-yellow-100 text-yellow-700",
     confirmed: "bg-blue-100 text-blue-700",
@@ -65,10 +69,16 @@ export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified }:
                 You're just a few steps away from reaching thousands of readers. Follow our quick start guide to get your store live.
               </p>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start pt-2">
-                <button className="px-5 py-2.5 bg-secondary text-secondary-foreground rounded-xl font-bold text-sm shadow-lg shadow-secondary/20 hover:scale-105 transition-transform">
+                <button 
+                  onClick={() => navigate('/vendor/add-product')}
+                  className="px-5 py-2.5 bg-secondary text-secondary-foreground rounded-xl font-bold text-sm shadow-lg shadow-secondary/20 hover:scale-105 transition-transform"
+                >
                   List Your First Product
                 </button>
-                <button className="px-5 py-2.5 bg-white border border-border text-foreground rounded-xl font-bold text-sm hover:bg-muted/30 transition-colors">
+                <button 
+                  onClick={() => setTab && setTab('settings')}
+                  className="px-5 py-2.5 bg-white border border-border text-foreground rounded-xl font-bold text-sm hover:bg-muted/30 transition-colors"
+                >
                   Setup Payments
                 </button>
               </div>
@@ -79,10 +89,11 @@ export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified }:
               </h4>
               <ul className="space-y-3">
                 {[
-                  { label: "Register Store", done: true },
-                  { label: "Verify Identity", done: isVerified },
+                  { label: "Register Store", done: !!vendor?.id },
+                  { label: "Verify Identity", done: !!isVerified },
                   { label: "Add First Product", done: stats.productsCount > 0 },
-                  { label: "Complete Profile", done: false },
+                  { label: "Setup Payments", done: !!(vendor?.mpesa_number && vendor?.mpesa_number.length >= 5) },
+                  { label: "Complete Profile", done: !!(vendor?.photo_url && vendor?.bio) },
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-center gap-3 text-sm">
                     <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${item.done ? "bg-secondary/10 border-secondary text-secondary" : "border-border"}`}>

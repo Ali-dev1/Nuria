@@ -154,8 +154,12 @@ const VendorDashboard = () => {
                 <span className="text-xs font-black text-foreground">{vendor?.store_name || "Merchant"}</span>
                 <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Partner Console</span>
              </div>
-             <div className="w-10 h-10 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center text-secondary font-black text-sm">
-                {vendor?.store_name?.charAt(0) || "M"}
+             <div className="w-10 h-10 rounded-full bg-secondary/10 border border-secondary/20 flex items-center justify-center overflow-hidden bg-white">
+                {vendor?.photo_url ? (
+                  <img src={vendor.photo_url} alt={vendor.store_name} className="w-full h-full object-cover" />
+                ) : (
+                  <img src="/logo.png" alt="Nuria" className="w-8 h-auto object-contain" />
+                )}
              </div>
           </div>
         </header>
@@ -211,6 +215,8 @@ const VendorDashboard = () => {
                     recentOrders={orders.slice(0, 5)} 
                     topProducts={[...products].sort((a, b) => (b.stock || 0) - (a.stock || 0)).slice(0, 5)} 
                     isVerified={vendor?.is_verified}
+                    vendor={vendor}
+                    setTab={setTab}
                   />
                 )}
                 {tab === "products" && <VendorProducts products={products} onRefresh={refetchProducts} />}

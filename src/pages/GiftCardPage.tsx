@@ -1,8 +1,23 @@
+import { useState } from "react";
 import { InfoPageLayout } from "@/components/layout/InfoPageLayout";
-import { Gift, Mail, CreditCard, Search, Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
+import { Gift, Mail, CreditCard, Search, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const GiftCardPage = () => {
+  const [amount, setAmount] = useState<number>(10000);
+  const [customAmount, setCustomAmount] = useState<string>("");
+
+  const handleCustomAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/\D/g, "");
+    setCustomAmount(val);
+    const num = parseInt(val, 10);
+    if (!isNaN(num) && num >= 5000) {
+      setAmount(num);
+    } else if (val === "") {
+      setAmount(10000);
+    }
+  };
+
   return (
     <InfoPageLayout 
       label="The Perfect Gift"
@@ -23,15 +38,12 @@ const GiftCardPage = () => {
                   <h3 className="font-display text-4xl font-bold tracking-tight">Nuria</h3>
                   <p className="font-sans text-[9px] uppercase tracking-[0.4em] text-white/50">The Honest Store</p>
                 </div>
-                <div className="w-16 h-16 bg-white/10 backdrop-blur-2xl rounded-2xl border border-white/20 flex items-center justify-center">
-                  <Sparkles className="w-8 h-8 text-[#C2541A]" />
-                </div>
               </div>
 
               <div className="relative z-10 space-y-4">
                 <p className="font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-white/40">Digital Gift Voucher</p>
                 <div className="flex items-baseline gap-4">
-                  <span className="text-6xl font-display font-bold">KSh 10,000</span>
+                  <span className="text-6xl font-display font-bold">KSh {amount.toLocaleString()}</span>
                 </div>
               </div>
 
@@ -51,15 +63,33 @@ const GiftCardPage = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              {[1000, 2500, 5000, 10000].map((val) => (
+              {[10000, 20000, 30000, 50000].map((val) => (
                 <button 
                   key={val} 
-                  className="p-8 bg-white border border-[#E5E0D8] rounded-[2rem] font-display text-2xl font-bold text-[#1A1A1A] hover:border-[#C2541A] hover:bg-[#FAF7F2] transition-all hover:-translate-y-1"
+                  onClick={() => {
+                    setAmount(val);
+                    setCustomAmount("");
+                  }}
+                  className={`p-8 border rounded-[2rem] font-display text-2xl font-bold transition-all hover:-translate-y-1 ${amount === val && !customAmount ? "bg-[#FAF7F2] border-[#C2541A] text-[#1A1A1A]" : "bg-white border-[#E5E0D8] text-[#1A1A1A] hover:border-[#C2541A]"}`}
                 >
-                  <span className="text-sm font-sans text-[#6B7280] block mb-1">KSh</span>
+                  <span className="text-sm font-sans block mb-1 opacity-70">KSh</span>
                   {val.toLocaleString()}
                 </button>
               ))}
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-2">Custom Amount (Min KSh 5,000)</label>
+              <div className="relative">
+                <span className="absolute left-6 top-1/2 -translate-y-1/2 text-[#1A1A1A] font-bold font-sans">KSh</span>
+                <input 
+                  type="text" 
+                  value={customAmount}
+                  onChange={handleCustomAmountChange}
+                  placeholder="Enter amount..." 
+                  className="w-full pl-16 pr-6 py-5 bg-white border border-[#E5E0D8] rounded-2xl focus:ring-4 focus:ring-[#C2541A]/5 focus:border-[#C2541A] transition-all outline-none text-xl font-display font-bold text-[#1A1A1A]" 
+                />
+              </div>
             </div>
 
             <div className="space-y-6">

@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { CheckCircle, Package, ArrowRight } from "lucide-react";
+import { CheckCircle, Package, ArrowRight, Star } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabaseClient";
 import { formatPrice } from "@/lib/constants";
@@ -7,6 +8,8 @@ import { formatPrice } from "@/lib/constants";
 const OrderConfirmationPage = () => {
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get("id");
+  const [rating, setRating] = useState<number>(0);
+  const [ratingSubmitted, setRatingSubmitted] = useState(false);
 
   const { data: order } = useQuery({
     queryKey: ["order-confirm", orderId],
@@ -53,6 +56,31 @@ const OrderConfirmationPage = () => {
           </div>
         )}
       </div>
+
+      {!ratingSubmitted ? (
+        <div className="bg-[#FAF7F2] border border-[#E5E0D8] rounded-2xl p-8 mt-8 space-y-4 shadow-sm text-center">
+          <h3 className="font-display text-lg font-bold text-[#1A1A1A]">How was your checkout experience?</h3>
+          <p className="text-sm font-sans text-[#6B7280]">Your feedback helps us improve Nuria.</p>
+          <div className="flex justify-center gap-2 pt-2">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button 
+                key={star}
+                onClick={() => { setRating(star); setTimeout(() => setRatingSubmitted(true), 600); }}
+                onMouseEnter={() => setRating(star)}
+                onMouseLeave={() => setRating(rating)} // keeps selected rating if clicked
+                className="p-1 hover:scale-110 transition-transform"
+              >
+                <Star className={`w-8 h-8 ${rating >= star ? "fill-[#C2541A] text-[#C2541A]" : "text-[#E5E0D8]"}`} />
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="bg-[#1B4332]/5 border border-[#1B4332]/20 rounded-2xl p-8 mt-8 space-y-2 text-center">
+          <h3 className="font-display text-lg font-bold text-[#1B4332]">Thank you for your feedback!</h3>
+          <p className="text-sm font-sans text-[#1B4332]/80">We appreciate your support.</p>
+        </div>
+      )}
 
       <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
         <Link to="/account" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border-2 border-[#E5E0D8] text-[#1A1A1A] font-sans font-bold rounded-xl hover:bg-[#FAF7F2] transition-all text-sm">

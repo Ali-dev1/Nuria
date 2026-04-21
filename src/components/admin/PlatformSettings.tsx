@@ -14,9 +14,7 @@ export const PlatformSettings = () => {
 
   useEffect(() => {
     if (settingsData) {
-      const s: Record<string, string> = {};
-      settingsData.forEach((item: any) => { s[item.key] = item.value; });
-      setSettings(s);
+      setSettings(settingsData);
     }
   }, [settingsData]);
 
@@ -71,7 +69,7 @@ export const PlatformSettings = () => {
               <div className="p-3 bg-red-500/10 rounded-2xl border border-red-500/20 text-red-500">
                 <Shield className="w-5 h-5" />
               </div>
-              <h3 className="text-sm font-black uppercase tracking-widest text-foreground">Infrastructure Gate</h3>
+              <h3 className="text-sm font-black uppercase tracking-widest text-foreground">Platform Controls</h3>
             </div>
 
             <div className="space-y-8">
@@ -105,22 +103,6 @@ export const PlatformSettings = () => {
               </div>
             </div>
           </div>
-
-          <div className="bg-[#1B4332] p-10 rounded-[2.5rem] text-white shadow-2xl shadow-primary/20 space-y-6">
-             <div className="flex items-center gap-3 opacity-60">
-                <Activity className="w-4 h-4" />
-                <span className="text-[10px] font-black uppercase tracking-[0.2em]">Health Diagnostics</span>
-             </div>
-             <div className="space-y-4">
-                <div className="flex justify-between items-end">
-                   <span className="text-sm font-bold">API Latency</span>
-                   <span className="text-2xl font-black tracking-tighter">12ms</span>
-                </div>
-                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                   <div className="w-[12%] h-full bg-white shadow-[0_0_10px_white]" />
-                </div>
-             </div>
-          </div>
         </div>
 
         {/* Financial & Marketplace */}
@@ -130,7 +112,7 @@ export const PlatformSettings = () => {
               <div className="p-3 bg-amber-500/10 rounded-2xl border border-amber-500/20 text-amber-500">
                 <Percent className="w-5 h-5" />
               </div>
-              <h3 className="text-sm font-black uppercase tracking-widest text-foreground">Economic Engine</h3>
+              <h3 className="text-sm font-black uppercase tracking-widest text-foreground">Financials</h3>
             </div>
 
             <div className="grid grid-cols-1 gap-8">

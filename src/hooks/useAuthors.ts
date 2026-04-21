@@ -18,7 +18,7 @@ export const useAuthors = () => {
       const { data, error } = await supabase
         .from("authors")
         .select("*")
-        .order("name");
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return data as Author[];
     },

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   Users, Package, ShoppingCart, Store, 
-  Shield, LogOut, LayoutDashboard, FileText, Settings, Menu, X, Bell, Search
+  Shield, LogOut, LayoutDashboard, FileText, Settings, Menu, X, Search, PanelLeftClose, PanelLeft
 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/authStore";
@@ -16,8 +16,9 @@ import { UserManagement } from "@/components/admin/UserManagement";
 import { VendorManagement } from "@/components/admin/VendorManagement";
 import { BlogManagement } from "@/components/admin/BlogManagement";
 import { PlatformSettings } from "@/components/admin/PlatformSettings";
+import { AuthorManagement } from "@/components/admin/AuthorManagement";
 
-type TabType = "overview" | "products" | "orders" | "users" | "vendors" | "blog" | "settings";
+type TabType = "overview" | "products" | "orders" | "users" | "vendors" | "blog" | "settings" | "authors";
 
 const AdminDashboard = () => {
   const { user, signOut } = useAuthStore();
@@ -46,8 +47,9 @@ const AdminDashboard = () => {
     { id: "orders", label: "Orders", icon: ShoppingCart },
     { id: "users", label: "Customers", icon: Users },
     { id: "vendors", label: "Vendors", icon: Store },
-    { id: "blog", label: "Editorial", icon: FileText },
-    { id: "settings", label: "System Core", icon: Settings },
+    { id: "authors", label: "Authors", icon: Users },
+    { id: "blog", label: "Blog", icon: FileText },
+    { id: "settings", label: "Settings", icon: Settings },
   ] as const;
 
   if (loading) return (
@@ -58,8 +60,8 @@ const AdminDashboard = () => {
           <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin relative z-10" />
         </div>
         <div className="text-center space-y-2">
-          <p className="text-white font-display text-xl tracking-widest uppercase">Initializing Nuria Command</p>
-          <p className="text-primary/60 text-xs font-mono animate-pulse uppercase">Syncing Security Gates...</p>
+          <p className="text-white font-display text-xl tracking-widest uppercase">Loading Dashboard</p>
+          <p className="text-primary/60 text-xs font-mono animate-pulse uppercase">Please wait...</p>
         </div>
       </div>
     </div>
@@ -75,11 +77,11 @@ const AdminDashboard = () => {
           {/* Sidebar Background Gradient Decoration */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-[100px] pointer-events-none" />
           
-          <div className={`p-8 flex items-center h-24 ${isSidebarCollapsed ? "justify-center" : "justify-between"}`}>
+          <div className={`p-6 flex items-center h-20 ${isSidebarCollapsed ? "justify-center" : "justify-between"}`}>
             {!isSidebarCollapsed ? (
               <div className="space-y-1">
                 <h1 className="text-2xl font-black tracking-tighter text-white font-display leading-none">
-                  NURIA <span className="text-primary-foreground/40 text-[10px] font-mono block uppercase tracking-[0.3em] mt-1">Command Center</span>
+                  NURIA <span className="text-primary-foreground/40 text-[10px] font-mono block uppercase tracking-[0.3em] mt-1">Admin</span>
                 </h1>
               </div>
             ) : (
@@ -87,6 +89,13 @@ const AdminDashboard = () => {
                 <Shield className="w-6 h-6 text-white" />
               </div>
             )}
+            <button 
+              onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
+              className="hidden lg:flex p-2 hover:bg-white/10 rounded-xl text-white/40 hover:text-white transition-all"
+              title={isSidebarCollapsed ? "Expand menu" : "Collapse menu"}
+            >
+              {isSidebarCollapsed ? <PanelLeft className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
+            </button>
           </div>
           
           <nav className="flex-1 px-4 space-y-2 mt-8 overflow-y-auto no-scrollbar">
@@ -116,7 +125,7 @@ const AdminDashboard = () => {
               className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-sm transition-all duration-300 ${isSidebarCollapsed ? "justify-center text-red-400 hover:bg-red-400/20" : "text-red-400/60 hover:text-red-400 hover:bg-red-400/10 border border-transparent hover:border-red-400/20"}`}
             >
               <LogOut className="w-5 h-5 flex-shrink-0" />
-              {!isSidebarCollapsed && <span className="font-bold tracking-widest uppercase text-xs">Authorize Logout</span>}
+              {!isSidebarCollapsed && <span className="font-bold tracking-widest uppercase text-xs">Sign Out</span>}
             </button>
           </div>
         </div>
@@ -125,47 +134,33 @@ const AdminDashboard = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Top Header */}
-        <header className="h-24 bg-white/80 backdrop-blur-xl border-b border-[#1B4332]/5 flex items-center justify-between px-8 lg:px-12 sticky top-0 z-40">
-          <div className="flex items-center gap-8">
-            <button 
-              onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
-              className="hidden lg:flex p-3 bg-[#1B4332]/5 hover:bg-[#1B4332]/10 rounded-2xl text-[#1B4332] transition-all group active:scale-95"
-            >
-              <Menu className={`w-5 h-5 transition-transform duration-700 ${isSidebarCollapsed ? "rotate-180" : "rotate-0"}`} />
-            </button>
+        <header className="h-20 bg-white/80 backdrop-blur-xl border-b border-[#1B4332]/5 flex items-center justify-between px-6 lg:px-10 sticky top-0 z-40">
+          <div className="flex items-center gap-6">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="lg:hidden p-2 hover:bg-[#1B4332]/5 rounded-xl text-[#1B4332]">
               {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
-            <div className="space-y-0.5">
-              <span className="text-[10px] font-mono text-primary uppercase tracking-[0.2em] font-bold">Nuria Admin</span>
+            <div>
               <h2 className="text-2xl font-black text-[#1B4332] capitalize tracking-tight">{tab.replace("-", " ")}</h2>
             </div>
           </div>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
             <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-[#1B4332]/5 border border-[#1B4332]/10 rounded-2xl">
               <Search className="w-4 h-4 text-[#1B4332]/40" />
               <input 
                 type="text" 
-                placeholder="Global System Search..." 
-                className="bg-transparent border-none focus:ring-0 text-sm text-[#1B4332] w-48 placeholder:text-[#1B4332]/30 font-medium"
+                placeholder="Search..." 
+                className="bg-transparent border-none focus:ring-0 text-sm text-[#1B4332] w-40 placeholder:text-[#1B4332]/30 font-medium"
               />
             </div>
-            
-            <div className="relative group cursor-pointer">
-              <Bell className="w-6 h-6 text-[#1B4332]/40 group-hover:text-[#1B4332] transition-colors" />
-              <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
-            </div>
 
-            <div className="h-8 w-px bg-[#1B4332]/10 mx-2" />
-
-            <div className="flex items-center gap-4 bg-white p-1.5 pr-5 rounded-2xl shadow-sm border border-[#1B4332]/5 hover:shadow-md transition-all group">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#1B4332] to-[#2D6A4F] flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                <Shield className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-3 bg-white p-1.5 pr-4 rounded-2xl shadow-sm border border-[#1B4332]/5 hover:shadow-md transition-all">
+              <div className="w-10 h-10 rounded-xl bg-[#1B4332] flex items-center justify-center shadow-lg p-2">
+                <img src="/logo.png" alt="Nuria" className="w-full h-auto object-contain brightness-0 invert" />
               </div>
               <div className="flex flex-col">
-                <p className="text-sm font-black text-[#1B4332] leading-none uppercase tracking-tighter">{user?.email?.split("@")[0]}</p>
-                <p className="text-[9px] text-primary font-mono uppercase tracking-[0.2em] font-black mt-1">Administrator</p>
+                <p className="text-sm font-bold text-[#1B4332] leading-none">{user?.email?.split("@")[0]}</p>
+                <p className="text-[9px] text-primary/60 uppercase tracking-widest font-bold mt-0.5">Admin</p>
               </div>
             </div>
           </div>
@@ -179,8 +174,9 @@ const AdminDashboard = () => {
               {tab === "products" && <ProductManagement />}
               {tab === "orders" && <OrderManagement />}
               {tab === "users" && <UserManagement />}
-              {tab === "vendors" && <VendorManagement />}
-              {tab === "blog" && <BlogManagement />}
+              { tab === "vendors" && <VendorManagement /> }
+              { tab === "authors" && <AuthorManagement /> }
+              { tab === "blog" && <BlogManagement /> }
               {tab === "settings" && <PlatformSettings />}
             </div>
           </div>
