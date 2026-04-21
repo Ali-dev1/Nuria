@@ -1,4 +1,4 @@
-import { supabase } from "./integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 
 async function check() {
   const { data: { user } } = await supabase.auth.getUser();

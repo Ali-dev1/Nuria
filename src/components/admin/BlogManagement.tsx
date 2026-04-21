@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Plus, Edit3, Trash2, Calendar, Tag, FileText, Image as ImageIcon, X, Save, Zap, ExternalLink, ChevronRight, MoreHorizontal } from "lucide-react";
 import { useAdminPosts } from "@/hooks/useAdmin";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 

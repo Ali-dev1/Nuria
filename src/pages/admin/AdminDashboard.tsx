@@ -4,7 +4,7 @@ import {
   Users, Package, ShoppingCart, Store, 
   Shield, LogOut, LayoutDashboard, FileText, Settings, Menu, X, Bell, Search, Terminal
 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/authStore";
 import { useToast } from "@/hooks/use-toast";
 

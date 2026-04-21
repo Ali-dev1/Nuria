@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { CheckCircle, Package, ArrowRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { formatPrice } from "@/lib/constants";
 
 const OrderConfirmationPage = () => {

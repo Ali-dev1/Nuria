@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Save, Upload, User, Store, Mail, Phone, Smartphone } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 
 interface VendorSettingsProps {

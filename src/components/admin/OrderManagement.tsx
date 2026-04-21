@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Download, ChevronRight, Hash, Clock, User, CreditCard, Box, CheckCircle2, AlertCircle, Truck, XCircle, MoreHorizontal, FileText, ArrowUpRight } from "lucide-react";
 import { formatPrice } from "@/lib/constants";
 import { useAdminOrders, useOrderItems } from "@/hooks/useAdmin";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import {

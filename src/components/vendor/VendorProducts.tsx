@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Search, Package, Plus, Edit, Trash2, Upload, X, Save } from "lucide-react";
 import { Link } from "react-router-dom";
 import { formatPrice, CATEGORIES } from "@/lib/constants";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 
 interface VendorProductsProps {

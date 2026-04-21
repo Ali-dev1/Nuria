@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Search, ChevronRight, User, ShieldCheck, Store, Clock, Award, MoreHorizontal } from "lucide-react";
 import { useAdminUsers } from "@/hooks/useAdmin";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 

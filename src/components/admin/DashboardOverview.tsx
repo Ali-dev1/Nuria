@@ -2,7 +2,7 @@ import React from "react";
 import { TrendingUp, ShoppingCart, Users, Store, Package, AlertTriangle, ArrowUpRight, CheckCircle, Clock } from "lucide-react";
 import { formatPrice } from "@/lib/constants";
 import { useAdminStats, useAdminOrders, useAdminVendors, useAdminProducts } from "@/hooks/useAdmin";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 

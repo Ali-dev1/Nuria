@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Save, Shield, Settings2, Bell, Zap, Globe, Palette, Percent, Wallet, Info, CheckCircle2, AlertTriangle, Activity } from "lucide-react";
 import { usePlatformSettings } from "@/hooks/useAdmin";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 

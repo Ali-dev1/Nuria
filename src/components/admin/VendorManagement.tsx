@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Search, CheckCircle, XCircle, Edit, Save, Phone, Tag, Store, Info, AlertCircle } from "lucide-react";
 import { useAdminVendors } from "@/hooks/useAdmin";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";

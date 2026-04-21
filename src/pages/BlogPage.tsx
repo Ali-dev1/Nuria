@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { InfoPageLayout } from "@/components/layout/InfoPageLayout";
 import { BookOpen, Newspaper, Star, ArrowRight, Bookmark, Loader2 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 
 const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("ALL");

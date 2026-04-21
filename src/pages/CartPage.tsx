@@ -3,7 +3,7 @@ import { Trash2, Plus, Minus, ArrowLeft, ShoppingCart as CartIcon } from "lucide
 import { useCartStore } from "@/store/cartStore";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { formatPrice } from "@/lib/constants";
 import { useState } from "react";
 import { useSettings } from "@/hooks/useSettings";

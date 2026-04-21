@@ -4,7 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useToast } from "@/hooks/use-toast";
 import { nuriaAuth } from "@/integrations/nuria-auth/index";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -54,7 +54,7 @@ const LoginPage = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/auth/callback`,
       },
     });
     if (error) {

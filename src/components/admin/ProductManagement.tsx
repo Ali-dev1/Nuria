@@ -3,7 +3,7 @@ import { Search, Plus, Trash2, Star, Edit, ChevronDown, Package, Layers, AlertCi
 import { Link } from "react-router-dom";
 import { formatPrice } from "@/lib/constants";
 import { useAdminProducts } from "@/hooks/useAdmin";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import {
