@@ -14,7 +14,7 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({ produc
     <div className="relative aspect-[3/4] bg-muted rounded-2xl overflow-hidden max-w-md mx-auto lg:max-w-none w-full shadow-2xl">
       {product.images?.[0] && product.images[0] !== "/placeholder.svg" && !product.images[0].includes("placeholder") ? (
         <img 
-          src={product.images[0].includes("unsplash.com") ? `${product.images[0]}&fm=webp&q=80` : product.images[0]} 
+          src={product.images[0].includes("unsplash.com") ? `${product.images[0]}&fm=webp&q=80` : product.images[0].includes("nuriakenya.com") ? `https://wsrv.nl/?url=${product.images[0]}&w=800&output=webp&q=75` : product.images[0]} 
           alt={product.title} 
           fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover" 

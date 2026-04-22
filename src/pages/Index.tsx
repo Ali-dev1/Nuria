@@ -247,7 +247,7 @@ const Index = () => {
               >
                 <div className="h-[300px] sm:h-[350px] overflow-hidden relative bg-muted">
                   <img 
-                    src={author.photo_url.includes("unsplash.com") ? `${author.photo_url}&fm=webp&q=60&w=400` : author.photo_url} 
+                    src={!author.photo_url || author.photo_url.includes("Miguna-Miguna.jpg") ? "/logo-small.png" : author.photo_url.includes("unsplash.com") ? `${author.photo_url}&fm=webp&q=60&w=400` : author.photo_url} 
                     alt={author.name}
                     width="600"
                     height="800"

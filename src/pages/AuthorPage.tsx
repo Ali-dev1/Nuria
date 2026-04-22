@@ -68,7 +68,7 @@ const AuthorPage = () => {
           <div className="flex flex-col lg:flex-row gap-16 lg:items-center">
             <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden shrink-0 border-4 border-white shadow-xl">
               <img 
-                src={author.photo_url?.includes("unsplash.com") ? `${author.photo_url}&fm=webp&q=60&w=400` : author.photo_url} 
+                src={!author.photo_url || author.photo_url.includes("Miguna-Miguna.jpg") ? "/logo-small.png" : author.photo_url.includes("unsplash.com") ? `${author.photo_url}&fm=webp&q=60&w=400` : author.photo_url} 
                 alt={author.name} 
                 loading="eager"
                 fetchPriority="high"
