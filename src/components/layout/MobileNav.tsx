@@ -21,8 +21,17 @@ export const MobileNav = ({ open, onClose }: MobileNavProps) => {
     <div className="fixed inset-0 z-[60] lg:hidden">
       {/* Backdrop */}
       <div 
+        role="button"
+        tabIndex={0}
+        aria-label="Close menu"
         className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" 
         onClick={onClose} 
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClose();
+          }
+        }}
       />
       
       {/* Drawer */}

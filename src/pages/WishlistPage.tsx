@@ -17,13 +17,9 @@ const WishlistPage = () => {
   const products = data?.products || [];
   const isLoading = isWishlistLoading || isProductsLoading;
 
-  return (
-    <InfoPageLayout 
-      label="Saved for Later" 
-      title="Your Wishlist"
-      subtitle="Keep track of the books you want to read. Add them to your cart whenever you're ready."
-    >
-      {isLoading ? (
+  const renderContent = () => {
+    if (isLoading) {
+      return (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-10">
           {['wsk1', 'wsk2', 'wsk3', 'wsk4'].map((id) => (
             <div key={id} className="space-y-4">
@@ -33,7 +29,10 @@ const WishlistPage = () => {
             </div>
           ))}
         </div>
-      ) : products.length === 0 ? (
+      );
+    }
+    if (products.length === 0) {
+      return (
         <div className="text-center py-24 bg-white rounded-[2.5rem] border border-[#E5E0D8] shadow-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#FAF7F2] rounded-bl-full" />
           <HeartOff className="w-16 h-16 mx-auto text-[#A1440B]/30 mb-6" />
@@ -48,13 +47,24 @@ const WishlistPage = () => {
             Browse Collection
           </Link>
         </div>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-10">
-          {products.map((product) => (
-            <BookCard key={product.id} product={product} />
-          ))}
-        </div>
-      )}
+      );
+    }
+    return (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-10">
+        {products.map((product) => (
+          <BookCard key={product.id} product={product} />
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <InfoPageLayout 
+      label="Saved for Later" 
+      title="Your Wishlist"
+      subtitle="Keep track of the books you want to read. Add them to your cart whenever you're ready."
+    >
+      {renderContent()}
     </InfoPageLayout>
   );
 };

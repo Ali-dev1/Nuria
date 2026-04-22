@@ -38,6 +38,28 @@ export const Navbar = () => {
     }
   };
 
+  const renderDashboardAction = () => {
+    if (!user) {
+      return (
+        <Link to="/vendor">
+          <Button className="bg-transparent border border-white text-white hover:bg-white hover:text-[#1B4332] text-xs font-bold uppercase tracking-wider px-4 transition-colors">
+            VENDOR LOGIN
+          </Button>
+        </Link>
+      );
+    }
+    if (profile?.role === 'vendor' || profile?.role === 'admin') {
+      return (
+        <Link to={profile.role === 'admin' ? "/admin" : "/vendor"}>
+          <Button className="bg-[#1B4332] border border-white text-white hover:bg-white hover:text-[#1B4332] text-xs font-bold uppercase tracking-wider px-4 transition-colors">
+            MY DASHBOARD
+          </Button>
+        </Link>
+      );
+    }
+    return null;
+  };
+
   return (
     <>
       {/* Announcement Bar */}
@@ -107,21 +129,7 @@ export const Navbar = () => {
                 </Link>
               )}
               
-              {user ? (
-                (profile?.role === 'vendor' || profile?.role === 'admin') ? (
-                  <Link to={profile.role === 'admin' ? "/admin" : "/vendor"}>
-                    <Button className="bg-[#1B4332] border border-white text-white hover:bg-white hover:text-[#1B4332] text-xs font-bold uppercase tracking-wider px-4 transition-colors">
-                      MY DASHBOARD
-                    </Button>
-                  </Link>
-                ) : null
-              ) : (
-                <Link to="/vendor">
-                  <Button className="bg-transparent border border-white text-white hover:bg-white hover:text-[#1B4332] text-xs font-bold uppercase tracking-wider px-4 transition-colors">
-                    VENDOR LOGIN
-                  </Button>
-                </Link>
-              )}
+              {renderDashboardAction()}
             </div>
 
             <Link to="/wishlist" className="p-2 text-white hover:text-white/80 transition-colors" aria-label="Wishlist">

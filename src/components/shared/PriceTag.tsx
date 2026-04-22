@@ -18,7 +18,7 @@ export const PriceTag = ({ price, originalPrice, size = "md" }: PriceTagProps) =
       <span className={`font-sans font-bold text-[#1B4332] ${sizeClasses[size]}`}>
         {formatPrice(price)}
       </span>
-      {originalPrice && originalPrice > price && (
+      {!!originalPrice && originalPrice > price && (
         <span className={`font-sans text-[#6B7280] line-through ${size === "lg" ? "text-sm" : "text-xs"}`}>
           {formatPrice(originalPrice)}
         </span>

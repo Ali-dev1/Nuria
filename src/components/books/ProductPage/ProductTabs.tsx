@@ -31,6 +31,29 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
   setNewComment,
   addReview,
 }) => {
+  const renderReviewsList = () => {
+    if (reviewsLoading) {
+      return [1, 2, 3].map((id) => <Skeleton key={`skeleton-${id}`} className="h-24 w-full rounded-xl" />);
+    }
+    if (reviews.length === 0) {
+      return <p className="text-muted-foreground italic">No reviews yet. Be the first to share your thoughts!</p>;
+    }
+    return reviews.map((review) => (
+      <div key={review.id} className="border-b border-border pb-6 last:border-0 hover:bg-[#FAF7F2]/50 p-4 rounded-xl transition-colors">
+        <div className="flex items-center justify-between mb-2">
+          <span className="font-bold text-[#1A1A1A]">{review.profiles?.name || "Anonymous Reader"}</span>
+          <span className="text-[10px] text-muted-foreground uppercase tracking-widest">{new Date(review.created_at).toLocaleDateString()}</span>
+        </div>
+        <div className="flex gap-0.5 mb-2">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <Star key={star} className={`w-3 h-3 ${review.rating >= star ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`} />
+          ))}
+        </div>
+        <p className="text-sm text-[#6B7280] leading-relaxed italic">"{review.comment}"</p>
+      </div>
+    ));
+  };
+
   return (
     <div className="mt-12">
       <div className="flex border-b border-border gap-6">
@@ -91,26 +114,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
             )}
 
             <div className="space-y-6 pt-4">
-              {reviewsLoading ? (
-                Array.from({ length: 3 }).map((_, i) => <Skeleton key={`skeleton-${i}`} className="h-24 w-full rounded-xl" />)
-              ) : reviews.length === 0 ? (
-                <p className="text-muted-foreground italic">No reviews yet. Be the first to share your thoughts!</p>
-              ) : (
-                reviews.map((review) => (
-                  <div key={review.id} className="border-b border-border pb-6 last:border-0 hover:bg-[#FAF7F2]/50 p-4 rounded-xl transition-colors">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-bold text-[#1A1A1A]">{review.profiles?.name || "Anonymous Reader"}</span>
-                      <span className="text-[10px] text-muted-foreground uppercase tracking-widest">{new Date(review.created_at).toLocaleDateString()}</span>
-                    </div>
-                    <div className="flex gap-0.5 mb-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star key={star} className={`w-3 h-3 ${review.rating >= star ? "fill-yellow-400 text-yellow-400" : "text-gray-200"}`} />
-                      ))}
-                    </div>
-                    <p className="text-sm text-[#6B7280] leading-relaxed italic">"{review.comment}"</p>
-                  </div>
-                ))
-              )}
+              {renderReviewsList()}
             </div>
           </div>
         )}

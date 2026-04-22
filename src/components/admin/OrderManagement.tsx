@@ -194,17 +194,9 @@ export const OrderManagement = () => {
                            {formatPrice(Number(o.total))}
                         </td>
                         <td className="px-8 py-6 text-center">
-                           <div 
-                             className="flex justify-center" 
-                             onClick={(e) => e.stopPropagation()}
-                             onKeyDown={(e) => {
-                               if (e.key === 'Enter' || e.key === ' ') {
-                                 e.stopPropagation();
-                               }
-                             }}
-                             tabIndex={0}
-                           >
+                           <div className="flex justify-center">
                               <select 
+                                onClick={(e) => e.stopPropagation()}
                                 value={currentStatus} 
                                 onChange={(e) => updateOrderStatus(o.id, e.target.value)} 
                                 className={`text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border-none focus:ring-4 focus:ring-primary/10 transition-all cursor-pointer shadow-sm appearance-none text-center min-w-[120px] ${config.color}`}

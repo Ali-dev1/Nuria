@@ -36,6 +36,26 @@ const AuthorPage = () => {
     );
   }
 
+  const renderAuthorBooks = () => {
+    if (loadingProducts) {
+      return (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {['ask1', 'ask2', 'ask3', 'ask4'].map(id => <Skeleton key={id} className="h-[300px] rounded-xl" />)}
+        </div>
+      );
+    }
+    if (books.length === 0) {
+      return <p className="text-muted-foreground italic">No books found in our catalog for this author.</p>;
+    }
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
+        {books.map((product) => (
+          <BookCard key={product.id} product={product} />
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header Profile Section */}
@@ -92,19 +112,7 @@ const AuthorPage = () => {
           <h2 className="font-display text-3xl font-bold text-[#1A1A1A]">Books by {author.name.split(' ')[0]}</h2>
         </div>
         
-        {loadingProducts ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {['ask1', 'ask2', 'ask3', 'ask4'].map(id => <Skeleton key={id} className="h-[300px] rounded-xl" />)}
-          </div>
-        ) : books.length === 0 ? (
-          <p className="text-muted-foreground italic">No books found in our catalog for this author.</p>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
-            {books.map((product) => (
-              <BookCard key={product.id} product={product} />
-            ))}
-          </div>
-        )}
+        {renderAuthorBooks()}
       </section>
     </div>
   );

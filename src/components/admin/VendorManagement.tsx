@@ -64,8 +64,8 @@ export const VendorManagement = () => {
 
   const renderVendorTableBody = () => {
     if (isLoading) {
-      return Array.from({ length: 5 }).map((_, i) => (
-        <tr key={`skeleton-${i}`} className="animate-pulse">
+      return [1, 2, 3, 4, 5].map((id) => (
+        <tr key={`skeleton-${id}`} className="animate-pulse">
           <td colSpan={5} className="p-6"><div className="h-10 bg-muted rounded-xl w-full" /></td>
         </tr>
       ));
