@@ -80,8 +80,8 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
       setEditForm(prev => ({ ...prev, images: [publicUrl] }));
       toast({ title: "Cover image updated" });
       onRefresh();
-    } catch (err: any) {
-      toast({ title: "Upload failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      toast({ title: "Upload failed", description: (err as Error).message, variant: "destructive" });
     } finally {
       setUploading(false);
     }

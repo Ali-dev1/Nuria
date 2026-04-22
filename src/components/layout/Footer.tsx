@@ -99,9 +99,9 @@ export const Footer = () => {
           <div className="flex flex-col items-center lg:items-end gap-4">
             <span className="text-[10px] font-bold uppercase tracking-widest text-[#A1440B]">Follow Us</span>
             <div className="flex items-center gap-5">
-              <a href="https://facebook.com/nuriayourhonestonlineshop/" target="_blank" rel="noreferrer" aria-label="Facebook" className="text-white hover:text-[#A1440B] transition-colors"><FacebookIcon className="w-6 h-6" /></a>
-              <a href="https://instagram.com/nuria_thehoneststore/" target="_blank" rel="noreferrer" aria-label="Instagram" className="text-white hover:text-[#A1440B] transition-colors"><InstagramIcon className="w-6 h-6" /></a>
-              <a href="https://x.com/nuriastore" target="_blank" rel="noreferrer" aria-label="Twitter" className="text-white hover:text-[#A1440B] transition-colors"><TwitterIcon className="w-6 h-6" /></a>
+              <a href="https://facebook.com/nuriayourhonestonlineshop/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-white hover:text-[#A1440B] transition-colors"><FacebookIcon className="w-6 h-6" /></a>
+              <a href="https://instagram.com/nuria_thehoneststore/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white hover:text-[#A1440B] transition-colors"><InstagramIcon className="w-6 h-6" /></a>
+              <a href="https://x.com/nuriastore" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-white hover:text-[#A1440B] transition-colors"><TwitterIcon className="w-6 h-6" /></a>
             </div>
           </div>
         </div>

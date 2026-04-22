@@ -70,7 +70,7 @@ const ContactPage = () => {
           <a 
             href="https://wa.me/254794233261" 
             target="_blank" 
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="inline-flex w-full items-center justify-center gap-3 bg-[#25D366] text-white py-5 rounded-2xl font-bold uppercase tracking-widest hover:brightness-95 transition-all shadow-xl shadow-[#25D366]/20"
           >
             <MessageCircle className="w-6 h-6 fill-current" />

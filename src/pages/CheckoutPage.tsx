@@ -156,8 +156,8 @@ const CheckoutPage = () => {
 
       clearCart();
       navigate(`/order-confirmation?id=${order.id}`);
-    } catch (err: any) {
-      toast.error(err.message || "Failed to place order");
+    } catch (err: unknown) {
+      toast.error((err as Error).message || "Failed to place order");
     } finally {
       setPlacing(false);
     }
