@@ -55,7 +55,7 @@ const VendorDashboard = () => {
   // If they have the role but NO record at all, something is wrong or they need to register
   if (!vendor) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FDFCFB] p-4">
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <div className="max-w-md w-full text-center space-y-6 p-10 bg-white rounded-3xl shadow-xl border border-border">
           <h2 className="text-2xl font-bold">Registration Required</h2>
           <p className="text-muted-foreground">You haven't completed your vendor profile yet.</p>

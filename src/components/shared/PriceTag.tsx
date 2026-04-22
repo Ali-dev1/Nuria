@@ -15,11 +15,11 @@ export const PriceTag = ({ price, originalPrice, size = "md" }: PriceTagProps) =
 
   return (
     <div className="flex items-center gap-2">
-      <span className={`font-sans font-bold text-[#1B4332] ${sizeClasses[size]}`}>
+      <span className={`font-sans font-bold text-primary ${sizeClasses[size]}`}>
         {formatPrice(price)}
       </span>
       {!!originalPrice && originalPrice > price && (
-        <span className={`font-sans text-[#6B7280] line-through ${size === "lg" ? "text-sm" : "text-xs"}`}>
+        <span className={`font-sans text-muted-foreground line-through ${size === "lg" ? "text-sm" : "text-xs"}`}>
           {formatPrice(originalPrice)}
         </span>
       )}

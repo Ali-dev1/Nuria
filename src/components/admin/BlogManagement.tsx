@@ -63,7 +63,7 @@ export const BlogManagement = () => {
         
         <button 
           onClick={() => { setEditingPost(null); setShowEditor(true); }} 
-          className="px-6 py-3 bg-[#1B4332] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#132c21] transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20"
+          className="px-6 py-3 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20"
         >
           <Plus className="w-4 h-4" /> Create Editorial
         </button>
@@ -160,7 +160,7 @@ export const BlogManagement = () => {
                   </div>
                   <div className="flex gap-4">
                      <button type="button" onClick={() => setShowEditor(false)} className="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">Abort Changes</button>
-                     <button type="submit" disabled={saving} className="px-10 py-4 bg-[#1B4332] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 flex items-center gap-3 hover:scale-105 active:scale-95 transition-all disabled:opacity-50">
+                     <button type="submit" disabled={saving} className="px-10 py-4 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 flex items-center gap-3 hover:scale-105 active:scale-95 transition-all disabled:opacity-50">
                         {saving ? <Zap className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                         {saving ? "Synchronizing Registry..." : "Finalize Publication"}
                      </button>

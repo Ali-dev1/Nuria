@@ -77,10 +77,10 @@ const FAQsPage = () => {
         {faqData.map((section, idx) => (
           <div key={section.category} className="space-y-6">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-2xl bg-[#1B4332]/5 flex items-center justify-center border border-[#1B4332]/10">
-                <section.icon className="w-6 h-6 text-[#1B4332]" />
+              <div className="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
+                <section.icon className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="font-display text-2xl font-bold text-[#1A1A1A]">{section.category}</h3>
+              <h3 className="font-display text-2xl font-bold text-foreground">{section.category}</h3>
             </div>
 
             <Accordion type="single" collapsible className="w-full space-y-4">
@@ -88,12 +88,12 @@ const FAQsPage = () => {
                 <AccordionItem 
                   key={item.q} 
                   value={`item-${idx}-${i}`}
-                  className="bg-white border border-[#E5E0D8] rounded-2xl px-6 transition-all hover:border-[#A1440B]/30 data-[state=open]:border-[#A1440B] data-[state=open]:shadow-xl data-[state=open]:shadow-black/5"
+                  className="bg-white border border-border rounded-2xl px-6 transition-all hover:border-secondary/30 data-[state=open]:border-secondary data-[state=open]:shadow-xl data-[state=open]:shadow-black/5"
                 >
-                  <AccordionTrigger className="font-sans font-bold text-[#1A1A1A] text-left py-6 hover:no-underline hover:text-[#1B4332]">
+                  <AccordionTrigger className="font-sans font-bold text-foreground text-left py-6 hover:no-underline hover:text-primary">
                     {item.q}
                   </AccordionTrigger>
-                  <AccordionContent className="font-sans text-[#6B7280] leading-relaxed text-base pb-6">
+                  <AccordionContent className="font-sans text-muted-foreground leading-relaxed text-base pb-6">
                     {item.a}
                   </AccordionContent>
                 </AccordionItem>
@@ -103,7 +103,7 @@ const FAQsPage = () => {
         ))}
 
         {/* 📞 Still need help? */}
-        <div className="bg-[#1B4332] rounded-[2.5rem] p-12 text-center text-white relative overflow-hidden">
+        <div className="bg-primary rounded-[2.5rem] p-12 text-center text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl" />
           <h3 className="font-display text-3xl font-bold mb-4 relative z-10">Still have questions?</h3>
           <p className="font-sans text-white/80 mb-8 max-w-lg mx-auto relative z-10">
@@ -112,7 +112,7 @@ const FAQsPage = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
             <a 
               href="/contact" 
-              className="px-8 py-4 bg-[#A1440B] rounded-xl font-bold text-xs uppercase tracking-widest hover:brightness-90 transition-all"
+              className="px-8 py-4 bg-secondary rounded-xl font-bold text-xs uppercase tracking-widest hover:brightness-90 transition-all"
             >
               Contact Support
             </a>

@@ -51,7 +51,7 @@ const AdminLoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0F172A] flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-primary flex flex-col items-center justify-center p-4">
       {/* Background Glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/20 rounded-full blur-[120px]" />

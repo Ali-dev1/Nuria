@@ -50,7 +50,7 @@ export const PlatformSettings = () => {
         <button 
           onClick={saveSettings} 
           disabled={saving} 
-          className="flex items-center gap-2 px-8 py-4 bg-[#1B4332] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+          className="flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
         >
           {saving ? <Zap className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {saving ? "Synchronizing..." : "Apply Global Changes"}
@@ -161,9 +161,9 @@ export const PlatformSettings = () => {
              </div>
              <p className="text-[10px] text-muted-foreground italic leading-relaxed">Global style tokens are locked to the "Nuria Store" Design System. Brand identity overrides are currently disabled in favor of stabilized UX.</p>
              <div className="flex gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#1B4332] shadow-lg border border-white/20" />
-                <div className="w-10 h-10 rounded-xl bg-[#2D6A4F] shadow-lg border border-white/20" />
-                <div className="w-10 h-10 rounded-xl bg-[#40916C] shadow-lg border border-white/20" />
+                <div className="w-10 h-10 rounded-xl bg-primary shadow-lg border border-white/20" />
+                <div className="w-10 h-10 rounded-xl bg-primary/70 shadow-lg border border-white/20" />
+                <div className="w-10 h-10 rounded-xl bg-primary/60 shadow-lg border border-white/20" />
                 <div className="w-10 h-10 rounded-xl bg-foreground shadow-lg border border-white/20" />
              </div>
           </div>

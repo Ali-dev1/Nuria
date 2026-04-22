@@ -9,8 +9,8 @@ interface InfoPageLayoutProps {
 
 export const InfoPageLayout = ({ children, title, subtitle, label }: InfoPageLayoutProps) => {
   return (
-    <div className="bg-[#FAF7F2] min-h-screen">
-      <div className="bg-[#1B4332] py-20 sm:py-28 relative overflow-hidden">
+    <div className="bg-background min-h-screen">
+      <div className="bg-primary py-20 sm:py-28 relative overflow-hidden">
         {/* Subtle decorative pattern overlay */}
         <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +25,7 @@ export const InfoPageLayout = ({ children, title, subtitle, label }: InfoPageLay
         
         <div className="container-nuria relative z-10">
           {label && (
-            <span className="font-sans text-[11px] font-bold text-[#A1440B] uppercase tracking-[0.2em] mb-4 inline-block">
+            <span className="font-sans text-[11px] font-bold text-secondary uppercase tracking-[0.2em] mb-4 inline-block">
               {label}
             </span>
           )}
@@ -37,7 +37,7 @@ export const InfoPageLayout = ({ children, title, subtitle, label }: InfoPageLay
               {subtitle}
             </p>
           )}
-          <div className="w-[60px] h-[3px] bg-[#A1440B] mt-8 rounded-full" />
+          <div className="w-[60px] h-[3px] bg-secondary mt-8 rounded-full" />
         </div>
       </div>
       

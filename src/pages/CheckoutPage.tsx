@@ -183,43 +183,43 @@ const CheckoutPage = () => {
           <div key={s.key} className="flex items-center gap-2">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
               steps.findIndex((x) => x.key === step) >= i
-                ? "bg-[#1B4332] text-white"
-                : "bg-[#E5E0D8] text-[#6B7280]"
+                ? "bg-primary text-white"
+                : "bg-muted text-muted-foreground"
             }`}>
               {steps.findIndex((x) => x.key === step) > i ? <Check className="w-4 h-4" /> : i + 1}
             </div>
-            <span className={`text-[13px] font-sans font-medium ${steps.findIndex((x) => x.key === step) >= i ? "text-[#1A1A1A]" : "text-[#6B7280]"}`}>
+            <span className={`text-[13px] font-sans font-medium ${steps.findIndex((x) => x.key === step) >= i ? "text-foreground" : "text-muted-foreground"}`}>
               {s.label}
             </span>
-            {i < steps.length - 1 && <div className="w-8 h-px bg-[#E5E0D8]" />}
+            {i < steps.length - 1 && <div className="w-8 h-px bg-muted" />}
           </div>
         ))}
       </div>
 
       {step === "address" && (
         <div className="space-y-6 animate-fade-in">
-          <h2 className="font-display text-lg font-bold text-[#1A1A1A]">Delivery Address</h2>
+          <h2 className="font-display text-lg font-bold text-foreground">Delivery Address</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="checkout-name" className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">Full Name</label>
-              <input id="checkout-name" value={address.name} onChange={(e) => setAddress({ ...address, name: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="John Kamau" />
+              <label htmlFor="checkout-name" className="block text-[13px] font-sans font-medium text-foreground mb-1.5">Full Name</label>
+              <input id="checkout-name" value={address.name} onChange={(e) => setAddress({ ...address, name: e.target.value })} className="w-full px-4 py-3 border border-border rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="John Kamau" />
             </div>
             <div>
-              <label htmlFor="checkout-phone" className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">Phone Number</label>
-              <input id="checkout-phone" value={address.phone} onChange={(e) => setAddress({ ...address, phone: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="+254 712 345 678" />
+              <label htmlFor="checkout-phone" className="block text-[13px] font-sans font-medium text-foreground mb-1.5">Phone Number</label>
+              <input id="checkout-phone" value={address.phone} onChange={(e) => setAddress({ ...address, phone: e.target.value })} className="w-full px-4 py-3 border border-border rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="+254 712 345 678" />
             </div>
           </div>
           <div>
-            <label htmlFor="checkout-street" className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">Street Address</label>
-            <input id="checkout-street" value={address.street} onChange={(e) => setAddress({ ...address, street: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="123 Kenyatta Avenue" />
+            <label htmlFor="checkout-street" className="block text-[13px] font-sans font-medium text-foreground mb-1.5">Street Address</label>
+            <input id="checkout-street" value={address.street} onChange={(e) => setAddress({ ...address, street: e.target.value })} className="w-full px-4 py-3 border border-border rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="123 Kenyatta Avenue" />
           </div>
           <div>
-            <label htmlFor="checkout-city" className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">City</label>
-            <input id="checkout-city" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="Nairobi" />
+            <label htmlFor="checkout-city" className="block text-[13px] font-sans font-medium text-foreground mb-1.5">City</label>
+            <input id="checkout-city" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full px-4 py-3 border border-border rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="Nairobi" />
           </div>
           <button
             onClick={() => setStep("payment")}
-            className="w-full py-4 bg-[#1B4332] text-white font-sans font-bold rounded-lg hover:brightness-90 transition-all text-sm shadow-lg mt-4"
+            className="w-full py-4 bg-primary text-white font-sans font-bold rounded-lg hover:brightness-90 transition-all text-sm shadow-lg mt-4"
           >
             Continue to Payment
           </button>
@@ -228,48 +228,48 @@ const CheckoutPage = () => {
 
       {step === "payment" && (
         <div className="space-y-6 animate-fade-in">
-          <h2 className="font-display text-lg font-bold text-[#1A1A1A]">Payment Method</h2>
+          <h2 className="font-display text-lg font-bold text-foreground">Payment Method</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <button
               onClick={() => setPaymentMethod("mpesa")}
               className={`flex items-center gap-4 p-5 rounded-xl border-2 transition-all ${
-                paymentMethod === "mpesa" ? "border-[#1B4332] bg-[#1B4332]/5" : "border-[#E5E0D8] hover:border-[#1B4332]/30"
+                paymentMethod === "mpesa" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
               }`}
             >
-              <div className={`p-2 rounded-lg transition-colors ${paymentMethod === "mpesa" ? "bg-[#1B4332] text-white" : "bg-[#FAF7F2] text-[#6B7280]"}`}>
+              <div className={`p-2 rounded-lg transition-colors ${paymentMethod === "mpesa" ? "bg-primary text-white" : "bg-background text-muted-foreground"}`}>
                 <Phone className="w-5 h-5" />
               </div>
               <div className="text-left">
-                <p className={`font-sans font-bold text-sm transition-colors ${paymentMethod === "mpesa" ? "text-[#1B4332]" : "text-[#1A1A1A]"}`}>M-Pesa</p>
-                <p className="text-[11px] font-sans text-[#6B7280]">Pay via STK Push</p>
+                <p className={`font-sans font-bold text-sm transition-colors ${paymentMethod === "mpesa" ? "text-primary" : "text-foreground"}`}>M-Pesa</p>
+                <p className="text-[11px] font-sans text-muted-foreground">Pay via STK Push</p>
               </div>
             </button>
             <button
               onClick={() => setPaymentMethod("card")}
               className={`flex items-center gap-4 p-5 rounded-xl border-2 transition-all ${
-                paymentMethod === "card" ? "border-[#1B4332] bg-[#1B4332]/5" : "border-[#E5E0D8] hover:border-[#1B4332]/30"
+                paymentMethod === "card" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
               }`}
             >
-              <div className={`p-2 rounded-lg transition-colors ${paymentMethod === "card" ? "bg-[#1B4332] text-white" : "bg-[#FAF7F2] text-[#6B7280]"}`}>
+              <div className={`p-2 rounded-lg transition-colors ${paymentMethod === "card" ? "bg-primary text-white" : "bg-background text-muted-foreground"}`}>
                 <CreditCard className="w-5 h-5" />
               </div>
               <div className="text-left">
-                <p className={`font-sans font-bold text-sm transition-colors ${paymentMethod === "card" ? "text-[#1B4332]" : "text-[#1A1A1A]"}`}>Card</p>
-                <p className="text-[11px] font-sans text-[#6B7280]">Visa / Mastercard</p>
+                <p className={`font-sans font-bold text-sm transition-colors ${paymentMethod === "card" ? "text-primary" : "text-foreground"}`}>Card</p>
+                <p className="text-[11px] font-sans text-muted-foreground">Visa / Mastercard</p>
               </div>
             </button>
           </div>
           {paymentMethod === "mpesa" && (
             <div className="pt-2">
-              <label htmlFor="checkout-mpesa" className="block text-[13px] font-sans font-medium text-[#1A1A1A] mb-1.5">M-Pesa Phone Number</label>
-              <input id="checkout-mpesa" value={mpesaPhone} onChange={(e) => setMpesaPhone(e.target.value)} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30" placeholder="0712 345 678" />
+              <label htmlFor="checkout-mpesa" className="block text-[13px] font-sans font-medium text-foreground mb-1.5">M-Pesa Phone Number</label>
+              <input id="checkout-mpesa" value={mpesaPhone} onChange={(e) => setMpesaPhone(e.target.value)} className="w-full px-4 py-3 border border-border rounded-lg text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="0712 345 678" />
             </div>
           )}
           <div className="flex gap-4 pt-4">
-            <button onClick={() => setStep("address")} className="px-8 py-3.5 border border-[#1B4332] text-[#1B4332] rounded-lg text-[13px] font-bold hover:bg-[#1B4332]/5 transition-all font-sans uppercase tracking-wider">Back</button>
+            <button onClick={() => setStep("address")} className="px-8 py-3.5 border border-primary text-primary rounded-lg text-[13px] font-bold hover:bg-primary/5 transition-all font-sans uppercase tracking-wider">Back</button>
             <button
               onClick={() => setStep("confirm")}
-              className="flex-1 py-3.5 bg-[#1B4332] text-white font-sans font-bold rounded-lg hover:brightness-90 transition-all text-[13px] shadow-lg uppercase tracking-wider"
+              className="flex-1 py-3.5 bg-primary text-white font-sans font-bold rounded-lg hover:brightness-90 transition-all text-[13px] shadow-lg uppercase tracking-wider"
             >
               Review Order
             </button>
@@ -279,32 +279,32 @@ const CheckoutPage = () => {
 
       {step === "confirm" && (
         <div className="space-y-8 animate-fade-in">
-          <h2 className="font-display text-lg font-bold text-[#1A1A1A]">Order Summary</h2>
-          <div className="space-y-4 bg-white rounded-xl p-6 shadow-sm border border-[#E5E0D8]">
+          <h2 className="font-display text-lg font-bold text-foreground">Order Summary</h2>
+          <div className="space-y-4 bg-white rounded-xl p-6 shadow-sm border border-border">
             {items.map(({ product, quantity }) => (
               <div key={product.id} className="flex justify-between items-center text-sm font-sans">
                 <div className="flex flex-col">
-                  <span className="text-[#1A1A1A] font-medium">{product.title}</span>
-                  <span className="text-[#6B7280] text-xs">Qty: {quantity}</span>
+                  <span className="text-foreground font-medium">{product.title}</span>
+                  <span className="text-muted-foreground text-xs">Qty: {quantity}</span>
                 </div>
-                <span className="font-bold text-[#1B4332]">{formatPrice(product.price * quantity)}</span>
+                <span className="font-bold text-primary">{formatPrice(product.price * quantity)}</span>
               </div>
             ))}
-            <div className="border-t border-[#E5E0D8] pt-4 space-y-3 text-[13px] font-sans">
-              <div className="flex justify-between text-[#6B7280]"><span>Subtotal</span><span>{formatPrice(subtotal())}</span></div>
-              <div className="flex justify-between text-[#6B7280]"><span>Delivery</span><span>{deliveryFee === 0 ? <span className="text-[#1B4332] font-semibold">FREE</span> : formatPrice(deliveryFee)}</span></div>
+            <div className="border-t border-border pt-4 space-y-3 text-[13px] font-sans">
+              <div className="flex justify-between text-muted-foreground"><span>Subtotal</span><span>{formatPrice(subtotal())}</span></div>
+              <div className="flex justify-between text-muted-foreground"><span>Delivery</span><span>{deliveryFee === 0 ? <span className="text-primary font-semibold">FREE</span> : formatPrice(deliveryFee)}</span></div>
               {discount > 0 && (
-                <div className="flex justify-between text-[#A1440B]"><span>Loyalty Discount</span><span>-{formatPrice(discount)}</span></div>
+                <div className="flex justify-between text-secondary"><span>Loyalty Discount</span><span>-{formatPrice(discount)}</span></div>
               )}
-              <div className="flex justify-between font-bold text-[#1A1A1A] pt-2 text-base border-t border-[#E5E0D8]"><span>Total</span><span>{formatPrice(total)}</span></div>
+              <div className="flex justify-between font-bold text-foreground pt-2 text-base border-t border-border"><span>Total</span><span>{formatPrice(total)}</span></div>
             </div>
           </div>
           <div className="flex gap-4">
-            <button onClick={() => setStep("payment")} className="px-8 py-3.5 border border-[#1B4332] text-[#1B4332] rounded-lg text-[13px] font-bold hover:bg-[#1B4332]/5 transition-all font-sans uppercase tracking-wider">Back</button>
+            <button onClick={() => setStep("payment")} className="px-8 py-3.5 border border-primary text-primary rounded-lg text-[13px] font-bold hover:bg-primary/5 transition-all font-sans uppercase tracking-wider">Back</button>
             <button
               onClick={placeOrder}
               disabled={placing}
-              className="flex-1 py-4 bg-[#A1440B] text-white font-sans font-bold rounded-lg hover:brightness-90 transition-all text-sm shadow-xl disabled:opacity-50 flex items-center justify-center gap-2 uppercase tracking-widest"
+              className="flex-1 py-4 bg-secondary text-white font-sans font-bold rounded-lg hover:brightness-90 transition-all text-sm shadow-xl disabled:opacity-50 flex items-center justify-center gap-2 uppercase tracking-widest"
             >
               {placing && <Loader2 className="w-4 h-4 animate-spin" />}
               {paymentMethod === "mpesa" ? "Complete Order" : "Pay Now"} — {formatPrice(total)}

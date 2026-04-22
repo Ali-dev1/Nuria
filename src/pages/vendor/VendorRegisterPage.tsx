@@ -81,7 +81,7 @@ const VendorRegisterPage = () => {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAF7F2] p-4">
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <div className="w-full max-w-md bg-white p-12 rounded-[2.5rem] shadow-2xl border border-border text-center space-y-8 animate-in fade-in zoom-in duration-500">
           <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto ring-8 ring-green-50">
             <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
@@ -101,7 +101,7 @@ const VendorRegisterPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4">
       <div className="w-full max-w-lg bg-white p-10 rounded-[2.5rem] shadow-2xl border border-border relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-2 bg-primary" />
         

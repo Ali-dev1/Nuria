@@ -242,7 +242,7 @@ export const OrderManagement = () => {
                                      </div>
                                   </div>
                                   
-                                  <div className="p-8 bg-[#1B4332] rounded-[2rem] text-white shadow-xl shadow-primary/20">
+                                  <div className="p-8 bg-primary rounded-[2rem] text-white shadow-xl shadow-primary/20">
                                      <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-2">Total Settlement Value</p>
                                      <p className="text-4xl font-black tracking-tighter">{formatPrice(Number(o.total))}</p>
                                      <div className="mt-6 flex items-center gap-2 p-3 bg-white/10 rounded-xl border border-white/10">

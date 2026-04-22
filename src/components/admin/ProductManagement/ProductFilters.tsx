@@ -33,7 +33,7 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
           />
         </div>
         
-        <Link to="/vendor/products/new" className="px-6 py-3 bg-[#1B4332] text-white rounded-2xl text-sm font-black flex items-center gap-2 hover:bg-[#132c21] transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20">
+        <Link to="/vendor/products/new" className="px-6 py-3 bg-primary text-white rounded-2xl text-sm font-black flex items-center gap-2 hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20">
           <Plus className="w-4 h-4" /> Register Asset
         </Link>
 

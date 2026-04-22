@@ -33,16 +33,16 @@ const WishlistPage = () => {
     }
     if (products.length === 0) {
       return (
-        <div className="text-center py-24 bg-white rounded-[2.5rem] border border-[#E5E0D8] shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#FAF7F2] rounded-bl-full" />
-          <HeartOff className="w-16 h-16 mx-auto text-[#A1440B]/30 mb-6" />
-          <h2 className="text-3xl font-display font-bold text-[#1A1A1A]">Your wishlist is empty</h2>
-          <p className="font-sans text-[#6B7280] mt-4 max-w-sm mx-auto text-lg leading-relaxed">
+        <div className="text-center py-24 bg-white rounded-[2.5rem] border border-border shadow-sm relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-background rounded-bl-full" />
+          <HeartOff className="w-16 h-16 mx-auto text-secondary/30 mb-6" />
+          <h2 className="text-3xl font-display font-bold text-foreground">Your wishlist is empty</h2>
+          <p className="font-sans text-muted-foreground mt-4 max-w-sm mx-auto text-lg leading-relaxed">
             Explore our collection of 21,311 books and save the ones that catch your eye!
           </p>
           <Link 
             to="/books" 
-            className="mt-10 inline-flex px-10 py-4 bg-[#1B4332] text-white rounded-2xl font-sans font-bold hover:brightness-95 transition-all shadow-xl shadow-[#1B4332]/20 uppercase tracking-widest text-xs"
+            className="mt-10 inline-flex px-10 py-4 bg-primary text-white rounded-2xl font-sans font-bold hover:brightness-95 transition-all shadow-xl shadow-primary/20 uppercase tracking-widest text-xs"
           >
             Browse Collection
           </Link>

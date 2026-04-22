@@ -73,7 +73,7 @@ const BlogPost = () => {
             </Link>
             
             <div className="flex justify-center mb-6">
-              <span className="px-4 py-1.5 rounded-full bg-[#A1440B] text-white text-[10px] font-bold uppercase tracking-widest">
+              <span className="px-4 py-1.5 rounded-full bg-secondary text-white text-[10px] font-bold uppercase tracking-widest">
                 {post.category}
               </span>
             </div>
@@ -87,7 +87,7 @@ const BlogPost = () => {
               <span className="w-1.5 h-1.5 rounded-full bg-white/40" />
               <span className="uppercase tracking-widest">{post.date}</span>
               <span className="w-1.5 h-1.5 rounded-full bg-white/40" />
-              <span className="uppercase tracking-widest text-[#A1440B]">{post.readTime} read</span>
+              <span className="uppercase tracking-widest text-secondary">{post.readTime} read</span>
             </div>
           </div>
         </div>
@@ -99,30 +99,30 @@ const BlogPost = () => {
         {/* Sticky Sidebar for Socials */}
         <div className="hidden lg:block w-16 shrink-0 relative">
           <div className="sticky top-40 flex flex-col items-center gap-6">
-            <div className="w-px h-12 bg-[#E5E0D8]" />
-            <button className="w-10 h-10 rounded-full border border-[#E5E0D8] bg-white text-[#6B7280] flex items-center justify-center hover:bg-[#1B4332] hover:text-white hover:border-[#1B4332] transition-all" aria-label="Save this article">
+            <div className="w-px h-12 bg-muted" />
+            <button className="w-10 h-10 rounded-full border border-border bg-white text-muted-foreground flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all" aria-label="Save this article">
               <Bookmark className="w-4 h-4" />
             </button>
-            <button className="w-10 h-10 rounded-full border border-[#E5E0D8] bg-white text-[#6B7280] flex items-center justify-center hover:bg-[#1B4332] hover:text-white hover:border-[#1B4332] transition-all" aria-label="Share this article">
+            <button className="w-10 h-10 rounded-full border border-border bg-white text-muted-foreground flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all" aria-label="Share this article">
               <Share2 className="w-4 h-4" />
             </button>
-            <div className="w-px h-12 bg-[#E5E0D8]" />
+            <div className="w-px h-12 bg-muted" />
           </div>
         </div>
 
         {/* Formatted Content Area */}
-        <article className="max-w-3xl w-full mx-auto font-serif text-lg md:text-xl leading-relaxed text-[#1A1A1A] space-y-8">
+        <article className="max-w-3xl w-full mx-auto font-serif text-lg md:text-xl leading-relaxed text-foreground space-y-8">
           {paragraphs.map((paragraph, idx) => (
             <p key={paragraph.substring(0, 20) + idx} className="first-letter:text-5xl first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display">
               {paragraph.trim()}
             </p>
           ))}
           
-          <div className="my-16 p-8 md:p-12 bg-[#FAF7F2] rounded-3xl border border-[#E5E0D8] border-l-4 border-l-[#A1440B]">
-            <p className="font-display text-2xl italic font-bold text-[#1B4332] leading-tight">
+          <div className="my-16 p-8 md:p-12 bg-background rounded-3xl border border-border border-l-4 border-l-secondary">
+            <p className="font-display text-2xl italic font-bold text-primary leading-tight">
               "A reader lives a thousand lives before he dies. The man who never reads lives only one."
             </p>
-            <span className="block mt-4 text-[10px] uppercase tracking-widest font-bold text-[#A1440B]">— George R.R. Martin</span>
+            <span className="block mt-4 text-[10px] uppercase tracking-widest font-bold text-secondary">— George R.R. Martin</span>
           </div>
           
           <p>
@@ -132,24 +132,24 @@ const BlogPost = () => {
       </section>
 
       {/* Keep exploring / Read Next */}
-      <section className="bg-[#FAF7F2] py-24 border-t border-[#E5E0D8]">
+      <section className="bg-background py-24 border-t border-border">
         <div className="container-nuria">
           <div className="flex items-center justify-between mb-12">
-            <h2 className="font-display text-3xl font-bold text-[#1A1A1A]">Continue Reading</h2>
-            <Link to="/blog" className="text-[10px] font-sans font-bold text-[#1B4332] hover:text-[#A1440B] transition-colors flex items-center gap-2 uppercase tracking-widest">
+            <h2 className="font-display text-3xl font-bold text-foreground">Continue Reading</h2>
+            <Link to="/blog" className="text-[10px] font-sans font-bold text-primary hover:text-secondary transition-colors flex items-center gap-2 uppercase tracking-widest">
               View All Entries <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8">
             {relatedPosts.map((related) => (
-              <Link to={`/blog/${related.id}`} key={related.id} className="group bg-white rounded-3xl overflow-hidden border border-[#E5E0D8] hover:border-[#1B4332] transition-colors flex flex-col shadow-sm hover:shadow-xl">
+              <Link to={`/blog/${related.id}`} key={related.id} className="group bg-white rounded-3xl overflow-hidden border border-border hover:border-primary transition-colors flex flex-col shadow-sm hover:shadow-xl">
                 <div className="h-48 overflow-hidden">
                   <img src={related.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt={related.title} />
                 </div>
                 <div className="p-8">
-                  <span className="text-[10px] font-bold text-[#A1440B] uppercase tracking-widest">{related.category}</span>
-                  <h3 className="font-display text-2xl font-bold mt-2 text-[#1A1A1A] group-hover:text-[#1B4332] transition-colors">{related.title}</h3>
+                  <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">{related.category}</span>
+                  <h3 className="font-display text-2xl font-bold mt-2 text-foreground group-hover:text-primary transition-colors">{related.title}</h3>
                 </div>
               </Link>
             ))}

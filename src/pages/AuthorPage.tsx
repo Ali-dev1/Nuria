@@ -28,7 +28,7 @@ const AuthorPage = () => {
     return (
       <div className="container-nuria py-32 text-center">
         <h2 className="text-3xl font-bold font-display text-primary">Author not found</h2>
-        <Link to="/" className="text-[#A1440B] font-bold uppercase text-[10px] tracking-widest mt-4 inline-block hover:underline">
+        <Link to="/" className="text-secondary font-bold uppercase text-[10px] tracking-widest mt-4 inline-block hover:underline">
           Return Home
         </Link>
       </div>
@@ -58,10 +58,10 @@ const AuthorPage = () => {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header Profile Section */}
-      <section className="bg-[#FAF7F2] border-b border-[#E5E0D8] pt-16 pb-24 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#1B4332]/5 rounded-full -mr-48 -mt-48 blur-3xl pointer-events-none" />
+      <section className="bg-background border-b border-border pt-16 pb-24 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full -mr-48 -mt-48 blur-3xl pointer-events-none" />
         <div className="container-nuria relative z-10">
-          <Link to="/" className="inline-flex items-center gap-2 text-[10px] font-sans font-bold uppercase tracking-widest text-[#6B7280] hover:text-[#A1440B] transition-colors mb-12">
+          <Link to="/" className="inline-flex items-center gap-2 text-[10px] font-sans font-bold uppercase tracking-widest text-muted-foreground hover:text-secondary transition-colors mb-12">
             <ArrowLeft className="w-4 h-4" /> Back to Store
           </Link>
           
@@ -79,24 +79,24 @@ const AuthorPage = () => {
             <div className="space-y-6 max-w-3xl">
               <div className="flex flex-wrap gap-2 mb-4">
                 {(author.tags || []).map((tag: string) => (
-                  <span key={tag} className="px-3 py-1 bg-white border border-[#E5E0D8] rounded-full text-[10px] font-sans font-bold uppercase tracking-widest text-[#1B4332]">
+                  <span key={tag} className="px-3 py-1 bg-white border border-border rounded-full text-[10px] font-sans font-bold uppercase tracking-widest text-primary">
                     {tag}
                   </span>
                 ))}
               </div>
-              <h1 className="font-display text-4xl sm:text-6xl font-bold text-[#1A1A1A] leading-tight">
+              <h1 className="font-display text-4xl sm:text-6xl font-bold text-foreground leading-tight">
                 {author.name}
               </h1>
-              <p className="font-sans text-[#6B7280] text-lg leading-relaxed">
+              <p className="font-sans text-muted-foreground text-lg leading-relaxed">
                 {author.bio}
               </p>
               
               <div className="pt-4 flex items-center gap-6">
                 <div className="flex flex-col">
-                  <span className="font-display font-bold text-2xl text-[#1A1A1A]">
+                  <span className="font-display font-bold text-2xl text-foreground">
                     {loadingProducts ? "..." : books.length}
                   </span>
-                  <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-[#6B7280]">Published Works</span>
+                  <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Published Works</span>
                 </div>
               </div>
             </div>
@@ -107,8 +107,8 @@ const AuthorPage = () => {
       {/* Author Books grid */}
       <section className="container-nuria py-20 bg-background relative z-20 -mt-8">
         <div className="flex items-center gap-3 mb-10">
-          <BookOpen className="w-6 h-6 text-[#1B4332]" />
-          <h2 className="font-display text-3xl font-bold text-[#1A1A1A]">Books by {author.name.split(' ')[0]}</h2>
+          <BookOpen className="w-6 h-6 text-primary" />
+          <h2 className="font-display text-3xl font-bold text-foreground">Books by {author.name.split(' ')[0]}</h2>
         </div>
         
         {renderAuthorBooks()}

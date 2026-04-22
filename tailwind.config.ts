@@ -59,15 +59,7 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        nuria: {
-          primary: "#1B4332",
-          accent: "#C2541A",
-          background: "#FAF7F2",
-          text: "#1A1A1A",
-          "text-muted": "#6B7280",
-          border: "#E5E0D8",
-          success: "#D1FAE5",
-        },
+        /* All Nuria palette colors are defined as CSS custom properties in index.css */
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -69,23 +69,23 @@ const BooksPage = () => {
     <div className="container-nuria py-8">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <div>
-          <h1 className="font-display text-3xl sm:text-4xl font-bold text-[#1A1A1A]">
+          <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground">
             {pageTitle}
           </h1>
-          <div className="w-[60px] h-[3px] bg-[#A1440B] mt-4 rounded-full" />
-          <p className="font-sans text-[#6B7280] mt-4 text-sm uppercase tracking-widest font-medium">
+          <div className="w-[60px] h-[3px] bg-secondary mt-4 rounded-full" />
+          <p className="font-sans text-muted-foreground mt-4 text-sm uppercase tracking-widest font-medium">
             {isLoading ? "Loading…" : `${totalCount.toLocaleString()} titles available`}
           </p>
         </div>
 
         <form onSubmit={handleSearchSubmit} className="relative w-full md:w-80 group">
-          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-[#A1440B] transition-colors" />
+          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-secondary transition-colors" />
           <input 
             type="text"
             placeholder="Search in collection..."
             value={localSearch}
             onChange={(e) => setLocalSearch(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 bg-white border border-[#E5E0D8] rounded-2xl text-sm font-sans focus:outline-none focus:ring-2 focus:ring-[#A1440B]/20 focus:border-[#A1440B] transition-all"
+            className="w-full pl-11 pr-4 py-3 bg-white border border-border rounded-2xl text-sm font-sans focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all"
           />
         </form>
       </div>
@@ -97,8 +97,8 @@ const BooksPage = () => {
             onClick={() => setSelectedCategory("")}
             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${
               selectedCategory 
-                ? "bg-white border-[#E5E0D8] text-[#6B7280]"
-                : "bg-[#1B4332] text-white border-[#1B4332] shadow-md" 
+                ? "bg-white border-border text-muted-foreground"
+                : "bg-primary text-white border-primary shadow-md" 
             }`}
           >
             All
@@ -109,8 +109,8 @@ const BooksPage = () => {
               onClick={() => setSelectedCategory(cat.slug)}
               className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${
                 selectedCategory === cat.slug 
-                  ? "bg-[#1B4332] text-white border-[#1B4332] shadow-md" 
-                  : "bg-white border-[#E5E0D8] text-[#6B7280]"
+                  ? "bg-primary text-white border-primary shadow-md" 
+                  : "bg-white border-border text-muted-foreground"
               }`}
             >
               {cat.name}
@@ -119,7 +119,7 @@ const BooksPage = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-4 mb-8 bg-[#FAF7F2] p-4 rounded-2xl border border-[#E5E0D8]">
+      <div className="flex items-center justify-between gap-4 mb-8 bg-background p-4 rounded-2xl border border-border">
         <button
           onClick={() => setShowFilters(!showFilters)}
           className="lg:hidden flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors"
@@ -151,7 +151,7 @@ const BooksPage = () => {
               <div className="space-y-1.5">
                 <button
                   onClick={() => setSelectedCategory("")}
-                  className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${selectedCategory ? "text-[#6B7280] hover:bg-[#1B4332]/5 hover:text-[#1B4332]" : "bg-[#1B4332] text-white font-medium shadow-sm"}`}
+                  className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${selectedCategory ? "text-muted-foreground hover:bg-primary/5 hover:text-primary" : "bg-primary text-white font-medium shadow-sm"}`}
                 >
                   All Categories
                 </button>
@@ -159,7 +159,7 @@ const BooksPage = () => {
                   <button
                     key={cat.id}
                     onClick={() => { setSelectedCategory(cat.slug); setShowFilters(false); }}
-                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${selectedCategory === cat.slug ? "bg-[#1B4332] text-white font-medium shadow-sm" : "text-[#6B7280] hover:bg-[#1B4332]/5 hover:text-[#1B4332]"}`}
+                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${selectedCategory === cat.slug ? "bg-primary text-white font-medium shadow-sm" : "text-muted-foreground hover:bg-primary/5 hover:text-primary"}`}
                   >
                     {cat.name}
                   </button>
@@ -232,7 +232,7 @@ const BooksPage = () => {
                               setCurrentPage(pageNum);
                               globalThis.scrollTo({ top: 0, behavior: "smooth" });
                             }}
-                            className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-all duration-200 ${currentPage === pageNum ? "bg-[#1B4332] text-white shadow-sm" : "text-[#6B7280] hover:bg-[#1B4332]/5 hover:text-[#1B4332]"}`}
+                            className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-all duration-200 ${currentPage === pageNum ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:bg-primary/5 hover:text-primary"}`}
                           >
                             {pageNum}
                           </button>

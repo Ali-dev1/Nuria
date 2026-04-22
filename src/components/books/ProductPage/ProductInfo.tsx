@@ -42,14 +42,14 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
         </div>
       )}
 
-      <div className="flex items-center gap-2 text-sm text-[#1B4332] bg-[#D1FAE5] px-4 py-2.5 rounded-lg font-sans">
+      <div className="flex items-center gap-2 text-sm text-primary bg-green-100 px-4 py-2.5 rounded-lg font-sans">
         🎁 You'll earn <span className="font-bold">{loyaltyPoints} loyalty points</span> on this purchase
       </div>
 
       <div className="flex gap-3">
         <button
           onClick={() => addItem(product)}
-          className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#1B4332] text-white font-sans font-semibold rounded-lg hover:brightness-90 transition-all shadow-sm"
+          className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white font-sans font-semibold rounded-lg hover:brightness-90 transition-all shadow-sm"
         >
           <ShoppingCart className="w-4 h-4" /> Add to Cart
         </button>
@@ -58,10 +58,10 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
             if (!user) { toast.error("Sign in to save to wishlist"); return; }
             toggleWishlist(product.id);
           }}
-          className="p-3 border border-[#E5E0D8] rounded-lg hover:bg-[#FAF7F2] transition-colors"
+          className="p-3 border border-border rounded-lg hover:bg-background transition-colors"
           aria-label={wishlistIds.includes(product.id) ? "Remove from wishlist" : "Add to wishlist"}
         >
-          <Heart className={`w-5 h-5 ${wishlistIds.includes(product.id) ? "fill-red-500 text-red-500" : "text-[#1A1A1A]"}`} />
+          <Heart className={`w-5 h-5 ${wishlistIds.includes(product.id) ? "fill-red-500 text-red-500" : "text-foreground"}`} />
         </button>
       </div>
 

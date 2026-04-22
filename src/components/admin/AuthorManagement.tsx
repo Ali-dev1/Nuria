@@ -106,11 +106,11 @@ export const AuthorManagement = () => {
             {author.bio}
           </p>
           <div className="flex items-center justify-between pt-4 border-t border-border">
-            <span className="text-[10px] uppercase tracking-widest font-bold text-[#A1440B]">Featured</span>
+            <span className="text-[10px] uppercase tracking-widest font-bold text-secondary">Featured</span>
             <div className="flex gap-2">
               <button 
                 onClick={() => { setEditingAuthor(author); setIsModalOpen(true); }}
-                className="p-2 text-muted-foreground hover:text-[#1B4332] hover:bg-[#1B4332]/5 rounded-lg transition-colors"
+                className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
               >
                 <Edit className="w-4 h-4" />
               </button>
@@ -150,7 +150,7 @@ export const AuthorManagement = () => {
           </div>
           <Button 
             onClick={() => { setEditingAuthor({}); setIsModalOpen(true); }}
-            className="bg-[#1B4332] text-white rounded-xl shadow-lg shadow-primary/20 hover:bg-[#132c21]"
+            className="bg-primary text-white rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90"
           >
             <Plus className="w-4 h-4 mr-2" /> Add Author
           </Button>
@@ -218,7 +218,7 @@ export const AuthorManagement = () => {
               <Button 
                 onClick={() => saveMutation.mutate(editingAuthor as Partial<Author>)}
                 disabled={saveMutation.isPending || !editingAuthor?.name}
-                className="bg-[#1B4332] text-white hover:bg-[#132c21]"
+                className="bg-primary text-white hover:bg-primary/90"
               >
                 {saveMutation.isPending ? "Saving..." : "Save Author"}
               </Button>

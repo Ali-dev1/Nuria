@@ -11,7 +11,7 @@ const DeliveryPage = () => {
       <div className="space-y-20">
         {/* 🚀 Feature Highlights */}
         <div className="grid md:grid-cols-2 gap-10">
-          <div className="bg-[#1B4332] p-10 lg:p-14 rounded-[3rem] text-white relative overflow-hidden group shadow-2xl shadow-black/5">
+          <div className="bg-primary p-10 lg:p-14 rounded-[3rem] text-white relative overflow-hidden group shadow-2xl shadow-black/5">
             <div className="absolute inset-0 opacity-10 bg-[url('/grid-pattern.svg')] bg-repeat" />
             <div className="relative z-10 space-y-6">
               <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center">
@@ -24,14 +24,14 @@ const DeliveryPage = () => {
             </div>
           </div>
           
-          <div className="bg-white p-10 lg:p-14 rounded-[3rem] border border-[#E5E0D8] relative overflow-hidden group shadow-2xl shadow-black/5">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#A1440B]/5 rounded-bl-full" />
+          <div className="bg-white p-10 lg:p-14 rounded-[3rem] border border-border relative overflow-hidden group shadow-2xl shadow-black/5">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full" />
             <div className="relative z-10 space-y-6">
-              <div className="w-16 h-16 rounded-2xl bg-[#A1440B]/5 flex items-center justify-center border border-[#A1440B]/10">
-                <Truck className="w-8 h-8 text-[#A1440B]" />
+              <div className="w-16 h-16 rounded-2xl bg-secondary/5 flex items-center justify-center border border-secondary/10">
+                <Truck className="w-8 h-8 text-secondary" />
               </div>
-              <h3 className="font-display text-3xl font-bold text-[#1A1A1A]">National Coverage</h3>
-              <p className="font-sans text-[#6B7280] leading-relaxed text-lg">
+              <h3 className="font-display text-3xl font-bold text-foreground">National Coverage</h3>
+              <p className="font-sans text-muted-foreground leading-relaxed text-lg">
                 We reach all 47 counties of Kenya. Upcountry orders are delivered within 24-48 hours via our trusted courier partners.
               </p>
             </div>
@@ -60,13 +60,13 @@ const DeliveryPage = () => {
               tag: "GLOBAL" 
             }
           ].map((tier, i) => (
-            <div key={tier.title} className="bg-white p-8 rounded-3xl border border-[#E5E0D8] hover:border-[#A1440B]/30 transition-all group text-center">
-              <div className="w-12 h-12 rounded-2xl bg-[#FAF7F2] flex items-center justify-center mx-auto mb-6 group-hover:bg-[#1B4332] group-hover:text-white transition-all">
+            <div key={tier.title} className="bg-white p-8 rounded-3xl border border-border hover:border-secondary/30 transition-all group text-center">
+              <div className="w-12 h-12 rounded-2xl bg-background flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-all">
                 <tier.icon className="w-6 h-6" />
               </div>
-              <h4 className="font-display text-xl font-bold text-[#1A1A1A]">{tier.title}</h4>
-              <p className="font-sans text-[#6B7280] text-sm mt-2">{tier.desc}</p>
-              <span className="inline-block mt-4 text-[9px] font-bold text-[#A1440B] tracking-[0.2em] border border-[#A1440B]/20 px-3 py-1 rounded-full">{tier.tag}</span>
+              <h4 className="font-display text-xl font-bold text-foreground">{tier.title}</h4>
+              <p className="font-sans text-muted-foreground text-sm mt-2">{tier.desc}</p>
+              <span className="inline-block mt-4 text-[9px] font-bold text-secondary tracking-[0.2em] border border-secondary/20 px-3 py-1 rounded-full">{tier.tag}</span>
             </div>
           ))}
         </div>
@@ -75,45 +75,45 @@ const DeliveryPage = () => {
         <div className="space-y-12">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="max-w-md text-center lg:text-left">
-              <h2 className="font-display text-4xl font-bold text-[#1A1A1A]">Standard Rates</h2>
-              <div className="w-[80px] h-[4px] bg-[#A1440B] mt-6 rounded-full mx-auto lg:mx-0" />
+              <h2 className="font-display text-4xl font-bold text-foreground">Standard Rates</h2>
+              <div className="w-[80px] h-[4px] bg-secondary mt-6 rounded-full mx-auto lg:mx-0" />
             </div>
             
-            <div className="bg-[#D1FAE5] border border-[#1B4332]/10 px-8 py-6 rounded-3xl flex items-center gap-4 shadow-xl shadow-[#1B4332]/5">
-              <div className="w-12 h-12 rounded-full bg-[#1B4332] flex items-center justify-center text-white shrink-0">
+            <div className="bg-green-100 border border-primary/10 px-8 py-6 rounded-3xl flex items-center gap-4 shadow-xl shadow-primary/5">
+              <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
                 <span className="font-bold text-lg">✨</span>
               </div>
               <div>
-                <p className="font-sans font-bold text-[#1B4332]">Free Delivery Offer</p>
-                <p className="font-sans text-sm text-[#1B4332]/80">Enjoy free delivery within Nairobi for orders above <span className="font-bold underline">KSh 10,000</span></p>
+                <p className="font-sans font-bold text-primary">Free Delivery Offer</p>
+                <p className="font-sans text-sm text-primary/80">Enjoy free delivery within Nairobi for orders above <span className="font-bold underline">KSh 10,000</span></p>
               </div>
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-[2.5rem] border border-[#E5E0D8] shadow-2xl shadow-black/5 bg-white">
+          <div className="overflow-hidden rounded-[2.5rem] border border-border shadow-2xl shadow-black/5 bg-white">
             <table className="w-full text-left font-sans">
-              <thead className="bg-[#FAF7F2] text-[#1A1A1A] text-xs font-bold uppercase tracking-widest border-b border-[#E5E0D8]">
+              <thead className="bg-background text-foreground text-xs font-bold uppercase tracking-widest border-b border-border">
                 <tr>
                   <th className="px-10 py-8">Destination Area</th>
                   <th className="px-10 py-8 text-right">Standard Rate</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E5E0D8]">
-                <tr className="group hover:bg-[#FAF7F2]/50 transition-colors">
-                  <td className="px-10 py-8 text-[#1A1A1A] font-bold">Nairobi CBD & Surroundings</td>
-                  <td className="px-10 py-8 text-right font-display text-xl font-bold text-[#1B4332]">KSh 250</td>
+              <tbody className="divide-y divide-border">
+                <tr className="group hover:bg-background/50 transition-colors">
+                  <td className="px-10 py-8 text-foreground font-bold">Nairobi CBD & Surroundings</td>
+                  <td className="px-10 py-8 text-right font-display text-xl font-bold text-primary">KSh 250</td>
                 </tr>
-                <tr className="group hover:bg-[#FAF7F2]/50 transition-colors">
-                  <td className="px-10 py-8 text-[#1A1A1A] font-bold">Nairobi Outskirts (Thika, Ngong, Kitengela)</td>
-                  <td className="px-10 py-8 text-right font-display text-xl font-bold text-[#1B4332]">KSh 350</td>
+                <tr className="group hover:bg-background/50 transition-colors">
+                  <td className="px-10 py-8 text-foreground font-bold">Nairobi Outskirts (Thika, Ngong, Kitengela)</td>
+                  <td className="px-10 py-8 text-right font-display text-xl font-bold text-primary">KSh 350</td>
                 </tr>
-                <tr className="group hover:bg-[#FAF7F2]/50 transition-colors">
-                  <td className="px-10 py-8 text-[#1A1A1A] font-bold">Upcountry Major Towns</td>
-                  <td className="px-10 py-8 text-right font-display text-xl font-bold text-[#1B4332]">KSh 450</td>
+                <tr className="group hover:bg-background/50 transition-colors">
+                  <td className="px-10 py-8 text-foreground font-bold">Upcountry Major Towns</td>
+                  <td className="px-10 py-8 text-right font-display text-xl font-bold text-primary">KSh 450</td>
                 </tr>
-                <tr className="group hover:bg-[#FAF7F2]/50 transition-colors">
-                  <td className="px-10 py-8 text-[#1A1A1A] font-bold">International (Worldwide)</td>
-                  <td className="px-10 py-8 text-right font-sans text-xs font-bold text-[#A1440B] tracking-wider italic uppercase">Calculated at Checkout via DHL</td>
+                <tr className="group hover:bg-background/50 transition-colors">
+                  <td className="px-10 py-8 text-foreground font-bold">International (Worldwide)</td>
+                  <td className="px-10 py-8 text-right font-sans text-xs font-bold text-secondary tracking-wider italic uppercase">Calculated at Checkout via DHL</td>
                 </tr>
               </tbody>
             </table>
@@ -121,10 +121,10 @@ const DeliveryPage = () => {
         </div>
 
         {/* 🛡️ Guarantee Box */}
-        <div className="bg-[#1B4332] rounded-[3rem] p-12 lg:p-20 text-white relative overflow-hidden text-center shadow-2xl">
+        <div className="bg-primary rounded-[3rem] p-12 lg:p-20 text-white relative overflow-hidden text-center shadow-2xl">
           <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -mr-40 -mt-40 blur-3xl pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto space-y-8">
-            <ShieldCheck className="w-16 h-16 text-[#A1440B] mx-auto animate-pulse-subtle" />
+            <ShieldCheck className="w-16 h-16 text-secondary mx-auto animate-pulse-subtle" />
             <h3 className="font-display text-3xl lg:text-4xl font-bold leading-tight">Peace of mind, <br />from our shelf to your door.</h3>
             <p className="font-sans text-xl text-white/70 leading-relaxed">
               Every package is handled with care and comes with full tracking details sent directly to your phone. If you're not home, we'll coordinate a safe delivery time with you.

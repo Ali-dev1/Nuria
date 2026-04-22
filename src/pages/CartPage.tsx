@@ -43,11 +43,11 @@ const CartPage = () => {
     return (
       <div className="container-nuria py-16 text-center">
         <CartIcon className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-        <h1 className="font-display text-2xl font-bold text-[#1A1A1A]">Your cart is empty</h1>
-        <p className="font-sans text-[#6B7280] mt-2">Looks like you haven't added any books yet</p>
+        <h1 className="font-display text-2xl font-bold text-foreground">Your cart is empty</h1>
+        <p className="font-sans text-muted-foreground mt-2">Looks like you haven't added any books yet</p>
         <Link
           to="/books"
-          className="inline-flex items-center gap-2 mt-8 px-8 py-4 bg-[#1B4332] text-white font-sans font-semibold rounded-lg hover:brightness-90 transition-all text-sm shadow-sm"
+          className="inline-flex items-center gap-2 mt-8 px-8 py-4 bg-primary text-white font-sans font-semibold rounded-lg hover:brightness-90 transition-all text-sm shadow-sm"
         >
           Browse Books
         </Link>
@@ -61,7 +61,7 @@ const CartPage = () => {
         <ArrowLeft className="w-4 h-4" /> Continue shopping
       </Link>
 
-      <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#1A1A1A] mb-8">
+      <h1 className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-8">
         Shopping Cart ({items.length} {items.length === 1 ? "item" : "items"})
       </h1>
 
@@ -77,11 +77,11 @@ const CartPage = () => {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <Link to={`/books/${product.slug}`} className="font-display font-semibold text-sm text-[#1A1A1A] hover:text-[#A1440B] transition-colors line-clamp-1">
+                <Link to={`/books/${product.slug}`} className="font-display font-semibold text-sm text-foreground hover:text-secondary transition-colors line-clamp-1">
                   {product.title}
                 </Link>
-                <p className="font-sans text-xs text-[#6B7280] mt-0.5">{product.author}</p>
-                <p className="font-sans font-bold text-[#1B4332] mt-2 text-sm">{formatPrice(product.price)}</p>
+                <p className="font-sans text-xs text-muted-foreground mt-0.5">{product.author}</p>
+                <p className="font-sans font-bold text-primary mt-2 text-sm">{formatPrice(product.price)}</p>
                 <div className="flex items-center justify-between mt-3">
                   <div className="flex items-center gap-2 border border-border rounded-lg">
                     <button
@@ -100,7 +100,7 @@ const CartPage = () => {
                   </div>
                   <button
                     onClick={() => removeItem(product.id)}
-                    className="p-2 text-[#6B7280] hover:text-red-600 transition-colors"
+                    className="p-2 text-muted-foreground hover:text-red-600 transition-colors"
                     aria-label="Remove item"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -113,21 +113,21 @@ const CartPage = () => {
 
         {/* Summary */}
         <div className="bg-card rounded-xl p-6 h-fit space-y-4 sticky top-24">
-          <h3 className="font-display text-lg font-bold text-[#1A1A1A]">Order Summary</h3>
+          <h3 className="font-display text-lg font-bold text-foreground">Order Summary</h3>
           <div className="space-y-3 font-sans text-sm">
-            <div className="flex justify-between text-[#6B7280]">
+            <div className="flex justify-between text-muted-foreground">
               <span>Subtotal</span>
-              <span className="text-[#1A1A1A] font-medium">{formatPrice(subtotal())}</span>
+              <span className="text-foreground font-medium">{formatPrice(subtotal())}</span>
             </div>
-            <div className="flex justify-between text-[#6B7280]">
+            <div className="flex justify-between text-muted-foreground">
               <span>Delivery</span>
-              <span>{deliveryFee === 0 ? <span className="text-[#1B4332] font-semibold">FREE</span> : formatPrice(deliveryFee)}</span>
+              <span>{deliveryFee === 0 ? <span className="text-primary font-semibold">FREE</span> : formatPrice(deliveryFee)}</span>
             </div>
             {deliveryFee > 0 && (
-              <p className="text-[11px] text-[#A1440B] font-medium font-sans">Add {formatPrice(deliveryFeeThreshold - subtotal())} more for free delivery</p>
+              <p className="text-[11px] text-secondary font-medium font-sans">Add {formatPrice(deliveryFeeThreshold - subtotal())} more for free delivery</p>
             )}
             {discount > 0 && (
-              <div className="flex justify-between text-[#A1440B]">
+              <div className="flex justify-between text-secondary">
                 <span>Loyalty Discount</span>
                 <span>-{formatPrice(discount)}</span>
               </div>
@@ -159,16 +159,16 @@ const CartPage = () => {
             </div>
           )}
 
-          <div className="border-t border-[#E5E0D8] pt-4 flex justify-between font-sans font-bold text-[#1A1A1A]">
+          <div className="border-t border-border pt-4 flex justify-between font-sans font-bold text-foreground">
             <span>Total</span>
             <span className="text-lg">{formatPrice(total)}</span>
           </div>
-          <div className="text-[11px] font-sans font-medium text-[#1B4332] bg-[#D1FAE5] px-3 py-2.5 rounded-lg flex items-center justify-center gap-2">
+          <div className="text-[11px] font-sans font-medium text-primary bg-green-100 px-3 py-2.5 rounded-lg flex items-center justify-center gap-2">
             🎁 You'll earn {loyaltyEarned} loyalty points
           </div>
           <Link
             to="/checkout"
-            className="block w-full py-4 bg-[#1B4332] text-white font-sans font-bold rounded-lg hover:brightness-90 transition-all text-sm text-center shadow-lg"
+            className="block w-full py-4 bg-primary text-white font-sans font-bold rounded-lg hover:brightness-90 transition-all text-sm text-center shadow-lg"
           >
             Proceed to Checkout
           </Link>

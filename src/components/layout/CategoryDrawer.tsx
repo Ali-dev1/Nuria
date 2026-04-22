@@ -27,7 +27,7 @@ export const CategoryDrawer = ({ open, onOpenChange }: CategoryDrawerProps) => {
       <DrawerContent className="bg-white flex flex-col rounded-t-[2rem] h-[calc(100%-64px)] mt-24 outline-none">
         <div className="p-6 flex-1 overflow-y-auto">
           <div className="flex items-center justify-between mb-8">
-            <DrawerTitle className="font-display text-2xl font-bold text-[#1A1A1A]">
+            <DrawerTitle className="font-display text-2xl font-bold text-foreground">
               Browse Categories
             </DrawerTitle>
             <DrawerClose asChild>
@@ -45,12 +45,12 @@ export const CategoryDrawer = ({ open, onOpenChange }: CategoryDrawerProps) => {
                   key={cat.id}
                   to={`/books?category=${cat.slug}`}
                   onClick={() => onOpenChange(false)}
-                  className="flex flex-col items-center gap-3 p-4 bg-[#FAF7F2] rounded-2xl border border-[#E5E0D8]/50 active:scale-95 transition-all"
+                  className="flex flex-col items-center gap-3 p-4 bg-background rounded-2xl border border-border/50 active:scale-95 transition-all"
                 >
-                  <div className="p-3 rounded-full bg-[#1B4332]/5">
-                    <Icon className="w-6 h-6 text-[#1B4332]" />
+                  <div className="p-3 rounded-full bg-primary/5">
+                    <Icon className="w-6 h-6 text-primary" />
                   </div>
-                  <span className="font-sans text-[11px] font-bold text-[#1A1A1A] text-center leading-tight">
+                  <span className="font-sans text-[11px] font-bold text-foreground text-center leading-tight">
                     {cat.name}
                   </span>
                 </Link>

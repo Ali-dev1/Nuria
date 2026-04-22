@@ -37,21 +37,21 @@ export const BookCard = ({ product }: BookCardProps) => {
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-gradient-to-br from-muted to-muted/50">
-            <span className="font-display text-[10px] font-bold text-[#1B4332] mb-1 uppercase tracking-widest opacity-50 text-center">Nuria Store</span>
-            <span className="font-display text-xs text-[#1A1A1A]/60 text-center line-clamp-3 leading-tight">{product.title}</span>
+            <span className="font-display text-[10px] font-bold text-primary mb-1 uppercase tracking-widest opacity-50 text-center">Nuria Store</span>
+            <span className="font-display text-xs text-foreground/60 text-center line-clamp-3 leading-tight">{product.title}</span>
           </div>
         )}
 
         {/* Discount Badge */}
         {hasDiscount && (
-          <span className="absolute top-2 left-2 bg-[#A1440B] text-white text-[10px] font-bold px-2 py-1 rounded">
+          <span className="absolute top-2 left-2 bg-secondary text-white text-[10px] font-bold px-2 py-1 rounded">
             -{discountPercent}%
           </span>
         )}
 
         {/* Sold Out Badge */}
         {isSoldOut && (
-          <span className="absolute top-2 right-2 bg-[#374151] text-white text-[10px] font-bold px-2 py-1 rounded">
+          <span className="absolute top-2 right-2 bg-gray-700 text-white text-[10px] font-bold px-2 py-1 rounded">
             Sold Out
           </span>
         )}
@@ -74,23 +74,23 @@ export const BookCard = ({ product }: BookCardProps) => {
       <div className="p-3 flex flex-col flex-1">
         <Link to={`/books/${product.slug}`} className="block flex-1">
           <h3 
-            className="font-display text-[14px] font-semibold text-[#1A1A1A] line-clamp-2 leading-tight min-h-[2.5rem]"
+            className="font-display text-[14px] font-semibold text-foreground line-clamp-2 leading-tight min-h-[2.5rem]"
             title={product.title}
           >
             {product.title}
           </h3>
           <p 
-            className="font-sans text-[12px] text-[#6B7280] mt-1 line-clamp-1"
+            className="font-sans text-[12px] text-muted-foreground mt-1 line-clamp-1"
             title={product.author || ""}
           >
             {product.author}
           </p>
           <div className="mt-2 flex items-center gap-2">
-            <span className="font-sans text-[16px] font-bold text-[#1B4332]">
+            <span className="font-sans text-[16px] font-bold text-primary">
               {formatPrice(product.price)}
             </span>
             {hasDiscount && (
-              <span className="font-sans text-[12px] text-[#6B7280] line-through">
+              <span className="font-sans text-[12px] text-muted-foreground line-through">
                 {formatPrice(product.originalPrice ?? 0)}
               </span>
             )}
@@ -100,7 +100,7 @@ export const BookCard = ({ product }: BookCardProps) => {
         <button
           onClick={() => addItem(product)}
           disabled={isSoldOut}
-          className="mt-4 w-full py-2.5 bg-[#1B4332] text-white font-sans text-sm font-medium rounded-lg hover:brightness-90 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-4 w-full py-2.5 bg-primary text-white font-sans text-sm font-medium rounded-lg hover:brightness-90 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <ShoppingCart className="w-4 h-4" /> Add to Cart
         </button>

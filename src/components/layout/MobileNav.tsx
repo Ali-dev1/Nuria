@@ -28,7 +28,7 @@ export const MobileNav = ({ open, onClose }: MobileNavProps) => {
       />
       
       {/* Drawer */}
-      <div className="absolute inset-y-0 left-0 w-[280px] bg-[#1B4332] shadow-2xl animate-in slide-in-from-left duration-300 flex flex-col text-white">
+      <div className="absolute inset-y-0 left-0 w-[280px] bg-primary shadow-2xl animate-in slide-in-from-left duration-300 flex flex-col text-white">
         <div className="flex items-center justify-between p-6 border-b border-white/10">
           <Link to="/" onClick={onClose}>
             <img src="/logo.png" alt="Nuria Logo" className="h-10 w-auto" />
@@ -102,7 +102,7 @@ export const MobileNav = ({ open, onClose }: MobileNavProps) => {
             <Link
               to="/vendor/guide"
               onClick={onClose}
-              className="block w-full py-4 text-center text-xs font-sans font-bold bg-[#A1440B] text-white rounded-lg uppercase tracking-widest shadow-lg"
+              className="block w-full py-4 text-center text-xs font-sans font-bold bg-secondary text-white rounded-lg uppercase tracking-widest shadow-lg"
             >
               SELL ON NURIA
             </Link>

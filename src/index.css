@@ -4,76 +4,93 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   NURIA DESIGN SYSTEM — Single Source of Truth
+   ============================================================
+   Palette: Kombu Green / Café Noir / Moss / Tan / Bone
+   Philosophy: "Paper & Ink" — a site that feels like a book.
+   ============================================================ */
+
 @layer base {
   :root {
-    /* Nuria Premium Design Tokens — Exact hex values */
-    --color-primary: #1B4332;
-    --color-accent: #A1440B;
-    --color-background: #FAF7F2;
-    --color-text: #1A1A1A;
-    --color-text-muted: #6B7280;
-    --color-border: #E5E0D8;
+    /* ── Named Palette ── */
+    --color-kombu:     #354024;
+    --color-cafe-noir: #4C3D19;
+    --color-moss:      #889063;
+    --color-tan:       #CFBB99;
+    --color-bone:      #E5D7C4;
 
-    /* shadcn/ui HSL tokens mapped to Nuria palette */
-    --background: 37 33% 96%;
-    --foreground: 0 0% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
-    --primary: 153 42% 18%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 19 86% 33%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 35 15% 90%;
-    --muted-foreground: 220 9% 46%;
-    --accent: 19 76% 43%;
-    --accent-foreground: 0 0% 100%;
+    /* ── Semantic Design Tokens ── */
+    --color-primary:      var(--color-kombu);
+    --color-accent:       var(--color-cafe-noir);
+    --color-background:   var(--color-bone);
+    --color-surface:      #F0E8DA;
+    --color-text:         #2D361F;
+    --color-text-muted:   #6B6350;
+    --color-border:       var(--color-tan);
+    --color-success:      #D1FAE5;
+    --color-highlight:    #8B5E34;
+
+    /* ── shadcn/ui HSL tokens ── */
+    --background: 35 39% 83%;       /* Bone */
+    --foreground: 86 28% 16%;       /* Dark Kombu */
+    --card: 33 38% 90%;             /* Light Bone */
+    --card-foreground: 86 28% 16%;
+    --popover: 33 38% 90%;
+    --popover-foreground: 86 28% 16%;
+    --primary: 84 28% 20%;          /* Kombu Green */
+    --primary-foreground: 35 39% 83%;
+    --secondary: 42 33% 20%;        /* Café Noir */
+    --secondary-foreground: 35 39% 90%;
+    --muted: 38 36% 71%;            /* Tan */
+    --muted-foreground: 35 14% 37%;
+    --accent: 71 19% 48%;           /* Moss Green */
+    --accent-foreground: 86 28% 16%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 33 15% 87%;
-    --input: 33 15% 87%;
-    --ring: 153 42% 18%;
+    --border: 38 36% 71%;           /* Tan */
+    --input: 38 36% 71%;
+    --ring: 84 28% 20%;             /* Kombu */
     --radius: 0.75rem;
 
-    --sidebar-background: 153 42% 18%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 19 76% 43%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 153 35% 25%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 153 30% 25%;
-    --sidebar-ring: 19 76% 43%;
+    --sidebar-background: 84 28% 20%;
+    --sidebar-foreground: 35 39% 90%;
+    --sidebar-primary: 42 33% 20%;
+    --sidebar-primary-foreground: 35 39% 90%;
+    --sidebar-accent: 84 22% 28%;
+    --sidebar-accent-foreground: 35 39% 90%;
+    --sidebar-border: 84 20% 28%;
+    --sidebar-ring: 42 33% 20%;
   }
 
   .dark {
-    --background: 150 20% 6%;
-    --foreground: 30 20% 92%;
-    --card: 150 18% 10%;
-    --card-foreground: 30 20% 92%;
-    --popover: 150 18% 10%;
-    --popover-foreground: 30 20% 92%;
-    --primary: 30 33% 97%;
-    --primary-foreground: 153 42% 18%;
-    --secondary: 20 76% 43%;
-    --secondary-foreground: 30 33% 97%;
-    --muted: 150 15% 15%;
-    --muted-foreground: 30 10% 60%;
-    --accent: 20 76% 43%;
-    --accent-foreground: 30 33% 97%;
+    --background: 84 20% 6%;
+    --foreground: 35 30% 90%;
+    --card: 84 18% 10%;
+    --card-foreground: 35 30% 90%;
+    --popover: 84 18% 10%;
+    --popover-foreground: 35 30% 90%;
+    --primary: 35 39% 83%;
+    --primary-foreground: 84 28% 20%;
+    --secondary: 42 33% 30%;
+    --secondary-foreground: 35 39% 90%;
+    --muted: 84 15% 15%;
+    --muted-foreground: 35 15% 55%;
+    --accent: 71 19% 35%;
+    --accent-foreground: 35 39% 90%;
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 100%;
-    --border: 150 15% 18%;
-    --input: 150 15% 18%;
-    --ring: 30 33% 97%;
-    --sidebar-background: 150 20% 8%;
-    --sidebar-foreground: 30 20% 92%;
-    --sidebar-primary: 20 76% 43%;
-    --sidebar-primary-foreground: 30 33% 97%;
-    --sidebar-accent: 150 15% 15%;
-    --sidebar-accent-foreground: 30 20% 92%;
-    --sidebar-border: 150 15% 18%;
-    --sidebar-ring: 20 76% 43%;
+    --border: 84 15% 18%;
+    --input: 84 15% 18%;
+    --ring: 35 39% 83%;
+    --sidebar-background: 84 20% 8%;
+    --sidebar-foreground: 35 30% 90%;
+    --sidebar-primary: 42 33% 30%;
+    --sidebar-primary-foreground: 35 39% 90%;
+    --sidebar-accent: 84 15% 15%;
+    --sidebar-accent-foreground: 35 30% 90%;
+    --sidebar-border: 84 15% 18%;
+    --sidebar-ring: 42 33% 30%;
   }
 }
 
@@ -84,7 +101,6 @@
 
   html, body {
     @apply bg-background text-foreground font-sans antialiased;
-    color: var(--color-text);
     overflow-x: hidden;
     width: 100%;
     position: relative;
@@ -94,19 +110,25 @@
     @apply font-display;
   }
 
-  /* Forms and Inputs — spec-exact */
+  /* Forms and Inputs */
   input, textarea, select {
-    @apply rounded-lg bg-white text-[#1A1A1A] placeholder:text-[#6B7280];
+    @apply rounded-lg text-foreground placeholder:text-muted-foreground;
+    background-color: var(--color-surface);
     border-color: var(--color-border);
   }
   input:focus, textarea:focus, select:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.3);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.3);
   }
 }
 
 @layer utilities {
   .container-nuria {
     @apply max-w-[1280px] mx-auto px-4 md:px-8 lg:px-12;
+  }
+
+  /* Premium book-shadow using palette tones instead of black */
+  .shadow-book {
+    box-shadow: 0 10px 15px -3px rgba(53, 64, 36, 0.1), 0 4px 6px -2px rgba(53, 64, 36, 0.05);
   }
 }
