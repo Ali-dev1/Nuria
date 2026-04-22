@@ -148,7 +148,7 @@ export const useAdminVendors = (options?: { verified?: boolean }) => {
       const mergedData = vendors.map(v => ({
         ...v,
         profiles: {
-          ...(profiles?.find(p => p.user_id === v.user_id) || {}),
+          ...(profiles?.find(p => p.user_id === v.user_id) ?? { user_id: '', name: null, email: null, role: null }),
           email: v.contact_email || null,
         },
       }));

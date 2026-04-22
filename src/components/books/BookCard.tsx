@@ -18,8 +18,8 @@ export const BookCard = ({ product }: BookCardProps) => {
   const isWished = wishlistIds.includes(product.id);
   const isSoldOut = product.stock === 0;
   const hasDiscount = product.originalPrice && product.originalPrice > product.price;
-  const discountPercent = hasDiscount 
-    ? Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100) 
+  const discountPercent = hasDiscount && product.originalPrice
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
     : 0;
 
   return (
@@ -91,7 +91,7 @@ export const BookCard = ({ product }: BookCardProps) => {
             </span>
             {hasDiscount && (
               <span className="font-sans text-[12px] text-[#6B7280] line-through">
-                {formatPrice(product.originalPrice!)}
+                {formatPrice(product.originalPrice ?? 0)}
               </span>
             )}
           </div>

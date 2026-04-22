@@ -145,16 +145,7 @@ export const VendorManagement = () => {
             >
               <Info className="w-4 h-4 text-primary" />
             </Button>
-            {v.status !== "active" ? (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="h-8 w-8 p-0 rounded-lg border-green-200 hover:bg-green-50"
-                onClick={() => verifyVendor(v.id, true, v.user_id)}
-              >
-                <CheckCircle className="w-4 h-4 text-green-600" />
-              </Button>
-            ) : (
+            {v.status === "active" ? (
               <Button 
                 variant="outline" 
                 size="sm" 
@@ -162,6 +153,15 @@ export const VendorManagement = () => {
                 onClick={() => { setRejectVendorId(v.id) }}
               >
                 <XCircle className="w-4 h-4 text-red-600" />
+              </Button>
+            ) : (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="h-8 w-8 p-0 rounded-lg border-green-200 hover:bg-green-50"
+                onClick={() => verifyVendor(v.id, true, v.user_id)}
+              >
+                <CheckCircle className="w-4 h-4 text-green-600" />
               </Button>
             )}
           </div>
@@ -251,20 +251,20 @@ export const VendorManagement = () => {
                  </div>
 
                  <div className="flex gap-4 pt-4">
-                    {selectedVendor.status !== "active" ? (
-                       <Button 
-                          className="flex-1 h-14 rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-primary/20"
-                          onClick={() => verifyVendor(selectedVendor.id, true, selectedVendor.user_id)}
-                       >
-                          Approve Merchant
-                       </Button>
-                    ) : (
+                    {selectedVendor.status === "active" ? (
                        <Button 
                           variant="destructive"
                           className="flex-1 h-14 rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-red-500/20"
                           onClick={() => verifyVendor(selectedVendor.id, false, selectedVendor.user_id)}
                        >
                           Suspend Merchant
+                       </Button>
+                    ) : (
+                       <Button 
+                          className="flex-1 h-14 rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-primary/20"
+                          onClick={() => verifyVendor(selectedVendor.id, true, selectedVendor.user_id)}
+                       >
+                          Approve Merchant
                        </Button>
                     )}
                     <Button 

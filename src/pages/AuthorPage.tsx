@@ -1,7 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { BookCard } from "@/components/books/BookCard";
-import type { Product } from "@/lib/types";
 
 import { useAuthor } from "@/hooks/useAuthors";
 import { useProducts } from "@/hooks/useProducts";

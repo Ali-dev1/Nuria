@@ -46,7 +46,7 @@ export const BottomNav = () => {
             return (
               <Link
                 key={item.label}
-                to={item.path!}
+                to={item.path ?? "/"}
                 className="flex flex-col items-center justify-center gap-1 group flex-1 relative"
               >
                 <div className={`p-1 rounded-full transition-colors ${isActive ? "text-[#1B4332]" : "text-[#6B7280] group-hover:text-[#1B4332]"}`}>

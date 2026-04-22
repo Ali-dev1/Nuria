@@ -1,6 +1,5 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Share2, Bookmark } from "lucide-react";
-import { InfoPageLayout } from "@/components/layout/InfoPageLayout";
 
 const BLOG_POSTS = [
   {

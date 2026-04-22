@@ -1,5 +1,5 @@
 import { InfoPageLayout } from "@/components/layout/InfoPageLayout";
-import { ShieldCheck, Lock, Eye, FileText, Globe, Mail } from "lucide-react";
+import { Lock, Eye, FileText, Globe, Mail } from "lucide-react";
 
 const PrivacyPage = () => {
   return (

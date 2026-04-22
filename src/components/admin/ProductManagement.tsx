@@ -23,7 +23,7 @@ export const ProductManagement = () => {
     const { error } = await supabase.from("products").update({ is_active: !current }).eq("id", id);
     if (!error) {
       invalidate(["admin", "products"]);
-      toast({ title: "Status Synchronized", description: `Product is now ${!current ? "active" : "in draft"}.` });
+      toast({ title: "Status Synchronized", description: `Product is now ${current ? "in draft" : "active"}.` });
     }
   };
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { SlidersHorizontal, X, Search as SearchIcon } from "lucide-react";
 import { BookCard } from "@/components/books/BookCard";
 import { CATEGORIES } from "@/lib/constants";
@@ -16,7 +16,6 @@ const SORT_OPTIONS = [
 
 const BooksPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
   const categoryParam = searchParams.get("category");
   const searchQuery = searchParams.get("search") || "";
   const [localSearch, setLocalSearch] = useState(searchQuery);

@@ -78,15 +78,15 @@ const AdminDashboard = () => {
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-[100px] pointer-events-none" />
           
           <div className={`p-6 flex items-center h-20 ${isSidebarCollapsed ? "justify-center" : "justify-between"}`}>
-            {!isSidebarCollapsed ? (
+            {isSidebarCollapsed ? (
+              <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10 shadow-lg">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
+            ) : (
               <div className="space-y-1">
                 <h1 className="text-2xl font-black tracking-tighter text-white font-display leading-none">
                   NURIA <span className="text-primary-foreground/40 text-[10px] font-mono block uppercase tracking-[0.3em] mt-1">Admin</span>
                 </h1>
-              </div>
-            ) : (
-              <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10 shadow-lg">
-                <Shield className="w-6 h-6 text-white" />
               </div>
             )}
             <button 

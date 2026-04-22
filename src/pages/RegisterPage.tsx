@@ -7,7 +7,6 @@ import { supabase } from "@/lib/supabaseClient";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("customer");
@@ -38,12 +37,11 @@ const RegisterPage = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/auth/callback`,
+        redirectTo: `${import.meta.env.VITE_SITE_URL || globalThis.location.origin}/auth/callback`,
       },
     });
     if (error) {
       toast({ title: "Google sign in failed", description: error.message, variant: "destructive" });
-      return;
     }
   };
 

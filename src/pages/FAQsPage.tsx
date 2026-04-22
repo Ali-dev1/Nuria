@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { HelpCircle, Truck, ShoppingBag, CreditCard, ShieldCheck, User } from "lucide-react";
+import { HelpCircle, Truck, ShoppingBag, User } from "lucide-react";
 
 const faqData = [
   {

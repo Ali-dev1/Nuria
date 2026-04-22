@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { 
-  X, BookOpen, GraduationCap, Heart, Globe, 
-  Briefcase, User, ShoppingCart, LogOut, Home, Rss
+  X, BookOpen, Heart, Globe, 
+  User, ShoppingCart, LogOut, Home, Rss
 } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useProfile } from "@/hooks/useProfile";
@@ -20,18 +20,11 @@ export const MobileNav = ({ open, onClose }: MobileNavProps) => {
   return (
     <div className="fixed inset-0 z-[60] lg:hidden">
       {/* Backdrop */}
-      <div 
-        role="button"
-        tabIndex={0}
+      <button 
+        type="button"
         aria-label="Close menu"
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" 
+        className="absolute inset-0 w-full h-full bg-black/60 backdrop-blur-sm transition-opacity duration-300 border-none cursor-default" 
         onClick={onClose} 
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onClose();
-          }
-        }}
       />
       
       {/* Drawer */}

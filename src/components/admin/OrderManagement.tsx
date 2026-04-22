@@ -264,7 +264,7 @@ export const OrderManagement = () => {
         </div>
       </div>
 
-      {ordersData && ordersData.count !== undefined && ordersData.count > 10 && (
+      {(ordersData?.count ?? 0) > 10 && (
         <div className="flex justify-center mt-12 animate-in slide-in-from-top-4 duration-1000">
           <Pagination className="bg-white p-2 rounded-2xl border border-border shadow-xl shadow-primary/5">
             <PaginationContent className="gap-2">

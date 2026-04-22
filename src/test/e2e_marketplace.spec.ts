@@ -3,7 +3,7 @@ import { test, expect, Page } from '@playwright/test';
 // ============================================
 // NURIA MARKETPLACE — PLAYWRIGHT TEST SUITE
 // ============================================
-// Known broken areas (marked with todo):
+// Known limitations:
 // - Email verification on register (Resend not configured)
 // - M-Pesa STK Push (payment not fully hooked up)
 // ============================================

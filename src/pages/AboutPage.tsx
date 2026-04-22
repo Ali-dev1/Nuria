@@ -1,5 +1,5 @@
 import { InfoPageLayout } from "@/components/layout/InfoPageLayout";
-import { CheckCircle2, Award, Rocket, Target, Users, BookOpen, Heart, Globe } from "lucide-react";
+import { CheckCircle2, Award, Rocket, Target, Users, BookOpen, Globe } from "lucide-react";
 
 const AboutPage = () => {
   return (

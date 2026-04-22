@@ -58,7 +58,6 @@ const LoginPage = () => {
     });
     if (error) {
       toast({ title: "Google sign in failed", description: error.message, variant: "destructive" });
-      return;
     }
   };
 

@@ -23,10 +23,30 @@ const iconMap: Record<string, React.ElementType> = {
   BookOpen, Lightbulb, Baby, Heart, Globe, Smartphone, Shirt,
 };
 
+const BookGridSkeleton = () => (
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {['isk1', 'isk2', 'isk3', 'isk4', 'isk5', 'isk6', 'isk7', 'isk8'].map((id) => (
+      <div key={id} className="space-y-3">
+        <Skeleton className="aspect-[3/4] w-full rounded-xl" />
+        <Skeleton className="h-4 w-3/4" />
+        <Skeleton className="h-3 w-1/2" />
+      </div>
+    ))}
+  </div>
+);
+
+const SectionHeading = ({ label, title }: { label: string; title: string }) => (
+  <div className="mb-10">
+    <span className="font-sans text-[12px] font-bold uppercase tracking-[0.2em] text-[#A1440B]">{label}</span>
+    <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#1A1A1A] mt-1">{title}</h2>
+    <div className="w-[80px] h-[4px] bg-[#A1440B] mt-4 rounded-full" />
+  </div>
+);
+
 const Index = () => {
   const { data: featuredData, isLoading: isFeaturedLoading } = useProducts({ featured: true, limit: 8 });
   const { data: newArrivalsData, isLoading: isNewLoading } = useProducts({ limit: 8 });
-  const { data: bestsellersData, isLoading: isBestLoading } = useProducts({ limit: 8 });
+  const { isLoading: isBestLoading } = useProducts({ limit: 8 });
   const { data: authors = [], isLoading: loadingAuthors } = useAuthors();
 
   const featured = featuredData?.products || [];
@@ -52,26 +72,6 @@ const Index = () => {
       navigate(`/books?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
-
-  const BookGridSkeleton = () => (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {['isk1', 'isk2', 'isk3', 'isk4', 'isk5', 'isk6', 'isk7', 'isk8'].map((id) => (
-        <div key={id} className="space-y-3">
-          <Skeleton className="aspect-[3/4] w-full rounded-xl" />
-          <Skeleton className="h-4 w-3/4" />
-          <Skeleton className="h-3 w-1/2" />
-        </div>
-      ))}
-    </div>
-  );
-
-  const SectionHeading = ({ label, title }: { label: string; title: string }) => (
-    <div className="mb-10">
-      <span className="font-sans text-[12px] font-bold uppercase tracking-[0.2em] text-[#A1440B]">{label}</span>
-      <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#1A1A1A] mt-1">{title}</h2>
-      <div className="w-[80px] h-[4px] bg-[#A1440B] mt-4 rounded-full" />
-    </div>
-  );
 
   const slides = [
     {

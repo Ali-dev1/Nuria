@@ -14,7 +14,7 @@ type Step = "address" | "payment" | "confirm";
 const CheckoutPage = () => {
   const { items, subtotal, clearCart } = useCartStore();
   const { user, isAuthenticated } = useAuth();
-  const { profile, refetch: refetchProfile } = useProfile();
+  useProfile();
   const { data: settings } = useSettings();
   const navigate = useNavigate();
   const [step, setStep] = useState<Step>("address");
