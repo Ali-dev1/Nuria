@@ -8,17 +8,13 @@
     <meta name="author" content="Nuria Forest" />
     <link rel="icon" type="image/png" href="/favicon.png" />
 
-    <!-- Performance: preconnect to critical origins only (≤4) -->
-    <link rel="preconnect" href="https://hbfhllfpjhgajxroewpu.supabase.co" />
-    <link rel="preconnect" href="https://wsrv.nl" />
-    <link rel="preconnect" href="https://images.unsplash.com" />
-
-    <!-- Preload critical fonts (self-hosted, eliminates Google Fonts chain) -->
+    <!-- Preload critical fonts (self-hosted, zero external chain) -->
     <link rel="preload" as="font" type="font/woff2" href="/fonts/dm-sans-latin.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/playfair-latin.woff2" crossorigin />
 
-    <!-- LCP Image Preload -->
-    <link rel="preload" as="image" href="/images/hero.webp" fetchpriority="high" />
+    <!-- LCP Image Preload — mobile-first (13KB vs 49KB) -->
+    <link rel="preload" as="image" href="/images/hero-mobile.webp" fetchpriority="high" media="(max-width: 768px)" />
+    <link rel="preload" as="image" href="/images/hero.webp" fetchpriority="high" media="(min-width: 769px)" />
 
     <meta property="og:title" content="Nuria — The Honest Store" />
     <meta property="og:description" content="Discover Africa's greatest stories. Kenya's largest online bookstore." />
@@ -37,7 +33,21 @@
         <p>Please enable JavaScript to browse our catalog of 21,000+ books.</p>
       </div>
     </noscript>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static LCP shell: browser paints this INSTANTLY before React boots -->
+      <div style="position:relative;width:100%;height:80vh;overflow:hidden;background:#354024">
+        <img
+          src="/images/hero-mobile.webp"
+          srcset="/images/hero-mobile.webp 480w, /images/hero.webp 800w"
+          sizes="100vw"
+          alt="New Arrivals"
+          width="800"
+          height="470"
+          fetchpriority="high"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.7)"
+        />
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -126,9 +126,10 @@ const Index = () => {
                 <div className="relative h-[400px] sm:h-[500px] lg:h-[650px] overflow-hidden">
                   <img 
                     src={slide.image} 
+                    srcSet={slide.id === 1 ? "/images/hero-mobile.webp 480w, /images/hero.webp 800w" : undefined}
                     alt={slide.title} 
-                    width="1600" 
-                    height="650" 
+                    width="800" 
+                    height="470" 
                     loading={slide.id === 1 ? "eager" : "lazy"} 
                     fetchPriority={slide.id === 1 ? "high" : "auto"} 
                     sizes="100vw"
@@ -247,7 +248,7 @@ const Index = () => {
               >
                 <div className="h-[300px] sm:h-[350px] overflow-hidden relative bg-muted">
                   <img 
-                    src={!author.photo_url || author.photo_url.includes("Miguna-Miguna.jpg") ? "/logo-small.webp" : author.photo_url.includes("unsplash.com") ? `${author.photo_url.split('?')[0]}?fm=webp&q=50&w=340` : author.photo_url} 
+                    src={!author.photo_url || author.photo_url.includes("Miguna-Miguna.jpg") ? "/logo-small.webp" : author.photo_url.includes("unsplash.com") ? `${author.photo_url.split('?')[0]}?fm=webp&q=30&w=280` : author.photo_url} 
                     alt={author.name}
                     width="600"
                     height="800"
