@@ -94,7 +94,7 @@ const AuthorPage = () => {
         
         {loadingProducts ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[1,2,3,4].map(i => <Skeleton key={i} className="h-[300px] rounded-xl" />)}
+            {['ask1', 'ask2', 'ask3', 'ask4'].map(id => <Skeleton key={id} className="h-[300px] rounded-xl" />)}
           </div>
         ) : books.length === 0 ? (
           <p className="text-muted-foreground italic">No books found in our catalog for this author.</p>

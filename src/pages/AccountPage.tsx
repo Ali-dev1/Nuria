@@ -101,7 +101,7 @@ const AccountPage = () => {
   };
   const renderOrders = () => {
     if (ordersLoading) {
-      return Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />);
+      return ['acc-sk-1', 'acc-sk-2', 'acc-sk-3'].map((id) => <Skeleton key={id} className="h-24 w-full rounded-xl" />);
     }
     if (orders.length === 0) {
       return (
@@ -158,8 +158,8 @@ const AccountPage = () => {
     if (wishlistLoading) {
       return (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="space-y-3"><Skeleton className="aspect-[3/4] w-full rounded-lg" /><Skeleton className="h-4 w-3/4" /></div>
+          {['wl-sk-1', 'wl-sk-2', 'wl-sk-3', 'wl-sk-4'].map((id) => (
+            <div key={id} className="space-y-3"><Skeleton className="aspect-[3/4] w-full rounded-lg" /><Skeleton className="h-4 w-3/4" /></div>
           ))}
         </div>
       );

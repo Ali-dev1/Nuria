@@ -120,14 +120,20 @@ export const VendorManagement = () => {
           )}
         </td>
         <td className="p-4 text-center">
-          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
-            v.status === "active" ? "bg-green-100 text-green-700 ring-1 ring-green-200" : 
-            v.status === "rejected" ? "bg-red-100 text-red-700 ring-1 ring-red-200" :
-            "bg-amber-100 text-amber-700 ring-1 ring-amber-200 animate-pulse"
-          }`}>
-            {v.status === "active" ? <CheckCircle className="w-3 h-3" /> : v.status === "rejected" ? <XCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
-            {v.status || "pending"}
-          </span>
+          {(() => {
+            const statusConfig: Record<string, { color: string, icon: React.ReactNode }> = {
+              active: { color: "bg-green-100 text-green-700 ring-1 ring-green-200", icon: <CheckCircle className="w-3 h-3" /> },
+              rejected: { color: "bg-red-100 text-red-700 ring-1 ring-red-200", icon: <XCircle className="w-3 h-3" /> },
+              pending: { color: "bg-amber-100 text-amber-700 ring-1 ring-amber-200 animate-pulse", icon: <AlertCircle className="w-3 h-3" /> },
+            };
+            const config = statusConfig[v.status || "pending"] || statusConfig.pending;
+            return (
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${config.color}`}>
+                {config.icon}
+                {v.status || "pending"}
+              </span>
+            );
+          })()}
         </td>
         <td className="p-4 text-right">
           <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

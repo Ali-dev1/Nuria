@@ -60,7 +60,7 @@ const DeliveryPage = () => {
               tag: "GLOBAL" 
             }
           ].map((tier, i) => (
-            <div key={i} className="bg-white p-8 rounded-3xl border border-[#E5E0D8] hover:border-[#A1440B]/30 transition-all group text-center">
+            <div key={tier.title} className="bg-white p-8 rounded-3xl border border-[#E5E0D8] hover:border-[#A1440B]/30 transition-all group text-center">
               <div className="w-12 h-12 rounded-2xl bg-[#FAF7F2] flex items-center justify-center mx-auto mb-6 group-hover:bg-[#1B4332] group-hover:text-white transition-all">
                 <tier.icon className="w-6 h-6" />
               </div>

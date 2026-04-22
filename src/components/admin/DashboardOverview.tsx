@@ -4,6 +4,7 @@ import { formatPrice } from "@/lib/constants";
 import { useAdminStats, useAdminOrders, useAdminVendors, useAdminProducts } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";
 import { useQueryClient } from "@tanstack/react-query";
+import { Tables } from "@/integrations/supabase/types";
 import { useToast } from "@/hooks/use-toast";
 
 const statusColors: Record<string, string> = {
@@ -14,7 +15,7 @@ const statusColors: Record<string, string> = {
   cancelled: "bg-red-100 text-red-700 ring-1 ring-red-200",
 };
 
-export const DashboardOverview = ({ setTab }: { setTab: (t: any) => void }) => {
+export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) => {
   const { data: stats } = useAdminStats();
   const { data: ordersData } = useAdminOrders({ limit: 10 });
   const { data: vendorsData } = useAdminVendors();
@@ -31,7 +32,7 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: any) => void }) => {
     const { error: vendorError } = await supabase.from("vendors").update({ 
       is_verified: verify,
       status: verify ? "active" : "rejected"
-    } as any).eq("id", id);
+    } as Partial<Tables<"vendors">>).eq("id", id);
 
     if (vendorError) {
       toast({ title: "Operation failed", description: vendorError.message, variant: "destructive" });
@@ -88,7 +89,7 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: any) => void }) => {
         ].map(({ icon: Icon, label, value, target, color }) => (
           <button 
             key={label} 
-            onClick={() => setTab(target as any)}
+            onClick={() => setTab(target)}
             className="group bg-white rounded-3xl p-6 border border-border text-left transition-all hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5 relative overflow-hidden active:scale-95"
           >
             <div className={`absolute top-0 right-0 p-3 opacity-5 group-hover:opacity-10 transition-opacity ${color}`}>

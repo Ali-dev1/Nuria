@@ -171,85 +171,93 @@ const BooksPage = () => {
         </aside>
 
         <div className="flex-1">
-          {isLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {['skel-1', 'skel-2', 'skel-3', 'skel-4', 'skel-5', 'skel-6', 'skel-7', 'skel-8'].map((id) => (
-                <div key={id} className="space-y-3">
-                  <Skeleton className="aspect-[3/4] w-full rounded-lg" />
-                  <Skeleton className="h-4 w-3/4" />
-                  <Skeleton className="h-3 w-1/2" />
+          {(() => {
+            if (isLoading) {
+              return (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                  {['skel-1', 'skel-2', 'skel-3', 'skel-4', 'skel-5', 'skel-6', 'skel-7', 'skel-8'].map((id) => (
+                    <div key={id} className="space-y-3">
+                      <Skeleton className="aspect-[3/4] w-full rounded-lg" />
+                      <Skeleton className="h-4 w-3/4" />
+                      <Skeleton className="h-3 w-1/2" />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ) : products.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-lg font-medium text-foreground">No books found</p>
-              <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters</p>
-              <button
-                onClick={() => setSelectedCategory("")}
-                className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
-              >
-                Clear Filters
-              </button>
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
-                {products.map((product) => (
-                  <BookCard key={product.id} product={product} />
-                ))}
-              </div>
+              );
+            }
+            if (products.length === 0) {
+              return (
+                <div className="text-center py-16">
+                  <p className="text-lg font-medium text-foreground">No books found</p>
+                  <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters</p>
+                  <button
+                    onClick={() => setSelectedCategory("")}
+                    className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
+                  >
+                    Clear Filters
+                  </button>
+                </div>
+              );
+            }
+            return (
+              <>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
+                  {products.map((product) => (
+                    <BookCard key={product.id} product={product} />
+                  ))}
+                </div>
 
-              {/* Pagination UI */}
-              {totalPages > 1 && (
-                <div className="mt-12 flex items-center justify-center gap-2">
-                  <button
-                    onClick={() => {
-                      setCurrentPage(prev => Math.max(1, prev - 1));
-                      globalThis.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                    disabled={currentPage === 1}
-                    className="px-4 py-2 border border-border rounded-lg text-sm font-medium disabled:opacity-50 hover:bg-muted transition-colors"
-                  >
-                    Previous
-                  </button>
-                  <div className="hidden sm:flex items-center gap-1 mx-2">
-                    {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
-                      let pageNum = currentPage <= 3 ? i + 1 : currentPage + (i - 2);
-                      if (pageNum > totalPages) pageNum = totalPages - (4 - i);
-                      if (pageNum < 1) pageNum = i + 1;
-                      
-                      return (
-                        <button
-                          key={pageNum}
-                          onClick={() => {
-                            setCurrentPage(pageNum);
-                            globalThis.scrollTo({ top: 0, behavior: "smooth" });
-                          }}
-                          className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-all duration-200 ${currentPage === pageNum ? "bg-[#1B4332] text-white shadow-sm" : "text-[#6B7280] hover:bg-[#1B4332]/5 hover:text-[#1B4332]"}`}
-                        >
-                          {pageNum}
-                        </button>
-                      );
-                    })}
+                {/* Pagination UI */}
+                {totalPages > 1 && (
+                  <div className="mt-12 flex items-center justify-center gap-2">
+                    <button
+                      onClick={() => {
+                        setCurrentPage(prev => Math.max(1, prev - 1));
+                        globalThis.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
+                      disabled={currentPage === 1}
+                      className="px-4 py-2 border border-border rounded-lg text-sm font-medium disabled:opacity-50 hover:bg-muted transition-colors"
+                    >
+                      Previous
+                    </button>
+                    <div className="hidden sm:flex items-center gap-1 mx-2">
+                      {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
+                        let pageNum = currentPage <= 3 ? i + 1 : currentPage + (i - 2);
+                        if (pageNum > totalPages) pageNum = totalPages - (4 - i);
+                        if (pageNum < 1) pageNum = i + 1;
+                        
+                        return (
+                          <button
+                            key={pageNum}
+                            onClick={() => {
+                              setCurrentPage(pageNum);
+                              globalThis.scrollTo({ top: 0, behavior: "smooth" });
+                            }}
+                            className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-all duration-200 ${currentPage === pageNum ? "bg-[#1B4332] text-white shadow-sm" : "text-[#6B7280] hover:bg-[#1B4332]/5 hover:text-[#1B4332]"}`}
+                          >
+                            {pageNum}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <span className="text-sm text-muted-foreground mx-4 sm:hidden">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                      onClick={() => {
+                        setCurrentPage(prev => Math.min(totalPages, prev + 1));
+                        globalThis.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
+                      disabled={currentPage === totalPages}
+                      className="px-4 py-2 border border-border rounded-lg text-sm font-medium disabled:opacity-50 hover:bg-muted transition-colors"
+                    >
+                      Next
+                    </button>
                   </div>
-                  <span className="text-sm text-muted-foreground mx-4 sm:hidden">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <button
-                    onClick={() => {
-                      setCurrentPage(prev => Math.min(totalPages, prev + 1));
-                      globalThis.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-2 border border-border rounded-lg text-sm font-medium disabled:opacity-50 hover:bg-muted transition-colors"
-                  >
-                    Next
-                  </button>
-                </div>
-              )}
-            </>
-          )}
+                )}
+              </>
+            );
+          })()}
         </div>
       </div>
     </div>

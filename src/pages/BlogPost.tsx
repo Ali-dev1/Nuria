@@ -114,7 +114,7 @@ const BlogPost = () => {
         {/* Formatted Content Area */}
         <article className="max-w-3xl w-full mx-auto font-serif text-lg md:text-xl leading-relaxed text-[#1A1A1A] space-y-8">
           {paragraphs.map((paragraph, idx) => (
-            <p key={idx} className="first-letter:text-5xl first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display">
+            <p key={paragraph.substring(0, 20) + idx} className="first-letter:text-5xl first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display">
               {paragraph.trim()}
             </p>
           ))}

@@ -63,9 +63,9 @@ const GlobalMaintenanceWrapper = ({ children }: { children: React.ReactNode }) =
   const { data: profile } = useProfile();
   
   const isMaintenance = settings?.maintenance_mode === "true";
-  const userRole = (profile as any)?.role;
+  const userRole = profile?.role;
   const isActualAdmin = userRole === "admin";
-  const isMasterAdmin = (profile as any)?.name === "Master Admin";
+  const isMasterAdmin = profile?.name === "Master Admin";
   const bypassMaintenance = isActualAdmin || isMasterAdmin;
 
   if (isMaintenance && !bypassMaintenance) {

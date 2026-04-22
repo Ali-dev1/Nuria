@@ -9,11 +9,11 @@ interface VendorOverviewProps {
     productsCount: number;
     avgRating: number;
   };
-  recentOrders: any[];
-  topProducts: any[];
+  recentOrders: (Record<string, unknown> & { id: string; total: number; status?: string; created_at?: string; is_simulated?: boolean })[];
+  topProducts: (Record<string, unknown> & { id: string; title: string; price: number; is_simulated?: boolean })[];
   isVerified?: boolean;
-  vendor?: any;
-  setTab?: (tab: any) => void;
+  vendor?: Record<string, unknown> & { id?: string; mpesa_number?: string; photo_url?: string; bio?: string };
+  setTab?: (tab: string) => void;
 }
 
 export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified, vendor, setTab }: VendorOverviewProps) => {
@@ -95,7 +95,7 @@ export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified, v
                   { label: "Setup Payments", done: !!(vendor?.mpesa_number && vendor?.mpesa_number.length >= 5) },
                   { label: "Complete Profile", done: !!(vendor?.photo_url && vendor?.bio) },
                 ].map((item, idx) => (
-                  <li key={idx} className="flex items-center gap-3 text-sm">
+                  <li key={item.label} className="flex items-center gap-3 text-sm">
                     <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${item.done ? "bg-secondary/10 border-secondary text-secondary" : "border-border"}`}>
                       {item.done && <CheckCircle className="w-3 h-3" />}
                     </div>
@@ -116,11 +116,11 @@ export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified, v
           </h3>
           <div className="space-y-4">
             {(recentOrders.length === 0 ? mockOrders : recentOrders).map((o) => (
-              <div key={o.id} className={`flex items-center justify-between py-2 border-b border-border last:border-0 ${(o as any).is_simulated ? "opacity-50 grayscale" : ""}`}>
+              <div key={o.id} className={`flex items-center justify-between py-2 border-b border-border last:border-0 ${o.is_simulated ? "opacity-50 grayscale" : ""}`}>
                 <div>
                   <p className="text-sm font-medium text-foreground flex items-center gap-2">
                     #{o.id.slice(0, 8)}
-                    {(o as any).is_simulated && <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded uppercase tracking-tighter">Sample</span>}
+                    {o.is_simulated && <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded uppercase tracking-tighter">Sample</span>}
                   </p>
                   <p className="text-xs text-muted-foreground">{o.created_at ? new Date(o.created_at).toLocaleDateString() : ""}</p>
                 </div>
@@ -142,12 +142,12 @@ export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified, v
           </h3>
           <div className="space-y-4">
             {(topProducts.length === 0 ? mockProducts : topProducts).map((p, i) => (
-              <div key={p.id} className={`flex items-center gap-3 py-2 border-b border-border last:border-0 ${(p as any).is_simulated ? "opacity-50 grayscale" : ""}`}>
+              <div key={p.id} className={`flex items-center gap-3 py-2 border-b border-border last:border-0 ${p.is_simulated ? "opacity-50 grayscale" : ""}`}>
                 <span className="text-lg font-bold text-muted-foreground/30">#{i + 1}</span>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-foreground truncate max-w-[200px] flex items-center gap-2">
                     {p.title}
-                    {(p as any).is_simulated && <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded uppercase tracking-tighter">Sample</span>}
+                    {p.is_simulated && <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded uppercase tracking-tighter">Sample</span>}
                   </p>
                   <p className="text-xs text-muted-foreground">{formatPrice(Number(p.price))}</p>
                 </div>

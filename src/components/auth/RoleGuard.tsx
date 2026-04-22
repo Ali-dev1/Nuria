@@ -33,7 +33,7 @@ interface RoleGuardProps {
         }
   
         // 2. Database Role Enforcement
-        const profileRole = (profile as any)?.role;
+        const profileRole = profile?.role;
   
         // If they don't have the role, kick to home
         if (requiredRole && profileRole !== requiredRole) {

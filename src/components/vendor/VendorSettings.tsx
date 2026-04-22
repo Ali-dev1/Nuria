@@ -4,8 +4,8 @@ import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 
 interface VendorSettingsProps {
-  vendor: any;
-  user: any;
+  vendor: Record<string, unknown> & { id: string; store_name?: string; bio?: string; mpesa_number?: string; phone?: string; photo_url?: string; instagram_url?: string; twitter_url?: string; facebook_url?: string; website_url?: string; };
+  user: Record<string, unknown>;
   onRefresh: () => void;
 }
 
@@ -39,14 +39,15 @@ export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps)
           twitter_url: form.twitter_url,
           facebook_url: form.facebook_url,
           website_url: form.website_url,
-        } as any)
+        } as Record<string, unknown>)
         .eq("id", vendor.id);
 
       if (error) throw error;
       toast({ title: "Settings updated", description: "Your store profile has been saved." });
       onRefresh();
-    } catch (err: any) {
-      toast({ title: "Update failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Update failed", description: errorMsg, variant: "destructive" });
     } finally {
       setSaving(false);
     }

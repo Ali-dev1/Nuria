@@ -75,7 +75,7 @@ const FAQsPage = () => {
     >
       <div className="max-w-4xl mx-auto space-y-16">
         {faqData.map((section, idx) => (
-          <div key={idx} className="space-y-6">
+          <div key={section.category} className="space-y-6">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-12 h-12 rounded-2xl bg-[#1B4332]/5 flex items-center justify-center border border-[#1B4332]/10">
                 <section.icon className="w-6 h-6 text-[#1B4332]" />
@@ -86,7 +86,7 @@ const FAQsPage = () => {
             <Accordion type="single" collapsible className="w-full space-y-4">
               {section.questions.map((item, i) => (
                 <AccordionItem 
-                  key={i} 
+                  key={item.q} 
                   value={`item-${idx}-${i}`}
                   className="bg-white border border-[#E5E0D8] rounded-2xl px-6 transition-all hover:border-[#A1440B]/30 data-[state=open]:border-[#A1440B] data-[state=open]:shadow-xl data-[state=open]:shadow-black/5"
                 >

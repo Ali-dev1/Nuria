@@ -105,7 +105,7 @@ const VendorGuidePage = () => {
                 color: "#1B4332"
               }
             ].map((step, idx) => (
-              <div key={idx} className="group p-10 rounded-[2.5rem] bg-white border border-[#E5E0D8] space-y-6 hover:border-[#1B4332]/30 hover:shadow-2xl transition-all relative overflow-hidden">
+              <div key={step.title} className="group p-10 rounded-[2.5rem] bg-white border border-[#E5E0D8] space-y-6 hover:border-[#1B4332]/30 hover:shadow-2xl transition-all relative overflow-hidden">
                 <div className="absolute top-4 right-8 font-display text-6xl font-bold text-[#FAF7F2] group-hover:text-[#FAF7F2]/50 transition-colors pointer-events-none">
                   0{idx + 1}
                 </div>
@@ -146,7 +146,7 @@ const VendorGuidePage = () => {
                 "24h Delivery Commitment",
                 "Prisinte Product Condition"
               ].map((req, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-2xl border border-[#E5E0D8] flex items-center gap-4 hover:border-[#A1440B]/30 transition-all">
+                <div key={req} className="bg-white p-6 rounded-2xl border border-[#E5E0D8] flex items-center gap-4 hover:border-[#A1440B]/30 transition-all">
                   <CheckCircle2 className="w-6 h-6 text-[#1B4332] shrink-0" />
                   <span className="font-sans font-bold text-[#1A1A1A] text-sm uppercase tracking-wider">{req}</span>
                 </div>

@@ -103,7 +103,7 @@ export const useProducts = (options?: {
       if (error) throw error;
       
       return {
-        products: (data as any[]).map(mapProduct),
+        products: (data as unknown as DbProduct[]).map(mapProduct),
         totalCount: count || 0
       };
     },
@@ -123,7 +123,7 @@ export const useProduct = (slug: string | undefined) => {
         .maybeSingle();
       if (error) throw error;
       if (!data) return null;
-      return mapProduct(data as any);
+      return mapProduct(data as unknown as DbProduct);
     },
     enabled: !!slug,
     staleTime: 1000 * 60 * 5, // 5 minutes cache

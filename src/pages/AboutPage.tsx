@@ -46,7 +46,7 @@ const AboutPage = () => {
                 { val: "15k+", label: "Book Titles", icon: BookOpen },
                 { val: "700+", label: "Local Authors", icon: Award }
               ].map((stat, i) => (
-                <div key={i} className="bg-white p-8 rounded-3xl border border-[#E5E0D8] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] text-center group hover:border-[#A1440B]/30 transition-all">
+                <div key={stat.label} className="bg-white p-8 rounded-3xl border border-[#E5E0D8] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] text-center group hover:border-[#A1440B]/30 transition-all">
                   <stat.icon className="w-6 h-6 text-[#A1440B] mx-auto mb-4 group-hover:scale-110 transition-transform" />
                   <p className="font-display text-3xl font-bold text-[#1A1A1A]">{stat.val}</p>
                   <p className="font-sans text-[9px] uppercase tracking-[0.2em] text-[#6B7280] font-bold mt-1">{stat.label}</p>
@@ -94,7 +94,7 @@ const AboutPage = () => {
                   content: "Today, we stand as 'The Honest Store'—a haven for over 15,000 titles and a thriving community of over 700 local authors and publishers."
                 }
               ].map((chapter, i) => (
-                <div key={i} className="relative pl-12 border-l-2 border-[#E5E0D8] group pb-4">
+                <div key={chapter.year} className="relative pl-12 border-l-2 border-[#E5E0D8] group pb-4">
                   <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-white border-4 border-[#1B4332] group-hover:border-[#A1440B] transition-colors" />
                   <span className="text-[12px] font-bold text-[#A1440B] uppercase tracking-widest">{chapter.year}</span>
                   <h4 className="font-display text-2xl font-bold text-[#1A1A1A] mt-2 mb-4 group-hover:text-[#1B4332] transition-colors">{chapter.title}</h4>
@@ -131,7 +131,7 @@ const AboutPage = () => {
                 icon: Globe
               }
             ].map((value, i) => (
-              <div key={i} className="text-center space-y-6">
+              <div key={value.title} className="text-center space-y-6">
                 <div className="w-20 h-20 bg-[#FAF7F2] rounded-3xl flex items-center justify-center mx-auto transition-transform hover:rotate-6 hover:bg-[#A1440B]/5">
                   <value.icon className="w-10 h-10 text-[#1B4332]" />
                 </div>
