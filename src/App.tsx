@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -9,33 +9,35 @@ import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { useAuthStore } from "@/store/authStore";
 import Index from "./pages/Index";
-import BooksPage from "./pages/BooksPage";
-import ProductPage from "./pages/ProductPage";
-import CartPage from "./pages/CartPage";
-import CheckoutPage from "./pages/CheckoutPage";
-import OrderConfirmationPage from "./pages/OrderConfirmationPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import VendorDashboard from "./pages/vendor/VendorDashboard";
-import VendorRegisterPage from "./pages/vendor/VendorRegisterPage";
-import AddProductPage from "./pages/vendor/AddProductPage";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminLoginPage from "./pages/admin/AdminLoginPage";
-import AccountPage from "./pages/AccountPage";
-import AboutPage from "./pages/AboutPage";
-import BlogPage from "./pages/BlogPage";
-import BlogPost from "./pages/BlogPost";
-import ContactPage from "./pages/ContactPage";
-import AuthorPage from "./pages/AuthorPage";
-import VendorGuidePage from "./pages/vendor/VendorGuidePage";
-import FAQsPage from "./pages/FAQsPage";
-import PrivacyPage from "./pages/PrivacyPage";
-import DeliveryPage from "./pages/DeliveryPage";
-import ReturnsPage from "./pages/ReturnsPage";
-import GiftCardPage from "./pages/GiftCardPage";
-import WishlistPage from "./pages/WishlistPage";
-import AuthCallback from "./pages/AuthCallback";
-import NotFound from "./pages/NotFound";
+
+/* ── Lazy-loaded routes (cuts ~160 KiB unused JS on initial load) ── */
+const BooksPage = React.lazy(() => import("./pages/BooksPage"));
+const ProductPage = React.lazy(() => import("./pages/ProductPage"));
+const CartPage = React.lazy(() => import("./pages/CartPage"));
+const CheckoutPage = React.lazy(() => import("./pages/CheckoutPage"));
+const OrderConfirmationPage = React.lazy(() => import("./pages/OrderConfirmationPage"));
+const LoginPage = React.lazy(() => import("./pages/LoginPage"));
+const RegisterPage = React.lazy(() => import("./pages/RegisterPage"));
+const VendorDashboard = React.lazy(() => import("./pages/vendor/VendorDashboard"));
+const VendorRegisterPage = React.lazy(() => import("./pages/vendor/VendorRegisterPage"));
+const AddProductPage = React.lazy(() => import("./pages/vendor/AddProductPage"));
+const AdminDashboard = React.lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminLoginPage = React.lazy(() => import("./pages/admin/AdminLoginPage"));
+const AccountPage = React.lazy(() => import("./pages/AccountPage"));
+const AboutPage = React.lazy(() => import("./pages/AboutPage"));
+const BlogPage = React.lazy(() => import("./pages/BlogPage"));
+const BlogPost = React.lazy(() => import("./pages/BlogPost"));
+const ContactPage = React.lazy(() => import("./pages/ContactPage"));
+const AuthorPage = React.lazy(() => import("./pages/AuthorPage"));
+const VendorGuidePage = React.lazy(() => import("./pages/vendor/VendorGuidePage"));
+const FAQsPage = React.lazy(() => import("./pages/FAQsPage"));
+const PrivacyPage = React.lazy(() => import("./pages/PrivacyPage"));
+const DeliveryPage = React.lazy(() => import("./pages/DeliveryPage"));
+const ReturnsPage = React.lazy(() => import("./pages/ReturnsPage"));
+const GiftCardPage = React.lazy(() => import("./pages/GiftCardPage"));
+const WishlistPage = React.lazy(() => import("./pages/WishlistPage"));
+const AuthCallback = React.lazy(() => import("./pages/AuthCallback"));
+const NotFound = React.lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -124,6 +126,7 @@ const App = () => {
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ScrollToTop />
           <AuthInitializer>
+            <Suspense fallback={<div className="min-h-screen bg-background" />}>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/admin/login" element={<AdminLoginPage />} />
@@ -167,6 +170,7 @@ const App = () => {
                 </GlobalMaintenanceWrapper>
               } />
             </Routes>
+            </Suspense>
           </AuthInitializer>
         </BrowserRouter>
       </TooltipProvider>
