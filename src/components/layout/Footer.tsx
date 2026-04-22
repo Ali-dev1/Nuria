@@ -87,7 +87,7 @@ export const Footer = () => {
         {/* Payment and Apps Row */}
         <div className="flex flex-col lg:flex-row items-center justify-between py-10 border-y border-white/10 gap-8">
           <div className="flex flex-col items-center lg:items-start gap-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#78350F]">We Accept</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/70">We Accept</span>
             <div className="flex flex-wrap items-center justify-center gap-6 grayscale brightness-200 opacity-60">
               <span className="font-bold text-lg">M-Pesa</span>
               <span className="font-bold text-lg">VISA</span>
@@ -97,7 +97,7 @@ export const Footer = () => {
           </div>
           
           <div className="flex flex-col items-center lg:items-end gap-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#78350F]">Follow Us</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/70">Follow Us</span>
             <div className="flex items-center gap-5">
               <a href="https://facebook.com/nuriayourhonestonlineshop/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-white hover:text-secondary transition-colors"><FacebookIcon className="w-6 h-6" /></a>
               <a href="https://instagram.com/nuria_thehoneststore/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white hover:text-secondary transition-colors"><InstagramIcon className="w-6 h-6" /></a>

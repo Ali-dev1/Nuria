@@ -86,7 +86,7 @@ const Index = () => {
       id: 2,
       title: "Kenyan Classics",
       subtitle: "Explore timeless works from Kenya's most celebrated authors.",
-      image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=60&w=1200&auto=format&fit=crop&fm=webp",
+      image: "/images/classics.webp",
       cta: "Explore Local Literature",
       link: "/books?category=african-literature"
     },
@@ -102,7 +102,7 @@ const Index = () => {
       id: 4,
       title: "Academic Excellence",
       subtitle: "Primary, secondary, and tertiary resources for every learner.",
-      image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=60&w=1200&auto=format&fit=crop&fm=webp",
+      image: "/images/academic.webp",
       cta: "Shop Academic Texts",
       link: "/books?category=education"
     },
@@ -110,7 +110,7 @@ const Index = () => {
       id: 5,
       title: "Gifts of Knowledge",
       subtitle: "Give the gift of reading with our premium gift card collection.",
-      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=60&w=1200&auto=format&fit=crop&fm=webp",
+      image: "/images/gifts.webp",
       cta: "Buy A Gift Card",
       link: "/gift-card"
     }

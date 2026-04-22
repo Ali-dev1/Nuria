@@ -31,7 +31,7 @@ export const MobileNav = ({ open, onClose }: MobileNavProps) => {
       <div className="absolute inset-y-0 left-0 w-[280px] bg-primary shadow-2xl animate-in slide-in-from-left duration-300 flex flex-col text-white">
         <div className="flex items-center justify-between p-6 border-b border-white/10">
           <Link to="/" onClick={onClose}>
-            <img src="/logo.png" alt="Nuria Logo" className="h-10 w-auto" />
+            <img src="/logo-small.png" alt="Nuria Logo" className="h-10 w-auto" />
           </Link>
           <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors">
             <X className="w-6 h-6 text-white" />

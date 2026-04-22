@@ -156,7 +156,7 @@ const AdminDashboard = () => {
 
             <div className="flex items-center gap-3 bg-white p-1.5 pr-4 rounded-2xl shadow-sm border border-primary/5 hover:shadow-md transition-all">
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg p-2">
-                <img src="/logo.png" alt="Nuria" className="w-full h-auto object-contain brightness-0 invert" />
+                <img src="/logo-small.png" alt="Nuria" className="w-full h-auto object-contain brightness-0 invert" />
               </div>
               <div className="flex flex-col">
                 <p className="text-sm font-bold text-primary leading-none">{user?.email?.split("@")[0]}</p>
