@@ -78,7 +78,7 @@ const Index = () => {
       id: 1,
       title: "New Arrivals",
       subtitle: "Discover the latest titles added to our collection this week.",
-      image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=60&w=1200&auto=format&fit=crop&fm=webp",
+      image: "/images/hero.webp",
       cta: "Shop New Releases",
       link: "/books?sort=newest"
     },
@@ -94,7 +94,7 @@ const Index = () => {
       id: 3,
       title: "Children's Corner",
       subtitle: "Nurturing young minds with stories that inspire and educate.",
-      image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=60&w=1200&auto=format&fit=crop&fm=webp",
+      image: "/images/children.webp",
       cta: "Browse Children's Books",
       link: "/books?category=children"
     },
@@ -289,7 +289,7 @@ const Index = () => {
         <div className="bg-background border-2 border-dashed border-primary/20 rounded-[3rem] p-8 sm:p-16 flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="max-w-xl text-center md:text-left">
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">Are you an Author or Publisher?</h2>
-            <p className="font-sans text-muted-foreground text-lg">
+            <p className="font-sans text-foreground text-lg">
               Join Kenya's fastest-growing online bookstore. Reach thousands of readers across the country and manage your sales with our transparent vendor dashboard.
             </p>
           </div>

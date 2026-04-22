@@ -40,7 +40,7 @@ INSERT INTO public.authors (name, photo_url, bio, tags, slug)
 VALUES 
 (
     'Ngũgĩ wa Thiong''o', 
-    'https://images.unsplash.com/photo-1531384441138-2736e62e0919?q=80&w=600&auto=format&fit=crop',
+    '/images/ngugi.webp',
     'Ngũgĩ wa Thiong''o is a Kenyan author and academic who writes primarily in Gikuyu. His work includes novels, plays, short stories, and essays, ranging from literary and social criticism to children''s literature.',
     ARRAY['Fiction', 'Post-colonialism', 'Essays'],
     'ngugi'

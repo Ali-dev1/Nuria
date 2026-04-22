@@ -36,7 +36,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Column 1: TALK TO US */}
           <div>
-            <h4 className="font-display text-lg font-bold mb-6">TALK TO US</h4>
+            <h2 className="font-display text-lg font-bold mb-6">TALK TO US</h2>
             <ul className="space-y-4 font-sans text-sm text-white/80">
               <li className="flex items-start gap-3">
                 <Phone className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
@@ -55,7 +55,7 @@ export const Footer = () => {
 
           {/* Column 2: ABOUT NURIA */}
           <div>
-            <h4 className="font-display text-lg font-bold mb-6 underline decoration-secondary decoration-2 underline-offset-8">About Nuria</h4>
+            <h2 className="font-display text-lg font-bold mb-6 underline decoration-secondary decoration-2 underline-offset-8">About Nuria</h2>
             <ul className="space-y-3">
               <li><Link to="/about" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Our Story</Link></li>
               <li><Link to="/blog" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Blog</Link></li>
@@ -65,7 +65,7 @@ export const Footer = () => {
 
           {/* Column 3: VENDORS */}
           <div>
-            <h4 className="font-display text-lg font-bold mb-6 underline decoration-secondary decoration-2 underline-offset-8">VENDORS</h4>
+            <h2 className="font-display text-lg font-bold mb-6 underline decoration-secondary decoration-2 underline-offset-8">VENDORS</h2>
             <ul className="space-y-3">
               <li><Link to="/vendor/guide" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Sell on Nuria</Link></li>
               <li><Link to="/login" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Vendor Login</Link></li>
@@ -75,7 +75,7 @@ export const Footer = () => {
 
           {/* Column 4: USEFUL LINKS */}
           <div>
-            <h4 className="font-display text-lg font-bold mb-6 underline decoration-secondary decoration-2 underline-offset-8">USEFUL LINKS</h4>
+            <h2 className="font-display text-lg font-bold mb-6 underline decoration-secondary decoration-2 underline-offset-8">USEFUL LINKS</h2>
             <ul className="space-y-3">
               <li><Link to="/delivery" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Delivery Policy</Link></li>
               <li><Link to="/returns" className="font-sans text-sm text-white/80 hover:text-white transition-colors">Returns</Link></li>
@@ -87,7 +87,7 @@ export const Footer = () => {
         {/* Payment and Apps Row */}
         <div className="flex flex-col lg:flex-row items-center justify-between py-10 border-y border-white/10 gap-8">
           <div className="flex flex-col items-center lg:items-start gap-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">We Accept</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#78350F]">We Accept</span>
             <div className="flex flex-wrap items-center justify-center gap-6 grayscale brightness-200 opacity-60">
               <span className="font-bold text-lg">M-Pesa</span>
               <span className="font-bold text-lg">VISA</span>
@@ -97,7 +97,7 @@ export const Footer = () => {
           </div>
           
           <div className="flex flex-col items-center lg:items-end gap-4">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">Follow Us</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#78350F]">Follow Us</span>
             <div className="flex items-center gap-5">
               <a href="https://facebook.com/nuriayourhonestonlineshop/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-white hover:text-secondary transition-colors"><FacebookIcon className="w-6 h-6" /></a>
               <a href="https://instagram.com/nuria_thehoneststore/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white hover:text-secondary transition-colors"><InstagramIcon className="w-6 h-6" /></a>

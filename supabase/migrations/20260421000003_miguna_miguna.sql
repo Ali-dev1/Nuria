@@ -7,7 +7,7 @@ VALUES (
     gen_random_uuid(),
     'Miguna Miguna',
     'miguna-miguna',
-    'https://nuriakenya.com/wp-content/uploads/2020/11/Miguna-Miguna.jpg',
+    NULL,
     'Miguna Miguna is a Kenyan-Canadian lawyer, author, and political activist. Known for his outspoken nature and his books detailing Kenyan politics.',
     now()
 )
