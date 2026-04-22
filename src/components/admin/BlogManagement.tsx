@@ -72,7 +72,7 @@ export const BlogManagement = () => {
       <div className="grid lg:grid-cols-2 gap-6">
         {isLoading ? (
           [...Array(4)].map((_, i) => (
-            <div key={i} className="h-40 bg-muted/50 rounded-[2rem] animate-pulse" />
+            <div key={`skeleton-${i}`} className="h-40 bg-muted/50 rounded-[2rem] animate-pulse" />
           ))
         ) : (
           (posts || []).map((post: any) => (

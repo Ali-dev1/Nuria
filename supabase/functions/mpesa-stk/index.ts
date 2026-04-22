@@ -33,9 +33,17 @@ serve(async (req) => {
 
     // 2. Daraja Credentials (HARDCODED FOR DEFINITIVE FIX)
     const consumerKey = "xlTSTOQcg3G02DWbggB3UfTwEQDyL5AOVfdQ6sJZxCYuiPh6";
-    const consumerSecret = "BAlqLnmoO49ptTgCMY46GJPmXGu6UGALP3unjL4JTU5fyS9M4G7N2AAAGV9sC1R3";
+    const consumerSecret = Deno.env.get("MPESA_CONSUMER_SECRET");
     const shortcode = "174379";
     const passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
+
+    if (!consumerSecret) {
+      console.error("Missing MPESA_CONSUMER_SECRET environment variable");
+      return new Response(JSON.stringify({ error: "Server Configuration Error" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 500,
+      });
+    }
     
     console.log(`Initiating M-Pesa STK Push for Order: ${orderId}, Phone: ${formattedPhone}, Amount: ${amount}`);
 

@@ -27,7 +27,7 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
   
   if (isLoading) return (
     <div className="space-y-3">
-      {[1, 2].map(i => <div key={i} className="h-10 bg-muted/50 rounded-xl animate-pulse" />)}
+      {[1, 2].map(i => <div key={`skeleton-filter-${i}`} className="h-10 bg-muted/50 rounded-xl animate-pulse" />)}
     </div>
   );
 
@@ -145,7 +145,7 @@ export const OrderManagement = () => {
             <tbody className="divide-y divide-border/50">
               {isLoading ? (
                 [...Array(6)].map((_, i) => (
-                  <tr key={i} className="animate-pulse">
+                  <tr key={`skeleton-${i}`} className="animate-pulse">
                     <td className="px-8 py-8" colSpan={6}><div className="h-4 w-full bg-muted/50 rounded-full" /></td>
                   </tr>
                 ))
@@ -268,7 +268,7 @@ export const OrderManagement = () => {
               </PaginationItem>
               
               {[...Array(Math.ceil(ordersData.count / 10))].map((_, i) => (
-                <PaginationItem key={i + 1}>
+                <PaginationItem key={`page-${i + 1}`}>
                   <PaginationLink 
                     onClick={() => setOrderPage(i + 1)}
                     isActive={orderPage === i + 1}

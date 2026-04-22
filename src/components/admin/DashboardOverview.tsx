@@ -116,7 +116,7 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: any) => void }) => {
             </div>
             <div className="flex items-end gap-1.5 h-56 group">
                {last30.map((d, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-2 group/bar relative">
+                  <div key={d.date} className="flex-1 flex flex-col items-center gap-2 group/bar relative">
                      <div className="w-full bg-primary/5 rounded-2xl overflow-hidden" style={{ height: "100%" }}>
                         <div 
                            className="w-full bg-primary absolute bottom-0 transition-all duration-700 ease-out group-hover:brightness-110" 

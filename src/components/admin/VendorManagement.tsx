@@ -92,7 +92,7 @@ export const VendorManagement = () => {
             <tbody className="divide-y divide-border">
               {isLoading ? (
                 [...Array(5)].map((_, i) => (
-                  <tr key={i} className="animate-pulse">
+                  <tr key={`skeleton-${i}`} className="animate-pulse">
                     <td colSpan={5} className="p-6"><div className="h-10 bg-muted rounded-xl w-full" /></td>
                   </tr>
                 ))
