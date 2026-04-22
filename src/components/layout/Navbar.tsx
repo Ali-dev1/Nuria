@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search, ShoppingCart, User, Menu, Heart, X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import { MobileNav } from "./MobileNav";

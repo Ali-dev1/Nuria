@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
-  Search, ArrowRight, BookOpen, GraduationCap, Globe, Heart, 
-  Briefcase, Baby, Lightbulb, Smartphone, Shirt, ChevronRight,
+  Search, ArrowRight, BookOpen, Globe, Heart, 
+  Baby, Lightbulb, Smartphone, Shirt, ChevronRight,
 } from "lucide-react";
 import { BookCard } from "@/components/books/BookCard";
 import { CATEGORIES } from "@/lib/constants";
@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 const iconMap: Record<string, React.ElementType> = {
-  BookOpen, Lightbulb, GraduationCap, Baby, Heart, Globe, Briefcase, Smartphone, Shirt,
+  BookOpen, Lightbulb, Baby, Heart, Globe, Smartphone, Shirt,
 };
 
 const Index = () => {
@@ -31,7 +31,6 @@ const Index = () => {
 
   const featured = featuredData?.products || [];
   const newArrivals = newArrivalsData?.products || [];
-  const bestsellers = bestsellersData?.products || [];
 
   const isLoading = isFeaturedLoading || isNewLoading || isBestLoading;
 

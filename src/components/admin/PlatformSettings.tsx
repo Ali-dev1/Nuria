@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Save, Settings2, Info } from "lucide-react";
+import { Save, Info } from "lucide-react";
 import { usePlatformSettings } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";

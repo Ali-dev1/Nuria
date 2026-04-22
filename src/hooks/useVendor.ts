@@ -90,7 +90,6 @@ export const useVendorOrders = () => {
 };
 
 export const useVendorPayouts = () => {
-  const user = useAuthStore((s) => s.user);
   const { data: vendor } = useVendorData();
   
   return useQuery({

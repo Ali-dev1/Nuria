@@ -12,7 +12,7 @@ console.log("Supabase Client Init: ", SUPABASE_URL);
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
-    storage: localStorage,
+    storage: globalThis.localStorage,
     persistSession: true,
     autoRefreshToken: true,
   }

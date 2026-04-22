@@ -52,6 +52,9 @@ const BLOG_POSTS = [
 const BlogPost = () => {
   const { id } = useParams();
   const post = BLOG_POSTS.find(p => p.id === id) || BLOG_POSTS[0]; // fallback to first if id is invalid for mock
+  
+  const paragraphs = post.content.split('\n\n').filter(p => p.trim() !== "");
+  const relatedPosts = BLOG_POSTS.filter(p => p.id !== post.id).slice(0, 2);
 
   return (
     <div className="bg-background min-h-screen">
@@ -110,7 +113,7 @@ const BlogPost = () => {
 
         {/* Formatted Content Area */}
         <article className="max-w-3xl w-full mx-auto font-serif text-lg md:text-xl leading-relaxed text-[#1A1A1A] space-y-8">
-          {post.content.split('\n\n').filter(p => p.trim() !== "").map((paragraph, idx) => (
+          {paragraphs.map((paragraph, idx) => (
             <p key={idx} className="first-letter:text-5xl first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display">
               {paragraph.trim()}
             </p>
@@ -140,7 +143,7 @@ const BlogPost = () => {
           </div>
           
           <div className="grid md:grid-cols-2 gap-8">
-            {BLOG_POSTS.filter(p => p.id !== post.id).slice(0, 2).map((related) => (
+            {relatedPosts.map((related) => (
               <Link to={`/blog/${related.id}`} key={related.id} className="group bg-white rounded-3xl overflow-hidden border border-[#E5E0D8] hover:border-[#1B4332] transition-colors flex flex-col shadow-sm hover:shadow-xl">
                 <div className="h-48 overflow-hidden">
                   <img src={related.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt={related.title} />

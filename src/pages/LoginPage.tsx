@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useToast } from "@/hooks/use-toast";
-import { nuriaAuth } from "@/integrations/nuria-auth/index";
 import { supabase } from "@/lib/supabaseClient";
 
 const LoginPage = () => {

@@ -10,7 +10,7 @@ export const useWishlist = () => {
     queryKey: ["wishlist", user?.id || "guest"],
     queryFn: async () => {
       if (!user) {
-        const local = localStorage.getItem("nuria_guest_wishlist");
+        const local = globalThis.localStorage.getItem("nuria_guest_wishlist");
         return local ? JSON.parse(local) : [];
       }
       const { data, error } = await supabase
@@ -25,7 +25,7 @@ export const useWishlist = () => {
   const toggle = useMutation({
     mutationFn: async (productId: string) => {
       if (!user) {
-        const local = localStorage.getItem("nuria_guest_wishlist");
+        const local = globalThis.localStorage.getItem("nuria_guest_wishlist");
         const current: string[] = local ? JSON.parse(local) : [];
         let updated;
         if (current.includes(productId)) {
@@ -33,7 +33,7 @@ export const useWishlist = () => {
         } else {
           updated = [...current, productId];
         }
-        localStorage.setItem("nuria_guest_wishlist", JSON.stringify(updated));
+        globalThis.localStorage.setItem("nuria_guest_wishlist", JSON.stringify(updated));
         return updated;
       }
       
@@ -58,7 +58,7 @@ export const useWishlist = () => {
   const syncWishlist = useMutation({
     mutationFn: async () => {
       if (!user) return;
-      const local = localStorage.getItem("nuria_guest_wishlist");
+      const local = globalThis.localStorage.getItem("nuria_guest_wishlist");
       if (!local) return;
       const ids: string[] = JSON.parse(local);
       if (ids.length === 0) return;
@@ -68,7 +68,7 @@ export const useWishlist = () => {
         .upsert(ids.map(id => ({ user_id: user.id, product_id: id })), { onConflict: "user_id,product_id" });
       
       if (error) throw error;
-      localStorage.removeItem("nuria_guest_wishlist");
+      globalThis.localStorage.removeItem("nuria_guest_wishlist");
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["wishlist", user?.id] }),
   });

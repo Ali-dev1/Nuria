@@ -10,7 +10,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
   auth: {
-    storage: localStorage,
+    storage: globalThis.localStorage,
     persistSession: true,
     autoRefreshToken: true,
   }

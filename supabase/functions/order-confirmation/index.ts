@@ -14,7 +14,7 @@ serve(async (req) => {
   try {
     const { record } = await req.json(); // Data from Database Webhook
 
-    if (!record || !record.id) {
+    if (!record?.id) {
       throw new Error("No record found in webhook payload");
     }
 

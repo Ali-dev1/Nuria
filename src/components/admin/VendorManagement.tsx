@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { Search, CheckCircle, XCircle, Edit, Save, Phone, Tag, Store, Info, AlertCircle } from "lucide-react";
+import { Search, CheckCircle, XCircle, Edit, Save, Phone, Store, Info, AlertCircle } from "lucide-react";
+import { Tables } from "@/integrations/supabase/types";
+
+type ExtendedVendor = Tables<"vendors"> & { profiles?: Tables<"profiles"> };
 import { useAdminVendors } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
@@ -14,16 +17,16 @@ export const VendorManagement = () => {
   const [rejectVendorId, setRejectVendorId] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState("");
   const [editingVendor, setEditingVendor] = useState<{ id: string; rate: number } | null>(null);
-  const [selectedVendor, setSelectedVendor] = useState<any | null>(null);
+  const [selectedVendor, setSelectedVendor] = useState<ExtendedVendor | null>(null);
 
-  const invalidate = (key: any[]) => queryClient.invalidateQueries({ queryKey: key });
+  const invalidate = (key: unknown[]) => queryClient.invalidateQueries({ queryKey: key });
 
   const verifyVendor = async (id: string, verify: boolean, userId: string) => {
     const { error: vendorError } = await supabase.from("vendors").update({ 
       is_verified: verify,
       status: verify ? "active" : "rejected",
       admin_notes: verify ? null : rejectReason
-    } as any).eq("id", id);
+    } as Partial<Tables<"vendors">>).eq("id", id);
 
     if (vendorError) {
       toast({ title: "Operation failed", description: vendorError.message, variant: "destructive" });
@@ -55,7 +58,7 @@ export const VendorManagement = () => {
     }
   };
 
-  const filteredVendors = (vendorsData?.data || []).filter((v: any) => 
+  const filteredVendors = (vendorsData?.data || []).filter((v: ExtendedVendor) => 
     !vendorSearch || v.store_name?.toLowerCase().includes(vendorSearch.toLowerCase())
   );
 
@@ -79,7 +82,7 @@ export const VendorManagement = () => {
         </tr>
       );
     }
-    return filteredVendors.map((v: any) => (
+    return filteredVendors.map((v: ExtendedVendor) => (
       <tr key={v.id} className="hover:bg-muted/30 transition-colors group">
         <td className="p-4">
           <div className="flex items-center gap-3">

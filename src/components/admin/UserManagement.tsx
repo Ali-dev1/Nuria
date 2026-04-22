@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, ChevronRight, User, ShieldCheck, Store, Clock, Award, MoreHorizontal } from "lucide-react";
+import { Search, ChevronRight, User, ShieldCheck, Store, Clock, Award } from "lucide-react";
 import { useAdminUsers } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
@@ -105,8 +105,8 @@ export const UserManagement = () => {
             </thead>
             <tbody className="divide-y divide-border/50">
               {isLoading ? (
-                 Array.from({ length: 5 }).map((_, i) => (
-                   <tr key={`skeleton-${i}`} className="animate-pulse">
+                ['usk-1', 'usk-2', 'usk-3', 'usk-4', 'usk-5'].map((id) => (
+                   <tr key={id} className="animate-pulse">
                      <td colSpan={5} className="px-8 py-8"><div className="h-4 bg-muted/50 rounded-full w-full" /></td>
                    </tr>
                  ))

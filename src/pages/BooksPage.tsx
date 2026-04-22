@@ -59,14 +59,19 @@ const BooksPage = () => {
     setSearchParams(newParams);
   };
 
+  let pageTitle = "All Books";
+  if (selectedCategory) {
+    pageTitle = CATEGORIES.find((c) => c.slug === selectedCategory)?.name || "Books";
+  } else if (searchQuery) {
+    pageTitle = `Search: ${searchQuery}`;
+  }
+
   return (
     <div className="container-nuria py-8">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <div>
           <h1 className="font-display text-3xl sm:text-4xl font-bold text-[#1A1A1A]">
-            {selectedCategory
-              ? CATEGORIES.find((c) => c.slug === selectedCategory)?.name || "Books"
-              : searchQuery ? `Search: ${searchQuery}` : "All Books"}
+            {pageTitle}
           </h1>
           <div className="w-[60px] h-[3px] bg-[#A1440B] mt-4 rounded-full" />
           <p className="font-sans text-[#6B7280] mt-4 text-sm uppercase tracking-widest font-medium">
@@ -168,8 +173,8 @@ const BooksPage = () => {
         <div className="flex-1">
           {isLoading ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="space-y-3">
+              {['skel-1', 'skel-2', 'skel-3', 'skel-4', 'skel-5', 'skel-6', 'skel-7', 'skel-8'].map((id) => (
+                <div key={id} className="space-y-3">
                   <Skeleton className="aspect-[3/4] w-full rounded-lg" />
                   <Skeleton className="h-4 w-3/4" />
                   <Skeleton className="h-3 w-1/2" />
@@ -201,7 +206,7 @@ const BooksPage = () => {
                   <button
                     onClick={() => {
                       setCurrentPage(prev => Math.max(1, prev - 1));
-                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      globalThis.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                     disabled={currentPage === 1}
                     className="px-4 py-2 border border-border rounded-lg text-sm font-medium disabled:opacity-50 hover:bg-muted transition-colors"
@@ -216,10 +221,10 @@ const BooksPage = () => {
                       
                       return (
                         <button
-                          key={i}
+                          key={pageNum}
                           onClick={() => {
                             setCurrentPage(pageNum);
-                            window.scrollTo({ top: 0, behavior: "smooth" });
+                            globalThis.scrollTo({ top: 0, behavior: "smooth" });
                           }}
                           className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-all duration-200 ${currentPage === pageNum ? "bg-[#1B4332] text-white shadow-sm" : "text-[#6B7280] hover:bg-[#1B4332]/5 hover:text-[#1B4332]"}`}
                         >
@@ -234,7 +239,7 @@ const BooksPage = () => {
                   <button
                     onClick={() => {
                       setCurrentPage(prev => Math.min(totalPages, prev + 1));
-                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      globalThis.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                     disabled={currentPage === totalPages}
                     className="px-4 py-2 border border-border rounded-lg text-sm font-medium disabled:opacity-50 hover:bg-muted transition-colors"

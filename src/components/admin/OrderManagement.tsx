@@ -144,8 +144,8 @@ export const OrderManagement = () => {
             </thead>
             <tbody className="divide-y divide-border/50">
               {isLoading ? (
-                Array.from({ length: 6 }).map((_, i) => (
-                  <tr key={`skeleton-${i}`} className="animate-pulse">
+                ['osk-1', 'osk-2', 'osk-3', 'osk-4', 'osk-5', 'osk-6'].map((id) => (
+                  <tr key={id} className="animate-pulse">
                     <td className="px-8 py-8" colSpan={6}><div className="h-4 w-full bg-muted/50 rounded-full" /></td>
                   </tr>
                 ))
@@ -159,6 +159,13 @@ export const OrderManagement = () => {
                     <React.Fragment key={o.id}>
                       <tr 
                         onClick={() => setExpandedOrder(isExpanded ? null : o.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setExpandedOrder(isExpanded ? null : o.id);
+                          }
+                        }}
+                        tabIndex={0}
                         className={`group cursor-pointer transition-colors ${isExpanded ? "bg-primary/[0.02]" : "hover:bg-muted/10"}`}
                       >
                         <td className="px-8 py-6">
@@ -187,7 +194,16 @@ export const OrderManagement = () => {
                            {formatPrice(Number(o.total))}
                         </td>
                         <td className="px-8 py-6 text-center">
-                           <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
+                           <div 
+                             className="flex justify-center" 
+                             onClick={(e) => e.stopPropagation()}
+                             onKeyDown={(e) => {
+                               if (e.key === 'Enter' || e.key === ' ') {
+                                 e.stopPropagation();
+                               }
+                             }}
+                             tabIndex={0}
+                           >
                               <select 
                                 value={currentStatus} 
                                 onChange={(e) => updateOrderStatus(o.id, e.target.value)} 
