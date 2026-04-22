@@ -43,7 +43,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
           </thead>
           <tbody className="divide-y divide-border/50">
             {isLoading ? (
-              [...new Array(8)].map((_, i) => (
+              Array.from({ length: 8 }).map((_, i) => (
                 <tr key={`skeleton-${i}`} className="animate-pulse">
                   <td colSpan={7} className="px-8 py-8"><div className="h-4 bg-muted/50 rounded-full w-full" /></td>
                 </tr>

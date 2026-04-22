@@ -71,7 +71,7 @@ export const BlogManagement = () => {
 
       <div className="grid lg:grid-cols-2 gap-6">
         {isLoading ? (
-          [...new Array(4)].map((_, i) => (
+          Array.from({ length: 4 }).map((_, i) => (
             <div key={`skeleton-${i}`} className="h-40 bg-muted/50 rounded-[2rem] animate-pulse" />
           ))
         ) : (

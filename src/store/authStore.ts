@@ -35,7 +35,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       password,
       options: {
         data: { full_name: name },
-        emailRedirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/auth/callback`,
+        emailRedirectTo: `${import.meta.env.VITE_SITE_URL || globalThis.location.origin}/auth/callback`,
       },
     });
     return { user: data.user, error: error?.message ?? null };

@@ -77,6 +77,60 @@ export const AuthorManagement = () => {
     a.bio.toLowerCase().includes(search.toLowerCase())
   );
 
+  const renderContent = () => {
+    if (isLoading) {
+      return <div className="col-span-full py-20 text-center">Loading...</div>;
+    }
+    if (filteredAuthors.length === 0) {
+      return (
+        <div className="col-span-full py-20 text-center text-muted-foreground bg-white rounded-3xl border border-dashed border-border">
+          No authors found. Click "Add Author" to start featuring local talent.
+        </div>
+      );
+    }
+    return filteredAuthors.map((author) => (
+      <div key={author.id} className="bg-white rounded-[2rem] border border-border shadow-sm overflow-hidden group">
+        <div className="h-48 relative bg-muted overflow-hidden">
+          <img 
+            src={author.photo_url} 
+            alt={author.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          <div className="absolute bottom-4 left-4 right-4 text-white">
+            <h3 className="font-display text-xl font-bold">{author.name}</h3>
+          </div>
+        </div>
+        <div className="p-6 space-y-6">
+          <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+            {author.bio}
+          </p>
+          <div className="flex items-center justify-between pt-4 border-t border-border">
+            <span className="text-[10px] uppercase tracking-widest font-bold text-[#A1440B]">Featured</span>
+            <div className="flex gap-2">
+              <button 
+                onClick={() => { setEditingAuthor(author); setIsModalOpen(true); }}
+                className="p-2 text-muted-foreground hover:text-[#1B4332] hover:bg-[#1B4332]/5 rounded-lg transition-colors"
+              >
+                <Edit className="w-4 h-4" />
+              </button>
+              <button 
+                onClick={() => {
+                  if (confirm("Are you sure you want to remove this author?")) {
+                    deleteMutation.mutate(author.id);
+                  }
+                }}
+                className="p-2 text-muted-foreground hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ));
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
@@ -104,55 +158,7 @@ export const AuthorManagement = () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {isLoading ? (
-          <div className="col-span-full py-20 text-center">Loading...</div>
-        ) : filteredAuthors.length === 0 ? (
-          <div className="col-span-full py-20 text-center text-muted-foreground bg-white rounded-3xl border border-dashed border-border">
-            No authors found. Click "Add Author" to start featuring local talent.
-          </div>
-        ) : (
-          filteredAuthors.map((author) => (
-            <div key={author.id} className="bg-white rounded-[2rem] border border-border shadow-sm overflow-hidden group">
-              <div className="h-48 relative bg-muted overflow-hidden">
-                <img 
-                  src={author.photo_url} 
-                  alt={author.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <h3 className="font-display text-xl font-bold">{author.name}</h3>
-                </div>
-              </div>
-              <div className="p-6 space-y-6">
-                <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
-                  {author.bio}
-                </p>
-                <div className="flex items-center justify-between pt-4 border-t border-border">
-                  <span className="text-[10px] uppercase tracking-widest font-bold text-[#A1440B]">Featured</span>
-                  <div className="flex gap-2">
-                    <button 
-                      onClick={() => { setEditingAuthor(author); setIsModalOpen(true); }}
-                      className="p-2 text-muted-foreground hover:text-[#1B4332] hover:bg-[#1B4332]/5 rounded-lg transition-colors"
-                    >
-                      <Edit className="w-4 h-4" />
-                    </button>
-                    <button 
-                      onClick={() => {
-                        if (confirm("Are you sure you want to remove this author?")) {
-                          deleteMutation.mutate(author.id);
-                        }
-                      }}
-                      className="p-2 text-muted-foreground hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
+        {renderContent()}
       </div>
 
       {isModalOpen && (

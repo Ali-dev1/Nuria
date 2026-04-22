@@ -104,7 +104,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 
     return (
       <CarouselContext.Provider
-        value={{
+        value={React.useMemo(() => ({
           carouselRef,
           api: api,
           opts,
@@ -113,7 +113,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
           scrollNext,
           canScrollPrev,
           canScrollNext,
-        }}
+        }), [carouselRef, api, opts, orientation, scrollPrev, scrollNext, canScrollPrev, canScrollNext])}
       >
         <div
           ref={ref}

@@ -39,7 +39,7 @@ const AdminDashboard = () => {
       setLoading(false);
     };
     checkAdmin();
-  }, [user, navigate]);
+  }, [user, navigate, toast]);
 
   const navItems = [
     { id: "overview", label: "Dashboard", icon: LayoutDashboard },

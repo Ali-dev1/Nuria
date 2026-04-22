@@ -7,7 +7,7 @@ export const useAuth = () => {
   useEffect(() => {
     const unsubscribe = store.initialize();
     return unsubscribe;
-  }, []);
+  }, [store.initialize]);
 
   return {
     user: store.user,

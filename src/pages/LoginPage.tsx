@@ -54,7 +54,7 @@ const LoginPage = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${import.meta.env.VITE_SITE_URL || window.location.origin}/auth/callback`,
+        redirectTo: `${import.meta.env.VITE_SITE_URL || globalThis.location.origin}/auth/callback`,
       },
     });
     if (error) {

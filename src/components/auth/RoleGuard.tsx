@@ -44,7 +44,7 @@ interface RoleGuardProps {
         // 3. Vendor Record Enforcement
         // If they have a record, they can access ANY vendor sub-page
         // If they don't, they are forced to register
-        if (requiredRole === "vendor" && !vendor && window.location.pathname !== "/vendor/register") {
+        if (requiredRole === "vendor" && !vendor && globalThis.location.pathname !== "/vendor/register") {
           navigate("/vendor/register");
           return;
         }

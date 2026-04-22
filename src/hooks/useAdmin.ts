@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabaseClient";
+import type { Tables } from "@/integrations/supabase/types";
 
 export const useAdminStats = () => {
   return useQuery({
@@ -205,12 +206,13 @@ export const useAdminPosts = () => {
   return useQuery({
     queryKey: ["admin", "posts"],
     queryFn: async () => {
+      // @ts-expect-error - posts table is not in generated types
       const { data, error } = await supabase
-        .from("posts" as any)
+        .from("posts")
         .select("*")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return data as any[];
+      return data as Record<string, unknown>[];
     }
   });
 };
@@ -224,7 +226,7 @@ export const usePlatformSettings = () => {
         .select("*");
       if (error) throw error;
       const settingsMap: Record<string, string> = {};
-      (data || []).forEach((s: any) => { settingsMap[s.key] = s.value; });
+      (data || []).forEach((s: Tables<"platform_settings">) => { settingsMap[s.key] = s.value; });
       return settingsMap;
     }
   });

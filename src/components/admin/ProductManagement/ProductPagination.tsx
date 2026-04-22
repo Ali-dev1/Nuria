@@ -36,7 +36,7 @@ export const ProductPagination: React.FC<ProductPaginationProps> = ({
             />
           </PaginationItem>
           
-          {[...new Array(Math.min(5, Math.ceil(productsData.totalCount / pageSize)))].map((_, i) => (
+          {Array.from({ length: Math.min(5, Math.ceil(productsData.totalCount / pageSize)) }).map((_, i) => (
             <PaginationItem key={`page-${i + 1}`}>
               <PaginationLink 
                 onClick={() => setProductPage(i + 1)}

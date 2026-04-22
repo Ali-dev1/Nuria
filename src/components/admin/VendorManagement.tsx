@@ -59,6 +59,108 @@ export const VendorManagement = () => {
     !vendorSearch || v.store_name?.toLowerCase().includes(vendorSearch.toLowerCase())
   );
 
+  const renderVendorTableBody = () => {
+    if (isLoading) {
+      return Array.from({ length: 5 }).map((_, i) => (
+        <tr key={`skeleton-${i}`} className="animate-pulse">
+          <td colSpan={5} className="p-6"><div className="h-10 bg-muted rounded-xl w-full" /></td>
+        </tr>
+      ));
+    }
+    if (filteredVendors.length === 0) {
+      return (
+        <tr>
+          <td colSpan={5} className="p-20 text-center">
+            <div className="flex flex-col items-center gap-3 opacity-20">
+              <Store className="w-12 h-12" />
+              <p className="font-bold uppercase tracking-widest text-xs">No merchants found</p>
+            </div>
+          </td>
+        </tr>
+      );
+    }
+    return filteredVendors.map((v: any) => (
+      <tr key={v.id} className="hover:bg-muted/30 transition-colors group">
+        <td className="p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary font-black text-xs">
+              {v.store_name?.charAt(0)}
+            </div>
+            <div>
+              <p className="font-black text-foreground leading-none mb-1">{v.store_name}</p>
+              <p className="text-[10px] text-muted-foreground font-medium truncate max-w-[150px]">ID: {v.id.split('-')[0]}</p>
+            </div>
+          </div>
+        </td>
+        <td className="p-4 hidden lg:table-cell">
+          <div className="flex flex-col gap-1">
+            <p className="text-sm font-bold text-foreground">{v.profiles?.name || "N/A"}</p>
+            <p className="text-[10px] text-muted-foreground italic">{v.profiles?.email}</p>
+          </div>
+        </td>
+        <td className="p-4">
+          {editingVendor?.id === v.id ? (
+            <div className="flex items-center gap-2">
+              <input 
+                type="number" 
+                value={editingVendor.rate} 
+                onChange={(e) => setEditingVendor({...editingVendor, rate: Number(e.target.value)})} 
+                className="w-16 px-3 py-1.5 border border-primary/20 rounded-lg text-xs font-bold outline-none ring-2 ring-primary/5" 
+              />
+              <button onClick={updateCommission} className="p-1.5 bg-green-500 text-white rounded-lg shadow-sm hover:brightness-110"><Save className="w-3.5 h-3.5" /></button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 group/rate">
+              <span className="font-black text-foreground">{v.commission_rate || 10}%</span>
+              <button onClick={() => setEditingVendor({ id: v.id, rate: v.commission_rate || 10 })} className="p-1 text-muted-foreground hover:text-primary opacity-0 group-hover/rate:opacity-100 transition-all"><Edit className="w-3 h-3" /></button>
+            </div>
+          )}
+        </td>
+        <td className="p-4 text-center">
+          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
+            v.status === "active" ? "bg-green-100 text-green-700 ring-1 ring-green-200" : 
+            v.status === "rejected" ? "bg-red-100 text-red-700 ring-1 ring-red-200" :
+            "bg-amber-100 text-amber-700 ring-1 ring-amber-200 animate-pulse"
+          }`}>
+            {v.status === "active" ? <CheckCircle className="w-3 h-3" /> : v.status === "rejected" ? <XCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
+            {v.status || "pending"}
+          </span>
+        </td>
+        <td className="p-4 text-right">
+          <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-8 w-8 p-0 rounded-lg border-primary/20"
+              onClick={() => setSelectedVendor(v)}
+            >
+              <Info className="w-4 h-4 text-primary" />
+            </Button>
+            {v.status !== "active" ? (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="h-8 w-8 p-0 rounded-lg border-green-200 hover:bg-green-50"
+                onClick={() => verifyVendor(v.id, true, v.user_id)}
+              >
+                <CheckCircle className="w-4 h-4 text-green-600" />
+              </Button>
+            ) : (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="h-8 w-8 p-0 rounded-lg border-red-200 hover:bg-red-50"
+                onClick={() => { setRejectVendorId(v.id) }}
+              >
+                <XCircle className="w-4 h-4 text-red-600" />
+              </Button>
+            )}
+          </div>
+        </td>
+      </tr>
+    ));
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -90,103 +192,7 @@ export const VendorManagement = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {isLoading ? (
-                [...new Array(5)].map((_, i) => (
-                  <tr key={`skeleton-${i}`} className="animate-pulse">
-                    <td colSpan={5} className="p-6"><div className="h-10 bg-muted rounded-xl w-full" /></td>
-                  </tr>
-                ))
-              ) : filteredVendors.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="p-20 text-center">
-                    <div className="flex flex-col items-center gap-3 opacity-20">
-                      <Store className="w-12 h-12" />
-                      <p className="font-bold uppercase tracking-widest text-xs">No merchants found</p>
-                    </div>
-                  </td>
-                </tr>
-              ) : (
-                filteredVendors.map((v: any) => (
-                  <tr key={v.id} className="hover:bg-muted/30 transition-colors group">
-                    <td className="p-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary font-black text-xs">
-                          {v.store_name?.charAt(0)}
-                        </div>
-                        <div>
-                          <p className="font-black text-foreground leading-none mb-1">{v.store_name}</p>
-                          <p className="text-[10px] text-muted-foreground font-medium truncate max-w-[150px]">ID: {v.id.split('-')[0]}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="p-4 hidden lg:table-cell">
-                      <div className="flex flex-col gap-1">
-                        <p className="text-sm font-bold text-foreground">{v.profiles?.name || "N/A"}</p>
-                        <p className="text-[10px] text-muted-foreground italic">{v.profiles?.email}</p>
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      {editingVendor?.id === v.id ? (
-                        <div className="flex items-center gap-2">
-                          <input 
-                            type="number" 
-                            value={editingVendor.rate} 
-                            onChange={(e) => setEditingVendor({...editingVendor, rate: Number(e.target.value)})} 
-                            className="w-16 px-3 py-1.5 border border-primary/20 rounded-lg text-xs font-bold outline-none ring-2 ring-primary/5" 
-                          />
-                          <button onClick={updateCommission} className="p-1.5 bg-green-500 text-white rounded-lg shadow-sm hover:brightness-110"><Save className="w-3.5 h-3.5" /></button>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2 group/rate">
-                          <span className="font-black text-foreground">{v.commission_rate || 10}%</span>
-                          <button onClick={() => setEditingVendor({ id: v.id, rate: v.commission_rate || 10 })} className="p-1 text-muted-foreground hover:text-primary opacity-0 group-hover/rate:opacity-100 transition-all"><Edit className="w-3 h-3" /></button>
-                        </div>
-                      )}
-                    </td>
-                    <td className="p-4 text-center">
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
-                        v.status === "active" ? "bg-green-100 text-green-700 ring-1 ring-green-200" : 
-                        v.status === "rejected" ? "bg-red-100 text-red-700 ring-1 ring-red-200" :
-                        "bg-amber-100 text-amber-700 ring-1 ring-amber-200 animate-pulse"
-                      }`}>
-                        {v.status === "active" ? <CheckCircle className="w-3 h-3" /> : v.status === "rejected" ? <XCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
-                        {v.status || "pending"}
-                      </span>
-                    </td>
-                    <td className="p-4 text-right">
-                      <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          className="h-8 w-8 p-0 rounded-lg border-primary/20"
-                          onClick={() => setSelectedVendor(v)}
-                        >
-                          <Info className="w-4 h-4 text-primary" />
-                        </Button>
-                        {v.status !== "active" ? (
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="h-8 w-8 p-0 rounded-lg border-green-200 hover:bg-green-50"
-                            onClick={() => verifyVendor(v.id, true, v.user_id)}
-                          >
-                            <CheckCircle className="w-4 h-4 text-green-600" />
-                          </Button>
-                        ) : (
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="h-8 w-8 p-0 rounded-lg border-red-200 hover:bg-red-50"
-                            onClick={() => verifyVendor(v.id, false, v.user_id)}
-                          >
-                            <XCircle className="w-4 h-4 text-red-600" />
-                          </Button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
+              {renderVendorTableBody()}
             </tbody>
           </table>
         </div>

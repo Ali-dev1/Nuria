@@ -99,7 +99,85 @@ const AccountPage = () => {
     delivered: "bg-[#D1FAE5] text-[#065F46]", // green-ish
     cancelled: "bg-[#FEF2F2] text-[#991B1B]", // red-ish
   };
+  const renderOrders = () => {
+    if (ordersLoading) {
+      return Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />);
+    }
+    if (orders.length === 0) {
+      return (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">No orders yet</p>
+          <Link to="/books" className="text-sm text-secondary hover:underline mt-2 inline-block">Browse books</Link>
+        </div>
+      );
+    }
+    return orders.map((order: any) => (
+      <div key={order.id} className="bg-white rounded-2xl p-6 border border-[#E5E0D8] shadow-sm space-y-4 hover:border-[#1B4332]/20 transition-all">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-[#FAF7F2] rounded-xl text-[#1B4332]">
+              <Package className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="font-mono text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">Order #{order.id.slice(0, 8).toUpperCase()}</p>
+              <p className="font-sans text-xs text-[#6B7280] mt-0.5">{new Date(order.created_at).toLocaleDateString(undefined, { dateStyle: 'long' })}</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between sm:justify-end gap-6">
+            <span className={`text-[10px] font-sans font-bold uppercase tracking-[0.1em] px-3 py-1.5 rounded-full ${statusColor[order.status] || "bg-[#FAF7F2] text-[#6B7280]"}`}>
+              {order.status}
+            </span>
+            <span className="font-sans font-bold text-[#1B4332]">{formatPrice(Number(order.total))}</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#FAF7F2] pt-4">
+          <div className="flex flex-wrap gap-x-4 gap-y-2">
+            {order.order_items?.map((item: any) => (
+              <Link
+                key={item.id}
+                to={`/books/${item.products?.slug}`}
+                className="font-sans text-[11px] font-medium text-[#6B7280] hover:text-[#A1440B] transition-colors"
+              >
+                {item.products?.title} <span className="opacity-50">× {item.quantity}</span>
+              </Link>
+            ))}
+          </div>
+          {order.loyalty_points_earned > 0 && (
+            <div className="flex sm:justify-end">
+              <p className="font-sans text-[11px] font-bold text-[#A1440B] bg-[#A1440B]/5 px-3 py-1 rounded-full flex items-center gap-1">
+                +{order.loyalty_points_earned} pts earned
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    ));
+  };
 
+  const renderWishlist = () => {
+    if (wishlistLoading) {
+      return (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="space-y-3"><Skeleton className="aspect-[3/4] w-full rounded-lg" /><Skeleton className="h-4 w-3/4" /></div>
+          ))}
+        </div>
+      );
+    }
+    if (wishlistProducts.length === 0) {
+      return (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">Your wishlist is empty</p>
+          <Link to="/books" className="text-sm text-secondary hover:underline mt-2 inline-block">Browse books</Link>
+        </div>
+      );
+    }
+    return (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        {wishlistProducts.map((p) => <BookCard key={p.id} product={p} />)}
+      </div>
+    );
+  };
   return (
     <div className="container-nuria py-12">
       <div className="flex flex-col sm:flex-row items-center sm:items-end justify-between gap-6 mb-12">
@@ -137,76 +215,12 @@ const AccountPage = () => {
 
       {tab === "orders" && (
         <div className="space-y-4">
-          {ordersLoading ? (
-            Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24 w-full rounded-xl" />)
-          ) : orders.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No orders yet</p>
-              <Link to="/books" className="text-sm text-secondary hover:underline mt-2 inline-block">Browse books</Link>
-            </div>
-          ) : (
-            orders.map((order: any) => (
-              <div key={order.id} className="bg-white rounded-2xl p-6 border border-[#E5E0D8] shadow-sm space-y-4 hover:border-[#1B4332]/20 transition-all">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-[#FAF7F2] rounded-xl text-[#1B4332]">
-                      <Package className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="font-mono text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">Order #{order.id.slice(0, 8).toUpperCase()}</p>
-                      <p className="font-sans text-xs text-[#6B7280] mt-0.5">{new Date(order.created_at).toLocaleDateString(undefined, { dateStyle: 'long' })}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between sm:justify-end gap-6">
-                    <span className={`text-[10px] font-sans font-bold uppercase tracking-[0.1em] px-3 py-1.5 rounded-full ${statusColor[order.status] || "bg-[#FAF7F2] text-[#6B7280]"}`}>
-                      {order.status}
-                    </span>
-                    <span className="font-sans font-bold text-[#1B4332]">{formatPrice(Number(order.total))}</span>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#FAF7F2] pt-4">
-                  <div className="flex flex-wrap gap-x-4 gap-y-2">
-                    {order.order_items?.map((item: any) => (
-                      <Link
-                        key={item.id}
-                        to={`/books/${item.products?.slug}`}
-                        className="font-sans text-[11px] font-medium text-[#6B7280] hover:text-[#A1440B] transition-colors"
-                      >
-                        {item.products?.title} <span className="opacity-50">× {item.quantity}</span>
-                      </Link>
-                    ))}
-                  </div>
-                  {order.loyalty_points_earned > 0 && (
-                    <div className="flex sm:justify-end">
-                      <p className="font-sans text-[11px] font-bold text-[#A1440B] bg-[#A1440B]/5 px-3 py-1 rounded-full flex items-center gap-1">
-                        +{order.loyalty_points_earned} pts earned
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))
-          )}
+          {renderOrders()}
         </div>
       )}
 
       {tab === "wishlist" && (
-        wishlistLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="space-y-3"><Skeleton className="aspect-[3/4] w-full rounded-lg" /><Skeleton className="h-4 w-3/4" /></div>
-            ))}
-          </div>
-        ) : wishlistProducts.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">Your wishlist is empty</p>
-            <Link to="/books" className="text-sm text-secondary hover:underline mt-2 inline-block">Browse books</Link>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {wishlistProducts.map((p) => <BookCard key={p.id} product={p} />)}
-          </div>
-        )
+        {renderWishlist()}
       )}
 
       {tab === "addresses" && (
