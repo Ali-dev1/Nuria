@@ -101,8 +101,9 @@ const ContactPage = () => {
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-1">Full Name</label>
+                  <label htmlFor="contact-name" className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-1">Full Name</label>
                   <input 
+                    id="contact-name"
                     type="text" 
                     placeholder="John Doe"
                     className="w-full px-6 py-4 bg-[#FAF7F2] border-2 border-transparent rounded-2xl focus:border-[#1B4332]/10 focus:bg-white transition-all text-sm outline-none" 
@@ -110,8 +111,9 @@ const ContactPage = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-1">Email Address</label>
+                  <label htmlFor="contact-email" className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-1">Email Address</label>
                   <input 
+                    id="contact-email"
                     type="email" 
                     placeholder="john@example.com"
                     className="w-full px-6 py-4 bg-[#FAF7F2] border-2 border-transparent rounded-2xl focus:border-[#1B4332]/10 focus:bg-white transition-all text-sm outline-none" 
@@ -120,16 +122,18 @@ const ContactPage = () => {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-1">Subject</label>
+                <label htmlFor="contact-subject" className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-1">Subject</label>
                 <input 
+                  id="contact-subject"
                   type="text" 
                   placeholder="Inquiry about..."
                   className="w-full px-6 py-4 bg-[#FAF7F2] border-2 border-transparent rounded-2xl focus:border-[#1B4332]/10 focus:bg-white transition-all text-sm outline-none" 
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-1">Message</label>
+                <label htmlFor="contact-message" className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-1">Message</label>
                 <textarea 
+                  id="contact-message"
                   rows={5} 
                   placeholder="How can we help you today?"
                   className="w-full px-6 py-4 bg-[#FAF7F2] border-2 border-transparent rounded-2xl focus:border-[#1B4332]/10 focus:bg-white transition-all text-sm outline-none resize-none"

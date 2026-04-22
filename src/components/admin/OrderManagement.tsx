@@ -144,7 +144,7 @@ export const OrderManagement = () => {
             </thead>
             <tbody className="divide-y divide-border/50">
               {isLoading ? (
-                [...Array(6)].map((_, i) => (
+                [...new Array(6)].map((_, i) => (
                   <tr key={`skeleton-${i}`} className="animate-pulse">
                     <td className="px-8 py-8" colSpan={6}><div className="h-4 w-full bg-muted/50 rounded-full" /></td>
                   </tr>
@@ -267,7 +267,7 @@ export const OrderManagement = () => {
                 />
               </PaginationItem>
               
-              {[...Array(Math.ceil(ordersData.count / 10))].map((_, i) => (
+              {[...new Array(Math.ceil(ordersData.count / 10))].map((_, i) => (
                 <PaginationItem key={`page-${i + 1}`}>
                   <PaginationLink 
                     onClick={() => setOrderPage(i + 1)}

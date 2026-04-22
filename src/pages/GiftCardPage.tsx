@@ -10,7 +10,7 @@ const GiftCardPage = () => {
   const handleCustomAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/\D/g, "");
     setCustomAmount(val);
-    const num = parseInt(val, 10);
+    const num = Number.parseInt(val, 10);
     if (!isNaN(num) && num >= 5000) {
       setAmount(num);
     } else if (val === "") {
@@ -79,10 +79,11 @@ const GiftCardPage = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-2">Custom Amount (Min KSh 5,000)</label>
+              <label htmlFor="gc-amount" className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-2">Custom Amount (Min KSh 5,000)</label>
               <div className="relative">
                 <span className="absolute left-6 top-1/2 -translate-y-1/2 text-[#1A1A1A] font-bold font-sans">KSh</span>
                 <input 
+                  id="gc-amount"
                   type="text" 
                   value={customAmount}
                   onChange={handleCustomAmountChange}
@@ -120,9 +121,10 @@ const GiftCardPage = () => {
             <div className="lg:col-span-7">
               <form className="space-y-6 bg-[#FAF7F2] p-10 lg:p-14 rounded-[3.5rem] border border-[#E5E0D8]" onSubmit={(e) => e.preventDefault()}>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-2">Email Identity</label>
+                  <label htmlFor="gc-email" className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-2">Email Identity</label>
                   <div className="relative">
                     <input 
+                      id="gc-email"
                       type="email" 
                       placeholder="you@domain.com" 
                       className="w-full pl-14 pr-6 py-5 bg-white border border-[#E5E0D8] rounded-2xl focus:ring-4 focus:ring-[#A1440B]/5 focus:border-[#A1440B] transition-all outline-none" 
@@ -132,9 +134,10 @@ const GiftCardPage = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-2">Voucher Code</label>
+                  <label htmlFor="gc-code" className="text-[10px] font-bold uppercase tracking-widest text-[#6B7280] ml-2">Voucher Code</label>
                   <div className="relative">
                     <input 
+                      id="gc-code"
                       type="text" 
                       placeholder="NR-XXXX-XXXX-XXXX" 
                       className="w-full pl-14 pr-6 py-5 bg-white border border-[#E5E0D8] rounded-2xl focus:ring-4 focus:ring-[#A1440B]/5 focus:border-[#A1440B] transition-all outline-none" 

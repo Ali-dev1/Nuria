@@ -64,10 +64,11 @@ export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps)
         
         <div className="p-6 space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Store Name</label>
+            <label htmlFor="vs-store" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Store Name</label>
             <div className="relative">
               <Store className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40" />
               <input 
+                id="vs-store"
                 value={form.store_name} 
                 onChange={(e) => setForm(f => ({ ...f, store_name: e.target.value }))} 
                 className="w-full pl-10 pr-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" 
@@ -77,8 +78,9 @@ export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps)
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Brand Bio</label>
+            <label htmlFor="vs-bio" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Brand Bio</label>
             <textarea 
+              id="vs-bio"
               value={form.bio} 
               onChange={(e) => setForm(f => ({ ...f, bio: e.target.value }))} 
               rows={4} 
@@ -89,10 +91,11 @@ export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps)
 
           <div className="grid sm:grid-cols-2 gap-6 pt-4">
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Public Phone Number</label>
+              <label htmlFor="vs-phone" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Public Phone Number</label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40" />
                 <input 
+                  id="vs-phone"
                   value={form.phone} 
                   onChange={(e) => setForm(f => ({ ...f, phone: e.target.value }))} 
                   className="w-full pl-10 pr-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" 
@@ -100,10 +103,11 @@ export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps)
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Store Logo/Photo URL</label>
+              <label htmlFor="vs-logo" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Store Logo/Photo URL</label>
               <div className="relative">
                 <Upload className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/40" />
                 <input 
+                  id="vs-logo"
                   value={form.photo_url} 
                   onChange={(e) => setForm(f => ({ ...f, photo_url: e.target.value }))} 
                   className="w-full pl-10 pr-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" 
@@ -119,8 +123,9 @@ export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps)
             </h4>
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Instagram URL</label>
+                <label htmlFor="vs-ig" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Instagram URL</label>
                 <input 
+                  id="vs-ig"
                   value={form.instagram_url} 
                   onChange={(e) => setForm(f => ({ ...f, instagram_url: e.target.value }))} 
                   className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" 
@@ -128,8 +133,9 @@ export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps)
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Twitter/X URL</label>
+                <label htmlFor="vs-tw" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Twitter/X URL</label>
                 <input 
+                  id="vs-tw"
                   value={form.twitter_url} 
                   onChange={(e) => setForm(f => ({ ...f, twitter_url: e.target.value }))} 
                   className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" 
@@ -137,8 +143,9 @@ export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps)
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Facebook URL</label>
+                <label htmlFor="vs-fb" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Facebook URL</label>
                 <input 
+                  id="vs-fb"
                   value={form.facebook_url} 
                   onChange={(e) => setForm(f => ({ ...f, facebook_url: e.target.value }))} 
                   className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" 
@@ -146,8 +153,9 @@ export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps)
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Website URL</label>
+                <label htmlFor="vs-web" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Website URL</label>
                 <input 
+                  id="vs-web"
                   value={form.website_url} 
                   onChange={(e) => setForm(f => ({ ...f, website_url: e.target.value }))} 
                   className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" 
@@ -162,10 +170,11 @@ export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps)
               <Smartphone className="w-4 h-4 text-primary" /> Disbursement Settings
             </h4>
             <div className="space-y-2 max-w-sm">
-              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Primary M-Pesa Number</label>
+              <label htmlFor="vs-mpesa" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Primary M-Pesa Number</label>
               <div className="relative">
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 bg-green-600 rounded-sm" />
                 <input 
+                  id="vs-mpesa"
                   value={form.mpesa_number} 
                   onChange={(e) => setForm(f => ({ ...f, mpesa_number: e.target.value }))} 
                   className="w-full pl-10 pr-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-black tracking-widest" 

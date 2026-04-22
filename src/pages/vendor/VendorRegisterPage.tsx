@@ -114,8 +114,9 @@ const VendorRegisterPage = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Store Name</label>
+              <label htmlFor="vr-store-name" className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Store Name</label>
               <input 
+                id="vr-store-name"
                 value={storeName} 
                 onChange={(e) => setStoreName(e.target.value)} 
                 required 
@@ -126,8 +127,9 @@ const VendorRegisterPage = () => {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Payout M-Pesa</label>
+                <label htmlFor="vr-mpesa" className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Payout M-Pesa</label>
                 <input 
+                  id="vr-mpesa"
                   value={mpesaNumber} 
                   onChange={(e) => setMpesaNumber(e.target.value)} 
                   required
@@ -136,8 +138,9 @@ const VendorRegisterPage = () => {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Contact Phone</label>
+                <label htmlFor="vr-phone" className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Contact Phone</label>
                 <input 
+                  id="vr-phone"
                   value={phoneNumber} 
                   onChange={(e) => setPhoneNumber(e.target.value)} 
                   required
@@ -148,8 +151,9 @@ const VendorRegisterPage = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Primary Category</label>
+              <label htmlFor="vr-category" className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Primary Category</label>
               <select 
+                id="vr-category"
                 value={category} 
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all outline-none appearance-none cursor-pointer"
@@ -163,8 +167,9 @@ const VendorRegisterPage = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Store Bio</label>
+              <label htmlFor="vr-bio" className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] ml-1">Store Bio</label>
               <textarea 
+                id="vr-bio"
                 value={bio} 
                 onChange={(e) => setBio(e.target.value)} 
                 required

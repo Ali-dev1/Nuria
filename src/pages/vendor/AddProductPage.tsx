@@ -63,55 +63,55 @@ const AddProductPage = () => {
           <div className="space-y-6">
             <div className="grid sm:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Title *</label>
-                <input value={form.title} onChange={(e) => update("title", e.target.value)} required placeholder="e.g. The Great Gatsby" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 transition-all font-bold placeholder:font-normal placeholder:opacity-30" />
+                <label htmlFor="ap-title" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Title *</label>
+                <input id="ap-title" value={form.title} onChange={(e) => update("title", e.target.value)} required placeholder="e.g. The Great Gatsby" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 transition-all font-bold placeholder:font-normal placeholder:opacity-30" />
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Author / Creator</label>
-                <input value={form.author} onChange={(e) => update("author", e.target.value)} placeholder="e.g. F. Scott Fitzgerald" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 transition-all font-medium placeholder:font-normal placeholder:opacity-30" />
-              </div>
-            </div>
-
-            <div className="grid sm:grid-cols-3 gap-6">
-              <div className="space-y-2">
-                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">List Price (KES) *</label>
-                <input type="number" value={form.price} onChange={(e) => update("price", e.target.value)} required placeholder="0.00" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-black placeholder:opacity-30" />
-              </div>
-              <div className="space-y-2">
-                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Compare Price</label>
-                <input type="number" value={form.originalPrice} onChange={(e) => update("originalPrice", e.target.value)} placeholder="MSRP" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-bold placeholder:opacity-30" />
-              </div>
-              <div className="space-y-2">
-                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Initial Stock</label>
-                <input type="number" value={form.stock} onChange={(e) => update("stock", e.target.value)} placeholder="Quantity" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-black placeholder:opacity-30" />
+                <label htmlFor="ap-author" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Author / Creator</label>
+                <input id="ap-author" value={form.author} onChange={(e) => update("author", e.target.value)} placeholder="e.g. F. Scott Fitzgerald" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 transition-all font-medium placeholder:font-normal placeholder:opacity-30" />
               </div>
             </div>
 
             <div className="grid sm:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Catalog Category</label>
+                <label htmlFor="ap-price" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">List Price (KES) *</label>
+                <input id="ap-price" type="number" value={form.price} onChange={(e) => update("price", e.target.value)} required placeholder="0.00" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-black placeholder:opacity-30" />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="ap-oprice" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Compare Price</label>
+                <input id="ap-oprice" type="number" value={form.originalPrice} onChange={(e) => update("originalPrice", e.target.value)} placeholder="MSRP" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-bold placeholder:opacity-30" />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="ap-stock" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Initial Stock</label>
+                <input id="ap-stock" type="number" value={form.stock} onChange={(e) => update("stock", e.target.value)} placeholder="Quantity" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-black placeholder:opacity-30" />
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <label htmlFor="ap-cat" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Catalog Category</label>
                 <div className="relative">
-                  <select value={form.category} onChange={(e) => update("category", e.target.value)} className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-bold appearance-none">
+                  <select id="ap-cat" value={form.category} onChange={(e) => update("category", e.target.value)} className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-bold appearance-none">
                     {CATEGORIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
                   </select>
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Format</label>
-                <select value={form.format} onChange={(e) => update("format", e.target.value)} className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-bold appearance-none">
+                <label htmlFor="ap-format" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Format</label>
+                <select id="ap-format" value={form.format} onChange={(e) => update("format", e.target.value)} className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-bold appearance-none">
                   <option value="physical">Physical Hardcopy</option>
                   <option value="ebook">Digital E-Book</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Universal ISBN</label>
-                <input value={form.isbn} onChange={(e) => update("isbn", e.target.value)} placeholder="000-0-00-000000-0" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-medium placeholder:opacity-30" />
+                <label htmlFor="ap-isbn" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Universal ISBN</label>
+                <input id="ap-isbn" value={form.isbn} onChange={(e) => update("isbn", e.target.value)} placeholder="000-0-00-000000-0" className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-medium placeholder:opacity-30" />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Narrative</label>
-              <textarea value={form.description} onChange={(e) => update("description", e.target.value)} rows={5} placeholder="Describe the item's condition, features, or storyline..." className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 transition-all resize-none font-medium placeholder:font-normal placeholder:opacity-30" />
+              <label htmlFor="ap-desc" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Narrative</label>
+              <textarea id="ap-desc" value={form.description} onChange={(e) => update("description", e.target.value)} rows={5} placeholder="Describe the item's condition, features, or storyline..." className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 transition-all resize-none font-medium placeholder:font-normal placeholder:opacity-30" />
             </div>
           </div>
 

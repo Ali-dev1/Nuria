@@ -70,9 +70,10 @@ const AdminLoginPage = () => {
         <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-2xl">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Identity</label>
+              <label htmlFor="admin-email" className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Identity</label>
               <div className="relative">
                 <input 
+                  id="admin-email"
                   type="email" 
                   value={email} 
                   onChange={(e) => setEmail(e.target.value)} 
@@ -84,9 +85,10 @@ const AdminLoginPage = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Passkey</label>
+              <label htmlFor="admin-pass" className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Passkey</label>
               <div className="relative">
                 <input
+                  id="admin-pass"
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

@@ -89,10 +89,11 @@ export const PlatformSettings = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                    <Bell className="w-3.5 h-3.5 text-muted-foreground" />
-                   <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Global Announcement</label>
+                   <label htmlFor="ps-ann" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Global Announcement</label>
                 </div>
                 <div className="relative">
                   <input 
+                    id="ps-ann"
                     value={settings.announcement_text || ""} 
                     onChange={(e) => setSettings({...settings, announcement_text: e.target.value})} 
                     placeholder="Broadcast a system-wide message…"
@@ -119,9 +120,10 @@ export const PlatformSettings = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                    <Wallet className="w-3.5 h-3.5 text-muted-foreground" />
-                   <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Default Commission Yield (%)</label>
+                   <label htmlFor="ps-comm" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Default Commission Yield (%)</label>
                 </div>
                 <input 
+                  id="ps-comm"
                   type="number" 
                   value={settings.default_commission || "15"} 
                   onChange={(e) => setSettings({...settings, default_commission: e.target.value})} 
@@ -132,9 +134,10 @@ export const PlatformSettings = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                    <CheckCircle2 className="w-3.5 h-3.5 text-muted-foreground" />
-                   <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Minimum Disbursement (KSH)</label>
+                   <label htmlFor="ps-min" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Minimum Disbursement (KSH)</label>
                 </div>
                 <input 
+                  id="ps-min"
                   type="number" 
                   value={settings.min_payout || "1000"} 
                   onChange={(e) => setSettings({...settings, min_payout: e.target.value})} 

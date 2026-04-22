@@ -105,7 +105,7 @@ export const UserManagement = () => {
             </thead>
             <tbody className="divide-y divide-border/50">
               {isLoading ? (
-                 [...Array(5)].map((_, i) => (
+                 [...new Array(5)].map((_, i) => (
                    <tr key={`skeleton-${i}`} className="animate-pulse">
                      <td colSpan={5} className="px-8 py-8"><div className="h-4 bg-muted/50 rounded-full w-full" /></td>
                    </tr>

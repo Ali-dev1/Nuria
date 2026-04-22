@@ -91,7 +91,7 @@ export const VendorManagement = () => {
             </thead>
             <tbody className="divide-y divide-border">
               {isLoading ? (
-                [...Array(5)].map((_, i) => (
+                [...new Array(5)].map((_, i) => (
                   <tr key={`skeleton-${i}`} className="animate-pulse">
                     <td colSpan={5} className="p-6"><div className="h-10 bg-muted rounded-xl w-full" /></td>
                   </tr>
@@ -272,8 +272,9 @@ export const VendorManagement = () => {
             <h3 className="text-xl font-black mb-6 tracking-tight">Reject Merchant Application</h3>
             <div className="space-y-4">
                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-1">Reason for Rejection</label>
+                  <label htmlFor="vm-reason" className="text-[10px] font-black text-muted-foreground uppercase tracking-widest ml-1">Reason for Rejection</label>
                   <textarea 
+                    id="vm-reason"
                     value={rejectReason} 
                     onChange={(e) => setRejectReason(e.target.value)} 
                     placeholder="Provide clear feedback to the merchant..." 

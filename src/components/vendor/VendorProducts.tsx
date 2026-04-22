@@ -216,12 +216,12 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
                         <p className="text-[10px] font-bold uppercase">No Image</p>
                       </div>
                     )}
-                    <label className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                    <label htmlFor="vp-img" className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                       <div className="flex flex-col items-center text-white">
                         <Upload className="w-6 h-6 mb-2" />
                         <span className="text-[10px] font-black uppercase tracking-widest">Update Cover</span>
                       </div>
-                      <input type="file" accept="image/*" onChange={(e) => e.target.files?.[0] && uploadProductCover(e.target.files[0])} className="hidden" disabled={uploading} />
+                      <input id="vp-img" type="file" accept="image/*" onChange={(e) => e.target.files?.[0] && uploadProductCover(e.target.files[0])} className="hidden" disabled={uploading} />
                     </label>
                   </div>
                   {uploading && <div className="h-1 bg-muted rounded-full overflow-hidden"><div className="h-full bg-primary animate-progress" style={{width: '60%'}} /></div>}
@@ -229,21 +229,21 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
 
                 <div className="sm:col-span-3 space-y-6">
                   <div className="space-y-2">
-                    <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Title</label>
-                    <input value={editForm.title || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-bold" />
+                    <label htmlFor="vp-title" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Title</label>
+                    <input id="vp-title" value={editForm.title || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-bold" />
                   </div>
                   <div className="space-y-2">
-                    <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Author / Creator</label>
-                    <input value={editForm.author || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, author: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+                    <label htmlFor="vp-author" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Author / Creator</label>
+                    <input id="vp-author" value={editForm.author || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, author: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Price (KES)</label>
-                      <input type="number" value={editForm.price ?? ""} onChange={(e) => setEditForm((f: any) => ({ ...f, price: Number(e.target.value) }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-black" />
+                      <label htmlFor="vp-price" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Price (KES)</label>
+                      <input id="vp-price" type="number" value={editForm.price ?? ""} onChange={(e) => setEditForm((f: any) => ({ ...f, price: Number(e.target.value) }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-black" />
                     </div>
                     <div className="space-y-2">
-                      <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">In-Stock</label>
-                      <input type="number" value={editForm.stock ?? ""} onChange={(e) => setEditForm((f: any) => ({ ...f, stock: Number(e.target.value) }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-black" />
+                      <label htmlFor="vp-stock" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">In-Stock</label>
+                      <input id="vp-stock" type="number" value={editForm.stock ?? ""} onChange={(e) => setEditForm((f: any) => ({ ...f, stock: Number(e.target.value) }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-black" />
                     </div>
                   </div>
                 </div>
@@ -251,14 +251,14 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
 
               <div className="mt-8 space-y-6">
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Listing Category</label>
-                  <select value={editForm.category || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, category: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-bold appearance-none">
+                  <label htmlFor="vp-cat" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Listing Category</label>
+                  <select id="vp-cat" value={editForm.category || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, category: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-bold appearance-none">
                     {CATEGORIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Marketing Description</label>
-                  <textarea value={editForm.description || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, description: e.target.value }))} rows={4} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all resize-none font-medium" />
+                  <label htmlFor="vp-desc" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Marketing Description</label>
+                  <textarea id="vp-desc" value={editForm.description || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, description: e.target.value }))} rows={4} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all resize-none font-medium" />
                 </div>
               </div>
             </div>

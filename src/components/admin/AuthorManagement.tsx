@@ -167,8 +167,9 @@ export const AuthorManagement = () => {
             
             <div className="p-6 space-y-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Author Name</label>
+                <label htmlFor="am-name" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Author Name</label>
                 <Input 
+                  id="am-name"
                   value={editingAuthor?.name || ""} 
                   onChange={e => setEditingAuthor({...editingAuthor, name: e.target.value})}
                   placeholder="e.g. Miguna Miguna"
@@ -177,10 +178,11 @@ export const AuthorManagement = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                <label htmlFor="am-photo" className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
                   <ImageIcon className="w-3.5 h-3.5" /> Photo URL
                 </label>
                 <Input 
+                  id="am-photo"
                   value={editingAuthor?.photo_url || ""} 
                   onChange={e => setEditingAuthor({...editingAuthor, photo_url: e.target.value})}
                   placeholder="https://..."
@@ -189,8 +191,9 @@ export const AuthorManagement = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Biography</label>
+                <label htmlFor="am-bio" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Biography</label>
                 <Textarea 
+                  id="am-bio"
                   value={editingAuthor?.bio || ""} 
                   onChange={e => setEditingAuthor({...editingAuthor, bio: e.target.value})}
                   placeholder="A short biography about the author..."

@@ -67,7 +67,7 @@ const OrderConfirmationPage = () => {
                 key={star}
                 onClick={() => { setRating(star); setTimeout(() => setRatingSubmitted(true), 600); }}
                 onMouseEnter={() => setRating(star)}
-                onMouseLeave={() => setRating(rating)} // keeps selected rating if clicked
+                onMouseLeave={() => setRating(prev => prev)} // keeps selected rating if clicked
                 className="p-1 hover:scale-110 transition-transform"
               >
                 <Star className={`w-8 h-8 ${rating >= star ? "fill-[#A1440B] text-[#A1440B]" : "text-[#E5E0D8]"}`} />

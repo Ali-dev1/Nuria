@@ -241,16 +241,16 @@ const AccountPage = () => {
             <h3 className="font-display text-xl font-bold text-[#1A1A1A]">Profile Information</h3>
             <div className="grid sm:grid-cols-2 gap-8">
               <div>
-                <label className="block font-sans text-[13px] font-medium text-[#1A1A1A] mb-2">Full Name</label>
-                <input defaultValue={profile?.name || ""} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-xl text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30 transition-all" />
+                <label htmlFor="acc-name" className="block font-sans text-[13px] font-medium text-[#1A1A1A] mb-2">Full Name</label>
+                <input id="acc-name" defaultValue={profile?.name || ""} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-xl text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30 transition-all" />
               </div>
               <div>
-                <label className="block font-sans text-[13px] font-medium text-[#1A1A1A] mb-2">Email Address</label>
-                <input value={user?.email || ""} disabled className="w-full px-4 py-3 border border-[#E5E0D8] rounded-xl text-sm bg-[#FAF7F2] text-[#6B7280] font-sans italic" />
+                <label htmlFor="acc-email" className="block font-sans text-[13px] font-medium text-[#1A1A1A] mb-2">Email Address</label>
+                <input id="acc-email" value={user?.email || ""} disabled className="w-full px-4 py-3 border border-[#E5E0D8] rounded-xl text-sm bg-[#FAF7F2] text-[#6B7280] font-sans italic" />
               </div>
               <div>
-                <label className="block font-sans text-[13px] font-medium text-[#1A1A1A] mb-2">M-Pesa Number</label>
-                <input defaultValue={profile?.phone || ""} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-xl text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30 transition-all" placeholder="+254..." />
+                <label htmlFor="acc-mpesa" className="block font-sans text-[13px] font-medium text-[#1A1A1A] mb-2">M-Pesa Number</label>
+                <input id="acc-mpesa" defaultValue={profile?.phone || ""} className="w-full px-4 py-3 border border-[#E5E0D8] rounded-xl text-sm bg-white font-sans focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30 transition-all" placeholder="+254..." />
               </div>
             </div>
             <div className="pt-4">

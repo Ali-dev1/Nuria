@@ -71,7 +71,7 @@ export const BlogManagement = () => {
 
       <div className="grid lg:grid-cols-2 gap-6">
         {isLoading ? (
-          [...Array(4)].map((_, i) => (
+          [...new Array(4)].map((_, i) => (
             <div key={`skeleton-${i}`} className="h-40 bg-muted/50 rounded-[2rem] animate-pulse" />
           ))
         ) : (
@@ -79,7 +79,7 @@ export const BlogManagement = () => {
             <div key={post.id} className="group bg-white p-6 rounded-[2rem] border border-border shadow-2xl shadow-primary/5 hover:border-primary/30 transition-all flex gap-6">
                <div className="relative shrink-0">
                   {post.image_url ? (
-                    <img src={post.image_url} className="w-24 h-24 rounded-2xl object-cover border border-border group-hover:scale-110 transition-transform duration-500" />
+                    <img src={post.image_url} alt="" className="w-24 h-24 rounded-2xl object-cover border border-border group-hover:scale-110 transition-transform duration-500" />
                   ) : (
                     <div className="w-24 h-24 bg-muted rounded-2xl flex items-center justify-center border border-border">
                        <ImageIcon className="w-8 h-8 text-muted-foreground opacity-30" />

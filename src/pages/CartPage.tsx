@@ -33,7 +33,7 @@ const CartPage = () => {
   const [redeemInput, setRedeemInput] = useState("");
 
   const applyPoints = () => {
-    const pts = Math.min(parseInt(redeemInput) || 0, maxRedeemable);
+    const pts = Math.min(Number.parseInt(redeemInput) || 0, maxRedeemable);
     if (pts < 100) return;
     const discountAmount = Math.floor(pts / 100) * 10;
     setPointsDiscount(discountAmount);
