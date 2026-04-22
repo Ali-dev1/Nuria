@@ -219,9 +219,7 @@ const AccountPage = () => {
         </div>
       )}
 
-      {tab === "wishlist" && (
-        {renderWishlist()}
-      )}
+      {tab === "wishlist" && renderWishlist()}
 
       {tab === "addresses" && (
         <div className="space-y-3">

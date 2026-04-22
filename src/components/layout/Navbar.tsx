@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Search, ShoppingCart, User, Menu, Heart, LogOut, X } from "lucide-react";
+import { Search, ShoppingCart, User, Menu, Heart, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
@@ -12,7 +12,7 @@ export const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const totalItems = useCartStore((s) => s.totalItems());
-  const { user, signOut } = useAuthStore();
+  const { user } = useAuthStore();
   const { profile } = useProfile();
   const navigate = useNavigate();
   const location = useLocation();
@@ -70,7 +70,7 @@ export const Navbar = () => {
                 alt="Nuria Logo" 
                 width="142"
                 height="48"
-                fetchpriority="high"
+                fetchPriority="high"
                 loading="eager"
                 className="h-10 sm:h-12 w-auto" 
               />

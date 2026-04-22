@@ -16,7 +16,7 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({ produc
         <img 
           src={product.images[0].includes("unsplash.com") ? `${product.images[0]}&fm=webp&q=80` : product.images[0]} 
           alt={product.title} 
-          fetchpriority="high"
+          fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover" 
           onError={(e) => {
             const target = e.target as HTMLImageElement;

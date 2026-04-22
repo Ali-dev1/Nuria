@@ -4,10 +4,11 @@ import { useAuthStore } from "@/store/authStore";
 export const useAuth = () => {
   const store = useAuthStore();
 
+  const { initialize } = store;
+
   useEffect(() => {
-    const unsubscribe = store.initialize();
-    return unsubscribe;
-  }, [store.initialize]);
+    return initialize();
+  }, [initialize]);
 
   return {
     user: store.user,

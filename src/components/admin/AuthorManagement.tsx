@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Trash2, Edit, Search, User, AlertCircle, Save, X, Image as ImageIcon } from "lucide-react";
+import { Plus, Trash2, Edit, Search, AlertCircle, X, Image as ImageIcon } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";

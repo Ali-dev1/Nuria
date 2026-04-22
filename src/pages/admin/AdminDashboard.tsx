@@ -34,8 +34,8 @@ const AdminDashboard = () => {
     const checkAdmin = async () => {
       if (!user) { navigate("/admin/login"); return; }
       const { data } = await supabase.from("profiles").select("role").eq("user_id", user.id).single();
-      if (data?.role !== "admin") { navigate("/"); toast({ title: "Access Denied", variant: "destructive" }); }
-      else { setIsAdmin(true); }
+      if (data?.role === "admin") { setIsAdmin(true); }
+      else { navigate("/"); toast({ title: "Access Denied", variant: "destructive" }); }
       setLoading(false);
     };
     checkAdmin();

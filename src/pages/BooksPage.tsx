@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { SlidersHorizontal, X, Search as SearchIcon } from "lucide-react";
 import { BookCard } from "@/components/books/BookCard";
@@ -92,9 +92,9 @@ const BooksPage = () => {
           <button
             onClick={() => setSelectedCategory("")}
             className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${
-              !selectedCategory 
-                ? "bg-[#1B4332] text-white border-[#1B4332] shadow-md" 
-                : "bg-white border-[#E5E0D8] text-[#6B7280]"
+              selectedCategory 
+                ? "bg-white border-[#E5E0D8] text-[#6B7280]"
+                : "bg-[#1B4332] text-white border-[#1B4332] shadow-md" 
             }`}
           >
             All
@@ -147,7 +147,7 @@ const BooksPage = () => {
               <div className="space-y-1.5">
                 <button
                   onClick={() => setSelectedCategory("")}
-                  className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${!selectedCategory ? "bg-[#1B4332] text-white font-medium shadow-sm" : "text-[#6B7280] hover:bg-[#1B4332]/5 hover:text-[#1B4332]"}`}
+                  className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${selectedCategory ? "text-[#6B7280] hover:bg-[#1B4332]/5 hover:text-[#1B4332]" : "bg-[#1B4332] text-white font-medium shadow-sm"}`}
                 >
                   All Categories
                 </button>

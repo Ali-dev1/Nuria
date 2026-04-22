@@ -57,7 +57,12 @@ const OrderConfirmationPage = () => {
         )}
       </div>
 
-      {!ratingSubmitted ? (
+      {ratingSubmitted ? (
+        <div className="bg-[#1B4332]/5 border border-[#1B4332]/20 rounded-2xl p-8 mt-8 space-y-2 text-center">
+          <h3 className="font-display text-lg font-bold text-[#1B4332]">Thank you for your feedback!</h3>
+          <p className="text-sm font-sans text-[#1B4332]/80">We appreciate your support.</p>
+        </div>
+      ) : (
         <div className="bg-[#FAF7F2] border border-[#E5E0D8] rounded-2xl p-8 mt-8 space-y-4 shadow-sm text-center">
           <h3 className="font-display text-lg font-bold text-[#1A1A1A]">How was your checkout experience?</h3>
           <p className="text-sm font-sans text-[#6B7280]">Your feedback helps us improve Nuria.</p>
@@ -73,11 +78,6 @@ const OrderConfirmationPage = () => {
               </button>
             ))}
           </div>
-        </div>
-      ) : (
-        <div className="bg-[#1B4332]/5 border border-[#1B4332]/20 rounded-2xl p-8 mt-8 space-y-2 text-center">
-          <h3 className="font-display text-lg font-bold text-[#1B4332]">Thank you for your feedback!</h3>
-          <p className="text-sm font-sans text-[#1B4332]/80">We appreciate your support.</p>
         </div>
       )}
 

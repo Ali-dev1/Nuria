@@ -24,7 +24,7 @@ serve(async (req) => {
     }
 
     // 1. Format Phone (Ensure 254 format)
-    let formattedPhone = phone.toString().replace(/\D/g, "");
+    let formattedPhone = phone.toString().replaceAll(/\D/g, "");
     if (formattedPhone.startsWith("0")) {
       formattedPhone = "254" + formattedPhone.substring(1);
     } else if (formattedPhone.startsWith("+")) {
@@ -74,7 +74,7 @@ serve(async (req) => {
     const access_token = tokenData.access_token;
 
     // 4. Generate STK Push Request
-    const timestamp = new Date().toISOString().replace(/[-:T.]/g, "").slice(0, 14);
+    const timestamp = new Date().toISOString().replaceAll(/[-:T.]/g, "").slice(0, 14);
     const password = btoa(shortcode + passkey + timestamp);
 
     const stkRes = await fetch(

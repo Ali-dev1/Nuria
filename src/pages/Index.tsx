@@ -131,7 +131,7 @@ const Index = () => {
                     width="1600" 
                     height="650" 
                     loading={slide.id === 1 ? "eager" : "lazy"} 
-                    fetchpriority={slide.id === 1 ? "high" : "auto"} 
+                    fetchPriority={slide.id === 1 ? "high" : "auto"} 
                     sizes="100vw"
                     className="absolute inset-0 w-full h-full object-cover brightness-[0.7]" 
                   />

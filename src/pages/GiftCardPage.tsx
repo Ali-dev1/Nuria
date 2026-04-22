@@ -11,7 +11,7 @@ const GiftCardPage = () => {
     const val = e.target.value.replace(/\D/g, "");
     setCustomAmount(val);
     const num = Number.parseInt(val, 10);
-    if (!isNaN(num) && num >= 5000) {
+    if (!Number.isNaN(num) && num >= 5000) {
       setAmount(num);
     } else if (val === "") {
       setAmount(10000);

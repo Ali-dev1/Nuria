@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Download, ChevronRight, Hash, Clock, User, CreditCard, Box, CheckCircle2, AlertCircle, Truck, XCircle, MoreHorizontal, FileText, ArrowUpRight } from "lucide-react";
+import { Download, ChevronRight, Hash, Clock, CreditCard, Box, CheckCircle2, AlertCircle, Truck, XCircle, FileText } from "lucide-react";
 import { formatPrice } from "@/lib/constants";
 import { useAdminOrders, useOrderItems } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";

@@ -59,7 +59,7 @@ export const useProducts = (options?: {
     queryFn: async () => {
       let query;
       
-      const selectStr = "*, categories(slug)";
+      
       const isFiltered = !!options?.category;
 
       if (isFiltered) {

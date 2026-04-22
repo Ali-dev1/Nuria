@@ -52,7 +52,7 @@ const AuthorPage = () => {
                 src={author.photo_url?.includes("unsplash.com") ? `${author.photo_url}&fm=webp&q=60&w=400` : author.photo_url} 
                 alt={author.name} 
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
                 className="w-full h-full object-cover" 
               />
             </div>

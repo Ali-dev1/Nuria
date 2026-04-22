@@ -55,7 +55,7 @@ const VendorRegisterPage = () => {
         category: category,
         is_verified: false,
         status: 'pending',
-      } as any, { onConflict: 'user_id' });
+      }, { onConflict: 'user_id' });
 
       if (vendorError) throw vendorError;
 
@@ -72,8 +72,8 @@ const VendorRegisterPage = () => {
         title: "Application Received", 
         description: "We've received your merchant application!" 
       });
-    } catch (err: any) {
-      toast({ title: "Submission Error", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      toast({ title: "Submission Error", description: (err as Error).message, variant: "destructive" });
     } finally {
       setLoading(false);
     }

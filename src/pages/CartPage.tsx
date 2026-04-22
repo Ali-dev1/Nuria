@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useSettings } from "@/hooks/useSettings";
 
 const CartPage = () => {
-  const { items, removeItem, updateQuantity, subtotal, clearCart, setPointsDiscount, pointsDiscount } = useCartStore();
+  const { items, removeItem, updateQuantity, subtotal, setPointsDiscount, pointsDiscount } = useCartStore();
   const { user, isAuthenticated } = useAuth();
   const { data: settings } = useSettings();
   

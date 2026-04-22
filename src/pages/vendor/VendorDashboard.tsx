@@ -80,7 +80,7 @@ const VendorDashboard = () => {
     ordersCount: orders.length,
     productsCount: products.length,
     avgRating: products.length > 0 
-      ? products.reduce((acc, p) => acc + (Number((p as any).rating) || 0), 0) / products.length 
+      ? products.reduce((acc, p) => acc + (Number((p as { rating?: number | null }).rating) || 0), 0) / products.length 
       : 4.8, // Healthy fallback for onboarding
   };
 
