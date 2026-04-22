@@ -50,7 +50,7 @@ const RegisterPage = () => {
       <div className="w-full max-w-md space-y-10">
         <div className="text-center">
           <Link to="/" className="inline-block">
-            <img src="/logo-small.png" alt="Nuria Logo" className="h-14 sm:h-16 w-auto mx-auto" />
+            <img src="/logo-small.webp" alt="Nuria Logo" className="h-14 sm:h-16 w-auto mx-auto" />
           </Link>
           <h1 className="font-display text-2xl font-bold text-foreground mt-10">Register</h1>
           <p className="font-sans text-sm text-muted-foreground mt-4 leading-relaxed text-left">

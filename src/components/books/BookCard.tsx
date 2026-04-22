@@ -27,7 +27,7 @@ export const BookCard = ({ product }: BookCardProps) => {
       <Link to={`/books/${product.slug}`} className="block relative aspect-[3/4] overflow-hidden rounded-t-xl bg-muted">
         {product.images?.[0] && product.images[0] !== "/placeholder.svg" && !product.images[0].includes("placeholder") ? (
           <img 
-            src={product.images[0].includes("unsplash.com") ? `${product.images[0]}&fm=webp&q=80` : product.images[0].includes("nuriakenya.com") ? `https://wsrv.nl/?url=${product.images[0]}&w=400&output=webp&q=75` : product.images[0]} 
+            src={product.images[0].includes("unsplash.com") ? `${product.images[0]}&fm=webp&q=80` : product.images[0].includes("nuriakenya.com") ? `https://wsrv.nl/?url=${product.images[0]}&w=340&output=webp&q=60` : product.images[0]} 
             alt={product.title} 
             width="300"
             height="400"

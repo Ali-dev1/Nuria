@@ -158,7 +158,7 @@ const VendorDashboard = () => {
                 {vendor?.photo_url ? (
                   <img src={vendor.photo_url} alt={vendor.store_name} className="w-full h-full object-cover" />
                 ) : (
-                  <img src="/logo-small.png" alt="Nuria" className="w-8 h-auto object-contain" />
+                  <img src="/logo-small.webp" alt="Nuria" className="w-8 h-auto object-contain" />
                 )}
              </div>
           </div>

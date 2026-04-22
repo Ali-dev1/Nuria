@@ -88,7 +88,7 @@ export const Navbar = () => {
             </button>
             <Link to="/" className="shrink-0">
               <img 
-                src="/logo-small.png" 
+                src="/logo-small.webp" 
                 alt="Nuria Logo" 
                 width="142"
                 height="48"
