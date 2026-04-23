@@ -11,9 +11,9 @@ import { test, expect, Page } from '@playwright/test';
 const BASE_URL = 'http://localhost:8080';
 
 const TEST_USERS = {
-    admin: { email: 'admin@nuria.com', password: 'your_admin_password' },
-    vendor: { email: 'vendor@nuria.com', password: 'your_vendor_password' },
-    customer: { email: 'customer@nuria.com', password: 'your_customer_password' },
+    admin: { email: process.env.TEST_ADMIN_EMAIL || 'admin@nuria.com', password: process.env.TEST_ADMIN_PASSWORD || 'your_admin_password' },
+    vendor: { email: process.env.TEST_VENDOR_EMAIL || 'vendor@nuria.com', password: process.env.TEST_VENDOR_PASSWORD || 'your_vendor_password' },
+    customer: { email: process.env.TEST_CUSTOMER_EMAIL || 'customer@nuria.com', password: process.env.TEST_CUSTOMER_PASSWORD || 'your_customer_password' },
 };
 
 // ============================================

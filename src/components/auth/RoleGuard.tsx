@@ -37,14 +37,18 @@ interface RoleGuardProps {
   
         // If they don't have the role, kick to home
         if (requiredRole && profileRole !== requiredRole) {
-          navigate("/");
-          return;
+          if (profileRole === "admin" && requiredRole === "vendor") {
+            // Allow admin to access vendor routes
+          } else {
+            navigate("/");
+            return;
+          }
         }
 
         // 3. Vendor Record Enforcement
         // If they have a record, they can access ANY vendor sub-page
         // If they don't, they are forced to register
-        if (requiredRole === "vendor" && !vendor && globalThis.location.pathname !== "/vendor/register") {
+        if (requiredRole === "vendor" && !vendor && profileRole !== "admin" && globalThis.location.pathname !== "/vendor/register") {
           navigate("/vendor/register");
           return;
         }

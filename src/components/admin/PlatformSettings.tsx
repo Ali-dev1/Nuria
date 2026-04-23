@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Save, Info } from "lucide-react";
+import { Save, Info, Shield, Zap, Bell, Percent, Wallet, CheckCircle2, Palette } from "lucide-react";
 import { usePlatformSettings } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
@@ -150,24 +150,8 @@ export const PlatformSettings = () => {
                <Info className="w-5 h-5 text-amber-600 shrink-0" />
                <p className="text-[10px] text-amber-800 leading-relaxed font-medium">Changes to economic yields will take effect immediately on all new transactions. Historical data remains cached for 24h.</p>
             </div>
-          </div>
-
-          <div className="bg-white p-10 rounded-[2.5rem] border border-border shadow-2xl shadow-primary/5 space-y-6">
-             <div className="flex items-center gap-3">
-               <div className="p-3 bg-primary/10 rounded-2xl border border-primary/20 text-primary">
-                 <Palette className="w-5 h-5" />
-               </div>
-               <h3 className="text-sm font-black uppercase tracking-widest text-foreground">Platform Aesthetics</h3>
-             </div>
-             <p className="text-[10px] text-muted-foreground italic leading-relaxed">Global style tokens are locked to the "Nuria Store" Design System. Brand identity overrides are currently disabled in favor of stabilized UX.</p>
-             <div className="flex gap-3">
-                <div className="w-10 h-10 rounded-xl bg-primary shadow-lg border border-white/20" />
-                <div className="w-10 h-10 rounded-xl bg-primary/70 shadow-lg border border-white/20" />
-                <div className="w-10 h-10 rounded-xl bg-primary/60 shadow-lg border border-white/20" />
-                <div className="w-10 h-10 rounded-xl bg-foreground shadow-lg border border-white/20" />
-             </div>
-          </div>
         </div>
+      </div>
       </div>
     </div>
   );

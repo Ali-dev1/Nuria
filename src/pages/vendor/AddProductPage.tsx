@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ImageIcon, X } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/authStore";
 import { useToast } from "@/hooks/use-toast";
@@ -11,12 +11,41 @@ const AddProductPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [dragActive, setDragActive] = useState(false);
   const [form, setForm] = useState({
     title: "", author: "", isbn: "", price: "", originalPrice: "",
     category: "fiction", description: "", stock: "10", format: "physical",
   });
 
   const update = (key: string, value: string) => setForm((p) => ({ ...p, [key]: value }));
+
+  const handleImageUpload = async (file: File) => {
+    try {
+      setIsUploading(true);
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `products/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('book-covers')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('book-covers')
+        .getPublicUrl(filePath);
+
+      setUploadedImages(prev => [...prev, data.publicUrl]);
+      toast({ title: "Cover Uploaded", description: "Image successfully added." });
+    } catch (error: any) {
+      toast({ title: "Upload Failed", description: error.message, variant: "destructive" });
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,24 +64,24 @@ const AddProductPage = () => {
       stock: Number(form.stock),
       format: form.format,
       vendor_id: user.id,
-      images: ["/placeholder.svg"],
+      images: uploadedImages.length > 0 ? uploadedImages : ["/placeholder.svg"],
     });
     setLoading(false);
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } else {
       toast({ title: "Product added!" });
-      navigate("/vendor");
+      navigate(-1);
     }
   };
 
   return (
     <div className="min-h-screen bg-background">
       <div className="container-nuria py-12 max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <Link to="/vendor" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-all mb-8 group">
+        <button onClick={() => navigate(-1)} className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-all mb-8 group">
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> 
           Back to Terminal
-        </Link>
+        </button>
         
         <div className="mb-10 space-y-2">
           <h1 className="font-display text-5xl font-black text-foreground tracking-tighter">List New Asset</h1>
@@ -61,6 +90,64 @@ const AddProductPage = () => {
 
         <form onSubmit={handleSubmit} className="space-y-8 bg-card rounded-[2rem] border border-border p-10 shadow-2xl shadow-primary/5">
           <div className="space-y-6">
+            <div className="space-y-2">
+              <label className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Cover Images</label>
+              <div 
+                className={`border-2 border-dashed rounded-2xl p-6 text-center transition-colors relative ${dragActive ? "border-primary bg-primary/5" : "border-border bg-muted/30"}`}
+                onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
+                onDragLeave={(e) => { e.preventDefault(); setDragActive(false); }}
+                onDrop={async (e) => {
+                  e.preventDefault();
+                  setDragActive(false);
+                  if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    await handleImageUpload(e.dataTransfer.files[0]);
+                  }
+                }}
+              >
+                <input 
+                  type="file" 
+                  accept="image/*"
+                  onChange={async (e) => {
+                    if (e.target.files && e.target.files.length > 0) {
+                      await handleImageUpload(e.target.files[0]);
+                    }
+                  }}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                  disabled={isUploading}
+                />
+                
+                {isUploading ? (
+                  <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                    <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    <span className="text-xs font-medium">Uploading Asset...</span>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                    <ImageIcon className="w-8 h-8 opacity-50" />
+                    <span className="text-sm font-medium">Drag & drop or click to upload cover</span>
+                    <span className="text-[10px] uppercase tracking-widest opacity-70">JPEG, PNG (Max 5MB)</span>
+                  </div>
+                )}
+              </div>
+              
+              {uploadedImages.length > 0 && (
+                <div className="flex flex-wrap gap-4 mt-4">
+                  {uploadedImages.map((img, idx) => (
+                    <div key={idx} className="relative group rounded-xl overflow-hidden border border-border w-24 h-32">
+                      <img src={img} alt={`Cover ${idx}`} className="w-full h-full object-cover" />
+                      <button 
+                        type="button"
+                        onClick={() => setUploadedImages(prev => prev.filter((_, i) => i !== idx))}
+                        className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <div className="grid sm:grid-cols-2 gap-8">
               <div className="space-y-2">
                 <label htmlFor="ap-title" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Title *</label>

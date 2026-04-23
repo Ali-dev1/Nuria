@@ -30,8 +30,12 @@ dist-ssr
 .env.production
 .env.development
 
-# AI Metadata
+# AI Metadata & Instruction Files
+.claude/
+CLAUDE.md
+design.md
 dev_log_backup/
+scratch/
 
 # Playwright Tests and Results
 tests/

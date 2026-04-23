@@ -64,18 +64,14 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
   return (
     <div className="space-y-10 animate-in fade-in duration-700">
       {/* Dynamic Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-         <div>
-            <h1 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-3">
-               Platform Metrics <ArrowUpRight className="w-6 h-6 text-primary" />
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">Real-time performance analytics for Nuria Store</p>
+         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+            <div>
+               <h1 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-3">
+                  Platform Metrics <ArrowUpRight className="w-6 h-6 text-primary" />
+               </h1>
+               <p className="text-sm text-muted-foreground mt-1">Real-time performance analytics for Nuria Store</p>
+            </div>
          </div>
-         <div className="bg-white px-4 py-2 rounded-2xl border border-border shadow-sm flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Live Updates Active</span>
-         </div>
-      </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">

@@ -37,84 +37,84 @@
 
 @layer base {
   :root {
-    /* ── Named Palette ── */
-    --color-kombu:     #354024;
-    --color-cafe-noir: #4C3D19;
-    --color-moss:      #889063;
-    --color-tan:       #CFBB99;
-    --color-bone:      #E5D7C4;
+    /* ── Named Palette (Vibrant Forest) ── */
+    --color-emerald-deep: #064E3B;
+    --color-emerald-mid:  #059669;
+    --color-emerald-light:#10B981;
+    --color-linen:        #FAFAF9;
+    --color-sage:         #D1FAE5;
 
     /* ── Semantic Design Tokens ── */
-    --color-primary:      var(--color-kombu);
-    --color-accent:       var(--color-cafe-noir);
-    --color-background:   var(--color-bone);
-    --color-surface:      #F0E8DA;
-    --color-text:         #2D361F;
-    --color-text-muted:   #6B6350;
-    --color-border:       var(--color-tan);
-    --color-success:      #D1FAE5;
-    --color-highlight:    #8B5E34;
+    --color-primary:      var(--color-emerald-deep);
+    --color-accent:       var(--color-emerald-mid);
+    --color-background:   var(--color-linen);
+    --color-surface:      #FFFFFF;
+    --color-text:         #062019;
+    --color-text-muted:   #4B5563;
+    --color-border:       #E5E7EB;
+    --color-success:      #10B981;
+    --color-highlight:    #F59E0B;
 
-    /* ── shadcn/ui HSL tokens ── */
-    --background: 35 39% 83%;       /* Bone */
-    --foreground: 86 28% 16%;       /* Dark Kombu */
-    --card: 33 38% 90%;             /* Light Bone */
-    --card-foreground: 86 28% 16%;
-    --popover: 33 38% 90%;
-    --popover-foreground: 86 28% 16%;
-    --primary: 84 28% 20%;          /* Kombu Green */
-    --primary-foreground: 35 39% 83%;
-    --secondary: 42 33% 20%;        /* Café Noir */
-    --secondary-foreground: 35 39% 90%;
-    --muted: 38 36% 71%;            /* Tan */
-    --muted-foreground: 35 14% 37%;
-    --accent: 71 19% 48%;           /* Moss Green */
-    --accent-foreground: 86 28% 16%;
+    /* ── shadcn/ui HSL tokens (Vibrant) ── */
+    --background: 60 9% 98%;        /* Linen */
+    --foreground: 164 86% 8%;       /* Deepest Emerald */
+    --card: 0 0% 100%;
+    --card-foreground: 164 86% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 164 86% 8%;
+    --primary: 164 86% 16%;         /* Emerald 900 */
+    --primary-foreground: 164 20% 98%;
+    --secondary: 161 94% 30%;       /* Emerald 700 */
+    --secondary-foreground: 164 20% 98%;
+    --muted: 158 42% 94%;           /* Light Sage */
+    --muted-foreground: 164 15% 40%;
+    --accent: 161 84% 39%;          /* Emerald 500 */
+    --accent-foreground: 164 86% 8%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 38 36% 71%;           /* Tan */
-    --input: 38 36% 71%;
-    --ring: 84 28% 20%;             /* Kombu */
+    --border: 158 20% 90%;
+    --input: 158 20% 90%;
+    --ring: 164 86% 16%;
     --radius: 0.75rem;
 
-    --sidebar-background: 84 28% 20%;
-    --sidebar-foreground: 35 39% 90%;
-    --sidebar-primary: 42 33% 20%;
-    --sidebar-primary-foreground: 35 39% 90%;
-    --sidebar-accent: 84 22% 28%;
-    --sidebar-accent-foreground: 35 39% 90%;
-    --sidebar-border: 84 20% 28%;
-    --sidebar-ring: 42 33% 20%;
+    --sidebar-background: 164 86% 12%;
+    --sidebar-foreground: 164 20% 98%;
+    --sidebar-primary: 161 94% 20%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 164 40% 18%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 164 40% 18%;
+    --sidebar-ring: 161 94% 20%;
   }
 
   .dark {
-    --background: 84 20% 6%;
-    --foreground: 35 30% 90%;
-    --card: 84 18% 10%;
-    --card-foreground: 35 30% 90%;
-    --popover: 84 18% 10%;
-    --popover-foreground: 35 30% 90%;
-    --primary: 35 39% 83%;
-    --primary-foreground: 84 28% 20%;
-    --secondary: 42 33% 30%;
-    --secondary-foreground: 35 39% 90%;
-    --muted: 84 15% 15%;
-    --muted-foreground: 35 15% 55%;
-    --accent: 71 19% 35%;
-    --accent-foreground: 35 39% 90%;
+    --background: 164 86% 4%;
+    --foreground: 164 20% 98%;
+    --card: 164 86% 6%;
+    --card-foreground: 164 20% 98%;
+    --popover: 164 86% 6%;
+    --popover-foreground: 164 20% 98%;
+    --primary: 161 94% 45%;
+    --primary-foreground: 164 86% 4%;
+    --secondary: 161 94% 25%;
+    --secondary-foreground: 164 20% 98%;
+    --muted: 164 40% 12%;
+    --muted-foreground: 164 15% 65%;
+    --accent: 161 84% 30%;
+    --accent-foreground: 164 20% 98%;
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 100%;
-    --border: 84 15% 18%;
-    --input: 84 15% 18%;
-    --ring: 35 39% 83%;
-    --sidebar-background: 84 20% 8%;
-    --sidebar-foreground: 35 30% 90%;
-    --sidebar-primary: 42 33% 30%;
-    --sidebar-primary-foreground: 35 39% 90%;
-    --sidebar-accent: 84 15% 15%;
-    --sidebar-accent-foreground: 35 30% 90%;
-    --sidebar-border: 84 15% 18%;
-    --sidebar-ring: 42 33% 30%;
+    --border: 164 40% 15%;
+    --input: 164 40% 15%;
+    --ring: 161 94% 45%;
+    --sidebar-background: 164 86% 3%;
+    --sidebar-foreground: 164 20% 98%;
+    --sidebar-primary: 161 94% 45%;
+    --sidebar-primary-foreground: 164 86% 3%;
+    --sidebar-accent: 164 40% 10%;
+    --sidebar-accent-foreground: 164 20% 98%;
+    --sidebar-border: 164 40% 12%;
+    --sidebar-ring: 161 94% 45%;
   }
 }
 

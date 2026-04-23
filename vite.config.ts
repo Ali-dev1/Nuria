@@ -6,7 +6,7 @@ import path from "node:path";
  * Custom Vite plugin: converts the render-blocking <link rel="stylesheet">
  * into a non-render-blocking async load pattern. This lets the browser paint
  * our static HTML hero (in index.html) immediately without waiting for CSS.
- * 
+ *
  * Technique: media="print" with onload swap to "all"
  * Fallback: <noscript> with blocking stylesheet for non-JS environments
  */
@@ -33,6 +33,15 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+  },
+  test: {
+    exclude: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/tests/**",
+      "**/*.spec.ts",
+      "**/*.e2e.ts",
+    ],
   },
   plugins: [react(), asyncCssPlugin()].filter(Boolean),
   resolve: {

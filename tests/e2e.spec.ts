@@ -10,9 +10,9 @@ import { test, expect, Page } from '@playwright/test';
 const BASE_URL = 'http://localhost:8080';
 
 const TEST_USERS = {
-  admin: { email: 'admin@nuria.com', password: 'your_admin_password' },
-  vendor: { email: 'vendor@nuria.com', password: 'your_vendor_password' },
-  customer: { email: 'customer@nuria.com', password: 'your_customer_password' },
+  admin: { email: process.env.TEST_ADMIN_EMAIL || 'admin@nuria.com', password: process.env.TEST_ADMIN_PASSWORD || 'your_admin_password' },
+  vendor: { email: process.env.TEST_VENDOR_EMAIL || 'vendor@nuria.com', password: process.env.TEST_VENDOR_PASSWORD || 'your_vendor_password' },
+  customer: { email: process.env.TEST_CUSTOMER_EMAIL || 'customer@nuria.com', password: process.env.TEST_CUSTOMER_PASSWORD || 'your_customer_password' },
 };
 
 // ============================================
@@ -152,12 +152,12 @@ test.describe('Gift Card Page', () => {
 
   test('Gift card denomination buttons render', async ({ page }) => {
     await page.goto(`${BASE_URL}/gift-card`);
-    // GiftCardPage.tsx line 54: [1000, 2500, 5000, 10000] denomination buttons
-    // Use getByRole('button') to avoid matching description text
-    await expect(page.getByRole('button', { name: /1,000/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /2,500/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /5,000/ })).toBeVisible();
-    await expect(page.getByRole('button', { name: /10,000/ }).first()).toBeVisible();
+    // GiftCardPage.tsx line 54: [10000, 20000, 30000, 50000] denomination buttons
+    // Use aria-label for reliable selection
+    await expect(page.getByRole('radio', { name: /10,000 Kenyan Shillings/ })).toBeVisible();
+    await expect(page.getByRole('radio', { name: /20,000 Kenyan Shillings/ })).toBeVisible();
+    await expect(page.getByRole('radio', { name: /30,000 Kenyan Shillings/ })).toBeVisible();
+    await expect(page.getByRole('radio', { name: /50,000 Kenyan Shillings/ })).toBeVisible();
   });
 
   test('Gift card purchase button renders', async ({ page }) => {

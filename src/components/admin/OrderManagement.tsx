@@ -76,7 +76,10 @@ export const OrderManagement = () => {
     if (error) {
       toast({ title: "Operation Failed", description: error.message, variant: "destructive" });
     } else {
-      invalidate(["admin", "orders"]);
+      // Aggressive multi-level invalidation to force UI update
+      await queryClient.invalidateQueries({ queryKey: ["admin", "orders"] });
+      await queryClient.refetchQueries({ queryKey: ["admin", "orders"] });
+      
       toast({ title: "Status Synchronized", description: `Registry updated to ${status}.` });
     }
   };

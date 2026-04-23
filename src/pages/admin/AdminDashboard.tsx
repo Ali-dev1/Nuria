@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   Users, Package, ShoppingCart, Store, 
-  Shield, LogOut, LayoutDashboard, FileText, Settings, Menu, X, Search, PanelLeftClose, PanelLeft
+  Shield, LogOut, Activity, FileText, Settings, Menu, X, Search, ChevronLeft, ChevronRight
 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/authStore";
@@ -42,7 +42,7 @@ const AdminDashboard = () => {
   }, [user, navigate, toast]);
 
   const navItems = [
-    { id: "overview", label: "Dashboard", icon: LayoutDashboard },
+    { id: "overview", label: "Dashboard", icon: Activity },
     { id: "products", label: "Inventory", icon: Package },
     { id: "orders", label: "Orders", icon: ShoppingCart },
     { id: "users", label: "Customers", icon: Users },
@@ -77,25 +77,30 @@ const AdminDashboard = () => {
           {/* Sidebar Background Gradient Decoration */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-[100px] pointer-events-none" />
           
-          <div className={`p-6 flex items-center h-20 ${isSidebarCollapsed ? "justify-center" : "justify-between"}`}>
-            {isSidebarCollapsed ? (
-              <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10 shadow-lg">
-                <Shield className="w-6 h-6 text-white" />
+          <div className={`p-6 flex items-center h-24 ${isSidebarCollapsed ? "justify-center" : "justify-between"}`}>
+            <div className="flex items-center gap-4">
+              <div 
+                onClick={() => isSidebarCollapsed && setIsSidebarCollapsed(false)}
+                className={`w-12 h-12 rounded-[1.25rem] bg-white/10 flex items-center justify-center border border-white/10 shadow-lg overflow-hidden p-2 shrink-0 ${isSidebarCollapsed ? "cursor-pointer hover:bg-white/20 transition-all" : ""}`}
+              >
+                <img src="/logo-small.webp" alt="Nuria" className="w-full h-auto brightness-0 invert" />
               </div>
-            ) : (
-              <div className="space-y-1">
-                <h1 className="text-2xl font-black tracking-tighter text-white font-display leading-none">
-                  NURIA <span className="text-primary-foreground/40 text-[10px] font-mono block uppercase tracking-[0.3em] mt-1">Admin</span>
-                </h1>
-              </div>
+              {!isSidebarCollapsed && (
+                <div className="flex flex-col">
+                  <span className="text-sm font-black tracking-widest text-white uppercase leading-none">Portal</span>
+                  <span className="text-[9px] text-white/40 font-mono uppercase tracking-[0.2em] mt-1">Registry Console</span>
+                </div>
+              )}
+            </div>
+            {!isSidebarCollapsed && (
+              <button 
+                onClick={() => setIsSidebarCollapsed(true)} 
+                className="p-2 hover:bg-white/10 rounded-xl text-white/40 hover:text-white transition-all ml-2"
+                title="Collapse menu"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
             )}
-            <button 
-              onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
-              className="hidden lg:flex p-2 hover:bg-white/10 rounded-xl text-white/40 hover:text-white transition-all"
-              title={isSidebarCollapsed ? "Expand menu" : "Collapse menu"}
-            >
-              {isSidebarCollapsed ? <PanelLeft className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
-            </button>
           </div>
           
           <nav className="flex-1 px-4 space-y-2 mt-8 overflow-y-auto no-scrollbar">
@@ -140,7 +145,9 @@ const AdminDashboard = () => {
               {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
             <div>
-              <h2 className="text-2xl font-black text-primary capitalize tracking-tight">{tab.replace("-", " ")}</h2>
+              <h2 className="text-2xl font-black text-primary capitalize tracking-tight">
+                {tab === "overview" ? "Overview" : tab.replace("-", " ")}
+              </h2>
             </div>
           </div>
           
@@ -158,9 +165,9 @@ const AdminDashboard = () => {
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg p-2">
                 <img src="/logo-small.webp" alt="Nuria" className="w-full h-auto object-contain brightness-0 invert" />
               </div>
-              <div className="flex flex-col">
-                <p className="text-sm font-bold text-primary leading-none">{user?.email?.split("@")[0]}</p>
-                <p className="text-[9px] text-primary/60 uppercase tracking-widest font-bold mt-0.5">Admin</p>
+              <div className="flex flex-col items-end">
+                <p className="text-sm font-black text-primary leading-none uppercase tracking-tighter">Overview</p>
+                <p className="text-[9px] text-primary/60 uppercase tracking-widest font-bold mt-0.5">Admin Control</p>
               </div>
             </div>
           </div>

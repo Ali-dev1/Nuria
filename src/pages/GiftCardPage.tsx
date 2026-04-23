@@ -62,10 +62,14 @@ const GiftCardPage = () => {
               <p className="font-sans text-muted-foreground text-lg">Select a value or enter a custom amount to share the joy of literature.</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4" role="group" aria-label="Gift card denominations">
               {[10000, 20000, 30000, 50000].map((val) => (
-                <button 
-                  key={val} 
+                <button
+                  key={val}
+                  type="button"
+                  role="radio"
+                  aria-checked={amount === val && !customAmount}
+                  aria-label={`${val.toLocaleString()} Kenyan Shillings gift card`}
                   onClick={() => {
                     setAmount(val);
                     setCustomAmount("");

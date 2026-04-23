@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Grid, ShoppingBag, User } from "lucide-react";
+import { Home, Book, ShoppingBag, User } from "lucide-react";
 import { useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
@@ -13,7 +13,7 @@ export const BottomNav = () => {
 
   const navItems = [
     { label: "Home", icon: Home, path: "/", type: "link" },
-    { label: "Categories", icon: Grid, type: "button", onClick: () => setDrawerOpen(true) },
+    { label: "Categories", icon: Book, type: "button", onClick: () => setDrawerOpen(true) },
     { label: "Cart", icon: ShoppingBag, path: "/cart", type: "link", badge: totalItems },
     { label: "Account", icon: User, path: user ? "/account" : "/login", type: "link" },
   ];
