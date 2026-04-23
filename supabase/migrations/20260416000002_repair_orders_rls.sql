@@ -1,4 +1,4 @@
--- 🛠️ Order & Checkout Security Repair
+-- Order & Checkout Security Repair
 -- Ensures users can create orders and manage related data during the checkout flow.
 
 -- 1. Orders Policies

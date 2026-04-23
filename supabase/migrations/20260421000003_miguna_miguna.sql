@@ -1,4 +1,4 @@
--- 🛠️ Author Spotlight Fix: Miguna Miguna
+-- Author Spotlight Fix: Miguna Miguna
 -- This version uses ON CONFLICT to prevent duplicate key errors and ensures Miguna is first.
 
 -- 1. Insert or Update Miguna Miguna

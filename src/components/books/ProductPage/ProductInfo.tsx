@@ -43,7 +43,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
       )}
 
       <div className="flex items-center gap-2 text-sm text-primary bg-green-100 px-4 py-2.5 rounded-lg font-sans">
-        🎁 You'll earn <span className="font-bold">{loyaltyPoints} loyalty points</span> on this purchase
+        You'll earn <span className="font-bold">{loyaltyPoints} loyalty points</span> on this purchase
       </div>
 
       <div className="flex gap-3">

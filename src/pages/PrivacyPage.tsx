@@ -9,7 +9,7 @@ const PrivacyPage = () => {
       subtitle="Your privacy is critically important to us. Learn how we collect, use, and protect your personal information at Nuria Store."
     >
       <div className="space-y-20">
-        {/* 🗓️ Status Header */}
+        {/* Status Header */}
         <section className="bg-primary p-10 lg:p-14 rounded-[3rem] text-white relative overflow-hidden shadow-2xl">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-bl-[200px]" />
           <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
@@ -25,7 +25,7 @@ const PrivacyPage = () => {
           </div>
         </section>
 
-        {/* 🛡️ Core Sections */}
+        {/* Core Sections */}
         <div className="grid lg:grid-cols-2 gap-10">
           <div className="bg-white p-10 lg:p-12 rounded-[3rem] border border-border space-y-8 shadow-sm">
             <div className="flex items-center gap-4">
@@ -52,7 +52,7 @@ const PrivacyPage = () => {
           </div>
         </div>
 
-        {/* ✉️ Communications & Cookies */}
+        {/* Communications & Cookies */}
         <section className="bg-background p-12 lg:p-20 rounded-[4rem] border border-border">
           <div className="grid lg:grid-cols-2 gap-20">
             <div className="space-y-6">
@@ -79,7 +79,7 @@ const PrivacyPage = () => {
           </div>
         </section>
 
-        {/* 📞 Contact Section */}
+        {/* Contact Section */}
         <section className="text-center max-w-2xl mx-auto space-y-8">
           <div className="w-20 h-20 rounded-full bg-background border border-border flex items-center justify-center mx-auto mb-8">
             <Globe className="w-8 h-8 text-secondary" />

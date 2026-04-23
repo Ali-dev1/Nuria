@@ -1,4 +1,4 @@
--- 🛠️ NURIA ULTIMATE REPAIR SCRIPT (V5)
+-- NURIA ULTIMATE REPAIR SCRIPT (V5)
 -- Safe to run multiple times. Fixes: Redirection, 403 Forbidden, 400 Join Errors.
 
 -- 1. Identity & Admin Setup

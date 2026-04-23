@@ -1,4 +1,4 @@
--- 📚 Authors and Reviews Schema Migration
+-- Authors and Reviews Schema Migration
 
 -- 1. Create Authors Table
 CREATE TABLE IF NOT EXISTS public.authors (

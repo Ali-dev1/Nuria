@@ -9,7 +9,7 @@ const AboutPage = () => {
       subtitle="Discover how a passion for literature evolved into Kenya's premier digital bookstore and a vibrant community for African authors."
     >
       <div className="space-y-24">
-        {/* ✨ Hero Section with Stats Overlay */}
+        {/* Hero Section with Stats Overlay */}
         <section className="relative">
           <div className="bg-primary rounded-[3rem] p-12 lg:p-20 text-white overflow-hidden relative min-h-[500px] flex items-center shadow-2xl">
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-48 -mt-48 blur-3xl pointer-events-none" />
@@ -56,7 +56,7 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* 📖 The Narrative Timeline */}
+        {/* The Narrative Timeline */}
         <section className="pt-20 lg:pt-32">
           <div className="grid lg:grid-cols-12 gap-16 items-start">
             <div className="lg:col-span-5 lg:sticky lg:top-32">
@@ -107,7 +107,7 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* 🏔️ Core Values */}
+        {/* Core Values */}
         <section className="bg-white rounded-[4rem] p-12 lg:p-20 border border-border">
           <div className="text-center mb-16">
             <h2 className="font-display text-4xl font-bold text-foreground">Our Core Values</h2>

@@ -10,7 +10,7 @@ const ReturnsPage = () => {
       subtitle="We want you to love your books. If something isn't right, we've made our return and exchange process simple and transparent."
     >
       <div className="space-y-24">
-        {/* 📋 Main Policy Intro */}
+        {/* Main Policy Intro */}
         <section className="bg-white p-10 lg:p-16 rounded-[3rem] border border-border shadow-2xl shadow-black/5 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-bl-[100px]" />
           <div className="flex flex-col lg:flex-row gap-12 items-center">
@@ -27,7 +27,7 @@ const ReturnsPage = () => {
           </div>
         </section>
 
-        {/* 🛠️ How it Works */}
+        {/* How it Works */}
         <div className="grid lg:grid-cols-2 gap-10">
           <div className="p-12 rounded-[2.5rem] bg-white border border-border space-y-8 shadow-sm hover:border-primary/20 transition-all group">
             <div className="flex items-center gap-4">
@@ -65,7 +65,7 @@ const ReturnsPage = () => {
           </div>
         </div>
 
-        {/* 📦 Shipping & Process */}
+        {/* Shipping & Process */}
         <div className="bg-background rounded-[3rem] p-12 lg:p-20 border border-border relative overflow-hidden">
           <div className="grid lg:grid-cols-2 gap-20">
             <div className="space-y-8">

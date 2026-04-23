@@ -102,7 +102,7 @@ const FAQsPage = () => {
           </div>
         ))}
 
-        {/* 📞 Still need help? */}
+        {/* Still need help? */}
         <div className="bg-primary rounded-[2.5rem] p-12 text-center text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl" />
           <h3 className="font-display text-3xl font-bold mb-4 relative z-10">Still have questions?</h3>

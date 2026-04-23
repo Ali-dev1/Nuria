@@ -1,4 +1,4 @@
--- 🛒 AUTOMATED INVENTORY & LOYALTY TRIGGERS (REFINED)
+-- AUTOMATED INVENTORY & LOYALTY TRIGGERS (REFINED)
 -- Synchronized with current codebase column names and types.
 
 -- 1. Inventory Management Trigger

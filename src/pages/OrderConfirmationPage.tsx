@@ -52,7 +52,7 @@ const OrderConfirmationPage = () => {
         </div>
         {order?.loyalty_points_earned && order.loyalty_points_earned > 0 && (
           <div className="flex items-center gap-3 text-xs font-sans font-bold text-primary bg-green-100 px-4 py-3 rounded-xl mt-2">
-            🎁 You earned {order.loyalty_points_earned} loyalty points!
+            You earned {order.loyalty_points_earned} loyalty points!
           </div>
         )}
       </div>

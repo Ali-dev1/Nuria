@@ -1,4 +1,4 @@
--- 🛠️ FIX LOYALTY CONSTRAINT MISMATCH
+-- FIX LOYALTY CONSTRAINT MISMATCH
 -- This script updates the allowed values for loyalty transaction types to match the frontend code.
 
 -- 1. Drop the old constraint

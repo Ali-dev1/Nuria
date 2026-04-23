@@ -10,7 +10,7 @@ const ContactPage = () => {
       subtitle="Have questions about a book, an order, or selling on the marketplace? Our team is here to help you every step of the way."
     >
       <div className="grid lg:grid-cols-2 gap-16 items-start">
-        {/* 📍 Left: Connection Details */}
+        {/* Left: Connection Details */}
         <div className="space-y-12">
           <div className="space-y-6">
             <h2 className="font-display text-4xl font-bold text-foreground">Visit Our Store</h2>
@@ -78,7 +78,7 @@ const ContactPage = () => {
           </a>
         </div>
 
-        {/* ✉️ Right: Map & Form Container */}
+        {/* Right: Map & Form Container */}
         <div className="space-y-12">
           {/* Integrated Map */}
           <div className="h-[300px] bg-white rounded-[2.5rem] overflow-hidden border border-border relative shadow-2xl shadow-black/5 group">

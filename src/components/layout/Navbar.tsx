@@ -66,7 +66,7 @@ export const Navbar = () => {
       {showAnnouncement && (
         <div className="bg-secondary text-white text-[12px] font-sans font-medium py-2 px-4 relative z-[51]">
           <div className="container-nuria flex items-center justify-between">
-            <span className="text-left">🚚 Enjoy free delivery within Nairobi for orders above KSh 10,000 | 📞 0794 233 261</span>
+            <span className="text-left">Enjoy free delivery within Nairobi for orders above KSh 10,000 | 0794 233 261</span>
             <button onClick={dismissAnnouncement} className="p-1 hover:bg-white/10 rounded-full transition-colors shrink-0" aria-label="Dismiss">
               <X className="w-4 h-4" />
             </button>

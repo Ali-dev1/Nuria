@@ -9,7 +9,7 @@ const DeliveryPage = () => {
       subtitle="Fast, reliable, and trackable. We deliver your next great read right to your doorstep, across Kenya and worldwide."
     >
       <div className="space-y-20">
-        {/* 🚀 Feature Highlights */}
+        {/* Feature Highlights */}
         <div className="grid md:grid-cols-2 gap-10">
           <div className="bg-primary p-10 lg:p-14 rounded-[3rem] text-white relative overflow-hidden group shadow-2xl shadow-black/5">
             <div className="absolute inset-0 opacity-10 bg-[url('/grid-pattern.svg')] bg-repeat" />
@@ -38,7 +38,7 @@ const DeliveryPage = () => {
           </div>
         </div>
 
-        {/* 📦 Shipping Tiers */}
+        {/* Shipping Tiers */}
         <div className="grid sm:grid-cols-3 gap-6">
           {[
             { 
@@ -71,7 +71,7 @@ const DeliveryPage = () => {
           ))}
         </div>
 
-        {/* 💸 Rates Table Section */}
+        {/* Rates Table Section */}
         <div className="space-y-12">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="max-w-md text-center lg:text-left">
@@ -81,7 +81,7 @@ const DeliveryPage = () => {
             
             <div className="bg-green-100 border border-primary/10 px-8 py-6 rounded-3xl flex items-center gap-4 shadow-xl shadow-primary/5">
               <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
-                <span className="font-bold text-lg">✨</span>
+                <span className="font-bold text-lg"></span>
               </div>
               <div>
                 <p className="font-sans font-bold text-primary">Free Delivery Offer</p>
@@ -120,7 +120,7 @@ const DeliveryPage = () => {
           </div>
         </div>
 
-        {/* 🛡️ Guarantee Box */}
+        {/* Guarantee Box */}
         <div className="bg-primary rounded-[3rem] p-12 lg:p-20 text-white relative overflow-hidden text-center shadow-2xl">
           <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -mr-40 -mt-40 blur-3xl pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto space-y-8">

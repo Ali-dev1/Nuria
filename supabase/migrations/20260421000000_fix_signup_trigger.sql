@@ -1,4 +1,4 @@
--- 🛠️ DIAGNOSTIC: FIX SIGNUP 500 ERROR
+-- DIAGNOSTIC: FIX SIGNUP 500 ERROR
 -- This script simplifies the new user trigger to ensure it doesn't fail due to missing columns.
 
 CREATE OR REPLACE FUNCTION public.handle_new_user()

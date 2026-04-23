@@ -164,7 +164,7 @@ const CartPage = () => {
             <span className="text-lg">{formatPrice(total)}</span>
           </div>
           <div className="text-[11px] font-sans font-medium text-primary bg-green-100 px-3 py-2.5 rounded-lg flex items-center justify-center gap-2">
-            🎁 You'll earn {loyaltyEarned} loyalty points
+            You'll earn {loyaltyEarned} loyalty points
           </div>
           <Link
             to="/checkout"

@@ -15,7 +15,7 @@ INSERT INTO public.platform_settings (key, value) VALUES
 ('free_delivery_threshold', '3000'),
 ('contact_email', 'nuriakenyabookstore@gmail.com'),
 ('contact_phone', '0794 233261 / 0729 829697'),
-('announcement_text', 'Free delivery on orders over KSh 3,000 🚚'),
+('announcement_text', 'Free delivery on orders over KSh 3,000'),
 ('announcement_enabled', 'true')
 ON CONFLICT (key) DO NOTHING;
 

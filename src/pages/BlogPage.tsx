@@ -103,7 +103,7 @@ const BlogPage = () => {
       subtitle="Deep dives into Kenyan literature, habit-changing guides, and curated book recommendations for the modern reader."
     >
       <div className="space-y-16">
-        {/* 🏷️ Filter Tabs */}
+        {/* Filter Tabs */}
         <div className="flex flex-wrap items-center gap-4 border-b border-border pb-6">
           <span className="font-sans text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] mr-4">Filter By</span>
           {["ALL", "BOOK REVIEWS", "RECOMMENDATIONS"].map((cat) => (
@@ -121,10 +121,10 @@ const BlogPage = () => {
           ))}
         </div>
 
-        {/* 📰 Blog Grid */}
+        {/* Blog Grid */}
         {renderBlogGrid()}
 
-        {/* 📚 Load More Placeholder */}
+        {/* Load More Placeholder */}
         <div className="pt-20 text-center border-t border-border">
           <p className="font-sans text-muted-foreground italic mb-8">You've reached the end of the current entries. Check back for fresh insights weekly.</p>
           <button className="px-12 py-5 bg-background border border-border rounded-2xl font-sans font-bold text-foreground text-[11px] uppercase tracking-widest hover:bg-primary hover:text-white transition-all shadow-sm">

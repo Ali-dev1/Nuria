@@ -1,4 +1,4 @@
--- 📈 Posts Analytics Expansion
+-- Posts Analytics Expansion
 
 -- 1. Add views and read_time to posts table
 ALTER TABLE public.posts 

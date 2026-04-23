@@ -10,7 +10,7 @@ const VendorGuidePage = () => {
       subtitle="Join Kenya's most forward-thinking digital marketplace for literature. We empower authors and publishers to reach their readers directly."
     >
       <div className="space-y-24">
-        {/* 🚀 Partnership Value Prop */}
+        {/* Partnership Value Prop */}
         <section className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
             <h2 className="font-display text-4xl lg:text-5xl font-bold text-foreground leading-tight">
@@ -55,7 +55,7 @@ const VendorGuidePage = () => {
           </div>
         </section>
 
-        {/* 🗺️ 6-Step Roadmap */}
+        {/* 6-Step Roadmap */}
         <section className="space-y-16">
           <div className="text-center space-y-4">
             <span className="font-sans text-[12px] font-bold text-secondary tracking-[0.3em] uppercase">The Roadmap</span>
@@ -125,7 +125,7 @@ const VendorGuidePage = () => {
           </div>
         </section>
 
-        {/* 📚 Merchant Requirements Grid */}
+        {/* Merchant Requirements Grid */}
         <section className="bg-background rounded-[4rem] p-12 lg:p-20 border border-border">
           <div className="grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-5 space-y-8">
