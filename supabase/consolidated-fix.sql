@@ -192,6 +192,20 @@ DROP POLICY IF EXISTS "user_roles_delete" ON public.user_roles;
 CREATE POLICY "user_roles_delete" ON public.user_roles FOR DELETE TO authenticated USING (true);
 
 -- ==========================================
+-- PLATFORM SETTINGS POLICIES (CRITICAL - Enables settings page)
+-- ==========================================
+ALTER TABLE public.platform_settings ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "platform_settings_select" ON public.platform_settings;
+CREATE POLICY "platform_settings_select" ON public.platform_settings FOR SELECT TO authenticated USING (true);
+
+DROP POLICY IF EXISTS "platform_settings_upsert" ON public.platform_settings;
+CREATE POLICY "platform_settings_upsert" ON public.platform_settings FOR UPDATE TO authenticated USING (true);
+
+DROP POLICY IF EXISTS "platform_settings_insert" ON public.platform_settings;
+CREATE POLICY "platform_settings_insert" ON public.platform_settings FOR INSERT TO authenticated WITH CHECK (true);
+
+-- ==========================================
 -- ONBOARDING TRIGGER
 -- ==========================================
 CREATE OR REPLACE FUNCTION public.handle_new_user()
