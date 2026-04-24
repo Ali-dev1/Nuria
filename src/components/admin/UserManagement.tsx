@@ -4,6 +4,9 @@ import { useAdminUsers } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { Tables } from "@/integrations/supabase/types";
+
+type DbProfile = Tables<"profiles">;
 
 export const UserManagement = () => {
   const { toast } = useToast();
@@ -14,24 +17,10 @@ export const UserManagement = () => {
 
   const { data: usersData, isLoading } = useAdminUsers();
 
-  const invalidate = (key: any[]) => queryClient.invalidateQueries({ queryKey: key });
-
-  const changeUserRole = async (userId: string, role: string) => {
-    const { error } = await supabase
-      .from("profiles")
-      .update({ role: role as "customer" | "vendor" | "admin" })
-      .eq("user_id", userId);
-    
-    if (error) {
-      toast({ title: "Operation Failed", description: error.message, variant: "destructive" });
-    } else {
-      invalidate(["admin", "users"]);
-      toast({ title: `Identity Updated`, description: `User promoted to ${role}.` });
-    }
-  };
+const invalidate = (key: string[]) => queryClient.invalidateQueries({ queryKey: key });
 
   const users = usersData?.data || [];
-  const filteredUsers = (users || []).filter((u: any) => {
+  const filteredUsers = (users || []).filter((u: DbProfile) => {
     const role = u.role || "customer";
     const matchesSearch = u.email?.toLowerCase().includes(userSearch.toLowerCase()) || 
                           u.name?.toLowerCase().includes(userSearch.toLowerCase());
@@ -111,7 +100,7 @@ export const UserManagement = () => {
                    </tr>
                  ))
               ) : (
-                filteredUsers.map((u: any) => {
+                filteredUsers.map((u: DbProfile) => {
                   const role = u.role || "customer";
                   const isExpanded = expandedUser === u.user_id;
                   return (

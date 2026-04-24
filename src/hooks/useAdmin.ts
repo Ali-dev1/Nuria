@@ -74,11 +74,21 @@ export const useAdminProducts = (options: { search?: string, page: number, pageS
   });
 };
 
-export const useAdminOrders = (options?: { limit?: number, page?: number, pageSize?: number }) => {
+export const useAdminOrders = (options?: { 
+  limit?: number, 
+  page?: number, 
+  pageSize?: number,
+  status?: "all" | "pending" | "confirmed" | "shipped" | "delivered" | "cancelled"
+}) => {
   return useQuery({
     queryKey: ["admin", "orders", options],
     queryFn: async () => {
       let query = supabase.from("orders").select("*", { count: "exact" });
+      
+      // Apply status filter if specified
+      if (options?.status && options.status !== "all") {
+        query = query.eq("status", options.status);
+      }
       
       if (options?.page !== undefined && options?.pageSize !== undefined) {
         const from = (options.page - 1) * options.pageSize;
@@ -103,7 +113,6 @@ export const useAdminOrders = (options?: { limit?: number, page?: number, pageSi
 
       if (profilesError) {
         console.error("Error fetching profiles for orders:", profilesError);
-        // Return orders anyway, just without profile info
         return { data: orders, count };
       }
 

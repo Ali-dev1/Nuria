@@ -37,8 +37,7 @@ design.md
 dev_log_backup/
 scratch/
 
-# Playwright Tests and Results
-tests/
+# Playwright Results (keep test source files)
 test-results/
 playwright-report/
 blob-report/

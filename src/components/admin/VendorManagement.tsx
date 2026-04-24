@@ -27,8 +27,7 @@ export const VendorManagement = () => {
     try {
       const { error: vendorError } = await supabase.from("vendors").update({ 
         is_verified: verify,
-        status: verify ? "active" : "rejected",
-        admin_notes: verify ? null : rejectReason
+        status: verify ? "active" : "rejected"
       } as Partial<Tables<"vendors">>).eq("id", id);
 
       if (vendorError) throw vendorError;
@@ -123,7 +122,7 @@ export const VendorManagement = () => {
             const statusConfig: Record<string, { color: string, icon: React.ReactNode }> = {
               active: { color: "bg-green-100 text-green-700 ring-1 ring-green-200", icon: <CheckCircle className="w-3 h-3" /> },
               rejected: { color: "bg-red-100 text-red-700 ring-1 ring-red-200", icon: <XCircle className="w-3 h-3" /> },
-              pending: { color: "bg-amber-100 text-amber-700 ring-1 ring-amber-200 animate-pulse", icon: <AlertCircle className="w-3 h-3" /> },
+              pending: { color: "bg-amber-100 text-amber-700 ring-1 ring-amber-200", icon: <AlertCircle className="w-3 h-3" /> },
             };
             const config = statusConfig[v.status || "pending"] || statusConfig.pending;
             return (

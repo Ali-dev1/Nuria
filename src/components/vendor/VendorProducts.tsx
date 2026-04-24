@@ -4,9 +4,26 @@ import { Link } from "react-router-dom";
 import { formatPrice, CATEGORIES } from "@/lib/constants";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
+import type { Tables } from "@/integrations/supabase/types";
+
+type DbProduct = Tables<"products">;
+
+interface EditForm {
+  title: string;
+  author: string;
+  price: number;
+  original_price: number | null;
+  stock: number;
+  category: string;
+  format: string;
+  isbn: string;
+  description: string;
+  is_active: boolean;
+  images: string[] | null;
+}
 
 interface VendorProductsProps {
-  products: any[];
+  products: DbProduct[];
   onRefresh: () => void;
 }
 
@@ -14,7 +31,19 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
   const { toast } = useToast();
   const [search, setSearch] = useState("");
   const [editingProduct, setEditingProduct] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState<any>({});
+  const [editForm, setEditForm] = useState<EditForm>({
+    title: "",
+    author: "",
+    price: 0,
+    original_price: null,
+    stock: 0,
+    category: "",
+    format: "",
+    isbn: "",
+    description: "",
+    is_active: true,
+    images: null,
+  });
   const [uploading, setUploading] = useState(false);
 
   const filteredProducts = products.filter((p) => 
@@ -33,9 +62,21 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
     onRefresh();
   };
 
-  const startEdit = (p: any) => {
+  const startEdit = (p: DbProduct) => {
     setEditingProduct(p.id);
-    setEditForm({ ...p });
+    setEditForm({
+      title: p.title,
+      author: p.author || "",
+      price: p.price,
+      original_price: p.original_price,
+      stock: p.stock ?? 0,
+      category: p.category,
+      format: p.format || "",
+      isbn: p.isbn || "",
+      description: p.description || "",
+      is_active: p.is_active ?? true,
+      images: p.images,
+    });
   };
 
   const saveEdit = async () => {
@@ -230,20 +271,20 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
                 <div className="sm:col-span-3 space-y-6">
                   <div className="space-y-2">
                     <label htmlFor="vp-title" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Product Title</label>
-                    <input id="vp-title" value={editForm.title || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-bold" />
+                    <input id="vp-title" value={editForm.title || ""} onChange={(e) => setEditForm((f: EditForm) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-bold" />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="vp-author" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Author / Creator</label>
-                    <input id="vp-author" value={editForm.author || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, author: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
+                    <input id="vp-author" value={editForm.author || ""} onChange={(e) => setEditForm((f: EditForm) => ({ ...f, author: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all font-medium" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label htmlFor="vp-price" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Price (KES)</label>
-                      <input id="vp-price" type="number" value={editForm.price ?? ""} onChange={(e) => setEditForm((f: any) => ({ ...f, price: Number(e.target.value) }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-black" />
+                      <input id="vp-price" type="number" value={editForm.price ?? ""} onChange={(e) => setEditForm((f: EditForm) => ({ ...f, price: Number(e.target.value) }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-black" />
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="vp-stock" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">In-Stock</label>
-                      <input id="vp-stock" type="number" value={editForm.stock ?? ""} onChange={(e) => setEditForm((f: any) => ({ ...f, stock: Number(e.target.value) }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-black" />
+                      <input id="vp-stock" type="number" value={editForm.stock ?? ""} onChange={(e) => setEditForm((f: EditForm) => ({ ...f, stock: Number(e.target.value) }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-black" />
                     </div>
                   </div>
                 </div>
@@ -252,13 +293,13 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
               <div className="mt-8 space-y-6">
                 <div className="space-y-2">
                   <label htmlFor="vp-cat" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Listing Category</label>
-                  <select id="vp-cat" value={editForm.category || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, category: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-bold appearance-none">
+                  <select id="vp-cat" value={editForm.category || ""} onChange={(e) => setEditForm((f: EditForm) => ({ ...f, category: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-bold appearance-none">
                     {CATEGORIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
                   </select>
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="vp-desc" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Marketing Description</label>
-                  <textarea id="vp-desc" value={editForm.description || ""} onChange={(e) => setEditForm((f: any) => ({ ...f, description: e.target.value }))} rows={4} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all resize-none font-medium" />
+                  <textarea id="vp-desc" value={editForm.description || ""} onChange={(e) => setEditForm((f: EditForm) => ({ ...f, description: e.target.value }))} rows={4} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 transition-all resize-none font-medium" />
                 </div>
               </div>
             </div>

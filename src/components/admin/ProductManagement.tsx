@@ -17,7 +17,7 @@ export const ProductManagement = () => {
 
   const { data: productsData, isLoading } = useAdminProducts({ search: productSearch, page: productPage, pageSize });
 
-  const invalidate = (key: any[]) => queryClient.invalidateQueries({ queryKey: key });
+  const invalidate = (key: string[]) => queryClient.invalidateQueries({ queryKey: key });
 
   const toggleProductStatus = async (id: string, current: boolean) => {
     const { error } = await supabase.from("products").update({ is_active: !current }).eq("id", id);
@@ -42,6 +42,7 @@ export const ProductManagement = () => {
       await supabase.from("products").delete().in("id", selectedProducts);
     } else {
       await supabase.from("products").update({ is_featured: action === "feature" }).in("id", selectedProducts);
+      invalidate(["products"]);
     }
     invalidate(["admin", "products"]);
     setSelectedProducts([]);

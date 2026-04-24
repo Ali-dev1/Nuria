@@ -58,6 +58,7 @@ export const AuthorManagement = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "authors"] });
+      queryClient.invalidateQueries({ queryKey: ["authors"] });
       toast({ title: "Profile Synchronized", description: "Author data has been updated in the registry." });
       setIsModalOpen(false);
       setEditingAuthor(null);
@@ -72,6 +73,7 @@ export const AuthorManagement = () => {
     const { error } = await supabase.from("authors").delete().eq("id", id);
     if (!error) {
       queryClient.invalidateQueries({ queryKey: ["admin", "authors"] });
+      queryClient.invalidateQueries({ queryKey: ["authors"] });
       toast({ title: "Profile Purged" });
     }
   };
@@ -143,7 +145,8 @@ export const AuthorManagement = () => {
                 <ImageUploader 
                   value={editingAuthor?.photo_url} 
                   onChange={(url) => setEditingAuthor(prev => ({ ...prev!, photo_url: url }))}
-                  folder="authors"
+                  bucket="author-photos"
+                  folder="author-portraits"
                 />
               </div>
 

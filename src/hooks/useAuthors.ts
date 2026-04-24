@@ -22,7 +22,7 @@ export const useAuthors = () => {
       if (error) throw error;
       return data as Author[];
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes cache
+    staleTime: 1000 * 60, // 1 minute cache
   });
 };
 

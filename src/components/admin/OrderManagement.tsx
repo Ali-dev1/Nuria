@@ -5,6 +5,7 @@ import { useAdminOrders, useOrderItems } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { Tables } from "@/integrations/supabase/types";
 import {
   Pagination,
   PaginationContent,
@@ -13,6 +14,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+
+type DbOrderItem = Tables<"order_items">;
+type DbOrder = Tables<"orders">;
 
 const statusConfig: Record<string, { color: string, icon: React.ReactNode }> = {
   pending: { color: "bg-amber-100 text-amber-700 ring-1 ring-amber-200", icon: <Clock className="w-3 h-3" /> },
@@ -39,7 +43,7 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
 
   return (
     <div className="space-y-3">
-      {items.map((item: any) => (
+      {items.map((item: DbOrderItem) => (
         <div key={item.id} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-border/50 shadow-sm group hover:border-primary/30 transition-all">
           <div className="flex items-center gap-4">
              <div className="w-10 h-10 rounded-xl bg-muted/30 flex items-center justify-center">
@@ -67,9 +71,9 @@ export const OrderManagement = () => {
   const [orderStatusFilter, setOrderStatusFilter] = useState("all");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   
-  const { data: ordersData, isLoading } = useAdminOrders({ page: orderPage, pageSize: 10 });
+  const { data: ordersData, isLoading } = useAdminOrders({ page: orderPage, pageSize: 10, status: orderStatusFilter as any });
 
-  const invalidate = (key: any[]) => queryClient.invalidateQueries({ queryKey: key });
+  const invalidate = (key: string[]) => queryClient.invalidateQueries({ queryKey: key });
 
   const updateOrderStatus = async (orderId: string, status: string) => {
     const { error } = await supabase.from("orders").update({ status }).eq("id", orderId);
@@ -86,9 +90,9 @@ export const OrderManagement = () => {
 
   const exportOrdersCSV = () => {
     const data = ordersData?.data || [];
-    const filtered = orderStatusFilter === "all" ? data : data.filter((o: any) => o.status === orderStatusFilter);
+    const filtered = orderStatusFilter === "all" ? data : data.filter((o: DbOrder) => o.status === orderStatusFilter);
     const csv = ["Order ID,Date,Total,Status,Payment Method,User ID"];
-    filtered.forEach((o: any) => {
+    filtered.forEach((o: DbOrder) => {
       csv.push(`${o.id},${o.created_at || ""},${o.total},${o.status || "pending"},${o.payment_method || ""},${o.user_id}`);
     });
     const blob = new Blob([csv.join("\n")], { type: "text/csv" });
@@ -112,7 +116,7 @@ export const OrderManagement = () => {
             {["all", "pending", "confirmed", "shipped", "delivered"].map((s) => (
               <button 
                 key={s} 
-                onClick={() => setOrderStatusFilter(s)} 
+                onClick={() => { setOrderStatusFilter(s); setOrderPage(1); }} 
                 className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${
                   orderStatusFilter === s 
                   ? "bg-white text-primary shadow-sm ring-1 ring-border" 
@@ -153,7 +157,7 @@ export const OrderManagement = () => {
                   </tr>
                 ))
               ) : (
-                (ordersData?.data || []).map((o: any) => {
+                (ordersData?.data || []).map((o: DbOrder) => {
                   const isExpanded = expandedOrder === o.id;
                   const currentStatus = o.status || "pending";
                   const config = statusConfig[currentStatus] || statusConfig.pending;

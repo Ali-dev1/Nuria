@@ -7,6 +7,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Tables } from "@/integrations/supabase/types";
 import { useToast } from "@/hooks/use-toast";
 
+type DbOrder = Tables<"orders">;
+type DbProduct = Tables<"products">;
+type DbVendor = Tables<"vendors">;
+
 const statusColors: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700 ring-1 ring-amber-200",
   confirmed: "bg-blue-100 text-blue-700 ring-1 ring-blue-200",
@@ -23,10 +27,10 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const lowStockProducts = (productsData?.products || []).filter((p: any) => (p.stock ?? 0) < 10);
-  const pendingVendors = (vendorsData?.data || []).filter((v: any) => v.status === "pending" || !v.is_verified);
+  const lowStockProducts = (productsData?.products || []).filter((p: DbProduct) => (p.stock ?? 0) < 10);
+  const pendingVendors = (vendorsData?.data || []).filter((v: DbVendor) => v.status === "pending" || !v.is_verified);
 
-  const invalidate = (key: any[]) => queryClient.invalidateQueries({ queryKey: key });
+  const invalidate = (key: string[]) => queryClient.invalidateQueries({ queryKey: key });
 
   const verifyVendor = async (id: string, verify: boolean, userId: string) => {
     const { error: vendorError } = await supabase.from("vendors").update({ 
@@ -56,8 +60,8 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
   const last30 = Array.from({ length: 30 }, (_, i) => {
     const d = new Date(); d.setDate(d.getDate() - (29 - i));
     const dateStr = d.toISOString().split("T")[0];
-    const dayOrders = (ordersData?.data || []).filter((o: any) => o.created_at?.startsWith(dateStr));
-    return { date: d.toLocaleDateString("en-KE", { day: "numeric", month: "short" }), revenue: dayOrders.reduce((s: number, o: any) => s + Number(o.total), 0) };
+    const dayOrders = (ordersData?.data || []).filter((o: DbOrder) => o.created_at?.startsWith(dateStr));
+    return { date: d.toLocaleDateString("en-KE", { day: "numeric", month: "short" }), revenue: dayOrders.reduce((s: number, o: DbOrder) => s + Number(o.total), 0) };
   });
   const maxRev = Math.max(...last30.map((d) => d.revenue), 1);
 
@@ -147,7 +151,7 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
                      <p className="text-[10px] font-black uppercase tracking-widest">Queue Empty</p>
                   </div>
                ) : (
-                  pendingVendors.map((v: any) => (
+                  pendingVendors.map((v: DbVendor) => (
                      <div key={v.id} className="p-4 bg-muted/30 rounded-2xl border border-transparent hover:border-primary/20 transition-all group">
                         <div className="flex items-center justify-between mb-3">
                            <div>
@@ -184,7 +188,7 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
                <Clock className="w-5 h-5 text-muted-foreground opacity-30" />
             </div>
             <div className="space-y-4">
-               {(ordersData?.data || []).slice(0, 5).map((o: any) => (
+               {(ordersData?.data || []).slice(0, 5).map((o: DbOrder) => (
                   <div key={o.id} className="flex items-center justify-between p-4 bg-muted/10 rounded-2xl border border-transparent hover:border-border transition-all">
                      <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-xl bg-background border border-border flex items-center justify-center text-xs font-black">
@@ -215,7 +219,7 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
                <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{lowStockProducts.length} Items Low</span>
             </div>
             <div className="space-y-4">
-               {lowStockProducts.slice(0, 5).map((p: any) => (
+               {lowStockProducts.slice(0, 5).map((p: DbProduct) => (
                   <div key={p.id} className="flex items-center justify-between p-4 bg-red-50/30 rounded-2xl border border-red-100/50">
                      <div className="flex-1 min-w-0 pr-4">
                         <p className="text-sm font-black text-foreground truncate">{p.title}</p>

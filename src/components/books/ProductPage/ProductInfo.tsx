@@ -3,12 +3,14 @@ import { ShoppingCart, Heart, Truck, Shield, RotateCcw } from "lucide-react";
 import { StarRating } from "@/components/shared/StarRating";
 import { PriceTag } from "@/components/shared/PriceTag";
 import { toast } from "sonner";
+import type { Product } from "@/lib/types";
+import type { User } from "@supabase/supabase-js";
 
 interface ProductInfoProps {
-  product: any;
+  product: Product;
   loyaltyPoints: number;
-  addItem: (item: any) => void;
-  user: any;
+  addItem: (item: Product) => void;
+  user: User | null;
   toggleWishlist: (id: string) => void;
   wishlistIds: string[];
 }

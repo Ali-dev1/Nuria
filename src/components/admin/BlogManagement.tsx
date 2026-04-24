@@ -144,6 +144,8 @@ export const BlogManagement = () => {
                           value={heroImage} 
                           onChange={setHeroImage}
                           label="Blog Header Image"
+                          bucket="blog-images"
+                          folder="post-headers"
                         />
                      </div>
 
