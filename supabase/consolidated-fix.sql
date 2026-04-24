@@ -1,6 +1,10 @@
 -- ==========================================
--- NURIA ADMIN DASHBOARD FIX - CONSOLIDATED
--- Run this AFTER removing the old script
+-- NURIA ADMIN DASHBOARD FIX - CONSOLIDATED v2
+-- ==========================================
+-- IMPORTANT: Create storage buckets in Supabase Dashboard FIRST:
+-- 1. Go to Storage > Create new bucket
+-- 2. Create: "author-photos" (public), "blog-images" (public), "book-covers" (public)
+-- 3. Then run this SQL
 -- ==========================================
 
 -- 1. PRODUCTS - Ensure is_featured column exists
@@ -49,7 +53,69 @@ ALTER TABLE public.vendors ADD COLUMN IF NOT EXISTS facebook_url TEXT;
 ALTER TABLE public.vendors ADD COLUMN IF NOT EXISTS website_url TEXT;
 
 -- ==========================================
--- RLS POLICIES (Safe - uses IF NOT EXISTS patterns)
+-- STORAGE POLICIES (For buckets: author-photos, blog-images, book-covers)
+-- These assume you've created the buckets already
+-- ==========================================
+
+-- Author photos storage policies
+DROP POLICY IF EXISTS "author-photos-all-upload" ON storage.objects;
+CREATE POLICY "author-photos-all-upload" ON storage.objects
+  FOR INSERT TO authenticated WITH CHECK (
+    bucket_id = 'author-photos' AND auth.role() = 'authenticated'
+  );
+
+DROP POLICY IF EXISTS "author-photos-all-read" ON storage.objects;
+CREATE POLICY "author-photos-all-read" ON storage.objects
+  FOR SELECT USING (bucket_id = 'author-photos');
+
+DROP POLICY IF EXISTS "author-photos-all-update" ON storage.objects;
+CREATE POLICY "author-photos-all-update" ON storage.objects
+  FOR UPDATE TO authenticated USING (bucket_id = 'author-photos');
+
+DROP POLICY IF EXISTS "author-photos-all-delete" ON storage.objects;
+CREATE POLICY "author-photos-all-delete" ON storage.objects
+  FOR DELETE TO authenticated USING (bucket_id = 'author-photos');
+
+-- Blog images storage policies
+DROP POLICY IF EXISTS "blog-images-all-upload" ON storage.objects;
+CREATE POLICY "blog-images-all-upload" ON storage.objects
+  FOR INSERT TO authenticated WITH CHECK (
+    bucket_id = 'blog-images' AND auth.role() = 'authenticated'
+  );
+
+DROP POLICY IF EXISTS "blog-images-all-read" ON storage.objects;
+CREATE POLICY "blog-images-all-read" ON storage.objects
+  FOR SELECT USING (bucket_id = 'blog-images');
+
+DROP POLICY IF EXISTS "blog-images-all-update" ON storage.objects;
+CREATE POLICY "blog-images-all-update" ON storage.objects
+  FOR UPDATE TO authenticated USING (bucket_id = 'blog-images');
+
+DROP POLICY IF EXISTS "blog-images-all-delete" ON storage.objects;
+CREATE POLICY "blog-images-all-delete" ON storage.objects
+  FOR DELETE TO authenticated USING (bucket_id = 'blog-images');
+
+-- Book covers storage policies
+DROP POLICY IF EXISTS "book-covers-all-upload" ON storage.objects;
+CREATE POLICY "book-covers-all-upload" ON storage.objects
+  FOR INSERT TO authenticated WITH CHECK (
+    bucket_id = 'book-covers' AND auth.role() = 'authenticated'
+  );
+
+DROP POLICY IF EXISTS "book-covers-all-read" ON storage.objects;
+CREATE POLICY "book-covers-all-read" ON storage.objects
+  FOR SELECT USING (bucket_id = 'book-covers');
+
+DROP POLICY IF EXISTS "book-covers-all-update" ON storage.objects;
+CREATE POLICY "book-covers-all-update" ON storage.objects
+  FOR UPDATE TO authenticated USING (bucket_id = 'book-covers');
+
+DROP POLICY IF EXISTS "book-covers-all-delete" ON storage.objects;
+CREATE POLICY "book-covers-all-delete" ON storage.objects
+  FOR DELETE TO authenticated USING (bucket_id = 'book-covers');
+
+-- ==========================================
+-- DATABASE RLS POLICIES
 -- ==========================================
 
 -- Authors RLS
@@ -104,7 +170,7 @@ DROP POLICY IF EXISTS "vendors_insert" ON public.vendors;
 CREATE POLICY "vendors_insert" ON public.vendors FOR INSERT TO authenticated WITH CHECK (true);
 
 -- ==========================================
--- USER ROLES TABLE (Safe)
+-- USER ROLES TABLE
 -- ==========================================
 CREATE TABLE IF NOT EXISTS public.user_roles (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -126,13 +192,12 @@ DROP POLICY IF EXISTS "user_roles_delete" ON public.user_roles;
 CREATE POLICY "user_roles_delete" ON public.user_roles FOR DELETE TO authenticated USING (true);
 
 -- ==========================================
--- ONBOARDING TRIGGER (Preserves signup functionality)
+-- ONBOARDING TRIGGER
 -- ==========================================
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET search_path = public AS $$
 BEGIN
-  -- Create user profile
   INSERT INTO public.profiles (user_id, name, needs_role_selection)
   VALUES (
     NEW.id,
@@ -141,7 +206,6 @@ BEGIN
   )
   ON CONFLICT (user_id) DO NOTHING;
 
-  -- Assign default customer role
   INSERT INTO public.user_roles (user_id, role)
   VALUES (NEW.id, 'customer')
   ON CONFLICT (user_id, role) DO NOTHING;
@@ -150,7 +214,6 @@ BEGIN
 END;
 $$;
 
--- Reset trigger
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
@@ -160,7 +223,6 @@ CREATE TRIGGER on_auth_user_created
 -- ORDER & CHECKOUT POLICIES
 -- ==========================================
 
--- Orders policies
 DROP POLICY IF EXISTS "orders_create_own" ON public.orders;
 CREATE POLICY "orders_create_own" ON public.orders FOR INSERT WITH CHECK (auth.uid() = user_id);
 
@@ -170,7 +232,6 @@ CREATE POLICY "orders_select_own" ON public.orders FOR SELECT USING (auth.uid() 
 DROP POLICY IF EXISTS "orders_update_all" ON public.orders;
 CREATE POLICY "orders_update_all" ON public.orders FOR UPDATE TO authenticated USING (true);
 
--- Order items policies
 DROP POLICY IF EXISTS "order_items_insert_own" ON public.order_items;
 CREATE POLICY "order_items_insert_own" ON public.order_items FOR INSERT WITH CHECK (
   EXISTS (SELECT 1 FROM public.orders WHERE orders.id = order_items.order_id AND orders.user_id = auth.uid())
@@ -181,25 +242,15 @@ CREATE POLICY "order_items_select_own" ON public.order_items FOR SELECT USING (
   EXISTS (SELECT 1 FROM public.orders WHERE orders.id = order_items.order_id AND orders.user_id = auth.uid())
 );
 
--- Loyalty transactions policies
 DROP POLICY IF EXISTS "loyalty_create_own" ON public.loyalty_transactions;
 CREATE POLICY "loyalty_create_own" ON public.loyalty_transactions FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 DROP POLICY IF EXISTS "loyalty_select_own" ON public.loyalty_transactions;
 CREATE POLICY "loyalty_select_own" ON public.loyalty_transactions FOR SELECT USING (auth.uid() = user_id);
 
--- Profile update policy for loyalty
 DROP POLICY IF EXISTS "profiles_update_own" ON public.profiles;
 CREATE POLICY "profiles_update_own" ON public.profiles
-  FOR UPDATE TO authenticated
-  USING (auth.uid() = user_id)
-  WITH CHECK (auth.uid() = user_id);
-
--- ==========================================
--- SET PLATFORM ADMIN (Update with your user_id)
--- ==========================================
--- Uncomment and update with your admin user_id:
--- UPDATE public.profiles SET role = 'admin' WHERE user_id = 'YOUR-USER-ID-HERE';
+  FOR UPDATE TO authenticated USING (auth.uid() = user_id);
 
 -- ==========================================
 -- REFRESH SCHEMA
