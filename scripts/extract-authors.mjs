@@ -18,20 +18,22 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
  */
 function identifyAuthor(title = "", description = "") {
   // Pattern 1: Title by Author Name
-  const byMatch = title.match(/(.+)\s+by\s+([^,:(.]+)/i);
-  if (byMatch && byMatch[2]) return byMatch[2].trim();
+  const byMatch = /(.+)\s+by\s+([^,:(.]+)/i.exec(title);
+  if (byMatch?.[2]) return byMatch[2].trim();
 
+  const combined = title + " " + description;
+  
   // Pattern 2: Author: Name
-  const authMatch = (title + " " + description).match(/Author:\s*([^,:(.\n]+)/i);
-  if (authMatch && authMatch[1]) return authMatch[1].trim();
+  const authMatch = /Author:\s*([^,:(.\n]+)/i.exec(combined);
+  if (authMatch?.[1]) return authMatch[1].trim();
 
   // Pattern 3: written by Name
-  const writtenByMatch = (title + " " + description).match(/written\s+by\s+([^,:(.\n]+)/i);
-  if (writtenByMatch && writtenByMatch[1]) return writtenByMatch[1].trim();
+  const writtenByMatch = /written\s+by\s+([^,:(.\n]+)/i.exec(combined);
+  if (writtenByMatch?.[1]) return writtenByMatch[1].trim();
 
   // Pattern 4: BY [NAME] at the end
-  const capsByMatch = title.match(/\s+BY\s+([A-Z\s]+)$/);
-  if (capsByMatch && capsByMatch[1]) return capsByMatch[1].trim();
+  const capsByMatch = /\s+BY\s+([A-Z\s]+)$/.exec(title);
+  if (capsByMatch?.[1]) return capsByMatch[1].trim();
 
   return null;
 }

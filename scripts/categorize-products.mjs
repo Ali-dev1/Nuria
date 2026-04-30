@@ -116,7 +116,7 @@ function identifyCategory(book) {
     if (score > 0) matches.push({ name, score });
   }
   
-  return matches.sort((a, b) => b.score - a.score)[0]?.name || 'all-categories';
+  return matches.toSorted((a, b) => b.score - a.score)[0]?.name || 'all-categories';
 }
 
 /**

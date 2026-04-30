@@ -29,8 +29,8 @@ export const ProductTable: React.FC<ProductTableProps> = ({
       {/* Mobile: Card view */}
       <div className="md:hidden bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
         {isLoading ? (
-          Array.from({ length: 5 }).map((_, i) => (
-            <div key={`skel-m-${i}`} className="p-4 border-b border-border animate-pulse">
+          Array.from({ length: 5 }).map(() => (
+            <div key={crypto.randomUUID()} className="p-4 border-b border-border animate-pulse">
               <div className="flex gap-3">
                 <div className="w-12 h-12 bg-muted rounded-lg shrink-0" />
                 <div className="flex-1 space-y-2">
@@ -79,8 +79,8 @@ export const ProductTable: React.FC<ProductTableProps> = ({
             </thead>
             <tbody className="divide-y divide-border/50">
               {isLoading ? (
-                Array.from({ length: 8 }).map((_, i) => (
-                  <tr key={`skel-d-${i}`} className="animate-pulse">
+                Array.from({ length: 8 }).map(() => (
+                  <tr key={crypto.randomUUID()} className="animate-pulse">
                     <td colSpan={7} className="px-4 py-5"><div className="h-4 bg-muted rounded w-full" /></td>
                   </tr>
                 ))

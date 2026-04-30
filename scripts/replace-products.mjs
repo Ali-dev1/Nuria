@@ -116,7 +116,7 @@ try {
   const rows = records.map((r, i) => mapRecord(r, i));
   
   console.log("⬆️  Inserting into products table…");
-  const totalInserted = await batchInsert(rows);
+  await batchInsert(rows);
 
   const afterCount = await countProducts();
   console.log(`\n📊 Products table AFTER: ${afterCount} rows`);

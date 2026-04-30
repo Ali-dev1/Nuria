@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Star, Trash2, Package, ChevronDown, Save, X, Edit3, CheckCircle2, Clock, AlertCircle, Loader2 } from "lucide-react";
-import { formatPrice } from "@/lib/constants";
-import { ImageUploader } from "../ImageUploader";
+import { Star, Package, AlertCircle } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { BookStatusBadge } from "./BookStatusBadge";
+import { PriceDisplay } from "./PriceDisplay";
+import { ActionButtons } from "./ActionButtons";
+import { ProductEditPanel } from "./ProductEditPanel";
 
 interface ProductRowProps {
   p: any;
@@ -43,8 +45,7 @@ export const ProductRow: React.FC<ProductRowProps> = ({
     if (typeof imgs === "string" && imgs.length > 5) {
       try {
         const parsed = JSON.parse(imgs);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
-        return imgs;
+        return Array.isArray(parsed) && parsed.length > 0 ? parsed[0] : imgs;
       } catch {
         return imgs;
       }
@@ -56,133 +57,30 @@ export const ProductRow: React.FC<ProductRowProps> = ({
 
   const handleSave = async () => {
     setSaving(true);
-    const { supabase } = await import("@/lib/supabaseClient");
-    const { toast } = await import("@/hooks/use-toast");
-    
     try {
-      const { error } = await supabase
-        .from("products")
-        .update({ 
-          title: editData.title,
-          author: editData.author,
-          category: editData.category,
-          price: Number(editData.price), 
-          stock: Number(editData.stock),
-          description: editData.description,
-          images: Array.isArray(editData.images) ? editData.images : [editData.images]
-        })
-        .eq("id", p.id);
+      const { supabase } = await import("@/lib/supabaseClient");
+      const { toast } = await import("@/hooks/use-toast");
+      const { error } = await supabase.from("products").update({ 
+        title: editData.title,
+        author: editData.author,
+        category: editData.category,
+        price: Number(editData.price), 
+        stock: Number(editData.stock),
+        description: editData.description,
+        images: Array.isArray(editData.images) ? editData.images : [editData.images]
+      }).eq("id", p.id);
 
       if (error) throw error;
-
       toast.toast({ title: "Product updated" });
       queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
       setIsExpanded(false);
-    } catch (error: any) {
-      toast.toast({ 
-        title: "Update failed", 
-        description: error.message, 
-        variant: "destructive" 
-      });
+    } catch (err: any) {
+      const { toast } = await import("@/hooks/use-toast");
+      toast.toast({ title: "Update failed", description: err.message, variant: "destructive" });
     } finally {
       setSaving(false);
     }
   };
-
-  // Shared edit panel
-  const EditPanel = () => (
-    <div className="grid md:grid-cols-3 gap-6 animate-in slide-in-from-top-2 duration-300 mt-4 md:mt-0">
-      <div className="space-y-4">
-        <h4 className="text-xs font-semibold text-primary uppercase tracking-wide">Media</h4>
-        <ImageUploader 
-          value={Array.isArray(editData.images) ? editData.images[0] : editData.images}
-          onChange={(url) => setEditData({...editData, images: [url]})}
-          label="Product Cover"
-        />
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-medium">Price (KSH)</label>
-            <input 
-              type="number" 
-              value={editData.price} 
-              onChange={e => setEditData({...editData, price: e.target.value})}
-              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20 focus:border-primary" 
-            />
-          </div>
-          <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-medium">Stock</label>
-            <input 
-              type="number" 
-              value={editData.stock} 
-              onChange={e => setEditData({...editData, stock: e.target.value})}
-              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20 focus:border-primary" 
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <h4 className="text-xs font-semibold text-primary uppercase tracking-wide">Details</h4>
-        <div className="space-y-3">
-          <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-medium">Title</label>
-            <input 
-              value={editData.title} 
-              onChange={e => setEditData({...editData, title: e.target.value})}
-              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20" 
-            />
-          </div>
-          <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-medium">Author</label>
-            <input 
-              value={editData.author} 
-              onChange={e => setEditData({...editData, author: e.target.value})}
-              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary/20" 
-            />
-          </div>
-          <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-medium">Category</label>
-            <input 
-              value={editData.category} 
-              onChange={e => setEditData({...editData, category: e.target.value})}
-              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary/20" 
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-4 flex flex-col">
-        <div className="flex justify-between items-center">
-          <h4 className="text-xs font-semibold text-primary uppercase tracking-wide">Description</h4>
-          <span className={`text-xs ${editData.description.length > 500 ? "text-amber-600" : "text-muted-foreground"}`}>
-            {editData.description.length}/1000
-          </span>
-        </div>
-        <textarea 
-          value={editData.description} 
-          onChange={e => setEditData({...editData, description: e.target.value.slice(0, 1000)})}
-          className="flex-1 w-full p-3 bg-white border border-border rounded-xl text-sm leading-relaxed resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary min-h-[120px]"
-          placeholder="Product description..."
-        />
-        <div className="flex gap-2">
-          <button 
-            onClick={() => setIsExpanded(false)} 
-            className="flex-1 py-2.5 px-4 rounded-lg border border-border text-xs font-semibold hover:bg-muted transition-colors flex items-center justify-center gap-2"
-          >
-            <X className="w-3.5 h-3.5" /> Cancel
-          </button>
-          <button 
-            onClick={handleSave}
-            disabled={saving}
-            className="flex-[2] py-2.5 px-4 bg-primary text-white rounded-lg text-xs font-semibold shadow-sm flex items-center justify-center gap-2 hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-50"
-          >
-            {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
-            {saving ? "Saving..." : "Save Changes"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
 
   if (variant === "mobile") {
     return (
@@ -205,7 +103,7 @@ export const ProductRow: React.FC<ProductRowProps> = ({
             <p className="text-sm font-semibold text-foreground truncate">{p.title}</p>
             <p className="text-xs text-muted-foreground">{p.author || "—"}</p>
             <div className="flex items-center gap-3 mt-2">
-              <span className="text-sm font-bold text-foreground">{formatPrice(p.price)}</span>
+              <PriceDisplay price={p.price} />
               <span className={`text-xs px-1.5 py-0.5 rounded ${p.category ? "bg-muted text-muted-foreground" : ""}`}>
                 {p.category || "—"}
               </span>
@@ -220,34 +118,19 @@ export const ProductRow: React.FC<ProductRowProps> = ({
             {(p.stock ?? 0) < 10 && <AlertCircle className="w-3 h-3 text-red-500" />}
           </div>
           <div className="flex items-center gap-1">
-            <button 
-              onClick={() => toggleFeatured(p.id, p.is_featured)}
-              className={`p-1.5 rounded-lg transition-colors ${p.is_featured ? "bg-amber-100 text-amber-600" : "text-muted-foreground hover:text-amber-500"}`}
-              title={p.is_featured ? "Remove from featured" : "Add to featured"}
-            >
-              <Star className={`w-4 h-4 ${p.is_featured ? "fill-current" : ""}`} />
-            </button>
-            <button 
-              onClick={() => toggleProductStatus(p.id, p.is_active)}
-              className={`p-1.5 rounded-lg transition-colors ${p.is_active ? "text-green-600" : "text-muted-foreground"}`}
-            >
-              {p.is_active ? <CheckCircle2 className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
-            </button>
-            <button 
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="p-1.5 rounded-lg text-muted-foreground hover:text-primary transition-colors"
-            >
-              <Edit3 className="w-4 h-4" />
-            </button>
-            <button 
-              onClick={() => deleteProduct(p.id)}
-              className="p-1.5 rounded-lg text-muted-foreground hover:text-red-500 transition-colors"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
+            <ActionButtons 
+              id={p.id} 
+              isFeatured={p.is_featured} 
+              isExpanded={isExpanded} 
+              toggleFeatured={toggleFeatured} 
+              deleteProduct={deleteProduct} 
+              onToggleExpand={() => setIsExpanded(!isExpanded)} 
+              variant="mobile"
+            />
+            <BookStatusBadge isActive={p.is_active} onClick={() => toggleProductStatus(p.id, p.is_active)} variant="mobile" />
           </div>
         </div>
-        {isExpanded && <EditPanel />}
+        {isExpanded && <ProductEditPanel editData={editData} setEditData={setEditData} saving={saving} onSave={handleSave} onCancel={() => setIsExpanded(false)} />}
       </div>
     );
   }
@@ -291,7 +174,7 @@ export const ProductRow: React.FC<ProductRowProps> = ({
           </span>
         </td>
         <td className="px-4 py-4">
-          <p className="text-sm font-bold text-foreground">{formatPrice(p.price)}</p>
+          <PriceDisplay price={p.price} />
         </td>
         <td className="px-4 py-4">
           <div className="flex items-center gap-1.5">
@@ -302,46 +185,23 @@ export const ProductRow: React.FC<ProductRowProps> = ({
           </div>
         </td>
         <td className="px-4 py-4 text-center">
-          <button 
-            onClick={() => toggleProductStatus(p.id, p.is_active)} 
-            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
-              p.is_active 
-              ? "bg-green-50 text-green-700 border border-green-200" 
-              : "bg-gray-50 text-gray-500 border border-gray-200"
-            }`}
-          >
-            {p.is_active ? <CheckCircle2 className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
-            {p.is_active ? "Live" : "Draft"}
-          </button>
+          <BookStatusBadge isActive={p.is_active} onClick={() => toggleProductStatus(p.id, p.is_active)} />
         </td>
         <td className="px-4 py-4 text-right">
-          <div className="flex justify-end gap-1">
-            <button 
-              onClick={() => setIsExpanded(!isExpanded)} 
-              className={`p-2 rounded-lg border border-border transition-colors ${isExpanded ? "bg-primary/5 border-primary/20 text-primary" : "bg-white text-muted-foreground hover:text-primary hover:border-primary/30"}`}
-            >
-              <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
-            </button>
-            <button 
-              onClick={() => toggleFeatured(p.id, p.is_featured)}
-              className={`p-2 rounded-lg border transition-colors ${p.is_featured ? "bg-amber-500 border-amber-500 text-white" : "border-border bg-white text-muted-foreground hover:text-amber-500 hover:border-amber-400"}`}
-              title={p.is_featured ? "Remove from featured" : "Add to featured"}
-            >
-              <Star className={`w-4 h-4 ${p.is_featured ? "fill-current" : ""}`} />
-            </button>
-            <button 
-              onClick={() => deleteProduct(p.id)} 
-              className="p-2 rounded-lg border border-border bg-white text-muted-foreground hover:text-red-500 hover:border-red-300 transition-colors"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
-          </div>
+          <ActionButtons 
+            id={p.id} 
+            isFeatured={p.is_featured} 
+            isExpanded={isExpanded} 
+            toggleFeatured={toggleFeatured} 
+            deleteProduct={deleteProduct} 
+            onToggleExpand={() => setIsExpanded(!isExpanded)} 
+          />
         </td>
       </tr>
       {isExpanded && (
         <tr className="bg-muted/20">
           <td colSpan={7} className="px-4 py-6 border-b border-border">
-            <EditPanel />
+            <ProductEditPanel editData={editData} setEditData={setEditData} saving={saving} onSave={handleSave} onCancel={() => setIsExpanded(false)} />
           </td>
         </tr>
       )}
