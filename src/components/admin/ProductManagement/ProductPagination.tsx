@@ -53,7 +53,7 @@ export const ProductPagination: React.FC<ProductPaginationProps> = ({
       <div className="flex items-center gap-1">
         {getVisiblePages().map((page, i) => (
           page === "..." ? (
-            <span key={`dots-${i}`} className="px-2 text-muted-foreground text-sm">…</span>
+            <span key={`pagination-dots-${i}`} className="px-2 text-muted-foreground text-sm">…</span>
           ) : (
             <button
               key={page}

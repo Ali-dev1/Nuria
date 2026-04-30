@@ -101,7 +101,7 @@ export const BlogManagement = () => {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {isLoading ? (
           Array.from({ length: 4 }).map((_, i) => (
-            <div key={`skel-${i}`} className="h-48 bg-muted/30 rounded-2xl animate-pulse" />
+            <div key={`blog-skel-${i}`} className="h-48 bg-muted/30 rounded-2xl animate-pulse" />
           ))
         ) : (posts || []).length === 0 ? (
           <div className="col-span-full py-20 text-center">

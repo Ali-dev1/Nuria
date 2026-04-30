@@ -108,6 +108,13 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
     onRefresh();
   };
 
+  const getStatusButtonStyles = (p: DbProduct) => {
+    const isActive = p.is_active ?? true;
+    if (!isActive) return "bg-red-50 text-red-700 border-red-200 hover:bg-red-100 hover:shadow-red-100";
+    if (p.stock === 0) return "bg-orange-50 text-orange-700 border-orange-200";
+    return "bg-green-50 text-green-700 border-green-200 hover:bg-green-100 hover:shadow-green-100";
+  };
+
   const uploadProductCover = async (file: File) => {
     if (!editingProduct) return;
     setUploading(true);
@@ -207,13 +214,7 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
                     <td className="p-5 text-center">
                       <button 
                         onClick={() => toggleActive(p.id, !(p.is_active ?? true))} 
-                        className={`text-[9px] px-3 py-1.5 rounded-full font-black uppercase tracking-widest transition-all border shadow-sm ${
-                          (p.is_active ?? true) 
-                            ? (p.stock === 0 
-                                ? "bg-orange-50 text-orange-700 border-orange-200" 
-                                : "bg-green-50 text-green-700 border-green-200 hover:bg-green-100 hover:shadow-green-100") 
-                            : "bg-red-50 text-red-700 border-red-200 hover:bg-red-100 hover:shadow-red-100"
-                        }`}
+                        className={`text-[9px] px-3 py-1.5 rounded-full font-black uppercase tracking-widest transition-all border shadow-sm ${getStatusButtonStyles(p)}`}
                       >
                         {(p.is_active ?? true) ? (p.stock === 0 ? "Sold Out" : "In Stock") : "Disabled"}
                       </button>
