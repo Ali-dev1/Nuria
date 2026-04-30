@@ -65,6 +65,7 @@ export const useAdminProducts = (options: { search?: string, page: number, pageS
       const to = from + options.pageSize - 1;
       
       const { data, error, count } = await query
+        .order("is_featured", { ascending: false })
         .order("created_at", { ascending: false })
         .range(from, to);
         

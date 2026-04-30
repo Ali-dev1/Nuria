@@ -88,11 +88,11 @@ export const Footer = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between py-10 border-y border-white/10 gap-8">
           <div className="flex flex-col items-center lg:items-start gap-4">
             <span className="text-[10px] font-bold uppercase tracking-widest text-white/70">We Accept</span>
-            <div className="flex flex-wrap items-center justify-center gap-6 grayscale brightness-200 opacity-60">
-              <span className="font-bold text-lg">M-Pesa</span>
-              <span className="font-bold text-lg">VISA</span>
-              <span className="font-bold text-lg">PesaPal</span>
-              <span className="font-bold text-lg">Bitcoin</span>
+            <div className="flex flex-wrap items-center justify-center gap-8 opacity-80">
+              <img src="/images/mpesa-logo.png" alt="M-Pesa" className="h-8 w-auto object-contain brightness-0 invert" />
+              <span className="font-bold text-lg tracking-tighter">VISA</span>
+              <span className="font-bold text-lg tracking-tighter">PesaPal</span>
+              <span className="font-bold text-lg tracking-tighter">Bitcoin</span>
             </div>
           </div>
           
@@ -109,7 +109,7 @@ export const Footer = () => {
         {/* Bottom bar */}
         <div className="pt-8 flex justify-center">
           <p className="font-sans text-[12px] text-white/60 tracking-wide text-center">
-            © 2025 Nuria Kenya. All rights reserved. The Honest Store.
+            © 2025 Nuria Kenya. All rights reserved. Home of African Books.
           </p>
         </div>
       </div>

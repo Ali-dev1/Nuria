@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   Users, Package, ShoppingCart, Store, 
-  Shield, LogOut, Activity, FileText, Settings, Menu, X, Search, ChevronLeft, ChevronRight
+  LogOut, Activity, FileText, Settings, BookOpen
 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/authStore";
@@ -27,8 +27,6 @@ const AdminDashboard = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<TabType>("overview");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -42,27 +40,25 @@ const AdminDashboard = () => {
   }, [user, navigate, toast]);
 
   const navItems = [
-    { id: "overview", label: "Dashboard", icon: Activity },
-    { id: "products", label: "Inventory", icon: Package },
+    { id: "overview", label: "Overview", icon: Activity },
+    { id: "products", label: "Products", icon: Package },
     { id: "orders", label: "Orders", icon: ShoppingCart },
     { id: "users", label: "Customers", icon: Users },
     { id: "vendors", label: "Vendors", icon: Store },
-    { id: "authors", label: "Authors", icon: Users },
+    { id: "authors", label: "Authors", icon: BookOpen },
     { id: "blog", label: "Blog", icon: FileText },
     { id: "settings", label: "Settings", icon: Settings },
   ] as const;
 
+  // Mobile bottom bar shows first 5 items; "More" items accessible via settings/overflow
+  const mobileNavItems = navItems.slice(0, 5);
+  const secondaryNavItems = navItems.slice(5);
+
   if (loading) return (
-    <div className="min-h-screen bg-primary flex items-center justify-center">
-      <div className="flex flex-col items-center gap-6">
-        <div className="relative">
-          <div className="w-16 h-16 border-2 border-primary/20 rounded-full animate-ping absolute" />
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin relative z-10" />
-        </div>
-        <div className="text-center space-y-2">
-          <p className="text-white font-display text-xl tracking-widest uppercase">Loading Dashboard</p>
-          <p className="text-primary/60 text-xs font-mono animate-pulse uppercase">Please wait...</p>
-        </div>
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-10 h-10 border-3 border-primary border-t-transparent rounded-full animate-spin" />
+        <p className="text-sm text-muted-foreground font-medium">Loading...</p>
       </div>
     </div>
   );
@@ -70,125 +66,119 @@ const AdminDashboard = () => {
   if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-background flex font-sans selection:bg-primary/20">
-      {/* Sidebar Navigation */}
-      <aside className={`fixed inset-y-0 left-0 z-50 ${isSidebarCollapsed ? "w-[80px]" : "w-[280px]"} bg-primary text-white transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 lg:static lg:inset-0 shadow-[20px_0_40px_rgba(0,0,0,0.1)] border-r border-white/5`}>
-        <div className="flex flex-col h-full overflow-hidden relative">
-          {/* Sidebar Background Gradient Decoration */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-[100px] pointer-events-none" />
-          
-          <div className={`p-6 flex items-center h-24 ${isSidebarCollapsed ? "justify-center" : "justify-between"}`}>
-            <div className="flex items-center gap-4">
-              <div 
-                onClick={() => isSidebarCollapsed && setIsSidebarCollapsed(false)}
-                className={`w-12 h-12 rounded-[1.25rem] bg-white/10 flex items-center justify-center border border-white/10 shadow-lg overflow-hidden p-2 shrink-0 ${isSidebarCollapsed ? "cursor-pointer hover:bg-white/20 transition-all" : ""}`}
-              >
-                <img src="/logo-small.webp" alt="Nuria" className="w-full h-auto brightness-0 invert" />
-              </div>
-              {!isSidebarCollapsed && (
-                <div className="flex flex-col">
-                  <span className="text-sm font-black tracking-widest text-white uppercase leading-none">Portal</span>
-                  <span className="text-[9px] text-white/40 font-mono uppercase tracking-[0.2em] mt-1">Registry Console</span>
-                </div>
-              )}
-            </div>
-            {!isSidebarCollapsed && (
-              <button 
-                onClick={() => setIsSidebarCollapsed(true)} 
-                className="p-2 hover:bg-white/10 rounded-xl text-white/40 hover:text-white transition-all ml-2"
-                title="Collapse menu"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-            )}
-          </div>
-          
-          <nav className="flex-1 px-4 space-y-2 mt-8 overflow-y-auto no-scrollbar">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setTab(item.id)}
-                title={isSidebarCollapsed ? item.label : ""}
-                className={`w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[14px] transition-all duration-300 group relative ${tab === item.id ? "bg-white text-primary font-bold shadow-[0_10px_20px_rgba(0,0,0,0.2)]" : "text-white/60 hover:text-white hover:bg-white/5"}`}
-              >
-                {tab === item.id && (
-                  <div className="absolute left-[-1rem] w-1.5 h-8 bg-white rounded-full" />
-                )}
-                <item.icon className={`w-5 h-5 flex-shrink-0 transition-all duration-500 ${tab === item.id ? "scale-110 text-primary" : "group-hover:scale-125 group-hover:rotate-6"}`} />
-                {!isSidebarCollapsed && (
-                  <span className={`whitespace-nowrap tracking-wide ${tab === item.id ? "translate-x-1" : "group-hover:translate-x-1"} transition-transform duration-300`}>
-                    {item.label}
-                  </span>
-                )}
-              </button>
-            ))}
-          </nav>
+    <div className="min-h-screen bg-background font-sans selection:bg-primary/20 flex flex-col">
+      {/* Top Header Bar */}
+      <header className="h-14 md:h-16 bg-white border-b border-border flex items-center justify-between px-4 md:px-8 sticky top-0 z-50">
+        {/* Left: Page Title */}
+        <h1 className="text-base md:text-lg font-bold text-foreground capitalize">
+          {tab === "overview" ? "Dashboard" : tab}
+        </h1>
 
-          <div className="p-6 space-y-4">
-            <button 
-              onClick={() => signOut()} 
-              className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-sm transition-all duration-300 ${isSidebarCollapsed ? "justify-center text-red-400 hover:bg-red-400/20" : "text-red-400/60 hover:text-red-400 hover:bg-red-400/10 border border-transparent hover:border-red-400/20"}`}
-            >
-              <LogOut className="w-5 h-5 flex-shrink-0" />
-              {!isSidebarCollapsed && <span className="font-bold tracking-widest uppercase text-xs">Sign Out</span>}
-            </button>
+        {/* Right: Logo + Sign Out */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-primary/5 border border-primary/10">
+            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center p-1">
+              <img src="/logo-small.webp" alt="Nuria" className="w-full h-auto brightness-0 invert" />
+            </div>
+            <span className="text-xs font-bold text-primary hidden sm:block">Nuria Admin</span>
           </div>
+          <button 
+            onClick={() => signOut()} 
+            className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+            title="Sign out"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
-      </aside>
+      </header>
 
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
-        {/* Top Header */}
-        <header className="h-20 bg-white/80 backdrop-blur-xl border-b border-primary/5 flex items-center justify-between px-6 lg:px-10 sticky top-0 z-40">
-          <div className="flex items-center gap-6">
-            <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="lg:hidden p-2 hover:bg-primary/5 rounded-xl text-primary">
-              {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-            <div>
-              <h2 className="text-2xl font-black text-primary capitalize tracking-tight">
-                {tab === "overview" ? "Overview" : tab.replace("-", " ")}
-              </h2>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-primary/5 border border-primary/10 rounded-2xl">
-              <Search className="w-4 h-4 text-primary/40" />
-              <input 
-                type="text" 
-                placeholder="Search..." 
-                className="bg-transparent border-none focus:ring-0 text-sm text-primary w-40 placeholder:text-primary/30 font-medium"
-              />
-            </div>
+      {/* Desktop: Horizontal Tab Nav */}
+      <nav className="hidden md:flex items-center gap-1 px-8 py-2 bg-white border-b border-border overflow-x-auto">
+        {navItems.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setTab(item.id)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
+              tab === item.id 
+                ? "bg-primary text-white shadow-sm" 
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            }`}
+          >
+            <item.icon className="w-4 h-4" />
+            {item.label}
+          </button>
+        ))}
+      </nav>
 
-            <div className="flex items-center gap-3 bg-white p-1.5 pr-4 rounded-2xl shadow-sm border border-primary/5 hover:shadow-md transition-all">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg p-2">
-                <img src="/logo-small.webp" alt="Nuria" className="w-full h-auto object-contain brightness-0 invert" />
-              </div>
-              <div className="flex flex-col items-end">
-                <p className="text-sm font-black text-primary leading-none uppercase tracking-tighter">Overview</p>
-                <p className="text-[9px] text-primary/60 uppercase tracking-widest font-bold mt-0.5">Admin Control</p>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Tab Content Wrapper */}
-        <div className="flex-1 overflow-y-auto px-8 py-10 lg:px-12 lg:py-12 bg-gradient-to-b from-background to-card">
-          <div className="max-w-[1600px] mx-auto">
-            <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-[cubic-bezier(0,0,0,1)]">
-              {tab === "overview" && <DashboardOverview setTab={setTab} />}
-              {tab === "products" && <ProductManagement />}
-              {tab === "orders" && <OrderManagement />}
-              {tab === "users" && <UserManagement />}
-              { tab === "vendors" && <VendorManagement /> }
-              { tab === "authors" && <AuthorManagement /> }
-              { tab === "blog" && <BlogManagement /> }
-              {tab === "settings" && <PlatformSettings />}
-            </div>
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8 pb-24 md:pb-8">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {tab === "overview" && <DashboardOverview setTab={setTab} />}
+            {tab === "products" && <ProductManagement />}
+            {tab === "orders" && <OrderManagement />}
+            {tab === "users" && <UserManagement />}
+            {tab === "vendors" && <VendorManagement />}
+            {tab === "authors" && <AuthorManagement />}
+            {tab === "blog" && <BlogManagement />}
+            {tab === "settings" && <PlatformSettings />}
           </div>
         </div>
       </main>
+
+      {/* Mobile: Bottom Tab Bar */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border px-2 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex items-center justify-around py-1">
+          {mobileNavItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setTab(item.id)}
+              className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg min-w-[56px] transition-colors ${
+                tab === item.id 
+                  ? "text-primary" 
+                  : "text-muted-foreground"
+              }`}
+            >
+              <item.icon className={`w-5 h-5 ${tab === item.id ? "stroke-[2.5]" : ""}`} />
+              <span className="text-[10px] font-medium">{item.label}</span>
+            </button>
+          ))}
+          {/* More menu for secondary items */}
+          <div className="relative group">
+            <button
+              className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg min-w-[56px] transition-colors ${
+                secondaryNavItems.some(i => i.id === tab)
+                  ? "text-primary" 
+                  : "text-muted-foreground"
+              }`}
+            >
+              <div className="flex gap-0.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-current" />
+                <div className="w-1.5 h-1.5 rounded-full bg-current" />
+                <div className="w-1.5 h-1.5 rounded-full bg-current" />
+              </div>
+              <span className="text-[10px] font-medium">More</span>
+            </button>
+            {/* Popup menu */}
+            <div className="absolute bottom-full right-0 mb-2 bg-white rounded-xl border border-border shadow-lg py-2 min-w-[160px] opacity-0 invisible group-focus-within:opacity-100 group-focus-within:visible transition-all">
+              {secondaryNavItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setTab(item.id)}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors ${
+                    tab === item.id 
+                      ? "text-primary bg-primary/5" 
+                      : "text-foreground hover:bg-muted/50"
+                  }`}
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </nav>
     </div>
   );
 };

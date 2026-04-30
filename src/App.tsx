@@ -107,9 +107,10 @@ const SEOManager = () => {
 
   useEffect(() => {
     if (settings?.announcement_text) {
-      document.title = `${settings.announcement_text} | Nuria Store`;
+      // Just keep the standard title, don't override with announcement
+      document.title = "Nuria — Home of African Books";
     } else {
-      document.title = "Nuria Store — Kenya's Premier Bookstore";
+      document.title = "Nuria — Home of African Books";
     }
   }, [settings]);
 

@@ -41,8 +41,8 @@ export const InfoPageLayout = ({ children, title, subtitle, label }: InfoPageLay
         </div>
       </div>
       
-      <div className="container-nuria py-12 md:py-20">
-        <div className="max-w-4xl">
+      <div className="container-nuria py-12 md:py-24">
+        <div className="max-w-5xl mx-auto w-full">
           {children}
         </div>
       </div>

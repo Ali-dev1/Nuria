@@ -1,11 +1,12 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search, ShoppingCart, User, Menu, Heart, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import { MobileNav } from "./MobileNav";
 import { Button } from "@/components/ui/button";
 import { useProfile } from "@/hooks/useProfile";
+import { usePlatformSettings } from "@/hooks/useAdmin";
 
 export const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -17,6 +18,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const { data: settings } = usePlatformSettings();
 
   const [showAnnouncement, setShowAnnouncement] = useState(() => {
     if (typeof sessionStorage !== "undefined") {
@@ -60,13 +62,16 @@ export const Navbar = () => {
     return null;
   };
 
+  // The announcement text should come from platform settings if available
+  const announcementText = settings?.announcement_text || "Enjoy free delivery within Nairobi for orders above KSh 10,000 | 0794 233 261";
+
   return (
     <>
       {/* Announcement Bar */}
       {showAnnouncement && (
         <div className="bg-secondary text-white text-[12px] font-sans font-medium py-2 px-4 relative z-[51]">
           <div className="container-nuria flex items-center justify-between">
-            <span className="text-left">Enjoy free delivery within Nairobi for orders above KSh 10,000 | 0794 233 261</span>
+            <span className="text-left">{announcementText}</span>
             <button onClick={dismissAnnouncement} className="p-1 hover:bg-white/10 rounded-full transition-colors shrink-0" aria-label="Dismiss">
               <X className="w-4 h-4" />
             </button>
@@ -77,7 +82,6 @@ export const Navbar = () => {
       {/* Main Navbar */}
       <header className="sticky top-0 z-50 bg-primary shadow-md">
         <div className="container-nuria flex items-center justify-between h-20 px-4 md:px-6">
-          {/* Mobile alignment: Menu on left, Logo centered/left, Icons Right */}
           <div className="flex items-center gap-4">
             <button
               onClick={() => setMobileOpen(true)}
@@ -99,7 +103,6 @@ export const Navbar = () => {
             </Link>
           </div>
 
-          {/* Right actions */}
           <div className="flex items-center gap-1 sm:gap-2">
             {!isHomePage && (
               <button 
@@ -111,7 +114,6 @@ export const Navbar = () => {
               </button>
             )}
 
-            {/* Desktop Nav links - hidden on mobile */}
             <nav className="hidden lg:flex items-center gap-6 text-[13px] font-sans font-semibold ml-6 mr-8">
               <Link to="/" className="text-white hover:text-white/80 transition-colors">Home</Link>
               <Link to="/books" className="text-white hover:text-white/80 transition-colors">Shop</Link>
@@ -157,7 +159,6 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* Expanding search dropdown (for non-home pages) */}
         {searchOpen && !isHomePage && (
           <div className="px-4 pb-4 animate-in slide-in-from-top duration-300">
             <form onSubmit={handleSearch} className="container-nuria">

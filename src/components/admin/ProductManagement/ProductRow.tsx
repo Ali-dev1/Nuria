@@ -1,32 +1,33 @@
-import React from "react";
-import { Star, Trash2, Package, Layers, AlertCircle, CheckCircle2, Clock, ChevronDown, Save, X, Edit3 } from "lucide-react";
+import React, { useState } from "react";
+import { Star, Trash2, Package, ChevronDown, Save, X, Edit3, CheckCircle2, Clock, AlertCircle, Loader2 } from "lucide-react";
 import { formatPrice } from "@/lib/constants";
 import { ImageUploader } from "../ImageUploader";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface ProductRowProps {
   p: any;
+  variant: "mobile" | "desktop";
   selectedProducts: string[];
   setSelectedProducts: React.Dispatch<React.SetStateAction<string[]>>;
   toggleProductStatus: (id: string, current: boolean) => Promise<void>;
-  bulkAction: (action: "delete" | "feature" | "unfeature") => Promise<void>;
+  toggleFeatured: (id: string, current: boolean) => Promise<void>;
   deleteProduct: (id: string) => Promise<void>;
 }
 
 export const ProductRow: React.FC<ProductRowProps> = ({
   p,
+  variant,
   selectedProducts,
   setSelectedProducts,
   toggleProductStatus,
-  bulkAction,
+  toggleFeatured,
   deleteProduct,
 }) => {
   const queryClient = useQueryClient();
-  const [isExpanded, setIsExpanded] = React.useState(false);
-  const [saving, setSaving] = React.useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [saving, setSaving] = useState(false);
   
-  // Edit States
-  const [editData, setEditData] = React.useState({
+  const [editData, setEditData] = useState({
     title: p.title,
     author: p.author || "",
     category: p.category,
@@ -37,13 +38,8 @@ export const ProductRow: React.FC<ProductRowProps> = ({
   });
 
   const getCoverImage = (imgs: any, url: string | null) => {
-    // 1. Check plural array (new system)
     if (Array.isArray(imgs) && imgs.length > 0 && imgs[0] && !imgs[0].includes("placeholder")) return imgs[0];
-    
-    // 2. Check singular URL (legacy system - 21k items)
     if (url && url !== "/placeholder.svg" && !url.includes("placeholder")) return url;
-    
-    // 3. Fallback for strings/JSON
     if (typeof imgs === "string" && imgs.length > 5) {
       try {
         const parsed = JSON.parse(imgs);
@@ -79,18 +75,13 @@ export const ProductRow: React.FC<ProductRowProps> = ({
 
       if (error) throw error;
 
-      toast.toast({ 
-        title: "Asset Synchronized", 
-        description: "The product registry has been updated with the new metadata." 
-      });
-      
-      // Silent re-fetch
+      toast.toast({ title: "Product updated" });
       queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
       setIsExpanded(false);
     } catch (error: any) {
       toast.toast({ 
-        title: "Sync Failed", 
-        description: error.message || "An error occurred while updating the database.", 
+        title: "Update failed", 
+        description: error.message, 
         variant: "destructive" 
       });
     } finally {
@@ -98,219 +89,262 @@ export const ProductRow: React.FC<ProductRowProps> = ({
     }
   };
 
-  return (
-    <>
-      <tr className={`group transition-colors ${isExpanded ? "bg-primary/[0.03]" : "hover:bg-muted/5"}`}>
-        <td className="px-8 py-6 text-center">
+  // Shared edit panel
+  const EditPanel = () => (
+    <div className="grid md:grid-cols-3 gap-6 animate-in slide-in-from-top-2 duration-300 mt-4 md:mt-0">
+      <div className="space-y-4">
+        <h4 className="text-xs font-semibold text-primary uppercase tracking-wide">Media</h4>
+        <ImageUploader 
+          value={Array.isArray(editData.images) ? editData.images[0] : editData.images}
+          onChange={(url) => setEditData({...editData, images: [url]})}
+          label="Product Cover"
+        />
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <label className="text-xs text-muted-foreground font-medium">Price (KSH)</label>
+            <input 
+              type="number" 
+              value={editData.price} 
+              onChange={e => setEditData({...editData, price: e.target.value})}
+              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20 focus:border-primary" 
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs text-muted-foreground font-medium">Stock</label>
+            <input 
+              type="number" 
+              value={editData.stock} 
+              onChange={e => setEditData({...editData, stock: e.target.value})}
+              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20 focus:border-primary" 
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h4 className="text-xs font-semibold text-primary uppercase tracking-wide">Details</h4>
+        <div className="space-y-3">
+          <div className="space-y-1">
+            <label className="text-xs text-muted-foreground font-medium">Title</label>
+            <input 
+              value={editData.title} 
+              onChange={e => setEditData({...editData, title: e.target.value})}
+              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20" 
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs text-muted-foreground font-medium">Author</label>
+            <input 
+              value={editData.author} 
+              onChange={e => setEditData({...editData, author: e.target.value})}
+              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary/20" 
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs text-muted-foreground font-medium">Category</label>
+            <input 
+              value={editData.category} 
+              onChange={e => setEditData({...editData, category: e.target.value})}
+              className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary/20" 
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-4 flex flex-col">
+        <div className="flex justify-between items-center">
+          <h4 className="text-xs font-semibold text-primary uppercase tracking-wide">Description</h4>
+          <span className={`text-xs ${editData.description.length > 500 ? "text-amber-600" : "text-muted-foreground"}`}>
+            {editData.description.length}/1000
+          </span>
+        </div>
+        <textarea 
+          value={editData.description} 
+          onChange={e => setEditData({...editData, description: e.target.value.slice(0, 1000)})}
+          className="flex-1 w-full p-3 bg-white border border-border rounded-xl text-sm leading-relaxed resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary min-h-[120px]"
+          placeholder="Product description..."
+        />
+        <div className="flex gap-2">
+          <button 
+            onClick={() => setIsExpanded(false)} 
+            className="flex-1 py-2.5 px-4 rounded-lg border border-border text-xs font-semibold hover:bg-muted transition-colors flex items-center justify-center gap-2"
+          >
+            <X className="w-3.5 h-3.5" /> Cancel
+          </button>
+          <button 
+            onClick={handleSave}
+            disabled={saving}
+            className="flex-[2] py-2.5 px-4 bg-primary text-white rounded-lg text-xs font-semibold shadow-sm flex items-center justify-center gap-2 hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-50"
+          >
+            {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+            {saving ? "Saving..." : "Save Changes"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (variant === "mobile") {
+    return (
+      <div className="p-4 border-b border-border">
+        <div className="flex items-start gap-3">
           <input 
             type="checkbox" 
             checked={selectedProducts.includes(p.id)} 
-            className="w-4 h-4 rounded-lg border-2 border-border text-primary focus:ring-primary/20 transition-all cursor-pointer"
+            className="w-4 h-4 rounded border-border text-primary mt-1 shrink-0"
+            onChange={(e) => setSelectedProducts(prev => e.target.checked ? [...prev, p.id] : prev.filter(id => id !== p.id))} 
+          />
+          {coverImage ? (
+            <img src={coverImage} alt="" className="w-12 h-12 rounded-lg object-cover border border-border shrink-0" />
+          ) : (
+            <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center border border-border shrink-0">
+              <Package className="w-5 h-5 text-muted-foreground/40" />
+            </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-foreground truncate">{p.title}</p>
+            <p className="text-xs text-muted-foreground">{p.author || "—"}</p>
+            <div className="flex items-center gap-3 mt-2">
+              <span className="text-sm font-bold text-foreground">{formatPrice(p.price)}</span>
+              <span className={`text-xs px-1.5 py-0.5 rounded ${p.category ? "bg-muted text-muted-foreground" : ""}`}>
+                {p.category || "—"}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-between mt-3 pl-7">
+          <div className="flex items-center gap-2">
+            <span className={`text-xs font-medium ${(p.stock ?? 0) < 10 ? "text-red-500" : "text-muted-foreground"}`}>
+              {p.stock ?? 0} in stock
+            </span>
+            {(p.stock ?? 0) < 10 && <AlertCircle className="w-3 h-3 text-red-500" />}
+          </div>
+          <div className="flex items-center gap-1">
+            <button 
+              onClick={() => toggleFeatured(p.id, p.is_featured)}
+              className={`p-1.5 rounded-lg transition-colors ${p.is_featured ? "bg-amber-100 text-amber-600" : "text-muted-foreground hover:text-amber-500"}`}
+              title={p.is_featured ? "Remove from featured" : "Add to featured"}
+            >
+              <Star className={`w-4 h-4 ${p.is_featured ? "fill-current" : ""}`} />
+            </button>
+            <button 
+              onClick={() => toggleProductStatus(p.id, p.is_active)}
+              className={`p-1.5 rounded-lg transition-colors ${p.is_active ? "text-green-600" : "text-muted-foreground"}`}
+            >
+              {p.is_active ? <CheckCircle2 className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
+            </button>
+            <button 
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Edit3 className="w-4 h-4" />
+            </button>
+            <button 
+              onClick={() => deleteProduct(p.id)}
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-red-500 transition-colors"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+        {isExpanded && <EditPanel />}
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <tr className={`group transition-colors ${isExpanded ? "bg-primary/[0.02]" : "hover:bg-muted/30"}`}>
+        <td className="px-4 py-4">
+          <input 
+            type="checkbox" 
+            checked={selectedProducts.includes(p.id)} 
+            className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer"
             onChange={(e) => setSelectedProducts(prev => e.target.checked ? [...prev, p.id] : prev.filter(id => id !== p.id))} 
           />
         </td>
-        <td className="px-8 py-6" onClick={() => setIsExpanded(!isExpanded)}>
-          <div className="flex items-center gap-5 cursor-pointer">
+        <td className="px-4 py-4">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
             <div className="relative shrink-0">
-              {coverImage && coverImage !== "/placeholder.svg" ? (
-                <img src={coverImage} alt="" className="w-14 h-14 rounded-2xl object-cover border border-border shadow-sm group-hover:scale-110 transition-transform duration-500" />
+              {coverImage ? (
+                <img src={coverImage} alt="" className="w-10 h-10 rounded-lg object-cover border border-border" />
               ) : (
-                <div className="w-14 h-14 bg-muted rounded-2xl flex items-center justify-center border border-border">
-                  <Package className="w-6 h-6 text-muted-foreground opacity-30" />
+                <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center border border-border">
+                  <Package className="w-4 h-4 text-muted-foreground/40" />
                 </div>
               )}
               {p.is_featured && (
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center shadow-lg border-2 border-white">
-                  <Star className="w-3 h-3 text-white fill-current" />
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 rounded-full flex items-center justify-center border border-white">
+                  <Star className="w-2.5 h-2.5 text-white fill-current" />
                 </div>
               )}
             </div>
-            <div>
-              <p className="font-bold text-foreground text-sm line-clamp-1 group-hover:text-primary transition-colors">{p.title}</p>
-              <p className="text-[10px] text-muted-foreground font-medium italic mt-0.5">{p.author || "Global Registry"}</p>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-foreground truncate max-w-[250px]">{p.title}</p>
+              <p className="text-xs text-muted-foreground">{p.author || "—"}</p>
             </div>
           </div>
         </td>
-        <td className="px-8 py-6 hidden sm:table-cell">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-muted/50 rounded-lg text-[10px] font-black uppercase tracking-widest text-muted-foreground border border-border/50">
-            <Layers className="w-3 h-3" />
-            {p.category}
+        <td className="px-4 py-4">
+          <span className="text-xs font-medium text-muted-foreground bg-muted/50 px-2 py-1 rounded-md">
+            {p.category || "—"}
           </span>
         </td>
-        <td className="px-8 py-6">
-          <p className="text-sm font-black text-foreground">{formatPrice(p.price)}</p>
-          <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-tighter mt-0.5">Retail Value</p>
+        <td className="px-4 py-4">
+          <p className="text-sm font-bold text-foreground">{formatPrice(p.price)}</p>
         </td>
-        <td className="px-8 py-6">
-          <div className="flex flex-col gap-1.5">
-            <div className="flex items-center gap-2">
-               <span className={`text-sm font-black ${(p.stock ?? 0) < 10 ? "text-red-500" : "text-foreground"}`}>
-                  {p.stock ?? 0}
-               </span>
-               {(p.stock ?? 0) < 10 && <AlertCircle className="w-3.5 h-3.5 text-red-500 animate-pulse" />}
-            </div>
-            <div className="w-20 h-1 bg-muted rounded-full overflow-hidden">
-               <div 
-                  className={`h-full transition-all duration-1000 ${
-                     (p.stock ?? 0) < 10 ? "bg-red-500" : "bg-primary/40"
-                  }`}
-                  style={{ width: `${Math.min(100, (p.stock ?? 0) * 2)}%` }}
-               />
-            </div>
+        <td className="px-4 py-4">
+          <div className="flex items-center gap-1.5">
+            <span className={`text-sm font-semibold ${(p.stock ?? 0) < 10 ? "text-red-500" : "text-foreground"}`}>
+              {p.stock ?? 0}
+            </span>
+            {(p.stock ?? 0) < 10 && <AlertCircle className="w-3.5 h-3.5 text-red-500" />}
           </div>
         </td>
-        <td className="px-8 py-6 text-center">
+        <td className="px-4 py-4 text-center">
           <button 
             onClick={() => toggleProductStatus(p.id, p.is_active)} 
-            className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
+            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
               p.is_active 
-              ? "bg-green-100 text-green-700 ring-1 ring-green-200" 
-              : "bg-gray-100 text-gray-500 ring-1 ring-gray-200"
+              ? "bg-green-50 text-green-700 border border-green-200" 
+              : "bg-gray-50 text-gray-500 border border-gray-200"
             }`}
           >
             {p.is_active ? <CheckCircle2 className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
             {p.is_active ? "Live" : "Draft"}
           </button>
         </td>
-        <td className="px-8 py-6 text-right">
-          <div className="flex justify-end gap-2">
+        <td className="px-4 py-4 text-right">
+          <div className="flex justify-end gap-1">
             <button 
               onClick={() => setIsExpanded(!isExpanded)} 
-              className={`p-2.5 rounded-xl border border-border bg-white text-muted-foreground transition-all ${isExpanded ? "rotate-180 bg-primary/5 border-primary/20 text-primary" : "hover:text-primary hover:border-primary"}`}
+              className={`p-2 rounded-lg border border-border transition-colors ${isExpanded ? "bg-primary/5 border-primary/20 text-primary" : "bg-white text-muted-foreground hover:text-primary hover:border-primary/30"}`}
             >
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
             </button>
-            {!isExpanded && (
-              <>
-                <button 
-                  onClick={() => bulkAction(p.is_featured ? "unfeature" : "feature")} 
-                  className={`p-2.5 rounded-xl border border-border transition-all ${p.is_featured ? "bg-amber-500 border-amber-500 text-white shadow-lg shadow-amber-500/20" : "bg-white text-muted-foreground hover:text-amber-500 hover:border-amber-500"}`}
-                  title={p.is_featured ? "Remove Spotlight" : "Spotlight Asset"}
-                >
-                  <Star className={`w-4 h-4 ${p.is_featured ? "fill-current" : ""}`} />
-                </button>
-                <button 
-                  onClick={() => deleteProduct(p.id)} 
-                  className="p-2.5 rounded-xl border border-border bg-white text-muted-foreground hover:text-red-500 hover:border-red-500 transition-all"
-                  title="Purge Asset"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </>
-            )}
+            <button 
+              onClick={() => toggleFeatured(p.id, p.is_featured)}
+              className={`p-2 rounded-lg border transition-colors ${p.is_featured ? "bg-amber-500 border-amber-500 text-white" : "border-border bg-white text-muted-foreground hover:text-amber-500 hover:border-amber-400"}`}
+              title={p.is_featured ? "Remove from featured" : "Add to featured"}
+            >
+              <Star className={`w-4 h-4 ${p.is_featured ? "fill-current" : ""}`} />
+            </button>
+            <button 
+              onClick={() => deleteProduct(p.id)} 
+              className="p-2 rounded-lg border border-border bg-white text-muted-foreground hover:text-red-500 hover:border-red-300 transition-colors"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
           </div>
         </td>
       </tr>
-
-      {/* Expanded Edit Mode */}
       {isExpanded && (
-        <tr className="bg-primary/[0.02]">
-          <td colSpan={7} className="px-8 py-10 border-b border-primary/5">
-            <div className="grid lg:grid-cols-3 gap-12 animate-in slide-in-from-top-4 duration-500">
-              {/* Image & Main Info */}
-              <div className="space-y-6">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
-                  <Package className="w-3.5 h-3.5" /> Media Asset
-                </h4>
-                <ImageUploader 
-                  value={Array.isArray(editData.images) ? editData.images[0] : editData.images}
-                  onChange={(url) => setEditData({...editData, images: [url]})}
-                  label="Product Cover"
-                />
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-tighter text-muted-foreground">Retail Price (KSH)</label>
-                    <input 
-                      type="number" 
-                      value={editData.price} 
-                      onChange={e => setEditData({...editData, price: e.target.value})}
-                      className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-black focus:ring-2 focus:ring-primary/20" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-tighter text-muted-foreground">Current Stock</label>
-                    <input 
-                      type="number" 
-                      value={editData.stock} 
-                      onChange={e => setEditData({...editData, stock: e.target.value})}
-                      className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-black focus:ring-2 focus:ring-primary/20" 
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Metadata */}
-              <div className="space-y-6">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
-                  <Edit3 className="w-3.5 h-3.5" /> Metadata Details
-                </h4>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-tighter text-muted-foreground">Title</label>
-                    <input 
-                      value={editData.title} 
-                      onChange={e => setEditData({...editData, title: e.target.value})}
-                      className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-bold" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-tighter text-muted-foreground">Author / Brand</label>
-                    <input 
-                      value={editData.author} 
-                      onChange={e => setEditData({...editData, author: e.target.value})}
-                      className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-bold" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-bold uppercase tracking-tighter text-muted-foreground">Category</label>
-                    <input 
-                      value={editData.category} 
-                      onChange={e => setEditData({...editData, category: e.target.value})}
-                      className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-bold" 
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Narrative & Actions */}
-              <div className="space-y-6 flex flex-col">
-                <div className="flex justify-between items-center">
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-primary">Narrative Description</h4>
-                  <span className={`text-[10px] font-bold ${editData.description.length > 500 ? "text-amber-600" : "text-muted-foreground"}`}>
-                    {editData.description.length} / 1000
-                  </span>
-                </div>
-                <textarea 
-                  value={editData.description} 
-                  onChange={e => setEditData({...editData, description: e.target.value.slice(0, 1000)})}
-                  className="flex-1 w-full p-6 bg-white border border-border rounded-[2rem] text-sm font-medium leading-relaxed resize-none focus:ring-4 focus:ring-primary/5 outline-none"
-                  placeholder="Describe the asset for the global marketplace..."
-                />
-                <div className="flex gap-3 pt-4">
-                  <button 
-                    onClick={() => setIsExpanded(false)} 
-                    className="flex-1 py-4 px-6 rounded-2xl border border-border text-[10px] font-black uppercase tracking-widest hover:bg-muted transition-all"
-                  >
-                    Discard Changes
-                  </button>
-                  <button 
-                    onClick={handleSave}
-                    disabled={saving}
-                    className="flex-[2] py-4 px-6 bg-primary text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 flex items-center justify-center gap-3 hover:brightness-110 active:scale-95 transition-all"
-                  >
-                    {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    {saving ? "Synchronizing..." : "Apply Metadata"}
-                  </button>
-                </div>
-              </div>
-            </div>
+        <tr className="bg-muted/20">
+          <td colSpan={7} className="px-4 py-6 border-b border-border">
+            <EditPanel />
           </td>
         </tr>
       )}
     </>
   );
 };
-
-const Loader2 = ({ className }: { className?: string }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
-);

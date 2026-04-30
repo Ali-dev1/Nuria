@@ -1,5 +1,5 @@
 import { InfoPageLayout } from "@/components/layout/InfoPageLayout";
-import { Truck, Globe, Clock, ShieldCheck, MapPin, PackageCheck } from "lucide-react";
+import { Truck, Globe, Clock, ShieldCheck, MapPin, PackageCheck, Zap, Info } from "lucide-react";
 
 const DeliveryPage = () => {
   return (
@@ -8,127 +8,147 @@ const DeliveryPage = () => {
       title="Shipping & Delivery"
       subtitle="Fast, reliable, and trackable. We deliver your next great read right to your doorstep, across Kenya and worldwide."
     >
-      <div className="space-y-20">
-        {/* Feature Highlights */}
-        <div className="grid md:grid-cols-2 gap-10">
-          <div className="bg-primary p-10 lg:p-14 rounded-[3rem] text-white relative overflow-hidden group shadow-2xl shadow-black/5">
-            <div className="absolute inset-0 opacity-10 bg-[url('/grid-pattern.svg')] bg-repeat" />
-            <div className="relative z-10 space-y-6">
-              <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center">
-                <Clock className="w-8 h-8 text-white" />
+      <div className="space-y-32">
+        {/* Expanded Feature Highlights */}
+        <div className="grid lg:grid-cols-2 gap-12">
+          <div className="bg-primary rounded-[3.5rem] p-12 lg:p-16 text-white relative overflow-hidden group shadow-2xl">
+            <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] pointer-events-none" />
+            <div className="relative z-10 space-y-10">
+              <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-md">
+                <Zap className="w-8 h-8 text-secondary" />
               </div>
-              <h3 className="font-display text-3xl font-bold">Same Day Delivery</h3>
-              <p className="font-sans text-white/80 leading-relaxed text-lg italic">
-                Orders placed within Nairobi before 3:00 PM are delivered the same day. Perfect for when you can't wait to start your next chapter.
-              </p>
+              <div className="space-y-4">
+                <h3 className="font-display text-4xl font-bold">Same Day Delivery</h3>
+                <p className="font-sans text-white/70 leading-relaxed text-lg">
+                  Orders placed within Nairobi before 3:00 PM are delivered the same day. Perfect for when you can't wait to start your next chapter.
+                </p>
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-widest">
+                <Clock className="w-4 h-4 text-secondary" /> Nairobi Exclusive
+              </div>
             </div>
           </div>
           
-          <div className="bg-white p-10 lg:p-14 rounded-[3rem] border border-border relative overflow-hidden group shadow-2xl shadow-black/5">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full" />
-            <div className="relative z-10 space-y-6">
-              <div className="w-16 h-16 rounded-2xl bg-secondary/5 flex items-center justify-center border border-secondary/10">
-                <Truck className="w-8 h-8 text-secondary" />
+          <div className="bg-white rounded-[3.5rem] p-12 lg:p-16 border border-border relative overflow-hidden group shadow-2xl shadow-black/5">
+            <div className="relative z-10 space-y-10">
+              <div className="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
+                <Truck className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="font-display text-3xl font-bold text-foreground">National Coverage</h3>
-              <p className="font-sans text-muted-foreground leading-relaxed text-lg">
-                We reach all 47 counties of Kenya. Upcountry orders are delivered within 24-48 hours via our trusted courier partners.
-              </p>
+              <div className="space-y-4">
+                <h3 className="font-display text-4xl font-bold text-foreground">National Coverage</h3>
+                <p className="font-sans text-muted-foreground leading-relaxed text-lg">
+                  We reach all 47 counties of Kenya. Upcountry orders are delivered within 24-48 hours via our trusted courier partners.
+                </p>
+              </div>
+              <div className="flex gap-4">
+                <div className="px-4 py-2 bg-background rounded-full border border-border text-[10px] font-bold uppercase tracking-widest text-muted-foreground">47 Counties</div>
+                <div className="px-4 py-2 bg-background rounded-full border border-border text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Tracked</div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Shipping Tiers */}
-        <div className="grid sm:grid-cols-3 gap-6">
+        {/* Shipping Tiers - Modern Grid */}
+        <div className="grid sm:grid-cols-3 gap-8">
           {[
             { 
               title: "Nairobi CBD", 
               desc: "Same Day (before 3pm)", 
               icon: MapPin, 
-              tag: "FLAT RATE" 
+              tag: "FLAT RATE",
+              color: "bg-secondary/10 text-secondary"
             },
             { 
               title: "Upcountry", 
               desc: "Next Day Delivery", 
               icon: PackageCheck, 
-              tag: "TRACKED" 
+              tag: "TRACKED",
+              color: "bg-primary/10 text-primary"
             },
             { 
               title: "International", 
               desc: "DHL Express (1-3 days)", 
               icon: Globe, 
-              tag: "GLOBAL" 
+              tag: "GLOBAL",
+              color: "bg-blue-500/10 text-blue-500"
             }
-          ].map((tier, i) => (
-            <div key={tier.title} className="bg-white p-8 rounded-3xl border border-border hover:border-secondary/30 transition-all group text-center">
-              <div className="w-12 h-12 rounded-2xl bg-background flex items-center justify-center mx-auto mb-6 group-hover:bg-primary group-hover:text-white transition-all">
-                <tier.icon className="w-6 h-6" />
+          ].map((tier) => (
+            <div key={tier.title} className="bg-white p-10 rounded-[2.5rem] border border-border hover:border-primary/20 transition-all group flex flex-col items-center text-center">
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-transform group-hover:scale-110 ${tier.color}`}>
+                <tier.icon className="w-7 h-7" />
               </div>
-              <h4 className="font-display text-xl font-bold text-foreground">{tier.title}</h4>
-              <p className="font-sans text-muted-foreground text-sm mt-2">{tier.desc}</p>
-              <span className="inline-block mt-4 text-[9px] font-bold text-secondary tracking-[0.2em] border border-secondary/20 px-3 py-1 rounded-full">{tier.tag}</span>
+              <h4 className="font-display text-2xl font-bold text-foreground mb-3">{tier.title}</h4>
+              <p className="font-sans text-muted-foreground text-sm leading-relaxed mb-6">{tier.desc}</p>
+              <span className="mt-auto text-[10px] font-bold tracking-[0.2em] border border-border px-4 py-1.5 rounded-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all uppercase">
+                {tier.tag}
+              </span>
             </div>
           ))}
         </div>
 
-        {/* Rates Table Section */}
+        {/* Pricing Section */}
         <div className="space-y-12">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="max-w-md text-center lg:text-left">
-              <h2 className="font-display text-4xl font-bold text-foreground">Standard Rates</h2>
-              <div className="w-[80px] h-[4px] bg-secondary mt-6 rounded-full mx-auto lg:mx-0" />
+          <div className="flex flex-col lg:flex-row items-end justify-between gap-8 border-b border-border pb-12">
+            <div className="space-y-4 max-w-xl">
+              <h2 className="font-display text-4xl lg:text-5xl font-bold text-foreground">Standard Delivery Rates</h2>
+              <p className="font-sans text-muted-foreground text-lg">Clear and upfront pricing for all your orders. No hidden fees.</p>
             </div>
             
-            <div className="bg-green-100 border border-primary/10 px-8 py-6 rounded-3xl flex items-center gap-4 shadow-xl shadow-primary/5">
-              <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
-                <span className="font-bold text-lg"></span>
+            <div className="bg-green-500/5 border border-green-500/20 px-8 py-6 rounded-[2rem] flex items-center gap-6">
+              <div className="w-14 h-14 rounded-2xl bg-green-500 flex items-center justify-center text-white shrink-0 shadow-lg shadow-green-500/20">
+                <ShieldCheck className="w-7 h-7" />
               </div>
               <div>
-                <p className="font-sans font-bold text-primary">Free Delivery Offer</p>
-                <p className="font-sans text-sm text-primary/80">Enjoy free delivery within Nairobi for orders above <span className="font-bold underline">KSh 10,000</span></p>
+                <p className="font-sans font-black text-green-600 uppercase tracking-widest text-[10px]">Special Offer</p>
+                <p className="font-sans text-sm text-foreground/80 mt-1">Free delivery within Nairobi for orders above <span className="font-bold text-green-600">KSh 10,000</span></p>
               </div>
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-[2.5rem] border border-border shadow-2xl shadow-black/5 bg-white">
-            <table className="w-full text-left font-sans">
-              <thead className="bg-background text-foreground text-xs font-bold uppercase tracking-widest border-b border-border">
-                <tr>
-                  <th className="px-10 py-8">Destination Area</th>
-                  <th className="px-10 py-8 text-right">Standard Rate</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                <tr className="group hover:bg-background/50 transition-colors">
-                  <td className="px-10 py-8 text-foreground font-bold">Nairobi CBD & Surroundings</td>
-                  <td className="px-10 py-8 text-right font-display text-xl font-bold text-primary">KSh 250</td>
-                </tr>
-                <tr className="group hover:bg-background/50 transition-colors">
-                  <td className="px-10 py-8 text-foreground font-bold">Nairobi Outskirts (Thika, Ngong, Kitengela)</td>
-                  <td className="px-10 py-8 text-right font-display text-xl font-bold text-primary">KSh 350</td>
-                </tr>
-                <tr className="group hover:bg-background/50 transition-colors">
-                  <td className="px-10 py-8 text-foreground font-bold">Upcountry Major Towns</td>
-                  <td className="px-10 py-8 text-right font-display text-xl font-bold text-primary">KSh 450</td>
-                </tr>
-                <tr className="group hover:bg-background/50 transition-colors">
-                  <td className="px-10 py-8 text-foreground font-bold">International (Worldwide)</td>
-                  <td className="px-10 py-8 text-right font-sans text-xs font-bold text-secondary tracking-wider italic uppercase">Calculated at Checkout via DHL</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+          <div className="grid lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-2 overflow-hidden rounded-[3rem] border border-border bg-white shadow-2xl shadow-black/5">
+              <table className="w-full text-left font-sans">
+                <tbody className="divide-y divide-border">
+                  {[
+                    { zone: "Nairobi CBD & Surroundings", rate: "KSh 250", time: "Same Day" },
+                    { zone: "Nairobi Outskirts (Thika, Ngong, etc)", rate: "KSh 350", time: "24 Hours" },
+                    { zone: "Upcountry Major Towns", rate: "KSh 450", time: "24-48 Hours" },
+                    { zone: "International (Worldwide)", rate: "DHL Rates", time: "1-3 Days" }
+                  ].map((item) => (
+                    <tr key={item.zone} className="group hover:bg-muted/30 transition-colors">
+                      <td className="px-10 py-10">
+                        <p className="text-foreground font-bold text-lg">{item.zone}</p>
+                        <p className="text-muted-foreground text-xs uppercase tracking-widest mt-1 font-bold">{item.time}</p>
+                      </td>
+                      <td className="px-10 py-10 text-right">
+                        <span className="font-display text-2xl font-bold text-primary">{item.rate}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-        {/* Guarantee Box */}
-        <div className="bg-primary rounded-[3rem] p-12 lg:p-20 text-white relative overflow-hidden text-center shadow-2xl">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full -mr-40 -mt-40 blur-3xl pointer-events-none" />
-          <div className="relative z-10 max-w-2xl mx-auto space-y-8">
-            <ShieldCheck className="w-16 h-16 text-secondary mx-auto animate-pulse-subtle" />
-            <h3 className="font-display text-3xl lg:text-4xl font-bold leading-tight">Peace of mind, <br />from our shelf to your door.</h3>
-            <p className="font-sans text-xl text-white/70 leading-relaxed">
-              Every package is handled with care and comes with full tracking details sent directly to your phone. If you're not home, we'll coordinate a safe delivery time with you.
-            </p>
+            <div className="bg-primary rounded-[3rem] p-10 text-white flex flex-col justify-center space-y-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16" />
+              <Info className="w-10 h-10 text-secondary" />
+              <h4 className="font-display text-2xl font-bold">Important Note</h4>
+              <p className="font-sans text-white/70 leading-relaxed">
+                Please ensure your delivery address and phone number are correct. Our riders will contact you before arriving at your location.
+              </p>
+              <div className="pt-4">
+                <button 
+                  onClick={() => {
+                    import("sonner").then(({ toast }) => {
+                      toast.info("Tracking details are sent to your phone via SMS once your order is dispatched. You can also view status in your Account dashboard.");
+                    });
+                  }}
+                  className="text-secondary font-bold text-sm uppercase tracking-widest border-b-2 border-secondary/20 hover:border-secondary transition-all"
+                >
+                  Track Your Order
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

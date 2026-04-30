@@ -23,22 +23,34 @@ export const ProductManagement = () => {
     const { error } = await supabase.from("products").update({ is_active: !current }).eq("id", id);
     if (!error) {
       invalidate(["admin", "products"]);
-      toast({ title: "Status Synchronized", description: `Product is now ${current ? "in draft" : "active"}.` });
+      toast({ title: `Product ${current ? "hidden" : "published"}` });
+    }
+  };
+
+  const toggleFeatured = async (id: string, current: boolean) => {
+    const { error } = await supabase.from("products").update({ is_featured: !current }).eq("id", id);
+    if (!error) {
+      invalidate(["admin", "products"]);
+      invalidate(["products"]);
+      toast({ title: current ? "Removed from featured" : "Added to featured" });
+    } else {
+      toast({ title: "Failed to update", description: error.message, variant: "destructive" });
     }
   };
 
   const deleteProduct = async (id: string) => {
-    if (!confirm("Confirm permanent deletion of this asset?")) return;
+    if (!confirm("Delete this product? This cannot be undone.")) return;
     const { error } = await supabase.from("products").delete().eq("id", id);
     if (!error) {
       invalidate(["admin", "products"]);
-      toast({ title: "Asset Purged", description: "The product has been removed from the registry." });
+      toast({ title: "Product deleted" });
     }
   };
 
   const bulkAction = async (action: "delete" | "feature" | "unfeature") => {
+    if (selectedProducts.length === 0) return;
     if (action === "delete") {
-      if (!confirm(`Confirm bulk deletion of ${selectedProducts.length} assets?`)) return;
+      if (!confirm(`Delete ${selectedProducts.length} products?`)) return;
       await supabase.from("products").delete().in("id", selectedProducts);
     } else {
       await supabase.from("products").update({ is_featured: action === "feature" }).in("id", selectedProducts);
@@ -46,11 +58,11 @@ export const ProductManagement = () => {
     }
     invalidate(["admin", "products"]);
     setSelectedProducts([]);
-    toast({ title: "Command Executed", description: `Bulk ${action} operation completed successfully.` });
+    toast({ title: `${selectedProducts.length} products ${action === "delete" ? "deleted" : action === "feature" ? "featured" : "unfeatured"}` });
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="space-y-6 animate-in fade-in duration-500">
       <ProductFilters 
         productSearch={productSearch}
         setProductSearch={setProductSearch}
@@ -63,6 +75,7 @@ export const ProductManagement = () => {
         selectedProducts={selectedProducts}
         setSelectedProducts={setSelectedProducts}
         toggleProductStatus={toggleProductStatus}
+        toggleFeatured={toggleFeatured}
         bulkAction={bulkAction}
         deleteProduct={deleteProduct}
       />

@@ -59,22 +59,24 @@ export const AuthorManagement = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "authors"] });
       queryClient.invalidateQueries({ queryKey: ["authors"] });
-      toast({ title: "Profile Synchronized", description: "Author data has been updated in the registry." });
+      toast({ title: "Profile updated", description: "Author data has been saved successfully." });
       setIsModalOpen(false);
       setEditingAuthor(null);
     },
     onError: (error: any) => {
-      toast({ title: "Registry Error", description: error.message, variant: "destructive" });
+      toast({ title: "Update failed", description: error.message, variant: "destructive" });
     }
   });
 
   const deleteAuthor = async (id: string) => {
-    if (!confirm("Confirm permanent removal of this author profile?")) return;
+    if (!confirm("Are you sure you want to delete this author profile?")) return;
     const { error } = await supabase.from("authors").delete().eq("id", id);
     if (!error) {
       queryClient.invalidateQueries({ queryKey: ["admin", "authors"] });
       queryClient.invalidateQueries({ queryKey: ["authors"] });
-      toast({ title: "Profile Purged" });
+      toast({ title: "Author deleted", description: "The profile has been removed." });
+    } else {
+      toast({ title: "Delete failed", description: error.message, variant: "destructive" });
     }
   };
 
@@ -83,47 +85,47 @@ export const AuthorManagement = () => {
   );
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+    <div className="space-y-6 animate-in fade-in duration-500">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-black text-foreground tracking-tight">Author Spotlight</h2>
-          <p className="text-sm text-muted-foreground mt-1 italic">Manage featured literary profiles</p>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground">Authors</h2>
+          <p className="text-sm text-muted-foreground mt-0.5">Manage author profiles and biographies</p>
         </div>
-        <div className="flex gap-4 w-full md:w-auto">
-          <div className="relative flex-1 md:w-64">
-            <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <div className="flex gap-3 w-full sm:w-auto">
+          <div className="relative flex-1 sm:w-64">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <Input 
-              placeholder="Filter names…" 
+              placeholder="Search authors..." 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 bg-white border-border rounded-xl"
+              className="pl-9 bg-white border-border rounded-xl text-sm"
             />
           </div>
-          <Button 
+          <button 
             onClick={() => { setEditingAuthor({}); setIsModalOpen(true); }}
-            className="bg-primary text-white rounded-xl shadow-lg shadow-primary/20"
+            className="px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold flex items-center gap-2 hover:bg-primary/90 transition-colors shadow-sm whitespace-nowrap"
           >
-            <Plus className="w-4 h-4 mr-2" /> Add Author
-          </Button>
+            <Plus className="w-4 h-4" /> Add Author
+          </button>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {isLoading ? (
-          [1,2,3].map(i => <div key={i} className="h-64 bg-muted animate-pulse rounded-[2rem]" />)
+          Array.from({ length: 6 }).map(i => <div key={i} className="h-64 bg-muted animate-pulse rounded-2xl" />)
         ) : (
           filteredAuthors.map((author) => (
-            <div key={author.id} className="bg-white rounded-[2rem] border border-border shadow-sm overflow-hidden group">
-              <div className="h-48 relative bg-muted overflow-hidden">
-                <img src={author.photo_url} alt={author.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <div key={author.id} className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden group hover:border-primary/20 transition-all">
+              <div className="h-40 relative bg-muted overflow-hidden">
+                <img src={author.photo_url || "/placeholder.svg"} alt={author.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <h3 className="absolute bottom-4 left-6 font-display text-xl font-bold text-white">{author.name}</h3>
+                <h3 className="absolute bottom-3 left-4 font-bold text-lg text-white">{author.name}</h3>
               </div>
-              <div className="p-6 flex items-center justify-between border-t border-border">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary">Featured Profile</span>
-                <div className="flex gap-2">
-                  <button onClick={() => { setEditingAuthor(author); setIsModalOpen(true); }} className="p-2 hover:bg-primary/10 hover:text-primary rounded-lg transition-colors"><Edit className="w-4 h-4" /></button>
-                  <button onClick={() => deleteAuthor(author.id)} className="p-2 hover:bg-red-50 hover:text-red-500 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
+              <div className="p-4 flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/5 px-2 py-0.5 rounded">Featured Author</span>
+                <div className="flex gap-1">
+                  <button onClick={() => { setEditingAuthor(author); setIsModalOpen(true); }} className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"><Edit className="w-4 h-4" /></button>
+                  <button onClick={() => deleteAuthor(author.id)} className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
                 </div>
               </div>
             </div>
@@ -132,16 +134,16 @@ export const AuthorManagement = () => {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-500">
-            <div className="px-8 py-6 border-b border-border flex justify-between items-center bg-muted/5 shrink-0">
-              <h3 className="text-xl font-black text-foreground tracking-tight">{editingAuthor?.id ? "Edit Identity" : "Register Author"}</h3>
-              <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-all"><X className="w-6 h-6 text-muted-foreground" /></button>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300 border border-border">
+            <div className="px-6 py-4 border-b border-border flex justify-between items-center bg-white shrink-0">
+              <h3 className="text-lg font-bold text-foreground">{editingAuthor?.id ? "Edit Author" : "New Author"}</h3>
+              <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-muted rounded-full transition-all"><X className="w-5 h-5 text-muted-foreground" /></button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
-              <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Author Image</label>
+            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Photo</label>
                 <ImageUploader 
                   value={editingAuthor?.photo_url} 
                   onChange={(url) => setEditingAuthor(prev => ({ ...prev!, photo_url: url }))}
@@ -150,33 +152,33 @@ export const AuthorManagement = () => {
                 />
               </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Full Name</label>
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Full Name</label>
                 <Input 
                   value={editingAuthor?.name || ""} 
                   onChange={e => setEditingAuthor(prev => ({ ...prev!, name: e.target.value }))}
-                  placeholder="e.g. Miguna Miguna"
-                  className="bg-muted/30 h-12 rounded-xl"
+                  placeholder="e.g. Joel Gitau"
+                  className="bg-white h-11 rounded-xl"
                 />
               </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1">Narrative Biography</label>
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Biography</label>
                 <Textarea 
                   value={editingAuthor?.bio || ""} 
                   onChange={e => setEditingAuthor(prev => ({ ...prev!, bio: e.target.value }))}
-                  placeholder="Tell their story..."
-                  className="bg-muted/30 min-h-[150px] rounded-xl resize-none leading-relaxed"
+                  placeholder="Write a brief bio..."
+                  className="bg-white min-h-[120px] rounded-xl resize-none leading-relaxed text-sm"
                 />
               </div>
             </div>
 
-            <div className="p-8 border-t border-border bg-muted/10 flex justify-end gap-4 shrink-0">
-              <button onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all">Cancel</button>
+            <div className="p-6 border-t border-border bg-muted/5 flex justify-end gap-3 shrink-0">
+              <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all">Cancel</button>
               <button 
                 onClick={() => saveMutation.mutate(editingAuthor!)}
                 disabled={saveMutation.isPending || !editingAuthor?.name}
-                className="px-8 py-3 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 flex items-center gap-2 hover:brightness-110 active:scale-95 transition-all disabled:opacity-50"
+                className="px-6 py-2 bg-primary text-white rounded-xl text-sm font-semibold shadow-sm flex items-center gap-2 hover:bg-primary/90 transition-all disabled:opacity-50"
               >
                 {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Changes"}
               </button>

@@ -236,8 +236,8 @@ const CheckoutPage = () => {
                 paymentMethod === "mpesa" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
               }`}
             >
-              <div className={`p-2 rounded-lg transition-colors ${paymentMethod === "mpesa" ? "bg-primary text-white" : "bg-background text-muted-foreground"}`}>
-                <Phone className="w-5 h-5" />
+              <div className={`w-16 h-10 rounded-lg overflow-hidden flex items-center justify-center p-1 ${paymentMethod === "mpesa" ? "bg-white" : "bg-background"}`}>
+                <img src="/images/mpesa-logo.png" alt="M-Pesa" className="h-full w-auto object-contain" />
               </div>
               <div className="text-left">
                 <p className={`font-sans font-bold text-sm transition-colors ${paymentMethod === "mpesa" ? "text-primary" : "text-foreground"}`}>M-Pesa</p>

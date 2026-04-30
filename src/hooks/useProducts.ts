@@ -20,6 +20,7 @@ type DbProduct = {
   rating: number | null;
   review_count: number | null;
   created_at: string | null;
+  quality_score: number | null;
   categories: { slug: string } | null;
 };
 
@@ -41,6 +42,7 @@ const mapProduct = (p: DbProduct): Product => ({
   rating: Number(p.rating ?? 0),
   reviewCount: p.review_count ?? 0,
   createdAt: p.created_at ?? "",
+  qualityScore: p.quality_score ?? 0,
 });
 
 export const useProducts = (options?: { 
@@ -90,13 +92,15 @@ export const useProducts = (options?: {
       }
       
       // Sorting Logic
-      const sort = options?.sort || "newest";
+      const sort = options?.sort || "recommended";
       switch (sort) {
+        case "recommended": query = query.order("quality_score", { ascending: false }); break;
         case "price-low": query = query.order("price", { ascending: true }); break;
         case "price-high": query = query.order("price", { ascending: false }); break;
         case "rating": query = query.order("rating", { ascending: false }); break;
         case "bestselling": query = query.order("review_count", { ascending: false }); break;
-        default: query = query.order("created_at", { ascending: false });
+        case "newest": query = query.order("created_at", { ascending: false }); break;
+        default: query = query.order("quality_score", { ascending: false });
       }
       
       const { data, error, count } = await query;

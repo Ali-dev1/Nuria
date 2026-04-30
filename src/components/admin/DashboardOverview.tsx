@@ -1,5 +1,5 @@
 import React from "react";
-import { TrendingUp, ShoppingCart, Users, Store, Package, AlertTriangle, ArrowUpRight, CheckCircle, Clock } from "lucide-react";
+import { TrendingUp, ShoppingCart, Users, Store, Package, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { formatPrice } from "@/lib/constants";
 import { useAdminStats, useAdminOrders, useAdminVendors, useAdminProducts } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";
@@ -12,11 +12,11 @@ type DbProduct = Tables<"products">;
 type DbVendor = Tables<"vendors">;
 
 const statusColors: Record<string, string> = {
-  pending: "bg-amber-100 text-amber-700 ring-1 ring-amber-200",
-  confirmed: "bg-blue-100 text-blue-700 ring-1 ring-blue-200",
-  shipped: "bg-purple-100 text-purple-700 ring-1 ring-purple-200",
-  delivered: "bg-green-100 text-green-700 ring-1 ring-green-200",
-  cancelled: "bg-red-100 text-red-700 ring-1 ring-red-200",
+  pending: "bg-amber-50 text-amber-700 border-amber-200",
+  confirmed: "bg-blue-50 text-blue-700 border-blue-200",
+  shipped: "bg-purple-50 text-purple-700 border-purple-200",
+  delivered: "bg-green-50 text-green-700 border-green-200",
+  cancelled: "bg-red-50 text-red-700 border-red-200",
 };
 
 export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) => {
@@ -39,21 +39,20 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
     } as Partial<Tables<"vendors">>).eq("id", id);
 
     if (vendorError) {
-      toast({ title: "Operation failed", description: vendorError.message, variant: "destructive" });
+      toast({ title: "Failed", description: vendorError.message, variant: "destructive" });
       return;
     }
 
-    // Sync profile role
     const { error: profileError } = await supabase.from("profiles").update({ 
       role: verify ? "vendor" : "customer" 
     }).eq("user_id", userId);
 
     if (profileError) {
-      toast({ title: "Profile sync failed", description: profileError.message, variant: "destructive" });
+      toast({ title: "Profile update failed", description: profileError.message, variant: "destructive" });
     } else {
       invalidate(["admin", "vendors"]);
       invalidate(["admin", "stats"]);
-      toast({ title: verify ? "Vendor Approved & Role Granted" : "Vendor Rejected" });
+      toast({ title: verify ? "Vendor approved" : "Vendor rejected" });
     }
   };
 
@@ -66,178 +65,162 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
   const maxRev = Math.max(...last30.map((d) => d.revenue), 1);
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-700">
-      {/* Dynamic Header */}
-         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-            <div>
-               <h1 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-3">
-                  Platform Metrics <ArrowUpRight className="w-6 h-6 text-primary" />
-               </h1>
-               <p className="text-sm text-muted-foreground mt-1">Real-time performance analytics for Nuria Store</p>
-            </div>
-         </div>
-
+    <div className="space-y-6 animate-in fade-in duration-500">
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {[
-          { icon: TrendingUp, label: "Total Revenue", value: formatPrice(stats?.revenue || 0), target: "overview", color: "text-green-600" },
-          { icon: ShoppingCart, label: "Live Orders", value: stats?.orders || 0, target: "orders", color: "text-blue-600" },
-          { icon: Users, label: "Total Users", value: stats?.users || 0, target: "users", color: "text-purple-600" },
-          { icon: Store, label: "Partners", value: stats?.vendors || 0, target: "vendors", color: "text-primary" },
-          { icon: Package, label: "Inventory", value: stats?.products || 0, target: "products", color: "text-amber-600" },
-          { icon: AlertTriangle, label: "Queue", value: stats?.pendingVendors || 0, target: "vendors", color: "text-red-600" },
-        ].map(({ icon: Icon, label, value, target, color }) => (
+          { icon: TrendingUp, label: "Revenue", value: formatPrice(stats?.revenue || 0), target: "overview", color: "text-green-600", bg: "bg-green-50" },
+          { icon: ShoppingCart, label: "Orders", value: stats?.orders || 0, target: "orders", color: "text-blue-600", bg: "bg-blue-50" },
+          { icon: Users, label: "Users", value: stats?.users || 0, target: "users", color: "text-purple-600", bg: "bg-purple-50" },
+          { icon: Store, label: "Vendors", value: stats?.vendors || 0, target: "vendors", color: "text-primary", bg: "bg-primary/5" },
+          { icon: Package, label: "Products", value: stats?.products || 0, target: "products", color: "text-amber-600", bg: "bg-amber-50" },
+          { icon: AlertTriangle, label: "Pending", value: stats?.pendingVendors || 0, target: "vendors", color: "text-red-600", bg: "bg-red-50" },
+        ].map(({ icon: Icon, label, value, target, color, bg }) => (
           <button 
             key={label} 
             onClick={() => setTab(target)}
-            className="group bg-white rounded-3xl p-6 border border-border text-left transition-all hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5 relative overflow-hidden active:scale-95"
+            className="group bg-white rounded-xl p-4 border border-border text-left transition-all hover:border-primary/30 hover:shadow-sm active:scale-[0.98]"
           >
-            <div className={`absolute top-0 right-0 p-3 opacity-5 group-hover:opacity-10 transition-opacity ${color}`}>
-               <Icon className="w-12 h-12" />
+            <div className={`w-8 h-8 ${bg} rounded-lg flex items-center justify-center mb-3`}>
+              <Icon className={`w-4 h-4 ${color}`} />
             </div>
-            <Icon className={`w-5 h-5 mb-4 ${color}`} />
-            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">{label}</p>
-            <p className="text-xl font-black text-foreground truncate">{value}</p>
+            <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide mb-0.5">{label}</p>
+            <p className="text-lg font-bold text-foreground truncate">{value}</p>
           </button>
         ))}
       </div>
 
-      {/* Main Insights Area */}
-      <div className="grid lg:grid-cols-3 gap-8">
-         {/* Revenue Visualization */}
-         <div className="lg:col-span-2 bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
-            <div className="flex justify-between items-center mb-10">
-               <div>
-                  <h3 className="text-lg font-black text-foreground tracking-tight">Revenue Stream</h3>
-                  <p className="text-xs text-muted-foreground italic">Last 30 days of performance</p>
-               </div>
-               <div className="flex items-center gap-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 bg-primary rounded-full" /> Verified Sales</div>
-               </div>
+      {/* Revenue Chart + Pending Vendors */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Revenue Chart */}
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-border p-5 md:p-6">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h3 className="text-base font-bold text-foreground">Revenue</h3>
+              <p className="text-xs text-muted-foreground">Last 30 days</p>
             </div>
-            <div className="flex items-end gap-1.5 h-56 group">
-               {last30.map((d, i) => (
-                  <div key={d.date} className="flex-1 flex flex-col items-center gap-2 group/bar relative">
-                     <div className="w-full bg-primary/5 rounded-2xl overflow-hidden" style={{ height: "100%" }}>
-                        <div 
-                           className="w-full bg-primary absolute bottom-0 transition-all duration-700 ease-out group-hover:brightness-110" 
-                           style={{ height: `${(d.revenue / maxRev) * 100}%`, minHeight: d.revenue > 0 ? "4px" : "1px" }}
-                        />
-                     </div>
-                     <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-foreground text-background text-[10px] font-bold px-3 py-1.5 rounded-xl opacity-0 group-hover/bar:opacity-100 transition-all whitespace-nowrap z-10 shadow-xl scale-90 group-hover/bar:scale-100">
-                        {d.date}: {formatPrice(d.revenue)}
-                     </div>
-                  </div>
-               ))}
-            </div>
-            <div className="flex justify-between text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mt-6 px-1">
-               <span>{last30[0]?.date}</span>
-               <span>{last30[last30.length - 1]?.date}</span>
-            </div>
-         </div>
+          </div>
+          <div className="flex items-end gap-1 h-40 sm:h-48">
+            {last30.map((d) => (
+              <div key={d.date} className="flex-1 flex flex-col items-center gap-1 group relative">
+                <div className="w-full bg-muted/30 rounded-md overflow-hidden relative" style={{ height: "100%" }}>
+                  <div 
+                    className="w-full bg-primary/80 absolute bottom-0 transition-all duration-500 rounded-t-sm hover:bg-primary" 
+                    style={{ height: `${(d.revenue / maxRev) * 100}%`, minHeight: d.revenue > 0 ? "3px" : "1px" }}
+                  />
+                </div>
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-foreground text-background text-[10px] font-medium px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 shadow-lg">
+                  {d.date}: {formatPrice(d.revenue)}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between text-[10px] text-muted-foreground mt-3">
+            <span>{last30[0]?.date}</span>
+            <span>{last30[last30.length - 1]?.date}</span>
+          </div>
+        </div>
 
-         {/* Priority Applications */}
-         <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm flex flex-col">
-            <div className="flex items-center justify-between mb-8">
-               <h3 className="text-lg font-black text-foreground tracking-tight">Pending Approval</h3>
-               <span className="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-                  {pendingVendors.length} New
-               </span>
-            </div>
-            <div className="flex-1 space-y-4 overflow-y-auto max-h-[350px] pr-2 custom-scrollbar">
-               {pendingVendors.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-full opacity-20 py-10">
-                     <CheckCircle className="w-12 h-12 mb-2" />
-                     <p className="text-[10px] font-black uppercase tracking-widest">Queue Empty</p>
+        {/* Pending Vendors */}
+        <div className="bg-white rounded-2xl border border-border p-5 md:p-6 flex flex-col">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-base font-bold text-foreground">Pending Approval</h3>
+            <span className="bg-primary/10 text-primary text-xs font-semibold px-2 py-0.5 rounded-full">
+              {pendingVendors.length}
+            </span>
+          </div>
+          <div className="flex-1 space-y-3 overflow-y-auto max-h-[280px]">
+            {pendingVendors.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-full opacity-30 py-8">
+                <CheckCircle className="w-8 h-8 mb-2" />
+                <p className="text-xs font-medium">All caught up</p>
+              </div>
+            ) : (
+              pendingVendors.map((v: DbVendor) => (
+                <div key={v.id} className="p-3 bg-muted/20 rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-foreground truncate">{v.store_name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{v.profiles?.name || "—"}</p>
+                    </div>
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold text-xs shrink-0">
+                      {v.store_name?.charAt(0)}
+                    </div>
                   </div>
-               ) : (
-                  pendingVendors.map((v: DbVendor) => (
-                     <div key={v.id} className="p-4 bg-muted/30 rounded-2xl border border-transparent hover:border-primary/20 transition-all group">
-                        <div className="flex items-center justify-between mb-3">
-                           <div>
-                              <p className="text-sm font-black text-foreground leading-none mb-1">{v.store_name}</p>
-                              <p className="text-[10px] font-bold text-primary mb-1">{v.profiles?.name || "N/A"}</p>
-                              <p className="text-[9px] font-medium text-muted-foreground italic truncate max-w-[120px]">{v.profiles?.email}</p>
-                           </div>
-                           <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-primary font-black text-xs shadow-sm ring-1 ring-border">
-                              {v.store_name?.charAt(0)}
-                           </div>
-                        </div>
-                        <button 
-                           onClick={() => verifyVendor(v.id, true, v.user_id)} 
-                           className="w-full py-2 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-primary/10 hover:brightness-110 active:scale-95 transition-all"
-                        >
-                           Verify Merchant
-                        </button>
-                     </div>
-                  ))
-               )}
-            </div>
-            <button onClick={() => setTab("vendors")} className="mt-6 w-full py-3 text-[10px] font-black text-muted-foreground uppercase tracking-widest hover:text-primary transition-colors">
-               View All Applications
-            </button>
-         </div>
+                  <button 
+                    onClick={() => verifyVendor(v.id, true, v.user_id)} 
+                    className="w-full py-2 bg-primary text-white text-xs font-semibold rounded-lg hover:bg-primary/90 active:scale-[0.98] transition-all"
+                  >
+                    Approve
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+          <button onClick={() => setTab("vendors")} className="mt-4 w-full py-2 text-xs font-medium text-muted-foreground hover:text-primary transition-colors">
+            View all vendors →
+          </button>
+        </div>
       </div>
 
-      {/* Secondary Row: Orders & Stock */}
-      <div className="grid lg:grid-cols-2 gap-8">
-         {/* Recent Orders Table-lite */}
-         <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
-            <div className="flex items-center justify-between mb-8">
-               <h3 className="text-lg font-black text-foreground tracking-tight">Recent Sales</h3>
-               <Clock className="w-5 h-5 text-muted-foreground opacity-30" />
-            </div>
-            <div className="space-y-4">
-               {(ordersData?.data || []).slice(0, 5).map((o: DbOrder) => (
-                  <div key={o.id} className="flex items-center justify-between p-4 bg-muted/10 rounded-2xl border border-transparent hover:border-border transition-all">
-                     <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-background border border-border flex items-center justify-center text-xs font-black">
-                           #{o.id.slice(0, 3)}
-                        </div>
-                        <div>
-                           <p className="text-sm font-black text-foreground">Order {o.id.slice(0, 8)}</p>
-                           <p className="text-[10px] font-medium text-muted-foreground italic">{new Date(o.created_at).toLocaleDateString()}</p>
-                        </div>
-                     </div>
-                     <div className="text-right">
-                        <p className="text-sm font-black text-primary mb-1">{formatPrice(Number(o.total))}</p>
-                        <span className={`text-[9px] px-2 py-0.5 rounded-full font-black uppercase tracking-widest ${statusColors[o.status || "pending"]}`}>
-                           {o.status || "pending"}
-                        </span>
-                     </div>
+      {/* Orders + Stock Alerts */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Recent Orders */}
+        <div className="bg-white rounded-2xl border border-border p-5 md:p-6">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-base font-bold text-foreground">Recent Orders</h3>
+            <Clock className="w-4 h-4 text-muted-foreground/40" />
+          </div>
+          <div className="space-y-2">
+            {(ordersData?.data || []).slice(0, 5).map((o: DbOrder) => (
+              <div key={o.id} className="flex items-center justify-between p-3 bg-muted/10 rounded-xl hover:bg-muted/20 transition-colors">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-8 h-8 rounded-lg bg-white border border-border flex items-center justify-center text-[10px] font-bold text-muted-foreground shrink-0">
+                    #{o.id.slice(0, 3)}
                   </div>
-               ))}
-            </div>
-         </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-foreground truncate">Order {o.id.slice(0, 8)}</p>
+                    <p className="text-[11px] text-muted-foreground">{new Date(o.created_at).toLocaleDateString()}</p>
+                  </div>
+                </div>
+                <div className="text-right shrink-0 ml-3">
+                  <p className="text-sm font-bold text-primary">{formatPrice(Number(o.total))}</p>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium border ${statusColors[o.status || "pending"]}`}>
+                    {o.status || "pending"}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-         {/* Inventory Alert */}
-         <div className="bg-white rounded-[2.5rem] border border-border p-8 shadow-sm">
-            <div className="flex items-center justify-between mb-8">
-               <h3 className="text-lg font-black text-foreground tracking-tight flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5 text-amber-500" /> Stock Watch
-               </h3>
-               <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{lowStockProducts.length} Items Low</span>
-            </div>
-            <div className="space-y-4">
-               {lowStockProducts.slice(0, 5).map((p: DbProduct) => (
-                  <div key={p.id} className="flex items-center justify-between p-4 bg-red-50/30 rounded-2xl border border-red-100/50">
-                     <div className="flex-1 min-w-0 pr-4">
-                        <p className="text-sm font-black text-foreground truncate">{p.title}</p>
-                        <p className="text-[10px] font-bold text-red-600/60 uppercase tracking-widest">Critical Alert</p>
-                     </div>
-                     <div className="px-3 py-1 bg-red-600 text-white text-[10px] font-black rounded-lg shadow-lg shadow-red-500/20">
-                        {p.stock ?? 0} UNITS
-                     </div>
-                  </div>
-               ))}
-               {lowStockProducts.length === 0 && (
-                  <div className="py-20 text-center opacity-20">
-                     <Package className="w-12 h-12 mx-auto mb-2" />
-                     <p className="text-[10px] font-black uppercase tracking-widest">Inventory Healthy</p>
-                  </div>
-               )}
-            </div>
-         </div>
+        {/* Low Stock */}
+        <div className="bg-white rounded-2xl border border-border p-5 md:p-6">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-base font-bold text-foreground flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-amber-500" /> Low Stock
+            </h3>
+            <span className="text-xs text-muted-foreground">{lowStockProducts.length} items</span>
+          </div>
+          <div className="space-y-2">
+            {lowStockProducts.slice(0, 5).map((p: DbProduct) => (
+              <div key={p.id} className="flex items-center justify-between p-3 bg-red-50/50 rounded-xl border border-red-100/50">
+                <div className="min-w-0 pr-3">
+                  <p className="text-sm font-semibold text-foreground truncate">{p.title}</p>
+                </div>
+                <span className="px-2 py-0.5 bg-red-600 text-white text-xs font-semibold rounded shrink-0">
+                  {p.stock ?? 0}
+                </span>
+              </div>
+            ))}
+            {lowStockProducts.length === 0 && (
+              <div className="py-12 text-center opacity-30">
+                <Package className="w-8 h-8 mx-auto mb-2" />
+                <p className="text-xs font-medium">Stock levels healthy</p>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

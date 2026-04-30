@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { InfoPageLayout } from "@/components/layout/InfoPageLayout";
-import { Gift, Mail, CreditCard, Search, CheckCircle2, ArrowRight } from "lucide-react";
+import { Mail, CreditCard, Search, CheckCircle2, ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const GiftCardPage = () => {
@@ -18,143 +18,172 @@ const GiftCardPage = () => {
     }
   };
 
+  const denominations = [
+    { value: 5000, label: "Starter" },
+    { value: 10000, label: "Classic" },
+    { value: 20000, label: "Premium" },
+    { value: 50000, label: "Ultimate" },
+  ];
+
   return (
     <InfoPageLayout 
-      label="The Perfect Gift"
-      title="Nuria Gift Cards"
-      subtitle="Give the gift of infinite stories. Our digital gift cards are redeemable across our entire 21,000+ catalog of books."
+      label="Gift Cards"
+      title="Give the Gift of Reading"
+      subtitle="Digital gift cards redeemable across our entire 23,000+ catalog. Delivered instantly by email."
     >
-      <div className="space-y-24">
-        {/* Visual & Purchase Section */}
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
-          {/* Immersive Card Preview */}
-          <div className="relative group perspective-1000">
-            <div className="aspect-[1.6/1] bg-primary rounded-[3rem] p-12 text-white overflow-hidden shadow-[0_50px_100px_-20px_rgba(27,67,50,0.3)] flex flex-col justify-between transition-all duration-700 group-hover:rotate-y-6 group-hover:scale-105">
+      <div className="space-y-16 md:space-y-24">
+        {/* Purchase Section */}
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          {/* Card Preview */}
+          <div className="order-2 lg:order-1">
+            <div className="aspect-[1.6/1] bg-primary rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 text-white overflow-hidden relative flex flex-col justify-between shadow-xl">
+              {/* Background decoration */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
-              <div className="absolute -right-20 -top-20 w-80 h-80 bg-secondary/20 rounded-full blur-[100px] group-hover:bg-secondary/30 transition-colors" />
+              <div className="absolute -right-16 -top-16 w-56 h-56 bg-white/5 rounded-full" />
+              <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full" />
               
+              {/* Top */}
               <div className="flex justify-between items-start relative z-10">
-                <div className="space-y-1">
-                  <h3 className="font-display text-4xl font-bold tracking-tight">Nuria</h3>
-                  <p className="font-sans text-[9px] uppercase tracking-[0.4em] text-white/50">The Honest Store</p>
+                <div>
+                  <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight">Nuria</h3>
+                  <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-white/50 mt-0.5">Home of African Books</p>
                 </div>
+                <BookOpen className="w-6 h-6 text-white/20" />
               </div>
 
-              <div className="relative z-10 space-y-4">
-                <p className="font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-white/40">Digital Gift Voucher</p>
-                <div className="flex items-baseline gap-4">
-                  <span className="text-6xl font-display font-bold">KSh {amount.toLocaleString()}</span>
+              {/* Bottom */}
+              <div className="relative z-10 space-y-1">
+                <p className="text-[10px] sm:text-xs font-medium uppercase tracking-widest text-white/40">Digital Gift Card</p>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl sm:text-4xl md:text-5xl font-display font-bold">
+                    KSh {amount.toLocaleString()}
+                  </span>
                 </div>
-              </div>
-
-              <div className="absolute bottom-12 right-12 z-10">
-                <Gift className="w-12 h-12 text-white/10" />
               </div>
             </div>
-            {/* Glossy Overlay */}
-            <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-tr from-white/10 via-white/5 to-transparent pointer-events-none opacity-50 group-hover:opacity-80 transition-opacity" />
           </div>
 
-          {/* Form & Selection */}
-          <div className="space-y-10">
-            <div className="space-y-4">
-              <h2 className="font-display text-4xl font-bold text-foreground">Surprise a Reader</h2>
-              <p className="font-sans text-muted-foreground text-lg">Select a value or enter a custom amount to share the joy of literature.</p>
+          {/* Form */}
+          <div className="order-1 lg:order-2 space-y-6 sm:space-y-8">
+            <div className="space-y-2">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">Choose an Amount</h2>
+              <p className="text-muted-foreground text-sm sm:text-base">Select a denomination or enter a custom amount.</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4" role="group" aria-label="Gift card denominations">
-              {[10000, 20000, 30000, 50000].map((val) => (
+            {/* Denomination Grid */}
+            <div className="grid grid-cols-2 gap-3" role="group" aria-label="Gift card denominations">
+              {denominations.map(({ value, label }) => (
                 <button
-                  key={val}
+                  key={value}
                   type="button"
                   role="radio"
-                  aria-checked={amount === val && !customAmount}
-                  aria-label={`${val.toLocaleString()} Kenyan Shillings gift card`}
+                  aria-checked={amount === value && !customAmount}
+                  aria-label={`${value.toLocaleString()} Kenyan Shillings gift card`}
                   onClick={() => {
-                    setAmount(val);
+                    setAmount(value);
                     setCustomAmount("");
                   }}
-                  className={`p-8 border rounded-[2rem] font-display text-2xl font-bold transition-all hover:-translate-y-1 ${amount === val && !customAmount ? "bg-background border-secondary text-foreground" : "bg-white border-border text-foreground hover:border-secondary"}`}
+                  className={`p-4 sm:p-5 border rounded-xl sm:rounded-2xl text-left transition-all active:scale-[0.98] ${
+                    amount === value && !customAmount 
+                      ? "bg-primary/5 border-primary ring-1 ring-primary/20" 
+                      : "bg-white border-border hover:border-primary/30"
+                  }`}
                 >
-                  <span className="text-sm font-sans block mb-1 opacity-70">KSh</span>
-                  {val.toLocaleString()}
+                  <span className="text-[10px] sm:text-xs text-muted-foreground font-medium block mb-1">{label}</span>
+                  <span className="text-lg sm:text-xl md:text-2xl font-display font-bold text-foreground">
+                    KSh {value.toLocaleString()}
+                  </span>
                 </button>
               ))}
             </div>
 
+            {/* Custom Amount */}
             <div className="space-y-2">
-              <label htmlFor="gc-amount" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-2">Custom Amount (Min KSh 5,000)</label>
+              <label htmlFor="gc-amount" className="text-xs font-medium text-muted-foreground">
+                Custom Amount (Min KSh 5,000)
+              </label>
               <div className="relative">
-                <span className="absolute left-6 top-1/2 -translate-y-1/2 text-foreground font-bold font-sans">KSh</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-muted-foreground">KSh</span>
                 <input 
                   id="gc-amount"
                   type="text" 
                   value={customAmount}
                   onChange={handleCustomAmountChange}
-                  placeholder="Enter amount..." 
-                  className="w-full pl-16 pr-6 py-5 bg-white border border-border rounded-2xl focus:ring-4 focus:ring-secondary/5 focus:border-secondary transition-all outline-none text-xl font-display font-bold text-foreground" 
+                  placeholder="Enter amount" 
+                  className="w-full pl-14 pr-4 py-3.5 sm:py-4 bg-white border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-lg font-display font-bold text-foreground" 
                 />
               </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-2xl border border-primary/10">
-                <CheckCircle2 className="w-5 h-5 text-primary" />
-                <p className="text-sm font-sans font-medium text-primary">Delivered instantly via email to the recipient</p>
+            {/* Info + CTA */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-xl border border-primary/10">
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                <p className="text-sm font-medium text-primary">Delivered instantly to recipient's email</p>
               </div>
-              <Button className="w-full py-10 bg-primary text-white rounded-3xl font-sans font-bold text-xs uppercase tracking-[0.2em] shadow-2xl shadow-primary/20 hover:bg-primary/90">
+              <Button 
+                onClick={() => {
+                  import("sonner").then(({ toast }) => {
+                    toast.success("Redirecting to checkout for your Gift Card...");
+                  });
+                }}
+                className="w-full py-6 sm:py-7 bg-primary text-white rounded-xl sm:rounded-2xl font-semibold text-sm shadow-md hover:bg-primary/90 transition-all active:scale-[0.99]"
+              >
                 Purchase Gift Card <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Balance Verification Section */}
-        <section className="bg-white p-12 lg:p-24 rounded-[4rem] border border-border shadow-2xl shadow-black/5 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-background rounded-full -mr-48 -mt-48 pointer-events-none" />
-          
-          <div className="grid lg:grid-cols-12 gap-16 items-center relative z-10">
-            <div className="lg:col-span-5 space-y-8">
-              <span className="font-sans text-[12px] font-bold text-secondary uppercase tracking-[0.3em]">Quick Check</span>
-              <h2 className="font-display text-5xl font-bold text-foreground leading-tight">Verify Your <br />Balance</h2>
-              <p className="font-sans text-muted-foreground text-lg leading-relaxed">
-                Check the remaining value of your Nuria Gift Card. Simply enter your email and the unique voucher code to see your balance.
+        {/* Balance Check Section */}
+        <section className="bg-white p-6 sm:p-8 md:p-12 lg:p-16 rounded-2xl md:rounded-3xl border border-border shadow-sm">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="space-y-4">
+              <span className="text-xs font-semibold text-primary uppercase tracking-widest">Balance Check</span>
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground leading-tight">
+                Check Your Gift Card Balance
+              </h2>
+              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                Enter your email and voucher code to check the remaining value on your Nuria gift card.
               </p>
             </div>
 
-            <div className="lg:col-span-7">
-              <form className="space-y-6 bg-background p-10 lg:p-14 rounded-[3.5rem] border border-border" onSubmit={(e) => e.preventDefault()}>
-                <div className="space-y-2">
-                  <label htmlFor="gc-email" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-2">Email Identity</label>
-                  <div className="relative">
-                    <input 
-                      id="gc-email"
-                      type="email" 
-                      placeholder="you@domain.com" 
-                      className="w-full pl-14 pr-6 py-5 bg-white border border-border rounded-2xl focus:ring-4 focus:ring-secondary/5 focus:border-secondary transition-all outline-none" 
-                    />
-                    <Mail className="w-5 h-5 text-secondary absolute left-6 top-1/2 -translate-y-1/2" />
-                  </div>
+            <form className="space-y-4 bg-muted/20 p-5 sm:p-6 md:p-8 rounded-xl md:rounded-2xl border border-border" onSubmit={(e) => {
+              e.preventDefault();
+              import("sonner").then(({ toast }) => {
+                toast.error("Voucher code not found. Please double check the characters and try again.");
+              });
+            }}>
+              <div className="space-y-1.5">
+                <label htmlFor="gc-email" className="text-xs font-medium text-muted-foreground">Email Address</label>
+                <div className="relative">
+                  <Mail className="w-4 h-4 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2" />
+                  <input 
+                    id="gc-email"
+                    type="email" 
+                    placeholder="you@example.com" 
+                    className="w-full pl-11 pr-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm" 
+                  />
                 </div>
+              </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="gc-code" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-2">Voucher Code</label>
-                  <div className="relative">
-                    <input 
-                      id="gc-code"
-                      type="text" 
-                      placeholder="NR-XXXX-XXXX-XXXX" 
-                      className="w-full pl-14 pr-6 py-5 bg-white border border-border rounded-2xl focus:ring-4 focus:ring-secondary/5 focus:border-secondary transition-all outline-none" 
-                    />
-                    <CreditCard className="w-5 h-5 text-secondary absolute left-6 top-1/2 -translate-y-1/2" />
-                  </div>
+              <div className="space-y-1.5">
+                <label htmlFor="gc-code" className="text-xs font-medium text-muted-foreground">Voucher Code</label>
+                <div className="relative">
+                  <CreditCard className="w-4 h-4 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2" />
+                  <input 
+                    id="gc-code"
+                    type="text" 
+                    placeholder="NR-XXXX-XXXX-XXXX" 
+                    className="w-full pl-11 pr-4 py-3 bg-white border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none text-sm font-mono" 
+                  />
                 </div>
+              </div>
 
-                <Button className="w-full py-8 bg-secondary hover:bg-secondary/90 text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-widest shadow-xl shadow-secondary/10">
-                  <Search className="w-4 h-4 mr-2" /> Verify Remaining Balance
-                </Button>
-              </form>
-            </div>
+              <Button type="submit" className="w-full py-5 bg-primary hover:bg-primary/90 text-white rounded-xl font-semibold text-sm shadow-sm transition-all active:scale-[0.99]">
+                <Search className="w-4 h-4 mr-2" /> Check Balance
+              </Button>
+            </form>
           </div>
         </section>
       </div>

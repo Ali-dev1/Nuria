@@ -13,8 +13,8 @@ const faqData = [
     icon: HelpCircle,
     questions: [
       {
-        q: "What is Nuria's 'The Honest Store' policy?",
-        a: "Our policy is built on radical transparency. We ensure all books are ethically sourced, authors are paid fairly and promptly via M-Pesa, and customers get exactly what they order with no hidden fees."
+        q: "What is 'The Nuria Promise'?",
+        a: "The Nuria Promise is our commitment to transparency, supporting African authors, and providing a reliable marketplace for readers and writers alike."
       },
       {
         q: "Where is your physical store located?",
