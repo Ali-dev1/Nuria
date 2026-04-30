@@ -294,7 +294,7 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
                 <div className="space-y-2">
                   <label htmlFor="vp-cat" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Listing Category</label>
                   <select id="vp-cat" value={editForm.category || ""} onChange={(e) => setEditForm((f: EditForm) => ({ ...f, category: e.target.value }))} className="w-full px-4 py-3 border border-border rounded-xl text-sm bg-background focus:ring-2 focus:ring-primary/20 font-bold appearance-none">
-                    {CATEGORIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+                    {CATEGORIES.filter(c => c.slug !== "").map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
                   </select>
                 </div>
                 <div className="space-y-2">

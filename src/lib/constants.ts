@@ -1,6 +1,7 @@
 import { Category, Product } from "./types";
 
 export const CATEGORIES: Category[] = [
+  { id: "10", name: "All Categories", slug: "", icon: "LayoutGrid" },
   { id: "1", name: "Fiction", slug: "fiction", icon: "BookOpen" },
   { id: "2", name: "Non-Fiction", slug: "non-fiction", icon: "GraduationCap" },
   { id: "3", name: "Children Education", slug: "children-education", icon: "Baby" },
@@ -10,7 +11,6 @@ export const CATEGORIES: Category[] = [
   { id: "7", name: "History", slug: "history", icon: "Globe" },
   { id: "8", name: "Technology", slug: "technology", icon: "Smartphone" },
   { id: "9", name: "Lifestyle", slug: "lifestyle", icon: "Shirt" },
-  { id: "10", name: "All Categories", slug: "", icon: "LayoutGrid" },
 ];
 
 export const formatPrice = (price: number) => {

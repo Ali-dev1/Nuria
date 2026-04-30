@@ -179,7 +179,7 @@ const AddProductPage = () => {
                 <label htmlFor="ap-cat" className="block text-[10px] font-black text-muted-foreground uppercase tracking-widest">Catalog Category</label>
                 <div className="relative">
                   <select id="ap-cat" value={form.category} onChange={(e) => update("category", e.target.value)} className="w-full px-5 py-4 border border-border rounded-2xl text-sm bg-background focus:ring-4 focus:ring-primary/5 font-bold appearance-none">
-                    {CATEGORIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+                    {CATEGORIES.filter(c => c.slug !== "").map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
                   </select>
                 </div>
               </div>

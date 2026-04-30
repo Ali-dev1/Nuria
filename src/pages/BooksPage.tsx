@@ -59,8 +59,9 @@ const BooksPage = () => {
   };
 
   let pageTitle = "All Books";
-  if (selectedCategory) {
-    pageTitle = CATEGORIES.find((c) => c.slug === selectedCategory)?.name || "Books";
+  const currentCategory = CATEGORIES.find((c) => c.slug === selectedCategory);
+  if (currentCategory && selectedCategory !== "") {
+    pageTitle = currentCategory.name;
   } else if (searchQuery) {
     pageTitle = `Search: ${searchQuery}`;
   }
@@ -93,16 +94,6 @@ const BooksPage = () => {
       {/* Mobile Category Strip */}
       <div className="lg:hidden -mx-4 px-4 mb-8 overflow-x-auto no-scrollbar scroll-smooth">
         <div className="flex items-center gap-2 pb-2">
-          <button
-            onClick={() => setSelectedCategory("")}
-            className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all ${
-              selectedCategory 
-                ? "bg-white border-border text-muted-foreground"
-                : "bg-primary text-white border-primary shadow-md" 
-            }`}
-          >
-            All
-          </button>
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
@@ -149,12 +140,6 @@ const BooksPage = () => {
             <div>
               <h4 className="text-sm font-semibold text-foreground mb-3">Category</h4>
               <div className="space-y-1.5">
-                <button
-                  onClick={() => setSelectedCategory("")}
-                  className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${selectedCategory ? "text-muted-foreground hover:bg-primary/5 hover:text-primary" : "bg-primary text-white font-medium shadow-sm"}`}
-                >
-                  All Categories
-                </button>
                 {CATEGORIES.map((cat) => (
                   <button
                     key={cat.id}
