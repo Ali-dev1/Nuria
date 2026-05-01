@@ -14,31 +14,26 @@ VALUES
   ('blog-images', 'blog-images', true)
 ON CONFLICT (id) DO NOTHING;
 
--- RLS Policies for author-photos
-DROP POLICY IF EXISTS "Public read author photos" ON storage.objects;
-CREATE POLICY "Public read author photos" ON storage.objects 
-  FOR SELECT USING (bucket_id = 'author-photos');
-
-DROP POLICY IF EXISTS "Authenticated upload author photos" ON storage.objects;
-CREATE POLICY "Authenticated upload author photos" ON storage.objects 
-  FOR INSERT WITH CHECK (bucket_id = 'author-photos' AND auth.role() = 'authenticated');
-
-DROP POLICY IF EXISTS "Authenticated update author photos" ON storage.objects;
-CREATE POLICY "Authenticated update author photos" ON storage.objects 
-  FOR UPDATE USING (bucket_id = 'author-photos' AND auth.role() = 'authenticated');
-
--- RLS Policies for blog-images
-DROP POLICY IF EXISTS "Public read blog images" ON storage.objects;
-CREATE POLICY "Public read blog images" ON storage.objects 
-  FOR SELECT USING (bucket_id = 'blog-images');
-
-DROP POLICY IF EXISTS "Authenticated upload blog images" ON storage.objects;
-CREATE POLICY "Authenticated upload blog images" ON storage.objects 
-  FOR INSERT WITH CHECK (bucket_id = 'blog-images' AND auth.role() = 'authenticated');
-
-DROP POLICY IF EXISTS "Authenticated update blog images" ON storage.objects;
-CREATE POLICY "Authenticated update blog images" ON storage.objects 
-  FOR UPDATE USING (bucket_id = 'blog-images' AND auth.role() = 'authenticated');
+-- Standard policies for buckets
+DO $$ 
+DECLARE
+  b TEXT;
+  buckets TEXT[] := ARRAY['author-photos', 'blog-images'];
+BEGIN
+  FOREACH b IN ARRAY buckets LOOP
+    -- Select (Public)
+    EXECUTE format('DROP POLICY IF EXISTS "Public read %s" ON storage.objects', b);
+    EXECUTE format('CREATE POLICY "Public read %s" ON storage.objects FOR SELECT USING (bucket_id = %L)', b, b);
+    
+    -- Insert (Auth)
+    EXECUTE format('DROP POLICY IF EXISTS "Authenticated upload %s" ON storage.objects', b);
+    EXECUTE format('CREATE POLICY "Authenticated upload %s" ON storage.objects FOR INSERT WITH CHECK (bucket_id = %L AND auth.role() = %L)', b, b, 'authenticated');
+    
+    -- Update (Auth)
+    EXECUTE format('DROP POLICY IF EXISTS "Authenticated update %s" ON storage.objects', b);
+    EXECUTE format('CREATE POLICY "Authenticated update %s" ON storage.objects FOR UPDATE USING (bucket_id = %L AND auth.role() = %L)', b, b, 'authenticated');
+  END LOOP;
+END $$;
 
 -- =================================================
 -- 2. VENDOR STATUS NORMALIZATION

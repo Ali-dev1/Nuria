@@ -53,66 +53,33 @@ ALTER TABLE public.vendors ADD COLUMN IF NOT EXISTS facebook_url TEXT;
 ALTER TABLE public.vendors ADD COLUMN IF NOT EXISTS website_url TEXT;
 
 -- ==========================================
--- STORAGE POLICIES (For buckets: author-photos, blog-images, book-covers)
--- These assume you've created the buckets already
+-- STORAGE POLICIES
 -- ==========================================
 
--- Author photos storage policies
-DROP POLICY IF EXISTS "author-photos-all-upload" ON storage.objects;
-CREATE POLICY "author-photos-all-upload" ON storage.objects
-  FOR INSERT TO authenticated WITH CHECK (
-    bucket_id = 'author-photos' AND auth.role() = 'authenticated'
-  );
-
-DROP POLICY IF EXISTS "author-photos-all-read" ON storage.objects;
-CREATE POLICY "author-photos-all-read" ON storage.objects
-  FOR SELECT USING (bucket_id = 'author-photos');
-
-DROP POLICY IF EXISTS "author-photos-all-update" ON storage.objects;
-CREATE POLICY "author-photos-all-update" ON storage.objects
-  FOR UPDATE TO authenticated USING (bucket_id = 'author-photos');
-
-DROP POLICY IF EXISTS "author-photos-all-delete" ON storage.objects;
-CREATE POLICY "author-photos-all-delete" ON storage.objects
-  FOR DELETE TO authenticated USING (bucket_id = 'author-photos');
-
--- Blog images storage policies
-DROP POLICY IF EXISTS "blog-images-all-upload" ON storage.objects;
-CREATE POLICY "blog-images-all-upload" ON storage.objects
-  FOR INSERT TO authenticated WITH CHECK (
-    bucket_id = 'blog-images' AND auth.role() = 'authenticated'
-  );
-
-DROP POLICY IF EXISTS "blog-images-all-read" ON storage.objects;
-CREATE POLICY "blog-images-all-read" ON storage.objects
-  FOR SELECT USING (bucket_id = 'blog-images');
-
-DROP POLICY IF EXISTS "blog-images-all-update" ON storage.objects;
-CREATE POLICY "blog-images-all-update" ON storage.objects
-  FOR UPDATE TO authenticated USING (bucket_id = 'blog-images');
-
-DROP POLICY IF EXISTS "blog-images-all-delete" ON storage.objects;
-CREATE POLICY "blog-images-all-delete" ON storage.objects
-  FOR DELETE TO authenticated USING (bucket_id = 'blog-images');
-
--- Book covers storage policies
-DROP POLICY IF EXISTS "book-covers-all-upload" ON storage.objects;
-CREATE POLICY "book-covers-all-upload" ON storage.objects
-  FOR INSERT TO authenticated WITH CHECK (
-    bucket_id = 'book-covers' AND auth.role() = 'authenticated'
-  );
-
-DROP POLICY IF EXISTS "book-covers-all-read" ON storage.objects;
-CREATE POLICY "book-covers-all-read" ON storage.objects
-  FOR SELECT USING (bucket_id = 'book-covers');
-
-DROP POLICY IF EXISTS "book-covers-all-update" ON storage.objects;
-CREATE POLICY "book-covers-all-update" ON storage.objects
-  FOR UPDATE TO authenticated USING (bucket_id = 'book-covers');
-
-DROP POLICY IF EXISTS "book-covers-all-delete" ON storage.objects;
-CREATE POLICY "book-covers-all-delete" ON storage.objects
-  FOR DELETE TO authenticated USING (bucket_id = 'book-covers');
+-- Standard policies for public buckets (author-photos, blog-images, book-covers)
+DO $$ 
+DECLARE
+  b TEXT;
+  buckets TEXT[] := ARRAY['author-photos', 'blog-images', 'book-covers'];
+BEGIN
+  FOREACH b IN ARRAY buckets LOOP
+    -- Select (Public)
+    EXECUTE format('DROP POLICY IF EXISTS "%s-read" ON storage.objects', b);
+    EXECUTE format('CREATE POLICY "%s-read" ON storage.objects FOR SELECT USING (bucket_id = %L)', b, b);
+    
+    -- Insert (Auth)
+    EXECUTE format('DROP POLICY IF EXISTS "%s-insert" ON storage.objects', b);
+    EXECUTE format('CREATE POLICY "%s-insert" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = %L)', b, b);
+    
+    -- Update (Auth)
+    EXECUTE format('DROP POLICY IF EXISTS "%s-update" ON storage.objects', b);
+    EXECUTE format('CREATE POLICY "%s-update" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = %L)', b, b);
+    
+    -- Delete (Auth)
+    EXECUTE format('DROP POLICY IF EXISTS "%s-delete" ON storage.objects', b);
+    EXECUTE format('CREATE POLICY "%s-delete" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = %L)', b, b);
+  END LOOP;
+END $$;
 
 -- ==========================================
 -- DATABASE RLS POLICIES
