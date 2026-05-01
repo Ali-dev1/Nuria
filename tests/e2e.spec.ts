@@ -241,7 +241,7 @@ test.describe('Navigation', () => {
   test('Desktop nav links are present', async ({ page }) => {
     await page.goto(BASE_URL);
     // Navbar.tsx lines 94-98: nav links
-    const nav = page.locator('nav.hidden.lg\\:flex');
+    const nav = page.locator(String.raw`nav.hidden.lg\:flex`);
     await expect(nav.getByText('Home')).toBeVisible();
     await expect(nav.getByText('Shop')).toBeVisible();
     await expect(nav.getByText('Gift Card')).toBeVisible();

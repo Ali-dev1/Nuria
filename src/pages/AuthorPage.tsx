@@ -67,13 +67,24 @@ const AuthorPage = () => {
           
           <div className="flex flex-col lg:flex-row gap-16 lg:items-center">
             <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full overflow-hidden shrink-0 border-4 border-white shadow-xl">
-              <img 
-                src={!author.photo_url || author.photo_url.includes("Miguna-Miguna.jpg") ? "/logo-small.webp" : author.photo_url.includes("unsplash.com") ? `${author.photo_url.split('?')[0]}?fm=webp&q=50&w=340` : author.photo_url} 
-                alt={author.name} 
-                loading="eager"
-                fetchPriority="high"
-                className="w-full h-full object-cover" 
-              />
+              {(() => {
+                const getPhotoSrc = () => {
+                  if (!author.photo_url || author.photo_url.includes("Miguna-Miguna.jpg")) return "/logo-small.webp";
+                  if (author.photo_url.startsWith("/")) return author.photo_url;
+                  
+                  const baseUrl = author.photo_url.includes("unsplash.com") ? author.photo_url.split('?')[0] : author.photo_url;
+                  return `https://wsrv.nl/?url=${baseUrl}&w=600&h=600&fit=cover&output=webp&q=75`;
+                };
+                return (
+                  <img 
+                    src={getPhotoSrc()} 
+                    alt={author.name} 
+                    loading="eager"
+                    fetchPriority="high"
+                    className="w-full h-full object-cover" 
+                  />
+                );
+              })()}
             </div>
             
             <div className="space-y-6 max-w-3xl">

@@ -64,7 +64,7 @@
     --popover-foreground: 164 86% 8%;
     --primary: 164 86% 16%;         /* Emerald 900 */
     --primary-foreground: 164 20% 98%;
-    --secondary: 161 94% 30%;       /* Emerald 700 */
+    --secondary: 161 94% 24%;       /* Emerald 700 — WCAG AA compliant on white */
     --secondary-foreground: 164 20% 98%;
     --muted: 158 42% 94%;           /* Light Sage */
     --muted-foreground: 164 15% 40%;

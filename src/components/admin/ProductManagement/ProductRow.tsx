@@ -111,12 +111,18 @@ export const ProductRow: React.FC<ProductRowProps> = ({
           </div>
         </div>
         <div className="flex items-center justify-between mt-3 pl-7">
-          <div className="flex items-center gap-2">
-            <span className={`text-xs font-medium ${((p.stock as number) ?? 0) < 10 ? "text-red-500" : "text-muted-foreground"}`}>
-              {(p.stock as number) ?? 0} in stock
-            </span>
-            {((p.stock as number) ?? 0) < 10 && <AlertCircle className="w-3 h-3 text-red-500" />}
-          </div>
+          {(() => {
+            const stockCount = (p.stock as number) ?? 0;
+            const isLowStock = stockCount < 10;
+            return (
+              <div className="flex items-center gap-2">
+                <span className={`text-xs font-medium ${isLowStock ? "text-red-500" : "text-muted-foreground"}`}>
+                  {stockCount} in stock
+                </span>
+                {isLowStock && <AlertCircle className="w-3 h-3 text-red-500" />}
+              </div>
+            );
+          })()}
           <div className="flex items-center gap-1">
             <ActionButtons 
               id={p.id as string} 
@@ -181,12 +187,18 @@ export const ProductRow: React.FC<ProductRowProps> = ({
           <PriceDisplay price={p.price as number} />
         </td>
         <td className="px-4 py-4">
-          <div className="flex items-center gap-1.5">
-            <span className={`text-sm font-semibold ${((p.stock as number) ?? 0) < 10 ? "text-red-500" : "text-foreground"}`}>
-              {(p.stock as number) ?? 0}
-            </span>
-            {((p.stock as number) ?? 0) < 10 && <AlertCircle className="w-3.5 h-3.5 text-red-500" />}
-          </div>
+          {(() => {
+            const stockCount = (p.stock as number) ?? 0;
+            const isLowStock = stockCount < 10;
+            return (
+              <div className="flex items-center gap-1.5">
+                <span className={`text-sm font-semibold ${isLowStock ? "text-red-500" : "text-foreground"}`}>
+                  {stockCount}
+                </span>
+                {isLowStock && <AlertCircle className="w-3.5 h-3.5 text-red-500" />}
+              </div>
+            );
+          })()}
         </td>
         <td className="px-4 py-4 text-center">
           <BookStatusBadge isActive={p.is_active as boolean} onClick={() => toggleProductStatus(p.id as string, p.is_active as boolean)} />

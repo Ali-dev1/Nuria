@@ -240,16 +240,31 @@ const Index = () => {
           <div className="flex overflow-x-auto gap-6 sm:gap-8 pb-12 pt-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
             {loadingAuthors ? (
               ['isk9', 'isk10', 'isk11', 'isk12'].map(id => <Skeleton key={id} className="shrink-0 w-[85vw] sm:w-[45vw] lg:w-[calc(25%-1.5rem)] h-[450px] rounded-[2rem]" />)
-            ) : authors.map((author: Record<string, unknown>) => (
+            ) : authors.map((author: Record<string, unknown>) => {
+              const slug = author.slug as string;
+              const name = author.name as string;
+              const photoUrl = author.photo_url as string | undefined;
+              const getAuthorImage = () => {
+                if (!photoUrl || photoUrl.includes("Miguna-Miguna.jpg")) return "/logo-small.webp";
+                // If it's a relative path, it's local
+                if (photoUrl.startsWith("/")) return photoUrl;
+                // If it's already an Unsplash optimized URL
+                if (photoUrl.includes("unsplash.com") && photoUrl.includes("fm=webp")) return photoUrl;
+                
+                // Use wsrv.nl to resize and convert to webp
+                const baseUrl = photoUrl.includes("unsplash.com") ? photoUrl.split('?')[0] : photoUrl;
+                return `https://wsrv.nl/?url=${baseUrl}&w=400&h=500&fit=cover&output=webp&q=70`;
+              };
+              return (
               <Link 
-                key={author.slug}
-                to={`/author/${author.slug}`}
+                key={slug}
+                to={`/author/${slug}`}
                 className="shrink-0 w-[85vw] sm:w-[45vw] lg:w-[calc(25%-1.5rem)] snap-center sm:snap-start group bg-white rounded-[2rem] border border-border overflow-hidden hover:border-primary/30 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col"
               >
                 <div className="h-[300px] sm:h-[350px] overflow-hidden relative bg-muted">
                   <img 
-                    src={!author.photo_url || author.photo_url.includes("Miguna-Miguna.jpg") ? "/logo-small.webp" : author.photo_url.includes("unsplash.com") ? `${author.photo_url.split('?')[0]}?fm=webp&q=30&w=280` : author.photo_url} 
-                    alt={author.name}
+                    src={getAuthorImage()} 
+                    alt={name}
                     width="600"
                     height="800"
                     loading="lazy"
@@ -259,13 +274,13 @@ const Index = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
                 <div className="p-8 flex-1 flex flex-col items-center justify-center text-center bg-white border-t border-border">
-                  <h3 className="font-display text-2xl font-bold text-foreground group-hover:text-primary transition-colors">{author.name}</h3>
+                  <h3 className="font-display text-2xl font-bold text-foreground group-hover:text-primary transition-colors">{name}</h3>
                   <span className="mt-5 flex items-center gap-2 font-sans font-bold text-muted-foreground group-hover:text-secondary uppercase text-[10px] tracking-widest transition-colors">
                     Read Profile <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
               </Link>
-            ))}
+            )})}
           </div>
         </div>
       </section>

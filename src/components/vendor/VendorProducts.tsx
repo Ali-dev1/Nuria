@@ -216,7 +216,11 @@ export const VendorProducts = ({ products, onRefresh }: VendorProductsProps) => 
                         onClick={() => toggleActive(p.id, !(p.is_active ?? true))} 
                         className={`text-[9px] px-3 py-1.5 rounded-full font-black uppercase tracking-widest transition-all border shadow-sm ${getStatusButtonStyles(p)}`}
                       >
-                        {(p.is_active ?? true) ? (p.stock === 0 ? "Sold Out" : "In Stock") : "Disabled"}
+                        {(() => {
+                          if (!(p.is_active ?? true)) return "Disabled";
+                          if (p.stock === 0) return "Sold Out";
+                          return "In Stock";
+                        })()}
                       </button>
                     </td>
                     <td className="p-5 text-right">

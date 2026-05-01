@@ -23,9 +23,15 @@ export const BookCard = ({ product }: BookCardProps) => {
     : 0;
 
   const getImageUrl = (url: string) => {
-    if (url.includes("unsplash.com")) return `${url}&fm=webp&q=80`;
-    if (url.includes("nuriakenya.com")) return `https://wsrv.nl/?url=${url}&w=300&output=webp&q=40`;
-    return url;
+    if (!url || url === "/placeholder.svg" || url.includes("placeholder")) return "/placeholder.svg";
+    // If it's a relative path, it's local
+    if (url.startsWith("/")) return url;
+    // If it's already an Unsplash optimized URL with webp
+    if (url.includes("unsplash.com") && url.includes("fm=webp")) return url;
+    
+    // Normalize and proxy via wsrv.nl
+    const baseUrl = url.includes("unsplash.com") ? url.split('?')[0] : url;
+    return `https://wsrv.nl/?url=${baseUrl}&w=300&h=400&fit=cover&output=webp&q=70`;
   };
 
   return (

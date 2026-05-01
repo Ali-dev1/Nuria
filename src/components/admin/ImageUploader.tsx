@@ -88,8 +88,8 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     <div className={`space-y-2 ${className}`}>
       {label && <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{label}</label>}
       
-      <div 
-        className={`relative h-40 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-2 overflow-hidden focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/20 ${
+      <label 
+        className={`relative h-40 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-2 overflow-hidden cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/20 ${
           dragActive ? "border-primary bg-primary/5" : "border-border bg-muted/20"
         }`}
         onDragEnter={handleDrag}
@@ -132,7 +132,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
             />
           </div>
         )}
-      </div>
+      </label>
     </div>
   );
 };

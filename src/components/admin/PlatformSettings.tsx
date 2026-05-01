@@ -121,8 +121,12 @@ export const PlatformSettings = () => {
           disabled={saving} 
           className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold shadow-sm hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-50"
         >
-          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : (saveStatus === "success" ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />)}
-          {saving ? "Saving..." : (saveStatus === "success" ? "Saved" : "Save Changes")}
+          {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+          {!saving && saveStatus === "success" && <Check className="w-4 h-4" />}
+          {!saving && saveStatus !== "success" && <Save className="w-4 h-4" />}
+          {saving && "Saving..."}
+          {!saving && saveStatus === "success" && "Saved"}
+          {!saving && saveStatus !== "success" && "Save Changes"}
         </button>
       </div>
 

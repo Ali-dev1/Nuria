@@ -10,11 +10,22 @@ interface ProductImageGalleryProps {
 }
 
 export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({ product }) => {
+  const getImageSrc = () => {
+    const url = product.images?.[0];
+    if (!url || url === "/placeholder.svg" || url.includes("placeholder")) return null;
+    if (url.includes("unsplash.com")) return `${url}&fm=webp&q=80`;
+    if (url.includes("nuriakenya.com")) return `https://wsrv.nl/?url=${url}&w=800&output=webp&q=75`;
+    return url;
+  };
+
+  const imageSrc = getImageSrc();
+  const hasValidImage = !!imageSrc;
+
   return (
     <div className="relative aspect-[3/4] bg-muted rounded-2xl overflow-hidden max-w-md mx-auto lg:max-w-none w-full shadow-2xl">
-      {product.images?.[0] && product.images[0] !== "/placeholder.svg" && !product.images[0].includes("placeholder") ? (
+      {hasValidImage && (
         <img 
-          src={product.images[0].includes("unsplash.com") ? `${product.images[0]}&fm=webp&q=80` : product.images[0].includes("nuriakenya.com") ? `https://wsrv.nl/?url=${product.images[0]}&w=800&output=webp&q=75` : product.images[0]} 
+          src={imageSrc} 
           alt={product.title} 
           fetchPriority="high"
           className="absolute inset-0 w-full h-full object-cover" 
@@ -24,8 +35,8 @@ export const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({ produc
             if (target.nextElementSibling) (target.nextElementSibling as HTMLElement).style.display = "flex";
           }}
         />
-      ) : null}
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-12 bg-gradient-to-br from-muted to-muted/50 text-center" style={{ display: product.images?.[0] && product.images[0] !== "/placeholder.svg" && !product.images[0].includes("placeholder") ? "none" : "flex" }}>
+      )}
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-12 bg-gradient-to-br from-muted to-muted/50 text-center" style={{ display: hasValidImage ? "none" : "flex" }}>
         <div className="flex flex-col items-center">
           <span className="font-display text-sm font-bold text-secondary mb-4 uppercase tracking-[0.2em] opacity-60">Nuria Store</span>
           <h2 className="font-display text-3xl text-foreground/40 font-bold leading-tight">{product.title}</h2>

@@ -46,19 +46,19 @@ function mapRecord(record, index) {
   return {
     title,
     slug,
-    price: record.current_price != null ? Number(record.current_price) : 0,
+    price: record.current_price === null || record.current_price === undefined ? 0 : Number(record.current_price),
     description: record.description || null,
     original_url: record.source_url || null,
     image_url: record.image_url || null,
     author: record.author || null,
     isbn: record.isbn || null,
-    original_price: record.original_price != null ? Number(record.original_price) : null,
+    original_price: record.original_price === null || record.original_price === undefined ? null : Number(record.original_price),
     category: record.category || null,
-    stock: record.stock != null ? Number(record.stock) : 10,
+    stock: record.stock === null || record.stock === undefined ? 10 : Number(record.stock),
     format: record.format || "physical",
     is_featured: false,
-    rating: record.rating != null ? Number(record.rating) : null,
-    review_count: record.review_count != null ? Number(record.review_count) : 0,
+    rating: record.rating === null || record.rating === undefined ? null : Number(record.rating),
+    review_count: record.review_count === null || record.review_count === undefined ? 0 : Number(record.review_count),
   };
 }
 

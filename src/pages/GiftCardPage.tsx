@@ -71,7 +71,7 @@ const GiftCardPage = () => {
             </div>
 
             {/* Denomination Grid */}
-            <div className="grid grid-cols-2 gap-3" role="group" aria-label="Gift card denominations">
+            <fieldset className="grid grid-cols-2 gap-3 border-none p-0 m-0" aria-label="Gift card denominations">
               {denominations.map(({ value, label }) => (
                 <button
                   key={value}
@@ -95,7 +95,7 @@ const GiftCardPage = () => {
                   </span>
                 </button>
               ))}
-            </div>
+            </fieldset>
 
             {/* Custom Amount */}
             <div className="space-y-2">
