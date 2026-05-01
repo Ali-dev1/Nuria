@@ -2,9 +2,19 @@ import React from "react";
 import { X, Save, Loader2 } from "lucide-react";
 import { ImageUploader } from "../ImageUploader";
 
+interface ProductEditData {
+  title: string;
+  author: string;
+  category: string;
+  price: number;
+  stock: number;
+  description: string;
+  images: string[];
+}
+
 interface ProductEditPanelProps {
-  editData: Record<string, any>;
-  setEditData: (data: Record<string, any>) => void;
+  editData: ProductEditData;
+  setEditData: (data: ProductEditData) => void;
   saving: boolean;
   onSave: () => void;
   onCancel: () => void;

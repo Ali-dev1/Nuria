@@ -21,7 +21,9 @@ export const ProductManagement = () => {
 
   const toggleProductStatus = async (id: string, current: boolean) => {
     const { error } = await supabase.from("products").update({ is_active: !current }).eq("id", id);
-    if (!error) {
+    if (error) {
+      toast({ title: "Failed to update", description: error.message, variant: "destructive" });
+    } else {
       invalidate(["admin", "products"]);
       toast({ title: `Product ${current ? "hidden" : "published"}` });
     }
@@ -29,19 +31,21 @@ export const ProductManagement = () => {
 
   const toggleFeatured = async (id: string, current: boolean) => {
     const { error } = await supabase.from("products").update({ is_featured: !current }).eq("id", id);
-    if (!error) {
+    if (error) {
+      toast({ title: "Failed to update", description: error.message, variant: "destructive" });
+    } else {
       invalidate(["admin", "products"]);
       invalidate(["products"]);
       toast({ title: current ? "Removed from featured" : "Added to featured" });
-    } else {
-      toast({ title: "Failed to update", description: error.message, variant: "destructive" });
     }
   };
 
   const deleteProduct = async (id: string) => {
     if (!confirm("Delete this product? This cannot be undone.")) return;
     const { error } = await supabase.from("products").delete().eq("id", id);
-    if (!error) {
+    if (error) {
+      toast({ title: "Failed to delete", description: error.message, variant: "destructive" });
+    } else {
       invalidate(["admin", "products"]);
       toast({ title: "Product deleted" });
     }

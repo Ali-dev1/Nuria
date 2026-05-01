@@ -2,8 +2,8 @@ import { CreditCard, Calendar, TrendingUp } from "lucide-react";
 import { formatPrice } from "@/lib/constants";
 
 interface VendorPayoutsProps {
-  payouts: Record<string, any>[];
-  vendor: Record<string, any> | null;
+  payouts: Record<string, unknown>[];
+  vendor: Record<string, unknown> | null;
   currentMonthEarnings: number;
 }
 

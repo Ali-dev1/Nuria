@@ -10,7 +10,7 @@ import { BookCard } from "@/components/books/BookCard";
 import { Skeleton } from "@/components/shared/Skeleton";
 import type { Product } from "@/lib/types";
 
-const mapProduct = (p: any): Product => ({
+const mapProduct = (p: Record<string, unknown>): Product => ({
   id: p.id, title: p.title, slug: p.slug, author: p.author ?? "",
   isbn: p.isbn ?? undefined, price: Number(p.price),
   originalPrice: p.original_price ? Number(p.original_price) : undefined,
@@ -111,7 +111,7 @@ const AccountPage = () => {
         </div>
       );
     }
-    return orders.map((order: any) => (
+    return orders.map((order: Record<string, unknown>) => (
       <div key={order.id} className="bg-white rounded-2xl p-6 border border-border shadow-sm space-y-4 hover:border-primary/20 transition-all">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
@@ -132,7 +132,7 @@ const AccountPage = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-background pt-4">
           <div className="flex flex-wrap gap-x-4 gap-y-2">
-            {order.order_items?.map((item: any) => (
+            {(order.order_items as Record<string, unknown>[])?.map((item: Record<string, unknown>) => (
               <Link
                 key={item.id}
                 to={`/books/${item.products?.slug}`}
@@ -226,7 +226,7 @@ const AccountPage = () => {
           {addresses.length === 0 ? (
             <p className="text-center py-12 text-muted-foreground">No saved addresses</p>
           ) : (
-            addresses.map((addr: any) => (
+            addresses.map((addr: Record<string, unknown>) => (
               <div key={addr.id} className="bg-card rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-1">
                   <p className="font-medium text-sm text-foreground">{addr.name}</p>
@@ -278,7 +278,7 @@ const AccountPage = () => {
           {loyaltyTxns.length === 0 ? (
             <p className="text-center py-8 text-muted-foreground">No loyalty transactions yet</p>
           ) : (
-            loyaltyTxns.map((txn: any) => (
+            loyaltyTxns.map((txn: Record<string, unknown>) => (
               <div key={txn.id} className="flex items-center justify-between bg-card rounded-xl p-4">
                 <div>
                   <p className="text-sm font-medium text-foreground capitalize">{txn.type}</p>

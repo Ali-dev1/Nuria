@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Save, Upload, User, Store, Mail, Phone, Smartphone } from "lucide-react";
+import { Save, Upload, Store, Phone, Smartphone } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -9,7 +9,7 @@ interface VendorSettingsProps {
   onRefresh: () => void;
 }
 
-export const VendorSettings = ({ vendor, user, onRefresh }: VendorSettingsProps) => {
+export const VendorSettings = ({ vendor, onRefresh }: VendorSettingsProps) => {
   const { toast } = useToast();
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({

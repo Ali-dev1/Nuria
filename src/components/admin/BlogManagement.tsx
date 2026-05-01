@@ -11,11 +11,11 @@ export const BlogManagement = () => {
   const queryClient = useQueryClient();
   const { data: posts, isLoading } = useAdminPosts();
   const [showEditor, setShowEditor] = useState(false);
-  const [editingPost, setEditingPost] = useState<any>(null);
+  const [editingPost, setEditingPost] = useState<Record<string, unknown> | null>(null);
   const [saving, setSaving] = useState(false);
   const [heroImage, setHeroImage] = useState("");
 
-  const invalidate = (key: any[]) => queryClient.invalidateQueries({ queryKey: key });
+  const invalidate = (key: string[]) => queryClient.invalidateQueries({ queryKey: key });
 
   const deletePost = async (id: string) => {
     if (!confirm("Delete this blog post?")) return;
@@ -26,7 +26,7 @@ export const BlogManagement = () => {
     }
   };
 
-  const openEditor = (post: any = null) => {
+  const openEditor = (post: Record<string, unknown> | null = null) => {
     setEditingPost(post);
     setHeroImage(post?.image_url || "");
     setShowEditor(true);
@@ -36,7 +36,7 @@ export const BlogManagement = () => {
     e.preventDefault();
     setSaving(true);
     const formData = new FormData(e.target as HTMLFormElement);
-    const postData: Record<string, any> = {
+    const postData: Record<string, unknown> = {
       title: formData.get("title"),
       content: formData.get("content"),
       excerpt: formData.get("excerpt"),
@@ -99,17 +99,21 @@ export const BlogManagement = () => {
 
       {/* Posts Grid */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {isLoading ? (
-          Array.from({ length: 4 }).map(() => (
-            <div key={crypto.randomUUID()} className="h-48 bg-muted/30 rounded-2xl animate-pulse" />
-          ))
-        ) : (posts || []).length === 0 ? (
-          <div className="col-span-full py-20 text-center">
-            <FileText className="w-10 h-10 text-muted-foreground/30 mx-auto mb-3" />
-            <p className="text-sm text-muted-foreground">No blog posts yet. Create your first one.</p>
-          </div>
-        ) : (
-          (posts || []).map((post: any) => (
+        {(() => {
+          if (isLoading) {
+            return Array.from({ length: 4 }).map(() => (
+              <div key={crypto.randomUUID()} className="h-48 bg-muted/30 rounded-2xl animate-pulse" />
+            ));
+          }
+          if ((posts || []).length === 0) {
+            return (
+              <div className="col-span-full py-20 text-center">
+                <FileText className="w-10 h-10 text-muted-foreground/30 mx-auto mb-3" />
+                <p className="text-sm text-muted-foreground">No blog posts yet. Create your first one.</p>
+              </div>
+            );
+          }
+          return (posts || []).map((post: Record<string, unknown>) => (
             <div key={post.id} className="group bg-white rounded-2xl border border-border overflow-hidden hover:border-primary/20 hover:shadow-md transition-all">
               {/* Image */}
               <div className="aspect-video bg-muted relative overflow-hidden">
@@ -148,8 +152,8 @@ export const BlogManagement = () => {
                 </div>
               </div>
             </div>
-          ))
-        )}
+          ));
+        })()}
       </div>
 
       {/* Editor Modal */}

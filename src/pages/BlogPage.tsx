@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabaseClient";
 
 const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("ALL");
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -9,7 +9,7 @@ interface VendorOrdersProps {
 export const VendorOrders = ({ orders }: VendorOrdersProps) => {
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const filteredOrders = statusFilter === "all" ? orders : orders.filter((o) => (o as any).status === statusFilter);
+  const filteredOrders = statusFilter === "all" ? orders : orders.filter((o) => (o as Record<string, unknown>).status === statusFilter);
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
@@ -53,7 +53,7 @@ export const VendorOrders = ({ orders }: VendorOrdersProps) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
-                {filteredOrders.map((o: any) => (
+                {filteredOrders.map((o: Record<string, unknown>) => (
                   <tr key={o.id} className="hover:bg-muted/30 transition-colors group">
                     <td className="p-5">
                       <div className="flex items-center gap-4">

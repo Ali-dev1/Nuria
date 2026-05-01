@@ -19,7 +19,7 @@ serve(async (req) => {
     if (ResultCode === 0 && orderId) {
       // Payment Successful
       const metadataItems = CallbackMetadata.Item;
-      const receiptNumber = metadataItems.find((item: any) => item.Name === "MpesaReceiptNumber")?.Value;
+      const receiptNumber = metadataItems.find((item: Record<string, unknown>) => item.Name === "MpesaReceiptNumber")?.Value;
 
       // Update Order Status
       const { error } = await supabase

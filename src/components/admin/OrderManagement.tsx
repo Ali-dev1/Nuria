@@ -71,9 +71,8 @@ export const OrderManagement = () => {
   const [orderStatusFilter, setOrderStatusFilter] = useState("all");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   
-  const { data: ordersData, isLoading } = useAdminOrders({ page: orderPage, pageSize: 10, status: orderStatusFilter as any });
+  const { data: ordersData, isLoading } = useAdminOrders({ page: orderPage, pageSize: 10, status: orderStatusFilter as "all" | "pending" | "confirmed" | "shipped" | "delivered" | "cancelled" });
 
-  const invalidate = (key: string[]) => queryClient.invalidateQueries({ queryKey: key });
 
   const updateOrderStatus = async (orderId: string, status: string) => {
     const { error } = await supabase.from("orders").update({ status }).eq("id", orderId);

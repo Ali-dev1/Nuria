@@ -103,8 +103,6 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
 };
 
 const SEOManager = () => {
-  const { data: settings } = useSettings();
-
   useEffect(() => {
     document.title = "Nuria — Home of African Books";
   }, []);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Phone, CreditCard, Check, Loader2 } from "lucide-react";
+import { ArrowLeft, CreditCard, Check, Loader2 } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";

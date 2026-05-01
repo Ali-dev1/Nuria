@@ -2,7 +2,7 @@ import React from "react";
 import { ProductRow } from "./ProductRow";
 
 interface ProductTableProps {
-  productsData: { products: Record<string, any>[] } | null | undefined;
+  productsData: { products: Record<string, unknown>[] } | null | undefined;
   isLoading: boolean;
   selectedProducts: string[];
   setSelectedProducts: React.Dispatch<React.SetStateAction<string[]>>;
@@ -39,7 +39,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
             </div>
           ))
         ) : (
-          products.map((p: Record<string, any>) => (
+          products.map((p: Record<string, unknown>) => (
             <ProductRow 
               key={p.id}
               p={p}
@@ -64,7 +64,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
                   <input 
                     type="checkbox" 
                     className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer"
-                    onChange={(e) => setSelectedProducts(e.target.checked ? products.map((p: Record<string, any>) => p.id) : [])}
+                    onChange={(e) => setSelectedProducts(e.target.checked ? products.map((p: Record<string, unknown>) => p.id as string) : [])}
                   />
                 </th>
                 <th className="px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Product</th>
@@ -83,7 +83,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
                   </tr>
                 ))
               ) : (
-                products.map((p: Record<string, any>) => (
+                products.map((p: Record<string, unknown>) => (
                   <ProductRow 
                     key={p.id}
                     p={p}

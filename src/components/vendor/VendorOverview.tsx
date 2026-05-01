@@ -94,7 +94,7 @@ export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified, v
                   { label: "Add First Product", done: stats.productsCount > 0 },
                   { label: "Setup Payments", done: !!(vendor?.mpesa_number && vendor?.mpesa_number.length >= 5) },
                   { label: "Complete Profile", done: !!(vendor?.photo_url && vendor?.bio) },
-                ].map((item, idx) => (
+                ].map((item) => (
                   <li key={item.label} className="flex items-center gap-3 text-sm">
                     <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${item.done ? "bg-secondary/10 border-secondary text-secondary" : "border-border"}`}>
                       {item.done && <CheckCircle className="w-3 h-3" />}

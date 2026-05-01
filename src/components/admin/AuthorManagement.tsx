@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Plus, Trash2, Edit, Search, X, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -63,7 +62,7 @@ export const AuthorManagement = () => {
       setIsModalOpen(false);
       setEditingAuthor(null);
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast({ title: "Update failed", description: error.message, variant: "destructive" });
     }
   });
@@ -71,12 +70,12 @@ export const AuthorManagement = () => {
   const deleteAuthor = async (id: string) => {
     if (!confirm("Are you sure you want to delete this author profile?")) return;
     const { error } = await supabase.from("authors").delete().eq("id", id);
-    if (!error) {
+    if (error) {
+      toast({ title: "Delete failed", description: error.message, variant: "destructive" });
+    } else {
       queryClient.invalidateQueries({ queryKey: ["admin", "authors"] });
       queryClient.invalidateQueries({ queryKey: ["authors"] });
       toast({ title: "Author deleted", description: "The profile has been removed." });
-    } else {
-      toast({ title: "Delete failed", description: error.message, variant: "destructive" });
     }
   };
 
@@ -143,7 +142,7 @@ export const AuthorManagement = () => {
             
             <div className="flex-1 overflow-y-auto p-6 space-y-6">
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Photo</label>
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block mb-2">Photo</span>
                 <ImageUploader 
                   value={editingAuthor?.photo_url} 
                   onChange={(url) => setEditingAuthor(prev => ({ ...prev!, photo_url: url }))}
@@ -178,7 +177,7 @@ export const AuthorManagement = () => {
             <div className="p-6 border-t border-border bg-muted/5 flex justify-end gap-3 shrink-0">
               <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all">Cancel</button>
               <button 
-                onClick={() => saveMutation.mutate(editingAuthor!)}
+                onClick={() => { if (editingAuthor) saveMutation.mutate(editingAuthor); }}
                 disabled={saveMutation.isPending || !editingAuthor?.name}
                 className="px-6 py-2 bg-primary text-white rounded-xl text-sm font-semibold shadow-sm flex items-center gap-2 hover:bg-primary/90 transition-all disabled:opacity-50"
               >

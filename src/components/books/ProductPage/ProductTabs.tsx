@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/shared/Skeleton";
 import { toast } from "sonner";
 
 interface ProductTabsProps {
-  product: Record<string, any>;
+  product: Record<string, unknown>;
   activeTab: "description" | "reviews" | "delivery";
   setActiveTab: React.Dispatch<React.SetStateAction<"description" | "reviews" | "delivery">>;
   user: Record<string, unknown> | null;
@@ -71,7 +71,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
       </div>
       <div className="py-6">
         {activeTab === "description" && (
-          <p className="text-muted-foreground leading-relaxed max-w-2xl">{product.description}</p>
+          <p className="text-muted-foreground leading-relaxed max-w-2xl">{product.description as string}</p>
         )}
         {activeTab === "reviews" && (
           <div className="space-y-8 max-w-2xl">
@@ -95,7 +95,7 @@ export const ProductTabs: React.FC<ProductTabsProps> = ({
                   disabled={addReview.isPending || !newComment.trim()}
                   onClick={() => {
                       if (!product) return;
-                      addReview.mutate({ productId: product.id, rating: newRating, comment: newComment }, {
+                      addReview.mutate({ productId: product.id as string, rating: newRating, comment: newComment }, {
                           onSuccess: () => {
                               setNewComment("");
                               toast.success("Review submitted!");

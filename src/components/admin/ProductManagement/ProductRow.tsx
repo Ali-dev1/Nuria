@@ -7,7 +7,7 @@ import { ActionButtons } from "./ActionButtons";
 import { ProductEditPanel } from "./ProductEditPanel";
 
 interface ProductRowProps {
-  p: Record<string, any>;
+  p: Record<string, unknown>;
   variant: "mobile" | "desktop";
   selectedProducts: string[];
   setSelectedProducts: React.Dispatch<React.SetStateAction<string[]>>;
@@ -30,13 +30,13 @@ export const ProductRow: React.FC<ProductRowProps> = ({
   const [saving, setSaving] = useState(false);
   
   const [editData, setEditData] = useState({
-    title: p.title,
-    author: p.author || "",
-    category: p.category,
-    price: p.price,
-    stock: p.stock ?? 0,
-    description: p.description || "",
-    images: p.images || []
+    title: p.title as string,
+    author: (p.author as string) || "",
+    category: p.category as string,
+    price: p.price as number,
+    stock: (p.stock as number) ?? 0,
+    description: (p.description as string) || "",
+    images: (p.images as string[]) || []
   });
 
   const getCoverImage = (imgs: unknown, url: string | null) => {
@@ -53,7 +53,7 @@ export const ProductRow: React.FC<ProductRowProps> = ({
     return null;
   };
   
-  const coverImage = getCoverImage(p.images, p.image_url);
+  const coverImage = getCoverImage(p.images, p.image_url as string | null);
 
   const handleSave = async () => {
     setSaving(true);
@@ -88,9 +88,9 @@ export const ProductRow: React.FC<ProductRowProps> = ({
         <div className="flex items-start gap-3">
           <input 
             type="checkbox" 
-            checked={selectedProducts.includes(p.id)} 
+            checked={selectedProducts.includes(p.id as string)} 
             className="w-4 h-4 rounded border-border text-primary mt-1 shrink-0"
-            onChange={(e) => setSelectedProducts(prev => e.target.checked ? [...prev, p.id] : prev.filter(id => id !== p.id))} 
+            onChange={(e) => setSelectedProducts(prev => e.target.checked ? [...prev, p.id as string] : prev.filter(id => id !== p.id))} 
           />
           {coverImage ? (
             <img src={coverImage} alt="" className="w-12 h-12 rounded-lg object-cover border border-border shrink-0" />
@@ -100,34 +100,34 @@ export const ProductRow: React.FC<ProductRowProps> = ({
             </div>
           )}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-foreground truncate">{p.title}</p>
-            <p className="text-xs text-muted-foreground">{p.author || "—"}</p>
+            <p className="text-sm font-semibold text-foreground truncate">{p.title as string}</p>
+            <p className="text-xs text-muted-foreground">{(p.author as string) || "—"}</p>
             <div className="flex items-center gap-3 mt-2">
-              <PriceDisplay price={p.price} />
+              <PriceDisplay price={p.price as number} />
               <span className={`text-xs px-1.5 py-0.5 rounded ${p.category ? "bg-muted text-muted-foreground" : ""}`}>
-                {p.category || "—"}
+                {(p.category as string) || "—"}
               </span>
             </div>
           </div>
         </div>
         <div className="flex items-center justify-between mt-3 pl-7">
           <div className="flex items-center gap-2">
-            <span className={`text-xs font-medium ${(p.stock ?? 0) < 10 ? "text-red-500" : "text-muted-foreground"}`}>
-              {p.stock ?? 0} in stock
+            <span className={`text-xs font-medium ${((p.stock as number) ?? 0) < 10 ? "text-red-500" : "text-muted-foreground"}`}>
+              {(p.stock as number) ?? 0} in stock
             </span>
-            {(p.stock ?? 0) < 10 && <AlertCircle className="w-3 h-3 text-red-500" />}
+            {((p.stock as number) ?? 0) < 10 && <AlertCircle className="w-3 h-3 text-red-500" />}
           </div>
           <div className="flex items-center gap-1">
             <ActionButtons 
-              id={p.id} 
-              isFeatured={p.is_featured} 
+              id={p.id as string} 
+              isFeatured={p.is_featured as boolean} 
               isExpanded={isExpanded} 
               toggleFeatured={toggleFeatured} 
               deleteProduct={deleteProduct} 
               onToggleExpand={() => setIsExpanded(!isExpanded)} 
               variant="mobile"
             />
-            <BookStatusBadge isActive={p.is_active} onClick={() => toggleProductStatus(p.id, p.is_active)} variant="mobile" />
+            <BookStatusBadge isActive={p.is_active as boolean} onClick={() => toggleProductStatus(p.id as string, p.is_active as boolean)} variant="mobile" />
           </div>
         </div>
         {isExpanded && <ProductEditPanel editData={editData} setEditData={setEditData} saving={saving} onSave={handleSave} onCancel={() => setIsExpanded(false)} />}
@@ -141,23 +141,16 @@ export const ProductRow: React.FC<ProductRowProps> = ({
         <td className="px-4 py-4">
           <input 
             type="checkbox" 
-            checked={selectedProducts.includes(p.id)} 
+            checked={selectedProducts.includes(p.id as string)} 
             className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer"
-            onChange={(e) => setSelectedProducts(prev => e.target.checked ? [...prev, p.id] : prev.filter(id => id !== p.id))} 
+            onChange={(e) => setSelectedProducts(prev => e.target.checked ? [...prev, p.id as string] : prev.filter(id => id !== p.id))} 
           />
         </td>
         <td className="px-4 py-4">
-          <div 
-            className="flex items-center gap-3 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 rounded-md" 
+          <button 
+            type="button"
+            className="flex items-center gap-3 w-full text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 rounded-md" 
             onClick={() => setIsExpanded(!isExpanded)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                setIsExpanded(!isExpanded);
-              }
-            }}
           >
             <div className="relative shrink-0">
               {coverImage ? (
@@ -174,34 +167,34 @@ export const ProductRow: React.FC<ProductRowProps> = ({
               )}
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-foreground truncate max-w-[250px]">{p.title}</p>
-              <p className="text-xs text-muted-foreground">{p.author || "—"}</p>
+              <p className="text-sm font-semibold text-foreground truncate max-w-[250px]">{p.title as string}</p>
+              <p className="text-xs text-muted-foreground">{(p.author as string) || "—"}</p>
             </div>
-          </div>
+          </button>
         </td>
         <td className="px-4 py-4">
           <span className="text-xs font-medium text-muted-foreground bg-muted/50 px-2 py-1 rounded-md">
-            {p.category || "—"}
+            {(p.category as string) || "—"}
           </span>
         </td>
         <td className="px-4 py-4">
-          <PriceDisplay price={p.price} />
+          <PriceDisplay price={p.price as number} />
         </td>
         <td className="px-4 py-4">
           <div className="flex items-center gap-1.5">
-            <span className={`text-sm font-semibold ${(p.stock ?? 0) < 10 ? "text-red-500" : "text-foreground"}`}>
-              {p.stock ?? 0}
+            <span className={`text-sm font-semibold ${((p.stock as number) ?? 0) < 10 ? "text-red-500" : "text-foreground"}`}>
+              {(p.stock as number) ?? 0}
             </span>
-            {(p.stock ?? 0) < 10 && <AlertCircle className="w-3.5 h-3.5 text-red-500" />}
+            {((p.stock as number) ?? 0) < 10 && <AlertCircle className="w-3.5 h-3.5 text-red-500" />}
           </div>
         </td>
         <td className="px-4 py-4 text-center">
-          <BookStatusBadge isActive={p.is_active} onClick={() => toggleProductStatus(p.id, p.is_active)} />
+          <BookStatusBadge isActive={p.is_active as boolean} onClick={() => toggleProductStatus(p.id as string, p.is_active as boolean)} />
         </td>
         <td className="px-4 py-4 text-right">
           <ActionButtons 
-            id={p.id} 
-            isFeatured={p.is_featured} 
+            id={p.id as string} 
+            isFeatured={p.is_featured as boolean} 
             isExpanded={isExpanded} 
             toggleFeatured={toggleFeatured} 
             deleteProduct={deleteProduct} 

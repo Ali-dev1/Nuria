@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Upload, X, Image as ImageIcon, Loader2 } from "lucide-react";
+import { Upload, X, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -57,9 +57,9 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
 
       onChange(data.publicUrl);
       toast({ title: "Upload Successful", description: "Image has been processed and saved." });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Upload error:", error);
-      toast({ title: "Upload Failed", description: error.message || "Failed to upload image.", variant: "destructive" });
+      toast({ title: "Upload Failed", description: (error as Error).message || "Failed to upload image.", variant: "destructive" });
     } finally {
       setIsUploading(false);
     }
@@ -79,7 +79,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+    if (e.dataTransfer.files?.[0]) {
       handleUpload(e.dataTransfer.files[0]);
     }
   };
@@ -89,22 +89,13 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       {label && <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{label}</label>}
       
       <div 
-        className={`relative h-40 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-2 overflow-hidden cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 ${
+        className={`relative h-40 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-2 overflow-hidden focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/20 ${
           dragActive ? "border-primary bg-primary/5" : "border-border bg-muted/20"
         }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            const fileInput = e.currentTarget.querySelector('input[type="file"]') as HTMLInputElement;
-            if (fileInput) fileInput.click();
-          }
-        }}
       >
         {value ? (
           <>

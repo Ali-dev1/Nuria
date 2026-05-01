@@ -17,7 +17,7 @@ export const VendorManagement = () => {
   const [rejectVendorId, setRejectVendorId] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState("");
   const [editingVendor, setEditingVendor] = useState<{ id: string; rate: number } | null>(null);
-  const [, setSelectedVendor] = useState<ExtendedVendor | null>(null);
+
   const [processingId, setProcessingId] = useState<string | null>(null);
 
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ["admin", "vendors"] });
@@ -42,7 +42,7 @@ export const VendorManagement = () => {
       toast({ title: verify ? "Vendor Approved" : "Vendor Rejected", description: "The platform registry has been updated." });
       setRejectVendorId(null);
       setRejectReason("");
-      setSelectedVendor(null);
+
     } catch (error: unknown) {
       toast({ title: "Sync Failed", description: (error as Error).message, variant: "destructive" });
     } finally {
@@ -54,11 +54,11 @@ export const VendorManagement = () => {
     if (!confirm("Confirm permanent removal of this merchant application? This cannot be undone.")) return;
     setProcessingId(id);
     const { error } = await supabase.from("vendors").delete().eq("id", id);
-    if (!error) {
+    if (error) {
+      toast({ title: "Purge Failed", description: error.message, variant: "destructive" });
+    } else {
       await invalidate();
       toast({ title: "Application Purged", description: "The merchant record has been removed." });
-    } else {
-      toast({ title: "Purge Failed", description: error.message, variant: "destructive" });
     }
     setProcessingId(null);
   };
@@ -135,7 +135,7 @@ export const VendorManagement = () => {
         </td>
         <td className="p-6 text-right">
           <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <Button variant="outline" size="sm" className="h-9 w-9 p-0 rounded-xl border-border" onClick={() => setSelectedVendor(v)}>
+            <Button variant="outline" size="sm" className="h-9 w-9 p-0 rounded-xl border-border">
               <Info className="w-4 h-4 text-primary" />
             </Button>
             {v.status === "active" ? (

@@ -1,5 +1,5 @@
 import { InfoPageLayout } from "@/components/layout/InfoPageLayout";
-import { Store, ListPlus, Truck, Wallet, CheckCircle2, BadgePercent, Package, ArrowRight, TrendingUp, ShieldCheck } from "lucide-react";
+import { Store, ListPlus, Wallet, CheckCircle2, BadgePercent, Package, TrendingUp, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const VendorGuidePage = () => {
@@ -144,7 +144,7 @@ const VendorGuidePage = () => {
                 "Authentic & Genuine Literature",
                 "24h Delivery Commitment",
                 "Prisinte Product Condition"
-              ].map((req, idx) => (
+              ].map((req) => (
                 <div key={req} className="bg-white p-6 rounded-2xl border border-border flex items-center gap-4 hover:border-secondary/30 transition-all">
                   <CheckCircle2 className="w-6 h-6 text-primary shrink-0" />
                   <span className="font-sans font-bold text-foreground text-sm uppercase tracking-wider">{req}</span>

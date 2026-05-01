@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ImageIcon, X } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuthStore } from "@/store/authStore";
@@ -40,8 +40,8 @@ const AddProductPage = () => {
 
       setUploadedImages(prev => [...prev, data.publicUrl]);
       toast({ title: "Cover Uploaded", description: "Image successfully added." });
-    } catch (error: any) {
-      toast({ title: "Upload Failed", description: error.message, variant: "destructive" });
+    } catch (error: unknown) {
+      toast({ title: "Upload Failed", description: (error as Error).message, variant: "destructive" });
     } finally {
       setIsUploading(false);
     }

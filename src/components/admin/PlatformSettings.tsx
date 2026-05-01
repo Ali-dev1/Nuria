@@ -42,6 +42,21 @@ const defaultSettings: PlatformSettingsState = {
   twitter_url: "",
 };
 
+const InputField = ({ label, icon: Icon, value, onChange, type = "text", placeholder = "" }: { label: string; icon?: React.ElementType; value: string; onChange: (v: string) => void; type?: string; placeholder?: string }) => (
+  <div className="space-y-1.5">
+    <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+      {Icon && <Icon className="w-3.5 h-3.5" />} {label}
+    </label>
+    <input 
+      type={type}
+      value={value} 
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      className="w-full px-4 py-2.5 bg-white border border-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" 
+    />
+  </div>
+);
+
 export const PlatformSettings = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -90,20 +105,7 @@ export const PlatformSettings = () => {
     </div>
   );
 
-  const InputField = ({ label, icon: Icon, value, onChange, type = "text", placeholder = "" }: any) => (
-    <div className="space-y-1.5">
-      <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-        {Icon && <Icon className="w-3.5 h-3.5" />} {label}
-      </label>
-      <input 
-        type={type}
-        value={value} 
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full px-4 py-2.5 bg-white border border-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" 
-      />
-    </div>
-  );
+
 
   return (
     <div className="max-w-4xl space-y-6 animate-in fade-in duration-500">
@@ -119,8 +121,8 @@ export const PlatformSettings = () => {
           disabled={saving} 
           className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold shadow-sm hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-50"
         >
-          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : saveStatus === "success" ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
-          {saving ? "Saving..." : saveStatus === "success" ? "Saved" : "Save Changes"}
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : (saveStatus === "success" ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />)}
+          {saving ? "Saving..." : (saveStatus === "success" ? "Saved" : "Save Changes")}
         </button>
       </div>
 

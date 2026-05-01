@@ -54,7 +54,7 @@ serve(async (req) => {
 
     // 2. Format Items for Email
     const itemsHtml = order.order_items
-      .map((item: any) => `<li>${item.products?.name} x ${item.quantity} - KES ${item.price * item.quantity}</li>`)
+      .map((item: Record<string, unknown>) => `<li>${(item.products as Record<string, unknown>)?.name} x ${item.quantity} - KES ${(item.price as number) * (item.quantity as number)}</li>`)
       .join("");
 
     // 3. Send Email via Resend

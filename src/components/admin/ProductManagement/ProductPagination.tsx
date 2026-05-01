@@ -51,13 +51,13 @@ export const ProductPagination: React.FC<ProductPaginationProps> = ({
       </button>
       
       <div className="flex items-center gap-1">
-        {getVisiblePages().map((page, i) => (
+        {getVisiblePages().map((page) => (
           page === "..." ? (
-            <span key={`pagination-dots-${i}`} className="px-2 text-muted-foreground text-sm">…</span>
+            <span key={crypto.randomUUID()} className="px-2 text-muted-foreground text-sm">…</span>
           ) : (
             <button
               key={page}
-              onClick={() => setProductPage(page as number)}
+              onClick={() => setProductPage(page)}
               className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors ${
                 productPage === page 
                   ? "bg-primary text-white shadow-sm" 

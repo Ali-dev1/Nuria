@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { 
   LayoutDashboard, 
   Package, 
@@ -12,7 +12,7 @@ import {
   CheckCircle,
   XCircle,
   ShieldCheck,
-  ChevronLeft,
+
   Store
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
@@ -28,7 +28,7 @@ import { Button } from "@/components/ui/button";
 type TabType = "overview" | "products" | "orders" | "payouts" | "settings";
 
 const VendorDashboard = () => {
-  const { user, signOut } = useAuthStore();
+  const { signOut } = useAuthStore();
   const navigate = useNavigate();
   const [tab, setTab] = useState<TabType>("overview");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -222,7 +222,7 @@ const VendorDashboard = () => {
                 {tab === "products" && <VendorProducts products={products} onRefresh={refetchProducts} />}
                 {tab === "orders" && <VendorOrders orders={orders} />}
                 {tab === "payouts" && <VendorPayouts payouts={payouts} vendor={vendor} currentMonthEarnings={currentMonthEarnings} />}
-                {tab === "settings" && <VendorSettings vendor={vendor} user={user} onRefresh={refetchVendor} />}
+                {tab === "settings" && <VendorSettings vendor={vendor} onRefresh={refetchVendor} />}
               </>
             )}
           </div>

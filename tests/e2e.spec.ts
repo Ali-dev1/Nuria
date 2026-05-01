@@ -9,7 +9,7 @@ import { test, expect, Page } from '@playwright/test';
 
 const BASE_URL = 'http://localhost:8080';
 
-const TEST_USERS = {
+const _TEST_USERS = {
   admin: { email: process.env.TEST_ADMIN_EMAIL || 'admin@nuria.com', password: process.env.TEST_ADMIN_PASSWORD || 'your_admin_password' },
   vendor: { email: process.env.TEST_VENDOR_EMAIL || 'vendor@nuria.com', password: process.env.TEST_VENDOR_PASSWORD || 'your_vendor_password' },
   customer: { email: process.env.TEST_CUSTOMER_EMAIL || 'customer@nuria.com', password: process.env.TEST_CUSTOMER_PASSWORD || 'your_customer_password' },
@@ -19,7 +19,7 @@ const TEST_USERS = {
 // HELPERS
 // ============================================
 
-async function login(page: Page, email: string, password: string) {
+async function _login(page: Page, email: string, password: string) {
   await page.goto(`${BASE_URL}/login`);
   await page.fill('input[type="email"]', email);
   await page.fill('input[type="password"]', password);

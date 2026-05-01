@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 
 const VendorRegisterPage = () => {
   const { user } = useAuthStore();
-  const { data: profile, isLoading: isProfileLoading } = useProfile();
+  const { isLoading: isProfileLoading } = useProfile();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [storeName, setStoreName] = useState("");
