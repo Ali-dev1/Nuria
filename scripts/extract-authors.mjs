@@ -18,17 +18,17 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
  */
 function identifyAuthor(title = "", description = "") {
   // Pattern 1: Title by Author Name
-  const byMatch = /(.+)\s+by\s+([^,:(.]+)/i.exec(title);
+  const byMatch = /^(.+?)\s+by\s+([^,:(.\n]+)/i.exec(title.trim());
   if (byMatch?.[2]) return byMatch[2].trim();
 
   const combined = title + " " + description;
   
   // Pattern 2: Author: Name
-  const authMatch = /Author:\s*([^,:(.\n]+)/i.exec(combined);
+  const authMatch = /Author:\s*([^,:(.\n]{1,100})/i.exec(combined);
   if (authMatch?.[1]) return authMatch[1].trim();
 
   // Pattern 3: written by Name
-  const writtenByMatch = /written\s+by\s+([^,:(.\n]+)/i.exec(combined);
+  const writtenByMatch = /written\s+by\s+([^,:(.\n]{1,100})/i.exec(combined);
   if (writtenByMatch?.[1]) return writtenByMatch[1].trim();
 
   // Pattern 4: BY [NAME] at the end

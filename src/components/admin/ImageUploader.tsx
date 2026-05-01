@@ -42,7 +42,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     try {
       setIsUploading(true);
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
       const filePath = `${folder}/${fileName}`;
 
       const { error: uploadError } = await supabase.storage

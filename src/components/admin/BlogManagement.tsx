@@ -44,7 +44,7 @@ export const BlogManagement = () => {
       image_url: heroImage, // Keep both for compatibility
       is_published: true,
       category: formData.get("category"),
-      slug: (formData.get("title") as string).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, ""),
+      slug: (formData.get("title") as string).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""),
     };
 
     // Only include author if column exists (graceful handling)
