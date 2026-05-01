@@ -2,7 +2,7 @@ import React from "react";
 import { BookCard } from "@/components/books/BookCard";
 
 interface RelatedProductsProps {
-  related: any[];
+  related: Record<string, any>[];
 }
 
 export const RelatedProducts: React.FC<RelatedProductsProps> = ({ related }) => {

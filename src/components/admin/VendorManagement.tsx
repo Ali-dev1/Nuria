@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, CheckCircle, XCircle, Edit, Save, Phone, Store, Info, AlertCircle, Trash2, Loader2 } from "lucide-react";
+import { Search, CheckCircle, XCircle, Edit, Save, Info, AlertCircle, Trash2, Loader2 } from "lucide-react";
 import { Tables } from "@/integrations/supabase/types";
 
 type ExtendedVendor = Tables<"vendors"> & { profiles?: Tables<"profiles"> };
@@ -17,7 +17,7 @@ export const VendorManagement = () => {
   const [rejectVendorId, setRejectVendorId] = useState<string | null>(null);
   const [rejectReason, setRejectReason] = useState("");
   const [editingVendor, setEditingVendor] = useState<{ id: string; rate: number } | null>(null);
-  const [selectedVendor, setSelectedVendor] = useState<ExtendedVendor | null>(null);
+  const [, setSelectedVendor] = useState<ExtendedVendor | null>(null);
   const [processingId, setProcessingId] = useState<string | null>(null);
 
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ["admin", "vendors"] });
@@ -43,8 +43,8 @@ export const VendorManagement = () => {
       setRejectVendorId(null);
       setRejectReason("");
       setSelectedVendor(null);
-    } catch (error: any) {
-      toast({ title: "Sync Failed", description: error.message, variant: "destructive" });
+    } catch (error: unknown) {
+      toast({ title: "Sync Failed", description: (error as Error).message, variant: "destructive" });
     } finally {
       setProcessingId(null);
     }

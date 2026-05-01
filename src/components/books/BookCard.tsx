@@ -22,12 +22,18 @@ export const BookCard = ({ product }: BookCardProps) => {
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
     : 0;
 
+  const getImageUrl = (url: string) => {
+    if (url.includes("unsplash.com")) return `${url}&fm=webp&q=80`;
+    if (url.includes("nuriakenya.com")) return `https://wsrv.nl/?url=${url}&w=300&output=webp&q=40`;
+    return url;
+  };
+
   return (
     <div className="group relative bg-white rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 ease-in flex flex-col h-full overflow-hidden">
       <Link to={`/books/${product.slug}`} className="block relative aspect-[3/4] overflow-hidden rounded-t-xl bg-muted">
         {product.images?.[0] && product.images[0] !== "/placeholder.svg" && !product.images[0].includes("placeholder") ? (
           <img 
-            src={product.images[0].includes("unsplash.com") ? `${product.images[0]}&fm=webp&q=80` : product.images[0].includes("nuriakenya.com") ? `https://wsrv.nl/?url=${product.images[0]}&w=300&output=webp&q=40` : product.images[0]} 
+            src={getImageUrl(product.images[0])} 
             alt={product.title} 
             width="300"
             height="400"

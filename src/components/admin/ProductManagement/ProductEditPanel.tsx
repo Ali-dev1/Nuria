@@ -3,8 +3,8 @@ import { X, Save, Loader2 } from "lucide-react";
 import { ImageUploader } from "../ImageUploader";
 
 interface ProductEditPanelProps {
-  editData: any;
-  setEditData: (data: any) => void;
+  editData: Record<string, any>;
+  setEditData: (data: Record<string, any>) => void;
   saving: boolean;
   onSave: () => void;
   onCancel: () => void;
@@ -28,8 +28,9 @@ export const ProductEditPanel: React.FC<ProductEditPanelProps> = ({
         />
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-medium">Price (KSH)</label>
+            <label htmlFor="price-input" className="text-xs text-muted-foreground font-medium">Price (KSH)</label>
             <input 
+              id="price-input"
               type="number" 
               value={editData.price} 
               onChange={e => setEditData({...editData, price: e.target.value})}
@@ -37,8 +38,9 @@ export const ProductEditPanel: React.FC<ProductEditPanelProps> = ({
             />
           </div>
           <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-medium">Stock</label>
+            <label htmlFor="stock-input" className="text-xs text-muted-foreground font-medium">Stock</label>
             <input 
+              id="stock-input"
               type="number" 
               value={editData.stock} 
               onChange={e => setEditData({...editData, stock: e.target.value})}
@@ -52,24 +54,27 @@ export const ProductEditPanel: React.FC<ProductEditPanelProps> = ({
         <h4 className="text-xs font-semibold text-primary uppercase tracking-wide">Details</h4>
         <div className="space-y-3">
           <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-medium">Title</label>
+            <label htmlFor="title-input" className="text-xs text-muted-foreground font-medium">Title</label>
             <input 
+              id="title-input"
               value={editData.title} 
               onChange={e => setEditData({...editData, title: e.target.value})}
               className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20" 
             />
           </div>
           <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-medium">Author</label>
+            <label htmlFor="author-input" className="text-xs text-muted-foreground font-medium">Author</label>
             <input 
+              id="author-input"
               value={editData.author} 
               onChange={e => setEditData({...editData, author: e.target.value})}
               className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary/20" 
             />
           </div>
           <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-medium">Category</label>
+            <label htmlFor="category-input" className="text-xs text-muted-foreground font-medium">Category</label>
             <input 
+              id="category-input"
               value={editData.category} 
               onChange={e => setEditData({...editData, category: e.target.value})}
               className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-medium focus:ring-2 focus:ring-primary/20" 
@@ -80,12 +85,13 @@ export const ProductEditPanel: React.FC<ProductEditPanelProps> = ({
 
       <div className="space-y-4 flex flex-col">
         <div className="flex justify-between items-center">
-          <h4 className="text-xs font-semibold text-primary uppercase tracking-wide">Description</h4>
+          <label htmlFor="description-input" className="text-xs font-semibold text-primary uppercase tracking-wide">Description</label>
           <span className={`text-xs ${editData.description.length > 500 ? "text-amber-600" : "text-muted-foreground"}`}>
             {editData.description.length}/1000
           </span>
         </div>
         <textarea 
+          id="description-input"
           value={editData.description} 
           onChange={e => setEditData({...editData, description: e.target.value.slice(0, 1000)})}
           className="flex-1 w-full p-3 bg-white border border-border rounded-xl text-sm leading-relaxed resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary min-h-[120px]"

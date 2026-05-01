@@ -182,28 +182,28 @@ export const BlogManagement = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Title</label>
-                    <input name="title" defaultValue={editingPost?.title} required placeholder="Post title" className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
+                    <label htmlFor="post-title" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Title</label>
+                    <input id="post-title" name="title" defaultValue={editingPost?.title} required placeholder="Post title" className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
                   </div>
                    
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
+                    <label htmlFor="post-category" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
                       <Tag className="w-3.5 h-3.5" /> Category
                     </label>
-                    <input name="category" defaultValue={editingPost?.category} placeholder="e.g. Culture, Tech, News" className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
+                    <input id="post-category" name="category" defaultValue={editingPost?.category} placeholder="e.g. Culture, Tech, News" className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Excerpt</label>
-                    <textarea name="excerpt" defaultValue={editingPost?.excerpt} placeholder="A brief summary..." className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium h-20 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none" />
+                    <label htmlFor="post-excerpt" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Excerpt</label>
+                    <textarea id="post-excerpt" name="excerpt" defaultValue={editingPost?.excerpt} placeholder="A brief summary..." className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium h-20 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none" />
                   </div>
                 </div>
 
                 <div className="space-y-2 flex flex-col">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
+                  <label htmlFor="post-content" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
                     <Edit3 className="w-3.5 h-3.5" /> Content (Markdown)
                   </label>
-                  <textarea name="content" defaultValue={editingPost?.content} required placeholder="Write your blog post here..." className="flex-1 w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none font-mono min-h-[300px]" />
+                  <textarea id="post-content" name="content" defaultValue={editingPost?.content} required placeholder="Write your blog post here..." className="flex-1 w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none font-mono min-h-[300px]" />
                 </div>
               </div>
 

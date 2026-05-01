@@ -16,7 +16,7 @@ function asyncCssPlugin(): Plugin {
     enforce: "post",
     transformIndexHtml(html) {
       // Only apply in production build
-      return html.replace(
+      return html.replaceAll(
         /<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g,
         `<link rel="stylesheet" href="$1" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="$1" /></noscript>`

@@ -89,13 +89,22 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       {label && <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{label}</label>}
       
       <div 
-        className={`relative h-40 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-2 overflow-hidden ${
+        className={`relative h-40 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-2 overflow-hidden cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 ${
           dragActive ? "border-primary bg-primary/5" : "border-border bg-muted/20"
         }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const fileInput = e.currentTarget.querySelector('input[type="file"]') as HTMLInputElement;
+            if (fileInput) fileInput.click();
+          }
+        }}
       >
         {value ? (
           <>

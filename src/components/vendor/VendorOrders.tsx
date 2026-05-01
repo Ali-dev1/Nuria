@@ -1,23 +1,15 @@
 import { useState } from "react";
-import { ShoppingCart, Calendar, DollarSign, ChevronRight, PackageCheck } from "lucide-react";
+import { ShoppingCart, Calendar, ChevronRight, PackageCheck } from "lucide-react";
 import { formatPrice } from "@/lib/constants";
 
 interface VendorOrdersProps {
-  orders: any[];
+  orders: Record<string, unknown>[];
 }
 
 export const VendorOrders = ({ orders }: VendorOrdersProps) => {
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const statusColors: Record<string, string> = {
-    pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
-    confirmed: "bg-blue-100 text-blue-700 border-blue-200",
-    shipped: "bg-purple-100 text-purple-700 border-purple-200",
-    delivered: "bg-green-100 text-green-700 border-green-200",
-    cancelled: "bg-red-100 text-red-700 border-red-200",
-  };
-
-  const filteredOrders = statusFilter === "all" ? orders : orders.filter((o) => o.status === statusFilter);
+  const filteredOrders = statusFilter === "all" ? orders : orders.filter((o) => (o as any).status === statusFilter);
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
@@ -61,7 +53,7 @@ export const VendorOrders = ({ orders }: VendorOrdersProps) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
-                {filteredOrders.map((o) => (
+                {filteredOrders.map((o: any) => (
                   <tr key={o.id} className="hover:bg-muted/30 transition-colors group">
                     <td className="p-5">
                       <div className="flex items-center gap-4">

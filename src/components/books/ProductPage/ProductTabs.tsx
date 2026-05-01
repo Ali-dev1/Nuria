@@ -5,17 +5,17 @@ import { Skeleton } from "@/components/shared/Skeleton";
 import { toast } from "sonner";
 
 interface ProductTabsProps {
-  product: any;
+  product: Record<string, any>;
   activeTab: "description" | "reviews" | "delivery";
   setActiveTab: React.Dispatch<React.SetStateAction<"description" | "reviews" | "delivery">>;
-  user: any;
-  reviews: any[];
+  user: Record<string, unknown> | null;
+  reviews: Array<{ id: string; profiles?: { name?: string }; created_at: string; rating: number; comment: string }>;
   reviewsLoading: boolean;
   newRating: number;
   setNewRating: React.Dispatch<React.SetStateAction<number>>;
   newComment: string;
   setNewComment: React.Dispatch<React.SetStateAction<string>>;
-  addReview: any;
+  addReview: { mutate: (data: { productId: string; rating: number; comment: string }, options?: { onSuccess: () => void }) => void; isPending: boolean };
 }
 
 export const ProductTabs: React.FC<ProductTabsProps> = ({

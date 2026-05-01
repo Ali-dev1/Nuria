@@ -112,7 +112,7 @@ export const AuthorManagement = () => {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {isLoading ? (
-          Array.from({ length: 6 }).map(i => <div key={i} className="h-64 bg-muted animate-pulse rounded-2xl" />)
+          Array.from({ length: 6 }).map(() => <div key={crypto.randomUUID()} className="h-64 bg-muted animate-pulse rounded-2xl" />)
         ) : (
           filteredAuthors.map((author) => (
             <div key={author.id} className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden group hover:border-primary/20 transition-all">
@@ -153,8 +153,9 @@ export const AuthorManagement = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Full Name</label>
+                <label htmlFor="author-name-input" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Full Name</label>
                 <Input 
+                  id="author-name-input"
                   value={editingAuthor?.name || ""} 
                   onChange={e => setEditingAuthor(prev => ({ ...prev!, name: e.target.value }))}
                   placeholder="e.g. Joel Gitau"
@@ -163,8 +164,9 @@ export const AuthorManagement = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Biography</label>
+                <label htmlFor="author-bio-input" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Biography</label>
                 <Textarea 
+                  id="author-bio-input"
                   value={editingAuthor?.bio || ""} 
                   onChange={e => setEditingAuthor(prev => ({ ...prev!, bio: e.target.value }))}
                   placeholder="Write a brief bio..."

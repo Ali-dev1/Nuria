@@ -103,6 +103,7 @@ const ContactPage = () => {
                 <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center shrink-0 border border-primary/10">
                   <Phone className="w-6 h-6 text-primary" />
                 </div>
+                <div className="space-y-1">
                   <p className="font-sans font-bold text-foreground">Support Lines</p>
                   <p className="font-sans text-foreground/90 text-lg break-all">0794 233 261 / 0724 670 194</p>
                 </div>

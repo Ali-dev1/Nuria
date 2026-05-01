@@ -57,8 +57,13 @@ export const ProductManagement = () => {
       invalidate(["products"]);
     }
     invalidate(["admin", "products"]);
+    
+    let actionText = "unfeatured";
+    if (action === "delete") actionText = "deleted";
+    else if (action === "feature") actionText = "featured";
+
     setSelectedProducts([]);
-    toast({ title: `${selectedProducts.length} products ${action === "delete" ? "deleted" : action === "feature" ? "featured" : "unfeatured"}` });
+    toast({ title: `${selectedProducts.length} products ${actionText}` });
   };
 
   return (

@@ -7,7 +7,7 @@ import { ActionButtons } from "./ActionButtons";
 import { ProductEditPanel } from "./ProductEditPanel";
 
 interface ProductRowProps {
-  p: any;
+  p: Record<string, any>;
   variant: "mobile" | "desktop";
   selectedProducts: string[];
   setSelectedProducts: React.Dispatch<React.SetStateAction<string[]>>;
@@ -39,7 +39,7 @@ export const ProductRow: React.FC<ProductRowProps> = ({
     images: p.images || []
   });
 
-  const getCoverImage = (imgs: any, url: string | null) => {
+  const getCoverImage = (imgs: unknown, url: string | null) => {
     if (Array.isArray(imgs) && imgs.length > 0 && imgs[0] && !imgs[0].includes("placeholder")) return imgs[0];
     if (url && url !== "/placeholder.svg" && !url.includes("placeholder")) return url;
     if (typeof imgs === "string" && imgs.length > 5) {
@@ -74,9 +74,9 @@ export const ProductRow: React.FC<ProductRowProps> = ({
       toast.toast({ title: "Product updated" });
       queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
       setIsExpanded(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       const { toast } = await import("@/hooks/use-toast");
-      toast.toast({ title: "Update failed", description: err.message, variant: "destructive" });
+      toast.toast({ title: "Update failed", description: (err as Error).message, variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -147,7 +147,18 @@ export const ProductRow: React.FC<ProductRowProps> = ({
           />
         </td>
         <td className="px-4 py-4">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
+          <div 
+            className="flex items-center gap-3 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20 rounded-md" 
+            onClick={() => setIsExpanded(!isExpanded)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setIsExpanded(!isExpanded);
+              }
+            }}
+          >
             <div className="relative shrink-0">
               {coverImage ? (
                 <img src={coverImage} alt="" className="w-10 h-10 rounded-lg object-cover border border-border" />

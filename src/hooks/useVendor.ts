@@ -78,10 +78,11 @@ export const useVendorOrders = () => {
       if (error) throw error;
 
       const orders = (data || [])
-        .map((item: any) => item.orders)
-        .filter((order: any, index: number, self: any[]) => 
-          order && self.findIndex(o => o?.id === order.id) === index
-        );
+        .map((item: Record<string, unknown>) => item.orders)
+        .filter((order: unknown, index: number, self: unknown[]) => {
+          const typedOrder = order as { id: string } | null;
+          return typedOrder && (self as Array<{ id: string } | null>).findIndex(o => o?.id === typedOrder.id) === index;
+        });
       
       return orders;
     },

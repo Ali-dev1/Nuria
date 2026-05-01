@@ -17,7 +17,17 @@ export const UserManagement = () => {
 
   const { data: usersData, isLoading } = useAdminUsers();
 
-const invalidate = (key: string[]) => queryClient.invalidateQueries({ queryKey: key });
+  const invalidate = (key: string[]) => queryClient.invalidateQueries({ queryKey: key });
+
+  const changeUserRole = async (userId: string, newRole: string) => {
+    const { error } = await supabase.from("profiles").update({ role: newRole }).eq("user_id", userId);
+    if (error) {
+      toast({ title: "Failed to update role", description: error.message, variant: "destructive" });
+    } else {
+      invalidate(["admin", "users"]);
+      toast({ title: "Role updated successfully" });
+    }
+  };
 
   const users = usersData?.data || [];
   const filteredUsers = (users || []).filter((u: DbProfile) => {

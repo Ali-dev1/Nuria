@@ -106,13 +106,8 @@ const SEOManager = () => {
   const { data: settings } = useSettings();
 
   useEffect(() => {
-    if (settings?.announcement_text) {
-      // Just keep the standard title, don't override with announcement
-      document.title = "Nuria — Home of African Books";
-    } else {
-      document.title = "Nuria — Home of African Books";
-    }
-  }, [settings]);
+    document.title = "Nuria — Home of African Books";
+  }, []);
 
   return null;
 };

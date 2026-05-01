@@ -2,13 +2,12 @@ import React from "react";
 import { ProductRow } from "./ProductRow";
 
 interface ProductTableProps {
-  productsData: any;
+  productsData: { products: Record<string, any>[] } | null | undefined;
   isLoading: boolean;
   selectedProducts: string[];
   setSelectedProducts: React.Dispatch<React.SetStateAction<string[]>>;
   toggleProductStatus: (id: string, current: boolean) => Promise<void>;
   toggleFeatured: (id: string, current: boolean) => Promise<void>;
-  bulkAction: (action: "delete" | "feature" | "unfeature") => Promise<void>;
   deleteProduct: (id: string) => Promise<void>;
 }
 
@@ -19,7 +18,6 @@ export const ProductTable: React.FC<ProductTableProps> = ({
   setSelectedProducts,
   toggleProductStatus,
   toggleFeatured,
-  bulkAction,
   deleteProduct,
 }) => {
   const products = productsData?.products || [];
@@ -41,7 +39,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
             </div>
           ))
         ) : (
-          products.map((p: any) => (
+          products.map((p: Record<string, any>) => (
             <ProductRow 
               key={p.id}
               p={p}
@@ -66,7 +64,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
                   <input 
                     type="checkbox" 
                     className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer"
-                    onChange={(e) => setSelectedProducts(e.target.checked ? products.map((p: any) => p.id) : [])} 
+                    onChange={(e) => setSelectedProducts(e.target.checked ? products.map((p: Record<string, any>) => p.id) : [])}
                   />
                 </th>
                 <th className="px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Product</th>
@@ -85,7 +83,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
                   </tr>
                 ))
               ) : (
-                products.map((p: any) => (
+                products.map((p: Record<string, any>) => (
                   <ProductRow 
                     key={p.id}
                     p={p}
