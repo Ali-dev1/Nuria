@@ -18,10 +18,13 @@ export interface Vendor {
   banner_url?: string;
   logo_url?: string;
   commission_rate?: number;
+  contact_email?: string;
+  contact_phone?: string;
   twitter_url?: string;
   facebook_url?: string;
   instagram_url?: string;
   website_url?: string;
+  [key: string]: any;
 }
 
 export const useVendorData = () => {

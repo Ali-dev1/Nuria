@@ -4,7 +4,7 @@ import { useAdminUsers } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Tables } from "@/integrations/supabase/types";
+import { Database, Tables } from "@/integrations/supabase/types";
 
 type DbProfile = Tables<"profiles">;
 

@@ -12,7 +12,7 @@ interface VendorOverviewProps {
   recentOrders: (Record<string, unknown> & { id: string; total: number; status?: string; created_at?: string; is_simulated?: boolean })[];
   topProducts: (Record<string, unknown> & { id: string; title: string; price: number; is_simulated?: boolean })[];
   isVerified?: boolean;
-  vendor?: Record<string, unknown> & { id?: string; mpesa_number?: string; photo_url?: string; bio?: string };
+  vendor?: any;
   setTab?: (tab: string) => void;
 }
 

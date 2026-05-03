@@ -1,6 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabaseClient";
-import type { Tables } from "@/integrations/supabase/types";
+import type { Database, Tables } from "@/integrations/supabase/types";
+
+export type DbOrder = Tables<"orders"> & {
+  profiles: { name: string | null } | null;
+};
+
+export type DbOrderItem = Tables<"order_items"> & {
+  products: { title: string; author: string | null } | null;
+};
 
 export const useAdminStats = () => {
   return useQuery({
@@ -122,7 +130,7 @@ export const useAdminOrders = (options?: {
         profiles: profiles.find(p => p.user_id === order.user_id) || null
       }));
 
-      return { data: mergedData, count };
+      return { data: mergedData as DbOrder[], count };
     }
   });
 };
@@ -157,10 +165,7 @@ export const useAdminVendors = (options?: { verified?: boolean }) => {
 
       const mergedData = vendors.map(v => ({
         ...v,
-        profiles: {
-          ...(profiles?.find(p => p.user_id === v.user_id) ?? { user_id: '', name: null, email: null, role: null }),
-          email: v.contact_email || null,
-        },
+        profiles: profiles?.find(p => p.user_id === v.user_id) || null
       }));
 
       return { data: mergedData, count };

@@ -40,7 +40,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
             </div>
           ))
         ) : (
-          products.map((p: Record<string, unknown>) => (
+          products.map((p: any) => (
             <ProductRow 
               key={p.id}
               p={p}
@@ -65,7 +65,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
                   <input 
                     type="checkbox" 
                     className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 cursor-pointer"
-                    onChange={(e) => setSelectedProducts(e.target.checked ? products.map((p: Record<string, unknown>) => p.id as string) : [])}
+                    onChange={(e) => setSelectedProducts(e.target.checked ? products.map((p: any) => p.id as string) : [])}
                   />
                 </th>
                 <th className="px-4 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wide">Product</th>
@@ -84,7 +84,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({
                   </tr>
                 ))
               ) : (
-                products.map((p: Record<string, unknown>) => (
+                products.map((p: any) => (
                   <ProductRow 
                     key={p.id}
                     p={p}

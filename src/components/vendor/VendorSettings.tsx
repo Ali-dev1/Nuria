@@ -5,8 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Tables, TablesUpdate } from "@/integrations/supabase/types";
 
 interface VendorSettingsProps {
-  vendor: Tables<"vendors">;
-  user: Record<string, unknown>;
+  vendor: any;
   onRefresh: () => void;
 }
 
