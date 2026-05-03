@@ -10,6 +10,12 @@ export type DbOrderItem = Tables<"order_items"> & {
   products: { title: string; author: string | null } | null;
 };
 
+export type DbVendor = Tables<"vendors"> & {
+  profiles: { name: string | null } | null;
+};
+
+export type DbProduct = Tables<"products">;
+
 export const useAdminStats = () => {
   return useQuery({
     queryKey: ["admin", "stats"],

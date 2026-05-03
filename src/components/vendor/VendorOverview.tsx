@@ -10,7 +10,7 @@ interface VendorOverviewProps {
     avgRating: number;
   };
   recentOrders: (Record<string, unknown> & { id: string; total: number; status?: string; created_at?: string; is_simulated?: boolean })[];
-  topProducts: (Record<string, unknown> & { id: string; title: string; price: number; is_simulated?: boolean })[];
+  topProducts: (Record<string, unknown> & { id: string; title: string; price: number; stock?: number; is_simulated?: boolean })[];
   isVerified?: boolean;
   vendor?: any;
   setTab?: (tab: string) => void;
@@ -59,6 +59,32 @@ export const VendorOverview = ({ stats, recentOrders, topProducts, isVerified, v
           </div>
         ))}
       </div>
+
+      {/* Low Stock Alerts */}
+      {(() => {
+        // Filter products with stock < 10
+        const lowStock = (topProducts || []).filter(p => (p.stock as number) < 10);
+        if (lowStock.length === 0) return null;
+        
+        return (
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-6">
+            <div className="flex items-center gap-3 mb-3 text-amber-800">
+              <Package className="w-5 h-5" />
+              <h3 className="font-bold">Low Stock Alerts</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {lowStock.map(p => (
+                <div key={p.id} className="bg-white p-3 rounded-xl border border-amber-100 flex items-center justify-between">
+                  <span className="text-xs font-medium text-foreground truncate max-w-[150px]">{p.title}</span>
+                  <span className="px-2 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold rounded">
+                    {p.stock} LEFT
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {hasNoData && (
         <div className="bg-secondary/5 border border-secondary/20 rounded-2xl p-6 lg:p-8 mb-8">

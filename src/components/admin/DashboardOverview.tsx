@@ -1,15 +1,13 @@
 import React from "react";
 import { TrendingUp, ShoppingCart, Users, Store, Package, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { formatPrice } from "@/lib/constants";
-import { useAdminStats, useAdminOrders, useAdminVendors, useAdminProducts } from "@/hooks/useAdmin";
+import { useAdminStats, useAdminOrders, useAdminVendors, useAdminProducts, DbOrder, DbProduct, DbVendor } from "@/hooks/useAdmin";
 import { supabase } from "@/lib/supabaseClient";
 import { useQueryClient } from "@tanstack/react-query";
 import { Tables } from "@/integrations/supabase/types";
 import { useToast } from "@/hooks/use-toast";
 
-type DbOrder = Tables<"orders">;
-type DbProduct = Tables<"products">;
-type DbVendor = Tables<"vendors">;
+
 
 const statusColors: Record<string, string> = {
   pending: "bg-amber-50 text-amber-700 border-amber-200",
@@ -23,12 +21,12 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
   const { data: stats } = useAdminStats();
   const { data: ordersData } = useAdminOrders({ limit: 10 });
   const { data: vendorsData } = useAdminVendors();
-  const { data: productsData } = useAdminProducts({ pageSize: 1000 });
+  const { data: productsData } = useAdminProducts({ page: 1, pageSize: 1000 });
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const lowStockProducts = (productsData?.products || []).filter((p: DbProduct) => (p.stock ?? 0) < 10);
-  const pendingVendors = (vendorsData?.data || []).filter((v: DbVendor) => v.status === "pending" || !v.is_verified);
+  const lowStockProducts = (productsData?.products || []).filter((p: any) => (p.stock ?? 0) < 10);
+  const pendingVendors = (vendorsData?.data || []).filter((v: any) => v.status === "pending" || !v.is_verified);
 
   const invalidate = (key: string[]) => queryClient.invalidateQueries({ queryKey: key });
 
@@ -59,8 +57,8 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
   const last30 = Array.from({ length: 30 }, (_, i) => {
     const d = new Date(); d.setDate(d.getDate() - (29 - i));
     const dateStr = d.toISOString().split("T")[0];
-    const dayOrders = (ordersData?.data || []).filter((o: DbOrder) => o.created_at?.startsWith(dateStr));
-    return { date: d.toLocaleDateString("en-KE", { day: "numeric", month: "short" }), revenue: dayOrders.reduce((s: number, o: DbOrder) => s + Number(o.total), 0) };
+    const dayOrders = (ordersData?.data || []).filter((o: any) => o.created_at?.startsWith(dateStr));
+    return { date: d.toLocaleDateString("en-KE", { day: "numeric", month: "short" }), revenue: dayOrders.reduce((s: number, o: any) => s + Number(o.total), 0) };
   });
   const maxRev = Math.max(...last30.map((d) => d.revenue), 1);
 
@@ -74,7 +72,8 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
           { icon: Users, label: "Users", value: stats?.users || 0, target: "users", color: "text-purple-600", bg: "bg-purple-50" },
           { icon: Store, label: "Vendors", value: stats?.vendors || 0, target: "vendors", color: "text-primary", bg: "bg-primary/5" },
           { icon: Package, label: "Products", value: stats?.products || 0, target: "products", color: "text-amber-600", bg: "bg-amber-50" },
-          { icon: AlertTriangle, label: "Pending", value: stats?.pendingVendors || 0, target: "vendors", color: "text-red-600", bg: "bg-red-50" },
+          { icon: AlertTriangle, label: "Low Stock", value: lowStockProducts.length, target: "products", color: "text-red-600", bg: "bg-red-50" },
+          { icon: Store, label: "Pending", value: stats?.pendingVendors || 0, target: "vendors", color: "text-primary", bg: "bg-primary/5" },
         ].map(({ icon: Icon, label, value, target, color, bg }) => (
           <button 
             key={label} 
@@ -136,7 +135,7 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
                 <p className="text-xs font-medium">All caught up</p>
               </div>
             ) : (
-              pendingVendors.map((v: DbVendor) => (
+              pendingVendors.map((v: any) => (
                 <div key={v.id} className="p-3 bg-muted/20 rounded-xl">
                   <div className="flex items-center justify-between mb-2">
                     <div className="min-w-0">
@@ -172,7 +171,7 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
             <Clock className="w-4 h-4 text-muted-foreground/40" />
           </div>
           <div className="space-y-2">
-            {(ordersData?.data || []).slice(0, 5).map((o: DbOrder) => (
+            {(ordersData?.data || []).slice(0, 5).map((o: any) => (
               <div key={o.id} className="flex items-center justify-between p-3 bg-muted/10 rounded-xl hover:bg-muted/20 transition-colors">
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-8 h-8 rounded-lg bg-white border border-border flex items-center justify-center text-[10px] font-bold text-muted-foreground shrink-0">
@@ -203,7 +202,7 @@ export const DashboardOverview = ({ setTab }: { setTab: (t: string) => void }) =
             <span className="text-xs text-muted-foreground">{lowStockProducts.length} items</span>
           </div>
           <div className="space-y-2">
-            {lowStockProducts.slice(0, 5).map((p: DbProduct) => (
+            {lowStockProducts.slice(0, 5).map((p: any) => (
               <div key={p.id} className="flex items-center justify-between p-3 bg-red-50/50 rounded-xl border border-red-100/50">
                 <div className="min-w-0 pr-3">
                   <p className="text-sm font-semibold text-foreground truncate">{p.title}</p>
