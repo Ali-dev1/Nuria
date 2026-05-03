@@ -20,7 +20,9 @@ export const UserManagement = () => {
   const invalidate = (key: string[]) => queryClient.invalidateQueries({ queryKey: key });
 
   const changeUserRole = async (userId: string, newRole: string) => {
-    const { error } = await supabase.from("profiles").update({ role: newRole }).eq("user_id", userId);
+    const { error } = await supabase.from("profiles").update({ 
+      role: newRole as Database["public"]["Enums"]["app_role"] 
+    }).eq("user_id", userId);
     if (error) {
       toast({ title: "Failed to update role", description: error.message, variant: "destructive" });
     } else {

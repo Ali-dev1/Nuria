@@ -2,12 +2,13 @@ import React from "react";
 import { ProductRow } from "./ProductRow";
 
 interface ProductTableProps {
-  productsData: { products: Record<string, unknown>[] } | null | undefined;
+  productsData: { products: any[] } | null | undefined;
   isLoading: boolean;
   selectedProducts: string[];
   setSelectedProducts: React.Dispatch<React.SetStateAction<string[]>>;
   toggleProductStatus: (id: string, current: boolean) => Promise<void>;
   toggleFeatured: (id: string, current: boolean) => Promise<void>;
+  bulkAction: (action: "delete" | "feature" | "unfeature") => Promise<void>;
   deleteProduct: (id: string) => Promise<void>;
 }
 

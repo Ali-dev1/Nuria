@@ -43,7 +43,7 @@ export const ProductEditPanel: React.FC<ProductEditPanelProps> = ({
               id="price-input"
               type="number" 
               value={editData.price} 
-              onChange={e => setEditData({...editData, price: e.target.value})}
+              onChange={e => setEditData({...editData, price: Number(e.target.value)})}
               className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20 focus:border-primary" 
             />
           </div>
@@ -53,7 +53,7 @@ export const ProductEditPanel: React.FC<ProductEditPanelProps> = ({
               id="stock-input"
               type="number" 
               value={editData.stock} 
-              onChange={e => setEditData({...editData, stock: e.target.value})}
+              onChange={e => setEditData({...editData, stock: Number(e.target.value)})}
               className="w-full px-3 py-2 bg-white border border-border rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20 focus:border-primary" 
             />
           </div>

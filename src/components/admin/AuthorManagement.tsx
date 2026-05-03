@@ -7,15 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { ImageUploader } from "./ImageUploader";
 
-interface Author {
-  id: string;
-  name: string;
-  photo_url: string;
-  bio: string;
-  tags?: string[];
-  slug: string;
-  created_at: string;
-}
+import { Tables } from "@/integrations/supabase/types";
+
+type Author = Tables<"authors">;
 
 export const AuthorManagement = () => {
   const { toast } = useToast();
@@ -32,7 +26,7 @@ export const AuthorManagement = () => {
         .select("*")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return data as Author[];
+      return data;
     }
   });
 
@@ -116,7 +110,11 @@ export const AuthorManagement = () => {
           filteredAuthors.map((author) => (
             <div key={author.id} className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden group hover:border-primary/20 transition-all">
               <div className="h-40 relative bg-muted overflow-hidden">
-                <img src={author.photo_url || "/placeholder.svg"} alt={author.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <img 
+                  src={author.photo_url ? `https://wsrv.nl/?url=${encodeURIComponent(author.photo_url)}&w=400&h=400&fit=cover&output=webp` : "/placeholder.svg"} 
+                  alt={author.name || ""} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <h3 className="absolute bottom-3 left-4 font-bold text-lg text-white">{author.name}</h3>
               </div>
@@ -144,7 +142,7 @@ export const AuthorManagement = () => {
               <div className="space-y-2">
                 <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block mb-2">Photo</span>
                 <ImageUploader 
-                  value={editingAuthor?.photo_url} 
+                  value={editingAuthor?.photo_url || ""} 
                   onChange={(url) => setEditingAuthor(prev => ({ ...prev!, photo_url: url }))}
                   bucket="author-photos"
                   folder="author-portraits"
@@ -175,7 +173,7 @@ export const AuthorManagement = () => {
             </div>
 
             <div className="p-6 border-t border-border bg-muted/5 flex justify-end gap-3 shrink-0">
-              <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all">Cancel</button>
+              <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all">Cancel</button>
               <button 
                 onClick={() => { if (editingAuthor) saveMutation.mutate(editingAuthor); }}
                 disabled={saveMutation.isPending || !editingAuthor?.name}

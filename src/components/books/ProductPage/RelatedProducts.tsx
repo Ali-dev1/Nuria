@@ -12,7 +12,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({ related }) => 
     <section className="mt-12">
       <h2 className="font-display text-xl font-bold text-foreground mb-6">You May Also Like</h2>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-        {related.map((p) => (
+        {related.map((p: any) => (
           <BookCard key={p.id} product={p} />
         ))}
       </div>

@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Save, Upload, Store, Phone, Smartphone } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
+import { Tables, TablesUpdate } from "@/integrations/supabase/types";
 
 interface VendorSettingsProps {
-  vendor: Record<string, unknown> & { id: string; store_name?: string; bio?: string; mpesa_number?: string; phone?: string; photo_url?: string; instagram_url?: string; twitter_url?: string; facebook_url?: string; website_url?: string; };
+  vendor: Tables<"vendors">;
   user: Record<string, unknown>;
   onRefresh: () => void;
 }
@@ -27,19 +28,21 @@ export const VendorSettings = ({ vendor, onRefresh }: VendorSettingsProps) => {
   const saveSettings = async () => {
     setSaving(true);
     try {
+      const updatePayload: TablesUpdate<"vendors"> = {
+        store_name: form.store_name,
+        bio: form.bio,
+        mpesa_number: form.mpesa_number,
+        phone: form.phone,
+        photo_url: form.photo_url,
+        instagram_url: form.instagram_url,
+        twitter_url: form.twitter_url,
+        facebook_url: form.facebook_url,
+        website_url: form.website_url,
+      };
+
       const { error } = await supabase
         .from("vendors")
-        .update({
-          store_name: form.store_name,
-          bio: form.bio,
-          mpesa_number: form.mpesa_number,
-          phone: form.phone,
-          photo_url: form.photo_url,
-          instagram_url: form.instagram_url,
-          twitter_url: form.twitter_url,
-          facebook_url: form.facebook_url,
-          website_url: form.website_url,
-        } as Record<string, unknown>)
+        .update(updatePayload)
         .eq("id", vendor.id);
 
       if (error) throw error;

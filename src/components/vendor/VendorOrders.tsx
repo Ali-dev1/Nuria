@@ -3,7 +3,7 @@ import { ShoppingCart, Calendar, ChevronRight, PackageCheck } from "lucide-react
 import { formatPrice } from "@/lib/constants";
 
 interface VendorOrdersProps {
-  orders: Record<string, unknown>[];
+  orders: any[];
 }
 
 export const VendorOrders = ({ orders }: VendorOrdersProps) => {
@@ -53,7 +53,7 @@ export const VendorOrders = ({ orders }: VendorOrdersProps) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
-                {filteredOrders.map((o: Record<string, unknown>) => (
+                {filteredOrders.map((o: any) => (
                   <tr key={o.id} className="hover:bg-muted/30 transition-colors group">
                     <td className="p-5">
                       <div className="flex items-center gap-4">

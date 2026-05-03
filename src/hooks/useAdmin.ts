@@ -216,13 +216,12 @@ export const useAdminPosts = () => {
   return useQuery({
     queryKey: ["admin", "posts"],
     queryFn: async () => {
-      // @ts-expect-error - posts table is not in generated types
       const { data, error } = await supabase
         .from("posts")
         .select("*")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return data as Record<string, unknown>[];
+      return data;
     }
   });
 };

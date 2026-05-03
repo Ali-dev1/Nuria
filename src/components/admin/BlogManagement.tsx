@@ -5,13 +5,16 @@ import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { ImageUploader } from "./ImageUploader";
+import { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
+
+type Post = Tables<"posts">;
 
 export const BlogManagement = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { data: posts, isLoading } = useAdminPosts();
+  const { data: posts, isLoading } = useAdminPosts() as { data: Post[] | undefined, isLoading: boolean };
   const [showEditor, setShowEditor] = useState(false);
-  const [editingPost, setEditingPost] = useState<Record<string, unknown> | null>(null);
+  const [editingPost, setEditingPost] = useState<Post | null>(null);
   const [saving, setSaving] = useState(false);
   const [heroImage, setHeroImage] = useState("");
 
@@ -26,7 +29,7 @@ export const BlogManagement = () => {
     }
   };
 
-  const openEditor = (post: Record<string, unknown> | null = null) => {
+  const openEditor = (post: Post | null = null) => {
     setEditingPost(post);
     setHeroImage(post?.image_url || "");
     setShowEditor(true);
@@ -36,23 +39,25 @@ export const BlogManagement = () => {
     e.preventDefault();
     setSaving(true);
     const formData = new FormData(e.target as HTMLFormElement);
-    const postData: Record<string, unknown> = {
-      title: formData.get("title"),
-      content: formData.get("content"),
-      excerpt: formData.get("excerpt"),
+    const title = (formData.get("title") as string) || "";
+    const content = (formData.get("content") as string) || "";
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+    const postData = {
+      title,
+      content,
+      slug,
+      excerpt: formData.get("excerpt") as string,
       featured_image: heroImage,
-      image_url: heroImage, // Keep both for compatibility
+      image_url: heroImage,
       is_published: true,
-      category: formData.get("category"),
-      slug: (formData.get("title") as string).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""),
+      category: formData.get("category") as string,
+      author: "Nuria Editorial",
     };
 
-    // Only include author if column exists (graceful handling)
-    postData.author = "Nuria Editorial";
-
     const { error } = editingPost 
-      ? await supabase.from("posts").update(postData).eq("id", editingPost.id)
-      : await supabase.from("posts").insert([postData]);
+      ? await supabase.from("posts").update(postData as TablesUpdate<"posts">).eq("id", editingPost.id)
+      : await supabase.from("posts").insert([postData as TablesInsert<"posts">]);
 
     if (error) {
       // If author column error, retry without it
@@ -113,12 +118,16 @@ export const BlogManagement = () => {
               </div>
             );
           }
-          return (posts || []).map((post: Record<string, unknown>) => (
+          return (posts || []).map((post) => (
             <div key={post.id} className="group bg-white rounded-2xl border border-border overflow-hidden hover:border-primary/20 hover:shadow-md transition-all">
               {/* Image */}
               <div className="aspect-video bg-muted relative overflow-hidden">
                 {post.image_url ? (
-                  <img src={post.image_url} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img 
+                    src={`https://wsrv.nl/?url=${encodeURIComponent(post.image_url as string)}&w=600&h=337&fit=cover&output=webp`} 
+                    alt="" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <ImageIcon className="w-8 h-8 text-muted-foreground/20" />
@@ -139,7 +148,7 @@ export const BlogManagement = () => {
                 <div className="flex items-center justify-between mt-4 pt-3 border-t border-border/50">
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <Calendar className="w-3 h-3" />
-                    {new Date(post.created_at).toLocaleDateString()}
+                    {new Date(post.created_at || "").toLocaleDateString()}
                   </div>
                   <div className="flex gap-1">
                     <button onClick={() => openEditor(post)} className="p-1.5 text-muted-foreground hover:text-primary rounded-md hover:bg-primary/5 transition-colors">
@@ -187,19 +196,19 @@ export const BlogManagement = () => {
 
                   <div className="space-y-2">
                     <label htmlFor="post-title" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Title</label>
-                    <input id="post-title" name="title" defaultValue={editingPost?.title} required placeholder="Post title" className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
+                    <input id="post-title" name="title" defaultValue={editingPost?.title || ""} required placeholder="Post title" className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
                   </div>
                    
                   <div className="space-y-2">
                     <label htmlFor="post-category" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
                       <Tag className="w-3.5 h-3.5" /> Category
                     </label>
-                    <input id="post-category" name="category" defaultValue={editingPost?.category} placeholder="e.g. Culture, Tech, News" className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
+                    <input id="post-category" name="category" defaultValue={editingPost?.category || ""} placeholder="e.g. Culture, Tech, News" className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
                   </div>
 
                   <div className="space-y-2">
                     <label htmlFor="post-excerpt" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Excerpt</label>
-                    <textarea id="post-excerpt" name="excerpt" defaultValue={editingPost?.excerpt} placeholder="A brief summary..." className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium h-20 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none" />
+                    <textarea id="post-excerpt" name="excerpt" defaultValue={editingPost?.excerpt || ""} placeholder="A brief summary..." className="w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium h-20 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none" />
                   </div>
                 </div>
 
@@ -207,7 +216,7 @@ export const BlogManagement = () => {
                   <label htmlFor="post-content" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-1.5">
                     <Edit3 className="w-3.5 h-3.5" /> Content (Markdown)
                   </label>
-                  <textarea id="post-content" name="content" defaultValue={editingPost?.content} required placeholder="Write your blog post here..." className="flex-1 w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none font-mono min-h-[300px]" />
+                  <textarea id="post-content" name="content" defaultValue={editingPost?.content || ""} required placeholder="Write your blog post here..." className="flex-1 w-full px-4 py-3 bg-white border border-border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none font-mono min-h-[300px]" />
                 </div>
               </div>
 

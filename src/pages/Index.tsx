@@ -240,7 +240,7 @@ const Index = () => {
           <div className="flex overflow-x-auto gap-6 sm:gap-8 pb-12 pt-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
             {loadingAuthors ? (
               ['isk9', 'isk10', 'isk11', 'isk12'].map(id => <Skeleton key={id} className="shrink-0 w-[85vw] sm:w-[45vw] lg:w-[calc(25%-1.5rem)] h-[450px] rounded-[2rem]" />)
-            ) : authors.map((author: Record<string, unknown>) => {
+            ) : authors.map((author: any) => {
               const slug = author.slug as string;
               const name = author.name as string;
               const photoUrl = author.photo_url as string | undefined;

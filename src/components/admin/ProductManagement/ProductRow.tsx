@@ -5,6 +5,7 @@ import { BookStatusBadge } from "./BookStatusBadge";
 import { PriceDisplay } from "./PriceDisplay";
 import { ActionButtons } from "./ActionButtons";
 import { ProductEditPanel } from "./ProductEditPanel";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductRowProps {
   p: Record<string, unknown>;
@@ -25,6 +26,7 @@ export const ProductRow: React.FC<ProductRowProps> = ({
   toggleFeatured,
   deleteProduct,
 }) => {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isExpanded, setIsExpanded] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -59,7 +61,6 @@ export const ProductRow: React.FC<ProductRowProps> = ({
     setSaving(true);
     try {
       const { supabase } = await import("@/lib/supabaseClient");
-      const { toast } = await import("@/hooks/use-toast");
       const { error } = await supabase.from("products").update({ 
         title: editData.title,
         author: editData.author,
@@ -68,15 +69,14 @@ export const ProductRow: React.FC<ProductRowProps> = ({
         stock: Number(editData.stock),
         description: editData.description,
         images: Array.isArray(editData.images) ? editData.images : [editData.images]
-      }).eq("id", p.id);
+      }).eq("id", p.id as string);
 
       if (error) throw error;
-      toast.toast({ title: "Product updated" });
+      toast({ title: "Product updated" });
       queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
       setIsExpanded(false);
     } catch (err: unknown) {
-      const { toast } = await import("@/hooks/use-toast");
-      toast.toast({ title: "Update failed", description: (err as Error).message, variant: "destructive" });
+      toast({ title: "Update failed", description: (err as Error).message, variant: "destructive" });
     } finally {
       setSaving(false);
     }

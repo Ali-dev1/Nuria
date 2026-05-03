@@ -84,7 +84,7 @@ export const Footer = () => {
           <div className="flex flex-col items-center lg:items-start gap-4">
             <span className="text-[10px] font-bold uppercase tracking-widest text-white/70">We Accept</span>
             <div className="flex flex-wrap items-center justify-center gap-8 opacity-80">
-              <img src="/images/mpesa-logo.png" alt="M-Pesa" width="95" height="56" className="h-8 w-auto object-contain brightness-0 invert" />
+              <img src="https://wsrv.nl/?url=https://upload.wikimedia.org/wikipedia/commons/b/b3/M-pesa-logo.png&h=80&output=webp" alt="M-Pesa" width="95" height="56" className="h-8 w-auto object-contain brightness-0 invert" />
               <span className="font-bold text-lg tracking-tighter">VISA</span>
               <span className="font-bold text-lg tracking-tighter">PesaPal</span>
               <span className="font-bold text-lg tracking-tighter">Bitcoin</span>

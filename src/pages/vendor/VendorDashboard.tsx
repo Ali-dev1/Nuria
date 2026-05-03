@@ -76,17 +76,17 @@ const VendorDashboard = () => {
   ] as const;
 
   const stats = {
-    totalRevenue: orders.reduce((s, o) => s + Number(o.total), 0),
-    ordersCount: orders.length,
-    productsCount: products.length,
-    avgRating: products.length > 0 
-      ? products.reduce((acc, p) => acc + (Number((p as { rating?: number | null }).rating) || 0), 0) / products.length 
-      : 4.8, // Healthy fallback for onboarding
+    totalRevenue: (orders || []).reduce((s, o: any) => s + Number(o?.total || 0), 0),
+    ordersCount: (orders || []).length,
+    productsCount: (products || []).length,
+    avgRating: (products || []).length > 0 
+      ? (products || []).reduce((acc, p: any) => acc + (Number(p?.rating) || 0), 0) / products.length 
+      : 4.8,
   };
 
-  const currentMonthEarnings = orders
-    .filter((o) => o.created_at && new Date(o.created_at).getMonth() === new Date().getMonth())
-    .reduce((s, o) => s + Number(o.total), 0);
+  const currentMonthEarnings = (orders || [])
+    .filter((o: any) => o?.created_at && new Date(o.created_at).getMonth() === new Date().getMonth())
+    .reduce((s, o: any) => s + Number(o?.total || 0), 0);
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -213,10 +213,10 @@ const VendorDashboard = () => {
                   <VendorOverview 
                     stats={stats} 
                     recentOrders={orders.slice(0, 5)} 
-                    topProducts={[...products].sort((a, b) => (b.stock || 0) - (a.stock || 0)).slice(0, 5)} 
+                    topProducts={[...products].sort((a: any, b: any) => (b.stock || 0) - (a.stock || 0)).slice(0, 5)} 
                     isVerified={vendor?.is_verified}
                     vendor={vendor}
-                    setTab={setTab}
+                    setTab={(t: any) => setTab(t)}
                   />
                 )}
                 {tab === "products" && <VendorProducts products={products} onRefresh={refetchProducts} />}

@@ -15,8 +15,12 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-type DbOrderItem = Tables<"order_items">;
-type DbOrder = Tables<"orders">;
+type DbOrderItem = Tables<"order_items"> & {
+  products: { title: string; author: string | null } | null;
+};
+type DbOrder = Tables<"orders"> & {
+  profiles: { name: string | null } | null;
+};
 
 const statusConfig: Record<string, { color: string, icon: React.ReactNode }> = {
   pending: { color: "bg-amber-100 text-amber-700 ring-1 ring-amber-200", icon: <Clock className="w-3 h-3" /> },
@@ -156,7 +160,7 @@ export const OrderManagement = () => {
                   </tr>
                 ))
               ) : (
-                (ordersData?.data || []).map((o: DbOrder) => {
+                (ordersData?.data || []).map((o) => {
                   const isExpanded = expandedOrder === o.id;
                   const currentStatus = o.status || "pending";
                   const config = statusConfig[currentStatus] || statusConfig.pending;

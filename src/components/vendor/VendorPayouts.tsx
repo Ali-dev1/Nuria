@@ -2,8 +2,8 @@ import { CreditCard, Calendar, TrendingUp } from "lucide-react";
 import { formatPrice } from "@/lib/constants";
 
 interface VendorPayoutsProps {
-  payouts: Record<string, unknown>[];
-  vendor: Record<string, unknown> | null;
+  payouts: any[];
+  vendor: any;
   currentMonthEarnings: number;
 }
 
@@ -82,7 +82,7 @@ export const VendorPayouts = ({ payouts, vendor, currentMonthEarnings }: VendorP
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
-                {payouts.map((p) => (
+                {payouts.map((p: any) => (
                   <tr key={p.id} className="hover:bg-muted/30 transition-colors group">
                     <td className="p-5 font-black text-foreground tracking-tight">{p.month}</td>
                     <td className="p-5 text-right text-muted-foreground font-bold">{formatPrice(Number(p.gross_sales))}</td>

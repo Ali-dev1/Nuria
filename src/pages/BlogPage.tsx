@@ -54,11 +54,13 @@ const BlogPage = () => {
     }
     return (
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
-        {filteredPosts.map((post) => (
+        {filteredPosts.map((post: any) => (
           <Link to={`/blog/${post.slug}`} key={post.id} className="group cursor-pointer flex flex-col h-full space-y-8">
             <div className="w-full aspect-[4/5] overflow-hidden rounded-[3.5rem] bg-background relative shadow-2xl shadow-black/5 shrink-0">
               <img 
-                src={post.featured_image || "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&auto=format&fit=crop&fm=webp"} 
+                src={post.featured_image 
+                  ? `https://wsrv.nl/?url=${encodeURIComponent(post.featured_image as string)}&w=800&h=1000&fit=cover&output=webp&q=80` 
+                  : "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&auto=format&fit=crop&fm=webp"} 
                 alt={post.title} 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
               />

@@ -13,10 +13,15 @@ export interface Vendor {
   admin_notes?: string;
   bio?: string;
   phone?: string;
+  photo_url?: string;
   category?: string;
   banner_url?: string;
   logo_url?: string;
   commission_rate?: number;
+  twitter_url?: string;
+  facebook_url?: string;
+  instagram_url?: string;
+  website_url?: string;
 }
 
 export const useVendorData = () => {
@@ -78,13 +83,12 @@ export const useVendorOrders = () => {
       if (error) throw error;
 
       const orders = (data || [])
-        .map((item: Record<string, unknown>) => item.orders)
-        .filter((order: unknown, index: number, self: unknown[]) => {
-          const typedOrder = order as { id: string } | null;
-          return typedOrder && (self as Array<{ id: string } | null>).findIndex(o => o?.id === typedOrder.id) === index;
+        .map((item: any) => item.orders)
+        .filter((order: any, index: number, self: any[]) => {
+          return order && self.findIndex(o => o?.id === order.id) === index;
         });
       
-      return orders;
+      return orders as any[];
     },
     enabled: !!user
   });

@@ -278,9 +278,11 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string | null
+          email: string | null
           id: string
           loyalty_points: number | null
           name: string
+          phone: string | null
           role: Database["public"]["Enums"]["app_role"] | null
           updated_at: string | null
           user_id: string
@@ -288,9 +290,11 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           created_at?: string | null
+          email?: string | null
           id?: string
           loyalty_points?: number | null
           name?: string
+          phone?: string | null
           role?: Database["public"]["Enums"]["app_role"] | null
           updated_at?: string | null
           user_id: string
@@ -298,9 +302,11 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           created_at?: string | null
+          email?: string | null
           id?: string
           loyalty_points?: number | null
           name?: string
+          phone?: string | null
           role?: Database["public"]["Enums"]["app_role"] | null
           updated_at?: string | null
           user_id?: string
@@ -368,12 +374,19 @@ export type Database = {
           contact_email: string | null
           contact_phone: string | null
           created_at: string | null
+          facebook_url: string | null
           id: string
+          instagram_url: string | null
           is_verified: boolean | null
           logo_url: string | null
           mpesa_number: string | null
+          phone: string | null
+          photo_url: string | null
           store_name: string
+          status: string | null
+          twitter_url: string | null
           user_id: string
+          website_url: string | null
         }
         Insert: {
           banner_url?: string | null
@@ -382,12 +395,19 @@ export type Database = {
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string | null
+          facebook_url?: string | null
           id?: string
+          instagram_url?: string | null
           is_verified?: boolean | null
           logo_url?: string | null
           mpesa_number?: string | null
+          phone?: string | null
+          photo_url?: string | null
           store_name: string
+          status: string | null
+          twitter_url?: string | null
           user_id: string
+          website_url?: string | null
         }
         Update: {
           banner_url?: string | null
@@ -396,12 +416,19 @@ export type Database = {
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string | null
+          facebook_url?: string | null
           id?: string
+          instagram_url?: string | null
           is_verified?: boolean | null
           logo_url?: string | null
           mpesa_number?: string | null
+          phone?: string | null
+          photo_url?: string | null
           store_name?: string
+          status?: string | null
+          twitter_url?: string | null
           user_id?: string
+          website_url?: string | null
         }
         Relationships: []
       }
@@ -433,6 +460,75 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      authors: {
+        Row: {
+          bio: string | null
+          created_at: string
+          id: string
+          name: string
+          photo_url: string | null
+          slug: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          photo_url?: string | null
+          slug: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          photo_url?: string | null
+          slug?: string
+        }
+        Relationships: []
+      }
+      posts: {
+        Row: {
+          author: string | null
+          category: string | null
+          content: string
+          created_at: string
+          excerpt: string | null
+          featured_image: string | null
+          id: string
+          image_url: string | null
+          is_published: boolean | null
+          slug: string
+          title: string
+        }
+        Insert: {
+          author?: string | null
+          category?: string | null
+          content: string
+          created_at?: string
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean | null
+          slug: string
+          title: string
+        }
+        Update: {
+          author?: string | null
+          category?: string | null
+          content?: string
+          created_at?: string
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          image_url?: string | null
+          is_published?: boolean | null
+          slug?: string
+          title?: string
+        }
+        Relationships: []
       }
     }
     Views: {

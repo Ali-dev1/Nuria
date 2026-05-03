@@ -29,7 +29,7 @@ export interface Category {
   name: string;
   slug: string;
   icon: string;
-  count: number;
+  count?: number;
 }
 
 export interface Review {

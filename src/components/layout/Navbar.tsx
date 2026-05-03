@@ -14,7 +14,7 @@ export const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const totalItems = useCartStore((s) => s.totalItems());
   const { user } = useAuthStore();
-  const { profile } = useProfile();
+  const { data: profile } = useProfile();
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
