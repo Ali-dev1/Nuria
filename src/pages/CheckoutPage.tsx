@@ -236,8 +236,8 @@ const CheckoutPage = () => {
                 paymentMethod === "mpesa" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
               }`}
             >
-              <div className={`w-16 h-10 rounded-lg overflow-hidden flex items-center justify-center p-1 ${paymentMethod === "mpesa" ? "bg-white" : "bg-background"}`}>
-                <img src="https://wsrv.nl/?url=https://upload.wikimedia.org/wikipedia/commons/b/b3/M-pesa-logo.png&h=80&output=webp" alt="M-Pesa" className="h-full w-auto object-contain" />
+              <div className="w-16 h-10 rounded-lg flex items-center justify-center bg-[#49b34a]">
+                <span className="text-[10px] font-black text-white tracking-tighter">M-PESA</span>
               </div>
               <div className="text-left">
                 <p className={`font-sans font-bold text-sm transition-colors ${paymentMethod === "mpesa" ? "text-primary" : "text-foreground"}`}>M-Pesa</p>
